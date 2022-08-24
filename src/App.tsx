@@ -1,12 +1,12 @@
 import { ChakraProvider, Text, VStack, HStack, Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { Sidebar } from "./components/Sidebar";
-import { Canvas, Workspace } from "./components/Workspace";
+import { Workspace } from "./components/Workspace";
 import theme from "./theme";
 import { HexColorPicker } from "react-colorful";
 import { Preview } from "./components/Preview";
 
-export const App = () => {
+function App() {
   const [color, setColor] = useState("#000000");
   console.log(color);
   return (
@@ -46,4 +46,6 @@ export const App = () => {
       </VStack>
     </ChakraProvider>
   );
-};
+}
+
+export default App;
