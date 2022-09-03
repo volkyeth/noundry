@@ -16,7 +16,10 @@ import { RightSidebar } from "./components/layout/RightSidebar";
 import { useWebVitals } from "./webVitals";
 
 function App() {
-  useWebVitals();
+  if (import.meta.env.PROD) {
+    useWebVitals();
+  }
+
   return (
     <ChakraProvider theme={theme} resetCSS>
       <VStack color="white" fontFamily='"Press Start 2P", cursive' fontSize="8pt" h="100vh" minW="100vw" spacing={0}>
