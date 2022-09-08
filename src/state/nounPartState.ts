@@ -1,21 +1,25 @@
 import { ImageData, getNounData } from "@nouns/assets";
 import { NounSeed } from "@nouns/assets/dist/types";
 import { buildSVG, EncodedImage } from "@nouns/sdk";
-import { fillCanvas, getBlob, replaceCanvasWithBlob } from "../utils/canvas";
-import { NounPart } from "../utils/constants";
-import { drawNoun, NounState } from "./nounState";
+import { clearCanvas, fillCanvas, getBlob, replaceCanvasWithBlob } from "../utils/canvas";
+import { NounPart, NounPartMapping } from "../utils/constants";
+import { drawNoun, NounState, useNounState } from "./nounState";
 
 export type NounPartState = {
   visible: boolean;
-  part: string;
+  part: NounPart;
   canvas: HTMLCanvasElement;
   history: Blob[];
   currentHistoryIndex: number;
   canUndo: boolean;
   canRedo: boolean;
-  commit: () => void;
-  undo: () => Blob;
-  redo: () => Blob;
+  edited: boolean;
+  loadPart: (seed: number) => Promise<void>;
+  clear: () => void;
+  randomize: () => void;
+  commit: () => Promise<void>;
+  undo: () => Promise<void>;
+  redo: () => Promise<void>;
   blob: () => Blob;
   toggleVisibility: () => void;
 };
@@ -23,7 +27,7 @@ export type NounPartState = {
 type PartialUpdate<T> = T | Partial<T> | ((state: T) => T | Partial<T>);
 type Set<T> = (partial: PartialUpdate<T>, replace?: boolean | undefined) => void;
 
-const moveToHistory = (part: NounPart, get: () => NounState, index: number) => {
+const moveToHistory = async (part: NounPart, get: () => NounState, index: number) => {
   const state = get();
   const partState = state[part];
 
@@ -32,7 +36,7 @@ const moveToHistory = (part: NounPart, get: () => NounState, index: number) => {
   }
   const blob = partState.history[index];
 
-  replaceCanvasWithBlob(blob, partState.canvas).then(() => {
+  await replaceCanvasWithBlob(blob, partState.canvas).then(() => {
     drawNoun(state);
   });
 
@@ -61,6 +65,7 @@ const drawPart = async (part: EncodedImage, canvas: HTMLCanvasElement) => {
 
   return new Promise<void>((resolve, reject) => {
     img.onload = () => {
+      clearCanvas(canvas);
       canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
       resolve();
     };
@@ -71,23 +76,10 @@ const drawPart = async (part: EncodedImage, canvas: HTMLCanvasElement) => {
   });
 };
 
-export const createNounPart = (part: NounPart, seed: NounSeed, set: Set<NounState>, get: () => NounState): NounPartState => {
+export const createNounPart = (part: NounPart, set: Set<NounState>, get: () => NounState): NounPartState => {
   const canvas = document.createElement("canvas");
   canvas.width = 32;
   canvas.height = 32;
-  drawPartFromSeed(part, seed, canvas)
-    .then(() => getBlob(canvas))
-    .then((blob) => {
-      scopedSet(
-        part,
-        set
-      )({
-        history: [blob],
-        currentHistoryIndex: 0,
-        blob: () => blob,
-      });
-      drawNoun(get());
-    });
 
   return {
     visible: true,
@@ -97,16 +89,40 @@ export const createNounPart = (part: NounPart, seed: NounSeed, set: Set<NounStat
     currentHistoryIndex: -1,
     canUndo: false,
     canRedo: false,
+    edited: false,
+    clear: async () => {
+      clearCanvas(canvas);
+      await get()[part].commit();
+    },
+    randomize: () => {
+      clearCanvas(canvas);
+      drawPartFromSeed(part, getRandomSeed(part), canvas).then(async () => {
+        await get()[part].commit();
+        scopedSet(part, set)({ edited: false });
+      });
+    },
+    loadPart: async (seed: number) => {
+      await drawPartFromSeed(part, seed, canvas).then(async () => {
+        await get()
+          [part].commit()
+          .then(() => scopedSet(part, set)({ edited: false }));
+      });
+    },
     blob: () => {
       throw "History not initialized yet";
     },
     // Redraws the Noun and pushes current canvas content to history
     commit: async () => {
-      const state = get();
-      drawNoun(state);
-      const canvas = state[part].canvas;
+      drawNoun(get());
+      await getBlob(canvas).then(async (blob) => {
+        const partState = get()[part];
 
-      await getBlob(canvas).then((blob) => {
+        const currentBlob = partState.history[partState.currentHistoryIndex];
+
+        if (currentBlob && (await blobsAreEqual(blob, currentBlob))) {
+          return;
+        }
+
         scopedSet(
           part,
           set
@@ -115,43 +131,30 @@ export const createNounPart = (part: NounPart, seed: NounSeed, set: Set<NounStat
             history: [...state.history.slice(0, state.currentHistoryIndex + 1), blob],
             canUndo: state.currentHistoryIndex + 1 > 0,
             canRedo: false,
+            edited: true,
             currentHistoryIndex: state.currentHistoryIndex + 1,
             blob: () => blob,
           };
         });
       });
     },
-    undo: () => {
-      scopedSet(
-        part,
-        set
-      )((state) => {
-        const canvas = state.canvas;
-        if (!canvas || !state.canUndo) {
-          return state;
-        }
-
-        return moveToHistory(part, get, state.currentHistoryIndex - 1);
+    undo: async () => {
+      const state = get()[part];
+      if (!state.canUndo) {
+        return;
+      }
+      return moveToHistory(part, get, state.currentHistoryIndex - 1).then((updatedState) => {
+        scopedSet(part, set)(updatedState);
       });
-
-      console.log(get()[part]);
-
-      return get()[part].blob();
     },
-    redo: () => {
-      scopedSet(
-        part,
-        set
-      )((state) => {
-        const canvas = state.canvas;
-        if (!canvas || !state.canRedo) {
-          return state;
-        }
-
-        return moveToHistory(part, get, state.currentHistoryIndex + 1);
+    redo: async () => {
+      const state = get()[part];
+      if (!state.canRedo) {
+        return;
+      }
+      return moveToHistory(part, get, state.currentHistoryIndex + 1).then((updatedState) => {
+        scopedSet(part, set)(updatedState);
       });
-
-      return get()[part].blob();
     },
     toggleVisibility: () => {
       scopedSet(part, set)((state) => ({ visible: !state.visible }));
@@ -160,23 +163,56 @@ export const createNounPart = (part: NounPart, seed: NounSeed, set: Set<NounStat
   };
 };
 
-const drawPartFromSeed = async (part: NounPart, seed: NounSeed, canvas: HTMLCanvasElement) => {
-  const {
-    background,
-    parts: [body, accessory, head, glasses],
-  } = getNounData(seed);
+const getRandomSeed = (part: NounPart) => {
+  const { bgcolors, images } = ImageData;
+  const { bodies, accessories, heads, glasses } = images;
 
+  const availableParts = {
+    background: bgcolors.length,
+    body: bodies.length,
+    accessory: accessories.length,
+    head: heads.length,
+    glasses: glasses.length,
+  };
+
+  return Math.floor(Math.random() * availableParts[part]);
+};
+
+const drawPartFromSeed = async (part: NounPart, seed: number, canvas: HTMLCanvasElement) => {
   if (part === "background") {
+    const background = ImageData.bgcolors[seed];
+    if (!background) throw `there's no background with index ${seed}`;
+    clearCanvas(canvas);
     fillCanvas(canvas, `#${background}`);
     return;
   }
 
-  const parts = {
-    body,
-    accessory,
-    head,
-    glasses,
-  };
+  const partImage = {
+    head: ImageData.images.heads,
+    body: ImageData.images.bodies,
+    accessory: ImageData.images.accessories,
+    glasses: ImageData.images.glasses,
+  }[part][seed] as EncodedImage;
 
-  await drawPart(parts[part], canvas);
+  if (!partImage) throw `there's no ${part} with index ${seed}`;
+  await drawPart(partImage, canvas);
+};
+
+const blobsAreEqual = async (blobA: Blob, blobB: Blob) => {
+  return Promise.all([blobA.arrayBuffer(), blobB.arrayBuffer()]).then(([buf1, buf2]) => {
+    if (buf1 === buf2) {
+      return true;
+    }
+    if (buf1.byteLength !== buf2.byteLength) return false;
+
+    const d1 = new DataView(buf1),
+      d2 = new DataView(buf2);
+
+    var i = buf1.byteLength;
+    while (i--) {
+      if (d1.getUint8(i) !== d2.getUint8(i)) return false;
+    }
+
+    return true;
+  });
 };

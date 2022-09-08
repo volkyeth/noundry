@@ -52,7 +52,6 @@ export const Eyedropper = (): Tool => ({
     if (color === "00000000") {
       return;
     }
-    console.log(color);
     setColor(`#${color}`);
   },
   name: "Eyedropper",

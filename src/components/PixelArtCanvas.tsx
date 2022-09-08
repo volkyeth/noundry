@@ -7,7 +7,6 @@ export const PixelArtCanvas = React.forwardRef<HTMLCanvasElement, React.Componen
     height={32}
     {...props}
     style={{
-      position: "absolute",
       imageRendering: "pixelated",
       ...style,
     }}

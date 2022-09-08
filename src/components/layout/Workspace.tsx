@@ -13,8 +13,8 @@ export type WorkspaceProps = {} & CenterProps;
 
 export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   const { activePart } = useNounState();
-  const { workingCanvasRef, tmpCanvasRef, handleMouseEvent } = useWorkspaceState();
-  useCopyActivePartToWorkingCanvas();
+  const { canvasRef, handleMouseEvent } = useWorkspaceState();
+  useLoadActivePartToWorkingCanvasWhenChanged();
   useUndoRedoKeyboardShortcut();
 
   const canvasSize = ["224px", "256px", "320px", "512px", "640px", "768px", "960px"];
@@ -23,8 +23,7 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
     <Center {...props} onMouseDown={handleMouseEvent} onMouseUp={handleMouseEvent} onMouseMove={handleMouseEvent}>
       {activePart ? (
         <Box position="relative" w={canvasSize} h={canvasSize} {...checkerboardBg}>
-          <PixelArtCanvas style={{ width: "100%", height: "100%" }} id="working-canvas" ref={workingCanvasRef} />
-          <PixelArtCanvas style={{ width: "100%", height: "100%" }} id="tmp-canvas" ref={tmpCanvasRef} />
+          <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
         </Box>
       ) : (
         <Text>Select a part to edit</Text>
@@ -39,7 +38,7 @@ type CanvasProps = {
 
 const useUndoRedoKeyboardShortcut = () => {
   const { activePart } = useNounState();
-  const { workingCanvasRef } = useWorkspaceState();
+  const { canvas } = useWorkspaceState();
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!activePart) {
@@ -47,29 +46,31 @@ const useUndoRedoKeyboardShortcut = () => {
       }
 
       const activePartState = useNounState.getState()[activePart];
-      if (!activePartState.canvas || !workingCanvasRef.current || (!e.ctrlKey && !e.metaKey) || !["z", "Z"].includes(e.key)) {
+      if (!activePartState.canvas || !canvas || (!e.ctrlKey && !e.metaKey) || !["z", "Z"].includes(e.key)) {
         return;
       }
 
       if (e.shiftKey ? !activePartState.canRedo : !activePartState.canUndo) {
         return;
       }
-
-      const blob = e.shiftKey ? activePartState.redo() : activePartState.undo();
-      replaceCanvasWithBlob(blob, workingCanvasRef.current);
+      e.shiftKey ? activePartState.redo() : activePartState.undo();
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activePart]);
+  }, [activePart, canvas]);
 };
 
-const useCopyActivePartToWorkingCanvas = () => {
-  const { activePart, ...partsState } = useNounState();
-  const { workingCanvasRef } = useWorkspaceState();
+const useLoadActivePartToWorkingCanvasWhenChanged = () => {
   useEffect(() => {
-    if (!workingCanvasRef.current || !activePart) return;
-    replaceCanvasWithBlob(partsState[activePart].blob(), workingCanvasRef.current);
-  }, [activePart]);
+    return useNounState.subscribe((state) => {
+      const canvas = useWorkspaceState.getState().canvas;
+      if (!canvas || state.activePart === null) {
+        return;
+      }
+
+      replaceCanvas(state[state.activePart].canvas, canvas);
+    });
+  }, []);
 };
