@@ -37,6 +37,10 @@ import { IconType } from "react-icons";
 import { ExportModal } from "../ExportModal";
 import { ReactIcon } from "../ReactIcon";
 import { NounPartState } from "../../state/nounPartState";
+import { offPalette } from "../../utils/colors";
+import { colord } from "colord";
+import { chunk, uniq } from "lodash";
+import { ImportModal } from "../ImportModal";
 
 export type NounPanelPros = {};
 
@@ -65,6 +69,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
   const { activePart, activatePart } = state;
   const active = activePart === part;
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
+  const { isOpen: isImportOpen, onOpen: onImportOpen, onClose: onImportClose } = useDisclosure();
   const partState = state[part];
   const [exportedPart, setExportedPart] = useState<NounPart>();
   const fileLoader = document.createElement("input");
@@ -153,7 +158,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
                 <ActionMenuItem
                   icon={RiFolderOpenFill}
                   onClick={() => {
-                    fileLoader.click();
+                    onImportOpen();
                   }}
                 >
                   Load
@@ -173,6 +178,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
         </HStack>
       </HStack>
       <ExportModal part={exportedPart} isOpen={isExportOpen} onClose={onExportClose} />
+      <ImportModal part={part} isOpen={isImportOpen} onClose={onImportClose} />
     </>
   );
 };
@@ -205,12 +211,39 @@ const loadFile = (partState: NounPartState) => (e: Event) => {
 
     var img = new Image();
     img.onload = () => {
-      console.log("image loaded");
-      clearCanvas(canvas);
-      const ctx = canvas.getContext("2d")!;
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      partState.commit();
+      // console.log("image loaded");
+      // clearCanvas(canvas);
+      // const ctx = canvas.getContext("2d")!;
+      // ctx.imageSmoothingEnabled = false;
+      // ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      // const imageDataAsHex = chunk(imageData.data, 4).map(([r, g, b, a]) => colord({ r, g, b, a: Math.floor(a / 255) }).toHex());
+      // const palette = uniq(imageDataAsHex);
+      // console.log(palette);
+      // const offPaletteColors = palette.map(colord).filter(offPalette);
+      // if (offPaletteColors.length === 0) {
+      //   console.log("some colors are out of palette");
+      //   const substitutes = offPaletteColors.reduce(
+      //     (substitutes, color) => ({
+      //       ...substitutes,
+      //       [color.toHex()]: getClosestPaletteColor(color).toHex(),
+      //     }),
+      //     {} as { [key: string]: string }
+      //   );
+      //   console.log({ substitutes });
+      //   const colorsToSubstitute = Object.keys(substitutes);
+      //   console.log(imageDataAsHex);
+      //   const adjustedImageData = imageDataAsHex
+      //     .map((color) => (colorsToSubstitute.includes(color) ? substitutes[color] : color))
+      //     .map(colord)
+      //     .map((color) => color.toRgb())
+      //     .flatMap(({ r, g, b, a }) => [r, g, b, a === 1 ? 255 : 0]);
+      //   console.log(adjustedImageData);
+      //   const updatedImageData = ctx.createImageData(canvas.width, canvas.height);
+      //   updatedImageData.data.set(Uint8ClampedArray.from(adjustedImageData));
+      //   ctx.putImageData(updatedImageData, 0, 0);
+      // }
+      // partState.commit();
     };
 
     img.src = reader.result as string;

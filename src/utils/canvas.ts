@@ -1,3 +1,8 @@
+import { Colord, colord } from "colord";
+import { chunk, uniq } from "lodash";
+import { useMemo, useState } from "react";
+import { ColorSubstitutions } from "./colors";
+
 export type Point = { x: number; y: number };
 
 const coordinates = (point: Point) => Object.values(point) as [number, number];
@@ -13,15 +18,32 @@ export const erasePixel = (point: Point, color: string, canvas: HTMLCanvasElemen
   ctx.fillRect(...coordinates(point), 1, 1);
 };
 
-export const drawLine = (start: Point, end: Point, color: string, canvas: HTMLCanvasElement) => {
-  const xLength = Math.abs(end.x - start.x) + 1;
-  const yLength = Math.abs(start.y - end.y) + 1;
-  const pixels = Math.floor(Math.max(xLength, yLength));
+// Uses Bresenham's line algorithm
+export const drawLine = (start: Point, end: Point, color: string, brushSize: number, canvas: HTMLCanvasElement) => {
+  const ctx = canvas.getContext("2d")!;
+  ctx.fillStyle = color;
 
-  for (let i = 0; i <= pixels; i++) {
-    const x = Math.floor((start.x * (pixels - i) + end.x * i) / pixels);
-    const y = Math.floor((start.y * (pixels - i) + end.y * i) / pixels);
-    drawPixel({ x, y }, color, canvas);
+  var x0 = start.x;
+  var y0 = start.y;
+  var dx = Math.abs(end.x - x0);
+  var dy = Math.abs(end.y - y0);
+  var sx = x0 < end.x ? 1 : -1;
+  var sy = y0 < end.y ? 1 : -1;
+  var err = dx - dy;
+
+  while (true) {
+    ctx.fillRect(x0 - brushSize + 1, y0 - brushSize + 1, brushSize, brushSize);
+
+    if (x0 === end.x && y0 === end.y) break;
+    var e2 = 2 * err;
+    if (e2 > -dy) {
+      err -= dy;
+      x0 += sx;
+    }
+    if (e2 < dx) {
+      err += dx;
+      y0 += sy;
+    }
   }
 };
 
@@ -84,4 +106,26 @@ export const replaceCanvasWithBlob = (blob: Blob, canvas: HTMLCanvasElement) => 
 export const scaleCanvas = (canvas: HTMLCanvasElement, scale: number) => {
   const ctx = canvas.getContext("2d")!;
   ctx.scale(scale, scale);
+};
+
+export const useOffscreenCanvas = () => {
+  return useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 32;
+    canvas.height = 32;
+    return canvas;
+  }, []);
+};
+
+export const useCanvasInitializer = (initialize: (canvas: HTMLCanvasElement) => void) => {
+  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
+  const canvasRef = (canvas: HTMLCanvasElement | null) => {
+    setCanvas(canvas);
+
+    if (!canvas) return;
+
+    initialize(canvas);
+  };
+
+  return { canvas, canvasRef };
 };

@@ -65,7 +65,7 @@ export const Preview: FC<PreviewProps> = ({}) => {
         <HStack color="gray.800" w="full" justifyContent="end" spacing={0}>
           <NounActionButton label="Randomize" icon={GiDiceSixFacesThree} onClick={nounState.randomize} disabled={nounLoading} />
           <NounActionButton
-            label="Load latest Noun"
+            label="Load auction Noun"
             icon={LoadingNoun}
             onClick={() => {
               loadLatestNoun(setNounLoading);

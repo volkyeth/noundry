@@ -52,9 +52,13 @@ export const useWorkspaceState = create<WorkspaceState>()((set) => ({
         case e.type === MouseEventType.Down && e.button === MouseButton.Left:
           return handleLeftMouseDown(point, state, activePartstate);
         case e.type === MouseEventType.Up && state.clickingLeft:
+          handleMouseMove(point, state, activePartstate);
           return handleLeftMouseUp(point, state, activePartstate);
         case e.type === MouseEventType.Move && state.clickingLeft:
+          handleMouseMove(point, state, activePartstate);
           return handleLeftMouseMove(point, state, activePartstate);
+        case e.type === MouseEventType.Move:
+          return handleMouseMove(point, state, activePartstate);
         default:
           return state;
       }
@@ -64,19 +68,38 @@ export const useWorkspaceState = create<WorkspaceState>()((set) => ({
 
 const handleLeftMouseDown = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
   applyTool([point], state.canvas!, partState);
+  drawBrushHover(point, state);
   return { pathPoints: [point], clickingLeft: true };
 };
 
 const handleLeftMouseMove = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
   applyTool([...state.pathPoints, point], state.canvas!, partState);
+  drawBrushHover(point, state);
   return { pathPoints: [...state.pathPoints, point] };
 };
 
 const handleLeftMouseUp = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
   applyTool([...state.pathPoints, point], state.canvas!, partState);
   replaceCanvas(state.canvas!, partState.canvas);
+  drawBrushHover(point, state);
   partState.commit();
   return { pathPoints: [], clickingLeft: false };
+};
+
+const handleMouseMove = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
+  replaceCanvas(partState.canvas, state.canvas!);
+  drawBrushHover(point, state);
+
+  return state;
+};
+
+const drawBrushHover = (point: Point, state: WorkspaceState) => {
+  const { brushSize } = useToolboxState.getState();
+  const ctx = state.canvas?.getContext("2d")!;
+  ctx.fillStyle = "#ffffff70";
+  ctx.globalCompositeOperation = "difference";
+  ctx.fillRect(point.x - brushSize + 1, point.y - brushSize + 1, brushSize, brushSize);
+  ctx.globalCompositeOperation = "source-over";
 };
 
 const applyTool = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => {

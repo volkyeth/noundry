@@ -32,10 +32,6 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   );
 };
 
-type CanvasProps = {
-  activePart: NounPart;
-};
-
 const useUndoRedoKeyboardShortcut = () => {
   const { activePart } = useNounState();
   const { canvas } = useWorkspaceState();

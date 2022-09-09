@@ -4,12 +4,13 @@ import { Panel } from "./Panel";
 
 import { MdRedo, MdUndo } from "react-icons/md";
 import { IconType } from "react-icons";
-import { Eraser, Eyedropper, Pen } from "../../tools/tools";
+import { Eraser, Eyedropper, Line, Pen } from "../../tools/tools";
 import { useToolboxState } from "../../state/toolboxState";
 import { Workspace } from "../layout/Workspace";
 import { useWorkspaceState } from "../../state/workspaceState";
 import { NounPart } from "../../utils/constants";
 import { useNounState } from "../../state/nounState";
+import { FaSquareFull } from "react-icons/fa";
 
 export type ToolboxProps = {};
 
@@ -20,8 +21,19 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
   return (
     <Panel title="Toolbox">
       <VStack>
+        <HStack>
+          {[1, 2, 3, 4, 5, 6].map((brushSize) => (
+            <Tool
+              icon={FaSquareFull}
+              name={`Brush size: ${brushSize}`}
+              action={() => toolboxState.setBrushSize(brushSize)}
+              boxSize={brushSize + 1}
+              isActive={toolboxState.brushSize === brushSize}
+            />
+          ))}
+        </HStack>
         <SimpleGrid columns={2} spacing={4}>
-          {[Pen(), Eraser()].map((tool) => (
+          {[Pen(), Line(), Eraser()].map((tool) => (
             <Tool
               key={tool.name}
               name={tool.name}
@@ -83,12 +95,12 @@ type ToolProps = {
 
 const Tool: FC<ToolProps> = ({ isActive = false, isDisabled = false, name, icon, action, ...props }) => (
   <Icon
+    boxSize="36px"
     {...props}
     color={isActive ? "white" : isDisabled ? "gray.600" : "gray.500"}
     _hover={{
       color: isDisabled ? "" : "gray.100",
     }}
-    boxSize="36px"
     onClick={isDisabled ? undefined : action}
     as={icon}
   />

@@ -8,7 +8,7 @@ export const Palette = () => {
   const setColor = useToolboxState((state) => state.setColor);
   return (
     <Panel title={"Palette"} flexGrow={1}>
-      <SimpleGrid columns={7} w="full" h="full" spacing="1px">
+      <SimpleGrid columns={8} w="full" h="full" spacing="1px">
         {sortedPalette().map((color, i) => (
           <Box
             key={`color-${i}`}

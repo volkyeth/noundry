@@ -48,7 +48,7 @@ export const ExportModal: FC<ExportModalProps> = ({ part, onClose, ...props }) =
   return (
     <Modal {...props} onClose={onClose} size="6xl">
       <ModalOverlay />
-      <ModalContent h="80%" color="gray.100" bgColor="gray.800" borderRadius={0} fontFamily='"Press Start 2P", cursive'>
+      <ModalContent h="80%" color="gray.100" bgColor="gray.800" borderRadius={0}>
         <ModalHeader fontSize={16}>{`Export ${part ?? "noun"}`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
