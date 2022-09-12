@@ -6,7 +6,7 @@ import {
   getPixels,
   setImageDataFromPixels,
 } from "../utils/colors";
-import { Box, Button, ButtonProps, Center, CenterProps, HStack, Input, StackProps, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, ButtonProps, Center, CenterProps, HStack, Input, StackProps, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { useSize } from "@chakra-ui/react-use-size";
 import { Dispatch, FC, ReactEventHandler, Ref, RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -128,34 +128,36 @@ type SubstituteColorPickerProps = {
   setSubstitutions: Dispatch<SetStateAction<ColorSubstitutions | undefined>>;
 } & StackProps;
 
-const SubstituteColorPicker: FC<SubstituteColorPickerProps> = ({ candidates, substitutions, setSubstitutions, ...props }) => (
-  <VStack spacing={0} {...props}>
-    {Object.entries(candidates).map(([offPaletteColor, substitutionCandidates], i) => (
-      <HStack key={`color-picker-${i}`}>
-        <Box boxSize={4} bgColor={offPaletteColor} />
-        <ReactIcon icon={HiArrowCircleRight} />
-        <HStack>
-          {substitutionCandidates.map((candidate, j) => (
-            <Box
-              key={`substitute-color-${i}-${j}`}
-              boxSize={4}
-              bgColor={candidate}
-              borderWidth={2}
-              borderColor={substitutions[offPaletteColor] === candidate ? "white" : "transparent"}
-              _hover={{ borderColor: "gray.100" }}
-              onClick={() => {
-                setSubstitutions({
-                  ...substitutions,
-                  [offPaletteColor]: candidate,
-                });
-              }}
-            />
-          ))}
+const SubstituteColorPicker: FC<SubstituteColorPickerProps> = ({ candidates, substitutions, setSubstitutions, ...props }) => {
+  return (
+    <VStack spacing={2} {...props}>
+      {Object.entries(candidates).map(([offPaletteColor, substitutionCandidates], i) => (
+        <HStack key={`color-picker-${i}`}>
+          <Box boxSize={7} bgColor={offPaletteColor} />
+          <ReactIcon icon={HiArrowCircleRight} />
+          <HStack>
+            {substitutionCandidates.map((candidate, j) => (
+              <Box
+                key={`substitute-color-${i}-${j}`}
+                boxSize={7}
+                bgColor={candidate}
+                borderWidth={2}
+                borderColor={substitutions[offPaletteColor] === candidate ? "white" : "transparent"}
+                _hover={{ borderColor: "gray.100" }}
+                onClick={() => {
+                  setSubstitutions({
+                    ...substitutions,
+                    [offPaletteColor]: candidate,
+                  });
+                }}
+              />
+            ))}
+          </HStack>
         </HStack>
-      </HStack>
-    ))}
-  </VStack>
-);
+      ))}
+    </VStack>
+  );
+};
 
 type DropzoneProps = {
   onPartLoaded: (img: HTMLImageElement) => void;
