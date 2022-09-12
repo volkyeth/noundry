@@ -40,7 +40,7 @@ export const ImportModal: FC<ImportModalProps> = ({ part, onClose, ...props }) =
       <ModalContent h="80%" color="gray.100" bgColor="gray.800" borderRadius={0}>
         <ModalHeader fontSize={16}>{`Import ${part}`}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody overflow="clip">
           <PartImporter
             canFinishIfPaletteConforms={true}
             finishText="Import"

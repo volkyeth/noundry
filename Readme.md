@@ -12,17 +12,17 @@ Release #1
 - [x] Allow shuffling the noun parts
 - [x] Allow loading parts
 - [x] Allow importing png as part
-- [ ] Hover brush indicator
-- [ ] Brush sizes
+- [x] Hover brush indicator
+- [x] Brush sizes
 - [x] Do not commit empty changes (all points outside canvas)
-- [ ] Template overlays
-- [ ] Reduce contrast of disabled tools
 - [ ] More tools (line, circle, fill, move)
-- [ ] Overlays/templates
-- [ ] Canvas Pan/Zoom
+- [ ] Keyboard shortcuts (inspired on photoshop?)
+- [ ] Add text tool
+- [ ] Reduce contrast of disabled tools
+- [ ] Template overlays
 - [ ] Grid
+- [ ] Add Noundry.studio themed background + neutral traits to showcase a custom part
 - [x] Saving and loading
 - [x] Allow picking parts individually
-- [ ] Mobile
 - [ ] remove tooltip and menu animations
-- [ ] Reject or adjust loaded parts with colors outside the classic nouns palette
+- [x] Reject or adjust loaded parts with colors outside the classic nouns palette

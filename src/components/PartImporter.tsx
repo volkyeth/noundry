@@ -6,7 +6,7 @@ import {
   getPixels,
   setImageDataFromPixels,
 } from "../utils/colors";
-import { Box, Button, ButtonProps, Center, CenterProps, HStack, Input, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, ButtonProps, Center, CenterProps, HStack, Input, StackProps, Text, VStack } from "@chakra-ui/react";
 import { useSize } from "@chakra-ui/react-use-size";
 import { Dispatch, FC, ReactEventHandler, Ref, RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -43,9 +43,9 @@ export const PartImporter: FC<PartImporterProps> = ({ canFinishIfPaletteConforms
   }, [colorSubstitutions]);
 
   return (
-    <VStack h="full" w="full" fontSize={14} spacing={0} justifyContent="space-around">
+    <VStack h="full" w="full" fontSize={14} spacing={4} justifyContent="space-around" overflow="clip">
       {hasPartLoaded && (
-        <HStack justifyContent="space-around" alignItems="start" spacing={8}>
+        <HStack justifyContent="space-around" flexGrow={1} alignItems="start" spacing={8} overflow="clip">
           <VStack bgColor="gray.800" p={2}>
             <Center w={64} h={64} {...checkerboardBg}>
               <PixelArtCanvas style={{ width: "100%", height: "100%" }} ref={originalCanvasRef} />
@@ -63,13 +63,14 @@ export const PartImporter: FC<PartImporterProps> = ({ canFinishIfPaletteConforms
           </VStack>
           {hasSubstitutions && (
             <>
-              <VStack>
+              <VStack h="full" overflow="clip">
                 <Text>{`There are ${Object.keys(colorSubstitutions).length} off-palette colors`}</Text>
                 <Text>Pick the replacement colors:</Text>
                 <SubstituteColorPicker
                   candidates={colorSubstitutionCandidates}
                   substitutions={colorSubstitutions}
                   setSubstitutions={setColorSubstitutions}
+                  overflow="scroll"
                 />
               </VStack>
               <VStack bgColor="gray.800" p={2}>
@@ -125,10 +126,10 @@ type SubstituteColorPickerProps = {
   candidates: ColorSubstitutionCandidates;
   substitutions: ColorSubstitutions;
   setSubstitutions: Dispatch<SetStateAction<ColorSubstitutions | undefined>>;
-};
+} & StackProps;
 
-const SubstituteColorPicker: FC<SubstituteColorPickerProps> = ({ candidates, substitutions, setSubstitutions }) => (
-  <VStack spacing={0}>
+const SubstituteColorPicker: FC<SubstituteColorPickerProps> = ({ candidates, substitutions, setSubstitutions, ...props }) => (
+  <VStack spacing={0} {...props}>
     {Object.entries(candidates).map(([offPaletteColor, substitutionCandidates], i) => (
       <HStack key={`color-picker-${i}`}>
         <Box boxSize={4} bgColor={offPaletteColor} />
