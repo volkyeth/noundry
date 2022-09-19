@@ -26,3 +26,5 @@ Release #1
 - [x] Allow picking parts individually
 - [ ] remove tooltip and menu animations
 - [x] Reject or adjust loaded parts with colors outside the classic nouns palette
+- [ ] Add some intro text on the workspace when no part is selected
+- [ ] Add CC0 license

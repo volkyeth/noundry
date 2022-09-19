@@ -1,21 +1,37 @@
-import { Box, HStack, Icon, IconProps, SimpleGrid, SimpleGridProps, VStack } from "@chakra-ui/react";
+import { Box, Center, CenterProps, Grid, GridItem, HStack, Icon, IconProps, SimpleGrid, SimpleGridProps, Tooltip, VStack } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Panel } from "./Panel";
 
 import { MdRedo, MdUndo } from "react-icons/md";
 import { IconType } from "react-icons";
-import { Eraser, Eyedropper, Line, Pen } from "../../tools/tools";
+import { Ellipse, Eraser, Eyedropper, Line, Pen, Rectangle } from "../../tools/tools";
 import { useToolboxState } from "../../state/toolboxState";
 import { Workspace } from "../layout/Workspace";
 import { useWorkspaceState } from "../../state/workspaceState";
 import { NounPart } from "../../utils/constants";
 import { useNounState } from "../../state/nounState";
 import { FaSquareFull } from "react-icons/fa";
+import { CheckerboardBg } from "../CheckerboardBg";
+import { ReactIcon } from "../ReactIcon";
+import { CgCornerDoubleRightDown, TbReplace } from "react-icons/all";
 
 export type ToolboxProps = {};
 
+type ColorBoxProps = {
+  color: string;
+} & Omit<CenterProps, "color">;
+
+const ColorBox: FC<ColorBoxProps> = ({ color, ...props }) => {
+  return (
+    <CheckerboardBg patternRepetitions={4} w="full" h={"full"} borderWidth={1} borderColor={"gray.800"} {...props}>
+      <Box bgColor={color} borderWidth={1} borderColor={"white"} w="full" h="full" />
+    </CheckerboardBg>
+  );
+};
+
 export const Toolbox: FC<ToolboxProps> = ({}) => {
   const toolboxState = useToolboxState();
+  const { fgColor, bgColor, setFgColor, setBgColor } = toolboxState;
   const eyedropper = Eyedropper();
 
   return (
@@ -33,7 +49,7 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           ))}
         </HStack>
         <SimpleGrid columns={2} spacing={4}>
-          {[Pen(), Line(), Eraser()].map((tool) => (
+          {[Pen(), Eraser(), Line(), Rectangle(), Ellipse()].map((tool) => (
             <Tool
               key={tool.name}
               name={tool.name}
@@ -46,8 +62,30 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           ))}
         </SimpleGrid>
         <HistoryNavigation />
-        <HStack>
-          <Box bgColor={toolboxState.color} w={10} h={10} />
+        <HStack alignItems={"end"}>
+          <Grid w={16} h={16} templateRows="repeat(6, 1fr)" gap={0} templateColumns="repeat(6, 1fr)">
+            <GridItem gridArea="3 / 3 / 7 / 7">
+              <ColorBox color={bgColor} />
+            </GridItem>
+            <GridItem gridArea="1 / 1 / 5 / 5">
+              <ColorBox color={fgColor} />
+            </GridItem>
+            <GridItem gridArea="1 / 5 / 3 / 7">
+              <Tool
+                p={1}
+                w="full"
+                h="full"
+                name={"Swap colors"}
+                icon={CgCornerDoubleRightDown}
+                action={() => {
+                  setFgColor(bgColor);
+                  setBgColor(fgColor);
+                }}
+              />
+            </GridItem>
+            {/*<GridItem gridArea="5 / 1 / 7 / 3"></GridItem>*/}
+          </Grid>
+
           <Tool
             name={eyedropper.name}
             icon={eyedropper.icon}
@@ -93,15 +131,18 @@ type ToolProps = {
   isDisabled?: boolean;
 } & IconProps;
 
-const Tool: FC<ToolProps> = ({ isActive = false, isDisabled = false, name, icon, action, ...props }) => (
-  <Icon
-    boxSize="36px"
-    {...props}
-    color={isActive ? "white" : isDisabled ? "gray.600" : "gray.500"}
-    _hover={{
-      color: isDisabled ? "" : "gray.100",
-    }}
-    onClick={isDisabled ? undefined : action}
-    as={icon}
-  />
+const Tool: FC<ToolProps> = ({ isActive = false, isDisabled = false, w = "36px", h = "36px", name, icon, action, ...props }) => (
+  <Tooltip label={name} openDelay={500}>
+    <ReactIcon
+      w={w}
+      h={h}
+      {...props}
+      color={isActive ? "white" : isDisabled ? "gray.600" : "gray.500"}
+      _hover={{
+        color: isDisabled ? "" : "gray.100",
+      }}
+      onClick={isDisabled ? undefined : action}
+      icon={icon}
+    />
+  </Tooltip>
 );

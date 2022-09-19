@@ -10,7 +10,7 @@ export const sortedPalette = () => {
   return normalizedPalette.sort(sortColors).map((color) => colord(color).toHex());
 };
 
-const normalizedPalette = [colord("#00000000"), ...ImageData.palette.filter((color) => !!color).map((color) => colord(`#${color}`))];
+const normalizedPalette = ImageData.palette.filter((color) => !!color).map((color) => colord(`#${color}`));
 
 export const offPalette = (color: Colord) => {
   return !some(normalizedPalette, (c) => c.isEqual(color));

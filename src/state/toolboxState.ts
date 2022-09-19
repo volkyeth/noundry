@@ -6,8 +6,10 @@ export type ToolboxState = {
   setBrushSize: (brushSize: number) => void;
   tool: Tool;
   selectTool: (tool: Tool) => void;
-  color: Color;
-  setColor: (color: Color) => void;
+  fgColor: Color;
+  setFgColor: (color: Color) => void;
+  bgColor: Color;
+  setBgColor: (color: Color) => void;
 };
 
 export const useToolboxState = create<ToolboxState>()((set) => ({
@@ -15,6 +17,8 @@ export const useToolboxState = create<ToolboxState>()((set) => ({
   setBrushSize: (brushSize: number) => set({ brushSize }),
   tool: Pen(),
   selectTool: (tool: Tool) => set({ tool }),
-  color: "#000000",
-  setColor: (color: Color) => set({ color }),
+  fgColor: "#000000",
+  setFgColor: (color: Color) => set({ fgColor: color }),
+  bgColor: "#00000000",
+  setBgColor: (color: Color) => set({ bgColor: color }),
 }));

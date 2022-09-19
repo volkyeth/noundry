@@ -9,7 +9,7 @@ export type ReactIconProps = {
 export const ReactIcon: FC<ReactIconProps> = forwardRef<HTMLSpanElement, ReactIconProps>(({ icon, ...props }, ref) => {
   return (
     // wrapped in span as a workaround for https://github.com/react-icons/react-icons/issues/336
-    <chakra.span ref={ref}>
+    <chakra.span ref={ref} lineHeight={0}>
       <Icon {...props} as={icon} />
     </chakra.span>
   );
