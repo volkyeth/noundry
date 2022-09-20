@@ -10,10 +10,13 @@ import {
   BsSlashLg,
   BsSquare,
   CgShapeSquare,
+  IoColorFill,
   IoEllipseOutline,
+  IoMdColorFill,
   IoMdSquareOutline,
   IoSquareOutline,
 } from "react-icons/all";
+import { colord, Colord } from "colord";
 
 export type ToolAction = (points: Point[], canvas: HTMLCanvasElement) => void;
 
@@ -125,6 +128,36 @@ export const Eyedropper = (): Tool => ({
   name: "Eyedropper",
   icon: RiSipFill,
 });
+
+export const Bucket = (): Tool => ({
+  use: (points: Point[], canvas: HTMLCanvasElement) => {
+    const ctx = canvas.getContext("2d")!;
+    const { fgColor } = useToolboxState.getState();
+    ctx.fillStyle = fgColor;
+
+    const lastPoint = points[points.length - 1];
+
+    floodFill(ctx, lastPoint);
+  },
+  name: "Bucket",
+  icon: IoColorFill,
+});
+
+const floodFill = (ctx: CanvasRenderingContext2D, point: Point, searchColor?: Colord) => {
+  const [r, g, b, a] = ctx.getImageData(point.x, point.y, 1, 1).data;
+  const color = colord({ r, g, b, a });
+
+  if (searchColor && !color.isEqual(searchColor)) {
+    return;
+  }
+
+  ctx.fillRect(point.x, point.y, 1, 1);
+
+  if (point.x > 0) floodFill(ctx, { ...point, x: point.x - 1 }, color);
+  if (point.x < ctx.canvas.width - 1) floodFill(ctx, { ...point, x: point.x + 1 }, color);
+  if (point.y > 0) floodFill(ctx, { ...point, y: point.y - 1 }, color);
+  if (point.y < ctx.canvas.height - 1) floodFill(ctx, { ...point, y: point.y + 1 }, color);
+};
 
 const getBoundingBoxIncludingBrush = (points: Point[], brushSize: number) => {
   const startPoint = points[0];
