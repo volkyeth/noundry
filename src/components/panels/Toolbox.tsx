@@ -23,7 +23,7 @@ type ColorBoxProps = {
 
 const ColorBox: FC<ColorBoxProps> = ({ color, ...props }) => {
   return (
-    <CheckerboardBg patternRepetitions={4} w="full" h={"full"} borderWidth={1} borderColor={"gray.800"} {...props}>
+    <CheckerboardBg cells={4} w="full" h={"full"} borderWidth={1} borderColor={"gray.800"} {...props}>
       <Box bgColor={color} borderWidth={1} borderColor={"white"} w="full" h="full" />
     </CheckerboardBg>
   );

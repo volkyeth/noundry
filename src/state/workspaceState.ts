@@ -7,14 +7,17 @@ import { useNounState } from "./nounState";
 import { useToolboxState } from "./toolboxState";
 
 export type WorkspaceState = {
+  gridOn: boolean;
   canvas: HTMLCanvasElement | null;
   canvasRef: (canvas: HTMLCanvasElement | null) => void;
   pathPoints: Point[];
   clickingLeft: boolean;
   handleMouseEvent: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
+  toggleGrid: () => void;
 };
 
 export const useWorkspaceState = create<WorkspaceState>()((set) => ({
+  gridOn: true,
   canvas: null,
   canvasRef: (canvas: HTMLCanvasElement | null) => {
     set({ canvas });
@@ -64,6 +67,7 @@ export const useWorkspaceState = create<WorkspaceState>()((set) => ({
       }
     });
   },
+  toggleGrid: () => set((state) => ({ gridOn: !state.gridOn })),
 }));
 
 const handleLeftMouseDown = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {

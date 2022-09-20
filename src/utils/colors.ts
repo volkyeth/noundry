@@ -3,6 +3,7 @@ import { Colord, colord, extend } from "colord";
 import labPlugin from "colord/plugins/lab";
 import { chunk, minBy, some, sortBy, uniq } from "lodash";
 import { HsvaColor } from "react-colorful";
+import { Point } from "./canvas";
 
 extend([labPlugin]);
 
@@ -97,4 +98,9 @@ export const setImageDataFromPixels = (canvas: HTMLCanvasElement, pixels: Colord
   updatedImageData.data.set(Uint8ClampedArray.from(data));
 
   ctx.putImageData(updatedImageData, 0, 0);
+};
+
+export const getPixelColor = (point: Point, ctx: CanvasRenderingContext2D) => {
+  const [r, g, b, a] = ctx.getImageData(point.x, point.y, 1, 1).data;
+  return colord({ r, g, b, a });
 };

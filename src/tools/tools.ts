@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 import { RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { TbLine, TbShape } from "react-icons/tb";
 import { useToolboxState } from "../state/toolboxState";
-import { drawLine, drawPixel, Point } from "../utils/canvas";
+import { drawLine, drawPixel, paintPixel, Point } from "../utils/canvas";
 import {
   BiShapeSquare,
   BiSquare,
@@ -17,6 +17,7 @@ import {
   IoSquareOutline,
 } from "react-icons/all";
 import { colord, Colord } from "colord";
+import { getPixelColor } from "../utils/colors";
 
 export type ToolAction = (points: Point[], canvas: HTMLCanvasElement) => void;
 
@@ -144,20 +145,26 @@ export const Bucket = (): Tool => ({
 });
 
 const floodFill = (ctx: CanvasRenderingContext2D, point: Point, searchColor?: Colord) => {
-  const [r, g, b, a] = ctx.getImageData(point.x, point.y, 1, 1).data;
-  const color = colord({ r, g, b, a });
+  if (!inCanvas(point, ctx)) {
+    return;
+  }
+
+  const color = getPixelColor(point, ctx);
 
   if (searchColor && !color.isEqual(searchColor)) {
     return;
   }
 
-  ctx.fillRect(point.x, point.y, 1, 1);
+  paintPixel(point, ctx);
 
-  if (point.x > 0) floodFill(ctx, { ...point, x: point.x - 1 }, color);
-  if (point.x < ctx.canvas.width - 1) floodFill(ctx, { ...point, x: point.x + 1 }, color);
-  if (point.y > 0) floodFill(ctx, { ...point, y: point.y - 1 }, color);
-  if (point.y < ctx.canvas.height - 1) floodFill(ctx, { ...point, y: point.y + 1 }, color);
+  floodFill(ctx, { ...point, x: point.x - 1 }, color);
+  floodFill(ctx, { ...point, x: point.x + 1 }, color);
+  floodFill(ctx, { ...point, y: point.y - 1 }, color);
+  floodFill(ctx, { ...point, y: point.y + 1 }, color);
 };
+
+const inCanvas = (point: Point, ctx: CanvasRenderingContext2D) =>
+  point.x >= 0 && point.x < ctx.canvas.width && point.y >= 0 && point.y < ctx.canvas.height;
 
 const getBoundingBoxIncludingBrush = (points: Point[], brushSize: number) => {
   const startPoint = points[0];

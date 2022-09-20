@@ -1,11 +1,15 @@
 import React, { FC, RefObject, useEffect, useRef, useState } from "react";
-import { Box, Center, CenterProps, Text, useBoolean } from "@chakra-ui/react";
+import { Box, Center, CenterProps, HStack, Text, Tooltip, useBoolean } from "@chakra-ui/react";
 import { PixelArtCanvas } from "../PixelArtCanvas";
 import { clearCanvas, drawCanvas, replaceCanvas, replaceCanvasWithBlob } from "../../utils/canvas";
 import { checkerboardBg, NounPart } from "../../utils/constants";
 import { useToolboxState } from "../../state/toolboxState";
 import { useWorkspaceState } from "../../state/workspaceState";
 import { useNounState } from "../../state/nounState";
+import { CheckerboardBg } from "../CheckerboardBg";
+import { CanvasGrid } from "../CanvasGrid";
+import { ReactIcon } from "../ReactIcon";
+import { MdGridOff, MdGridOn, MdOutlineGridOff, MdOutlineGridOn } from "react-icons/all";
 
 type Point = { x: number; y: number };
 
@@ -13,7 +17,7 @@ export type WorkspaceProps = {} & CenterProps;
 
 export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   const { activePart } = useNounState();
-  const { canvasRef, handleMouseEvent } = useWorkspaceState();
+  const { canvasRef, handleMouseEvent, gridOn, toggleGrid } = useWorkspaceState();
   useLoadActivePartToWorkingCanvasWhenChanged();
   useUndoRedoKeyboardShortcut();
 
@@ -22,9 +26,22 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   return (
     <Center {...props} onMouseDown={handleMouseEvent} onMouseUp={handleMouseEvent} onMouseMove={handleMouseEvent}>
       {activePart ? (
-        <Box position="relative" w={canvasSize} h={canvasSize} {...checkerboardBg}>
+        <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
-        </Box>
+          {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" />}
+          <HStack h={10} position="absolute" bottom={-10} right={0}>
+            <Tooltip label={"Toggle grid"}>
+              <ReactIcon
+                icon={gridOn ? MdOutlineGridOn : MdOutlineGridOff}
+                boxSize={8}
+                onClick={toggleGrid}
+                color={"gray.850"}
+                _hover={{ color: "gray.600" }}
+                cursor={"pointer"}
+              />
+            </Tooltip>
+          </HStack>
+        </CheckerboardBg>
       ) : (
         <Text>Select a part to edit</Text>
       )}

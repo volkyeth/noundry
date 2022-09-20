@@ -13,7 +13,7 @@ export const Palette = () => {
       <SimpleGrid columns={8} w="full" h="full" spacing="1px">
         <CheckerboardBg
           {...hoverFx}
-          patternRepetitions={2}
+          cells={2}
           onContextMenu={(e) => e.preventDefault()}
           onMouseUp={(e) => {
             if (e.button === MouseButton.Left) {
