@@ -5,9 +5,13 @@ export type CheckerboardBgProps = {
   patternRepetitions?: number;
 } & CenterProps;
 
-export const CheckerboardBg: FC<CheckerboardBgProps> = ({ children, cells = 32, ...props }) => {
+export const CheckerboardBg: FC<CheckerboardBgProps> = ({ children, patternRepetitions = 32, ...props }) => {
   return (
-    <Center bgSize={`${100 / cells}% ${100 / cells}%`} bgGradient="repeating-conic(gray.500 0% 25%, gray.400 0% 50%)" {...props}>
+    <Center
+      bgSize={`${100 / patternRepetitions}% ${100 / patternRepetitions}%`}
+      bgGradient="repeating-conic(gray.500 0% 25%, gray.400 0% 50%)"
+      {...props}
+    >
       {children}
     </Center>
   );
