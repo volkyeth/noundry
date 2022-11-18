@@ -32,3 +32,5 @@
 - [ ] remove tooltip and menu animations
 - [ ] Add some intro text on the workspace when no part is selected
 - [ ] Add CC0 license
+- [ ] Add menu item for palette fixer
+- [ ] Allow setting the filename when exporting

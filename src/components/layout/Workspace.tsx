@@ -28,7 +28,7 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
       {activePart ? (
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
-          {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" />}
+          {/*{gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" />}*/}
           <HStack h={10} position="absolute" bottom={-10} right={0}>
             <Tooltip label={"Toggle grid"}>
               <ReactIcon
