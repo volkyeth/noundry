@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 import { RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { TbLine, TbShape } from "react-icons/tb";
 import { useToolboxState } from "../state/toolboxState";
-import { drawLine, drawPixel, paintPixel, Point } from "../utils/canvas";
+import { drawLine, drawPixel, erasePixel, paintPixel, Point } from "../utils/canvas";
 import {
   BiShapeSquare,
   BiSquare,
@@ -155,6 +155,7 @@ const floodFill = (ctx: CanvasRenderingContext2D, point: Point, searchColor?: Co
     return;
   }
 
+  erasePixel(point, ctx);
   paintPixel(point, ctx);
 
   floodFill(ctx, { ...point, x: point.x - 1 }, color);

@@ -15,9 +15,8 @@ export const drawPixel = (point: Point, color: string, canvas: HTMLCanvasElement
 
 export const paintPixel = (point: Point, ctx: CanvasRenderingContext2D) => ctx.fillRect(point.x, point.y, 1, 1);
 
-export const erasePixel = (point: Point, color: string, canvas: HTMLCanvasElement) => {
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillRect(...coordinates(point), 1, 1);
+export const erasePixel = (point: Point, ctx: CanvasRenderingContext2D) => {
+  ctx.clearRect(...coordinates(point), 1, 1);
 };
 
 // Uses Bresenham's line algorithm
