@@ -6,6 +6,7 @@ import { Layers } from "../panels/Layers";
 import { Palette } from "../panels/Palette";
 import { Preview } from "../panels/Preview";
 import { Toolbox } from "../panels/Toolbox";
+import { Socials } from "../Socials";
 
 export const Editor = () => (
   <VStack color="white" fontSize="8pt" h="100vh" minW="100vw" spacing={0}>
@@ -16,9 +17,12 @@ export const Editor = () => (
         <Palette />
       </Sidebar>
       <Workspace bgColor="gray.900" h="full" w="full" />
-      <Sidebar w="352px">
-        <Preview />
-        <Layers />
+      <Sidebar w="352px" justifyContent={"space-between"}>
+        <VStack>
+          <Preview />
+          <Layers />
+        </VStack>
+        <Socials p={2} h={10} justifyContent={"end"} w={"full"} />
       </Sidebar>
     </HStack>
   </VStack>
