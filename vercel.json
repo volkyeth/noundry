@@ -4,5 +4,8 @@
             "source": "/:any*",
             "destination": "/"
         }
-    ]
+    ],
+    "github": {
+        "silent": true
+    }
 }
