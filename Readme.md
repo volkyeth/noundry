@@ -1,36 +1,40 @@
-# Noundry Studio
+# Noundry Studio ⌐◧-◧
 
-## Release #1
+Noundry studio is a pixel editor optimized for the workflow of designing new Nouns parts/traits and trying them out with existing ones.
 
-- [x] Export all + single layers (save/copy canvas);
-- [x] show/hide parts in preview
-- [x] Pen + eraser
-- [x] Undo/Redo
-- [x] Nouns palettes
-- [x] Select nouns parts
-- [x] Convert logo text to svg
-- [x] Allow shuffling the noun parts
-- [x] Allow loading parts
-- [x] Allow importing png as part
-- [x] Hover brush indicator
-- [x] Brush sizes
-- [x] Do not commit empty changes (all points outside canvas)
-- [x] Saving and loading
-- [x] Allow picking parts individually
-- [x] Reject or adjust loaded parts with colors outside the classic nouns palette
+![noundry studio preview](preview.png)
 
-## Release #2
+## Running locally
 
-- [ ] Select tool
-- [ ] Move tool
-- [ ] Mobile support
-- [ ] Text tool
-- [ ] Keyboard shortcuts (inspired on photoshop?)
-- [ ] Template overlays
-- [ ] Grid
-- [ ] Add Noundry.studio themed background + neutral traits to showcase a custom part
-- [ ] remove tooltip and menu animations
-- [ ] Add some intro text on the workspace when no part is selected
-- [ ] Add CC0 license
-- [ ] Add menu item for palette fixer
-- [ ] Allow setting the filename when exporting
+This project runs on https://vitejs.dev
+
+```bash
+yarn
+yarn dev
+```
+
+## Contributing
+
+Bug reports are welcome.
+
+Feature Requests are welcome.
+
+Pull requests are more than welcome. If it's a big change, please open an issue first to discuss it.
+
+## Author
+
+![volky](src/assets/volky.png)
+
+I'm Volky, a web3 engineer developing for the Nouns ecosystem. 
+
+## Acknowledgements
+
+This project was funded (twice 🙏) on https://prop.house by the [Nouns](https://nouns.wtf) community. Thank you!
+
+## License
+
+CC0
+
+Attribution is appreciated but not required.
+
+Fork if you must, but please contribute back to the upstream if you can, so we can all benefit from it ✌.
