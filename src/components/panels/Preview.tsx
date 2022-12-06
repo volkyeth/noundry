@@ -1,20 +1,41 @@
-import { AspectRatio, Box, Center, HStack, Icon, IconButton, IconButtonProps, Image, Tooltip, useBoolean, useDisclosure } from "@chakra-ui/react";
-import { ImageData, getNounData, getRandomNounSeed } from "@nouns/assets";
-import { buildSVG, ChainId, EncodedImage, getContractsForChainOrThrow } from "@nouns/sdk";
-import { FC, RefObject, SVGProps, useEffect, useRef, useState } from "react";
-import { RiImageFill, RiSave3Fill } from "react-icons/ri";
+import {
+  Box,
+  Button,
+  Center,
+  forwardRef,
+  HStack,
+  Icon,
+  IconButton,
+  IconButtonProps,
+  Image,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Tooltip,
+  useBoolean,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
+import { FC, SVGProps, useEffect, useRef, useState } from "react";
+import { RiSave3Fill } from "react-icons/ri";
 import { useNounState } from "../../state/nounState";
-import { Color } from "../../tools/tools";
-import { checkerboardBg, NounPart, NounPartMapping, nounParts } from "../../utils/constants";
+import { checkerboardBg } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
 import { PixelArtCanvas } from "../PixelArtCanvas";
 import { Panel } from "./Panel";
-import type { Modifier } from "@popperjs/core";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { IconType } from "react-icons";
 import { ReactComponent as LoadingNoun } from "@/assets/nouns-loading-sharp.svg";
-import { getDefaultProvider, BigNumber } from "ethers";
+import { BigNumberish } from "ethers";
 import loadingNoun from "@/assets/loading-noun.gif";
+import { useQuery } from "react-query";
 
 export type PreviewProps = {};
 
@@ -24,6 +45,21 @@ export const Preview: FC<PreviewProps> = ({}) => {
   const [canvasSize, setCanvasSize] = useState(256);
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
   const [nounLoading, setNounLoading] = useBoolean(false);
+  const nounIdInputRef = useRef<HTMLInputElement>(null);
+  const { data: auctionNounId } = useQuery(
+    "auctionNounId",
+    async () => {
+      return fetch("https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph", {
+        body: '{"query":"{\\n  auctions(orderDirection: desc, orderBy: startTime, first : 1) {\\n    noun {\\n      id\\n    }\\n  }\\n}","variables":null}',
+        method: "POST",
+      })
+        .then((r) => r.json())
+        .then((r) => parseInt(r!.data!.auctions[0]!.noun!.id as int));
+    },
+    {
+      refetchInterval: 12_000,
+    }
+  );
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -64,14 +100,51 @@ export const Preview: FC<PreviewProps> = ({}) => {
         </Center>
         <HStack color="gray.800" w="full" justifyContent="end" spacing={0}>
           <NounActionButton label="Randomize" icon={GiDiceSixFacesThree} onClick={nounState.randomize} disabled={nounLoading} />
-          <NounActionButton
-            label="Load auction Noun"
-            icon={LoadingNoun}
-            onClick={() => {
-              loadLatestNoun(setNounLoading);
-            }}
-            disabled={nounLoading}
-          />
+          <Popover>
+            <PopoverTrigger>
+              <NounActionButton label="Load Noun" icon={LoadingNoun} disabled={nounLoading} />
+            </PopoverTrigger>
+            <PopoverContent w={"xs"} p={2}>
+              <PopoverArrow />
+              <PopoverBody fontSize={"sm"}>
+                <VStack w={"full"} alignItems={"start"}>
+                  <Button
+                    borderRadius={0}
+                    w={"full"}
+                    fontSize={"xs"}
+                    disabled={!auctionNounId || nounLoading}
+                    onClick={() => {
+                      setNounLoading.on();
+                      loadNoun(auctionNounId!).finally(() => setNounLoading.off());
+                    }}
+                  >
+                    Load Auction Noun
+                  </Button>
+                  <HStack w={"full"}>
+                    <Button
+                      borderRadius={0}
+                      fontSize={"xs"}
+                      flexGrow={1}
+                      disabled={!auctionNounId || nounLoading}
+                      onClick={() => {
+                        setNounLoading.on();
+                        loadNoun(nounIdInputRef!.current!.value).finally(() => setNounLoading.off());
+                      }}
+                    >
+                      Load Noun #
+                    </Button>
+                    <NumberInput isDisabled={!auctionNounId || nounLoading} defaultValue={0} min={0} max={auctionNounId} w={32} borderRadius={0}>
+                      <NumberInputField ref={nounIdInputRef} maxLength={4} borderRadius={0} />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </HStack>
+                </VStack>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
           <NounActionButton label="Export" icon={RiSave3Fill} onClick={onExportOpen} disabled={nounLoading} />
         </HStack>
       </Panel>
@@ -85,9 +158,10 @@ type NounActionButtonProps = {
   icon: IconType | FC<SVGProps<SVGSVGElement>>;
 } & Omit<IconButtonProps, "icon" | "aria-label">;
 
-const NounActionButton: FC<NounActionButtonProps> = ({ label, icon, ...buttonProps }) => (
+const NounActionButton = forwardRef<NounActionButtonProps, "button">(({ label, icon, ...buttonProps }, ref) => (
   <Tooltip label={label} hasArrow>
     <IconButton
+      ref={ref}
       size="sm"
       borderRadius={0}
       bgColor="transparent"
@@ -100,17 +174,26 @@ const NounActionButton: FC<NounActionButtonProps> = ({ label, icon, ...buttonPro
       icon={<Icon as={icon} boxSize={6} />}
     />
   </Tooltip>
-);
+));
 
-const loadLatestNoun = async ({ on: startLoading, off: endLoading }: { on: () => void; off: () => void }) => {
-  const { nounsTokenContract } = getContractsForChainOrThrow(ChainId.Mainnet, getDefaultProvider());
-  startLoading();
-  return nounsTokenContract
-    .totalSupply()
-    .then((totalSupply) => nounsTokenContract.seeds(BigNumber.from(totalSupply).sub(1)))
-    .then(async (seed) => {
-      const { accessory, background, body, glasses, head } = seed;
-      await useNounState.getState().loadSeed({ accessory, background, body, glasses, head });
-    })
-    .then(endLoading);
+const loadNoun = async (nounId: BigNumberish) => {
+  return fetch("https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph", {
+    body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
+    method: "POST",
+  })
+    .then((r) => r.json() as Promise<{ data: { seed: { background: string; body: string; accessory: string; head: string; glasses: string } } }>)
+    .then(
+      async ({
+        data: {
+          seed: { accessory, background, body, glasses, head },
+        },
+      }) =>
+        await useNounState.getState().loadSeed({
+          accessory: parseInt(accessory),
+          background: parseInt(background),
+          body: parseInt(body),
+          glasses: parseInt(glasses),
+          head: parseInt(head),
+        })
+    );
 };
