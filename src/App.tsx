@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import "@fontsource/press-start-2p/400.css";
 import { Route, Routes } from "react-router-dom";
 import { Editor } from "./components/pages/Editor";
@@ -17,6 +17,7 @@ function App() {
   return (
     <ChakraProvider theme={theme} resetCSS>
       <QueryClientProvider client={queryClient}>
+        <ColorModeScript initialColorMode={"dark"} />
         <Routes>
           <Route path="/" element={<Editor />} />
           <Route path="palette" element={<PaletteFixer />} />
