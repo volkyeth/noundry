@@ -54,7 +54,7 @@ export const Preview: FC<PreviewProps> = ({}) => {
         method: "POST",
       })
         .then((r) => r.json())
-        .then((r) => parseInt(r!.data!.auctions[0]!.noun!.id as int));
+        .then((r) => parseInt(r!.data!.auctions[0]!.noun!.id));
     },
     {
       refetchInterval: 12_000,
