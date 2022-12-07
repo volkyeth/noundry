@@ -1,15 +1,13 @@
-import React, { FC, RefObject, useEffect, useRef, useState } from "react";
-import { Box, Center, CenterProps, HStack, Text, Tooltip, useBoolean } from "@chakra-ui/react";
+import React, { FC, useEffect } from "react";
+import { Center, CenterProps, HStack, Text, Tooltip } from "@chakra-ui/react";
 import { PixelArtCanvas } from "../PixelArtCanvas";
-import { clearCanvas, drawCanvas, replaceCanvas, replaceCanvasWithBlob } from "../../utils/canvas";
-import { checkerboardBg, NounPart } from "../../utils/constants";
-import { useToolboxState } from "../../state/toolboxState";
+import { replaceCanvas } from "../../utils/canvas";
 import { useWorkspaceState } from "../../state/workspaceState";
 import { useNounState } from "../../state/nounState";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { CanvasGrid } from "../CanvasGrid";
 import { ReactIcon } from "../ReactIcon";
-import { MdGridOff, MdGridOn, MdOutlineGridOff, MdOutlineGridOn } from "react-icons/all";
+import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/all";
 
 type Point = { x: number; y: number };
 
@@ -28,7 +26,7 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
       {activePart ? (
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
-          {/*{gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" />}*/}
+          {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" />}
           <HStack h={10} position="absolute" bottom={-10} right={0}>
             <Tooltip label={"Toggle grid"}>
               <ReactIcon
