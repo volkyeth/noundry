@@ -1,19 +1,16 @@
-import { Box, Center, CenterProps, Grid, GridItem, HStack, Icon, IconProps, SimpleGrid, SimpleGridProps, Tooltip, VStack } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { Box, CenterProps, Grid, GridItem, HStack, IconProps, SimpleGrid, SimpleGridProps, Tooltip, VStack } from "@chakra-ui/react";
+import { FC } from "react";
 import { Panel } from "./Panel";
 
 import { MdRedo, MdUndo } from "react-icons/md";
 import { IconType } from "react-icons";
 import { Bucket, Ellipse, Eraser, Eyedropper, Line, Pen, Rectangle } from "../../tools/tools";
 import { useToolboxState } from "../../state/toolboxState";
-import { Workspace } from "../layout/Workspace";
-import { useWorkspaceState } from "../../state/workspaceState";
-import { NounPart } from "../../utils/constants";
 import { useNounState } from "../../state/nounState";
 import { FaSquareFull } from "react-icons/fa";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { ReactIcon } from "../ReactIcon";
-import { CgCornerDoubleRightDown, TbReplace } from "react-icons/all";
+import { CgCornerDoubleRightDown } from "react-icons/all";
 
 export type ToolboxProps = {};
 
@@ -40,6 +37,7 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
         <HStack>
           {[1, 2, 3, 4, 5, 6].map((brushSize) => (
             <Tool
+              key={`brush-size-${brushSize}`}
               icon={FaSquareFull}
               name={`Brush size: ${brushSize}`}
               action={() => toolboxState.setBrushSize(brushSize)}
@@ -83,7 +81,6 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
                 }}
               />
             </GridItem>
-            {/*<GridItem gridArea="5 / 1 / 7 / 3"></GridItem>*/}
           </Grid>
 
           <Tool
@@ -106,7 +103,7 @@ const HistoryNavigation: FC<HistoryNavigationProps> = ({ ...props }) => {
   const { activePart, ...partsState } = useNounState();
 
   return (
-    <SimpleGrid columns={2} spacing={4}>
+    <SimpleGrid columns={2} spacing={4} {...props}>
       <Tool
         name="Undo"
         icon={MdUndo}
