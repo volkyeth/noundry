@@ -4,15 +4,10 @@ import { Route, Routes } from "react-router-dom";
 import { Editor } from "./components/pages/Editor";
 import { PaletteFixer } from "./components/pages/PaletteFixer";
 import theme from "./theme";
-import { useWebVitals } from "./webVitals";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useEffect } from "react";
 
 const App = () => {
-  if (import.meta.env.PROD) {
-    useWebVitals();
-  }
-
   const queryClient = new QueryClient();
 
   return (
