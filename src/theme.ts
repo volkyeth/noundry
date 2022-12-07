@@ -1,4 +1,4 @@
-import { cssVar, extendTheme } from "@chakra-ui/react";
+import { cssVar, extendTheme, ThemeConfig } from "@chakra-ui/react";
 
 const Tooltip = () => {
   const $bg = cssVar("tooltip-bg");
@@ -19,9 +19,11 @@ const Tooltip = () => {
   };
 };
 
-export default extendTheme({
-  initialColorMode: "dark",
-  useSystemColorMode: false,
+const config = {
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
   colors: {
     gray: {
       50: "#F2F2F2",
@@ -64,4 +66,6 @@ export default extendTheme({
     },
     Tooltip: Tooltip(),
   },
-});
+};
+
+export default extendTheme(config);
