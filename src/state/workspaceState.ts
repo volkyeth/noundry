@@ -1,23 +1,28 @@
-import { createRef, MouseEvent as ReactMouseEvent, RefObject } from "react";
+import { MouseEvent as ReactMouseEvent } from "react";
 import create from "zustand";
-import { canvasPoint, clearCanvas, Point, replaceCanvas, replaceCanvasWithBlob } from "../utils/canvas";
-import { MouseButton as MouseButton, MouseEventType, NounPart } from "../utils/constants";
+import { canvasPoint, Point, replaceCanvas } from "../utils/canvas";
+import { MouseButton as MouseButton, MouseEventType } from "../utils/constants";
 import { NounPartState } from "./nounPartState";
 import { useNounState } from "./nounState";
 import { useToolboxState } from "./toolboxState";
 
 export type WorkspaceState = {
   gridOn: boolean;
+  toggleGrid: () => void;
+  randomizeAllHovered: boolean;
+  setRandomizeAllHovered: (hovered: boolean) => void;
   canvas: HTMLCanvasElement | null;
   canvasRef: (canvas: HTMLCanvasElement | null) => void;
   pathPoints: Point[];
   clickingLeft: boolean;
   handleMouseEvent: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
-  toggleGrid: () => void;
 };
 
 export const useWorkspaceState = create<WorkspaceState>()((set) => ({
-  gridOn: true,
+  gridOn: false,
+  toggleGrid: () => set((state) => ({ gridOn: !state.gridOn })),
+  randomizeAllHovered: false,
+  setRandomizeAllHovered: (hovered: boolean) => set({ randomizeAllHovered: hovered }),
   canvas: null,
   canvasRef: (canvas: HTMLCanvasElement | null) => {
     set({ canvas });
@@ -67,7 +72,6 @@ export const useWorkspaceState = create<WorkspaceState>()((set) => ({
       }
     });
   },
-  toggleGrid: () => set((state) => ({ gridOn: !state.gridOn })),
 }));
 
 const handleLeftMouseDown = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {

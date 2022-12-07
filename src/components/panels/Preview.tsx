@@ -36,11 +36,13 @@ import { ReactComponent as LoadingNoun } from "@/assets/nouns-loading-sharp.svg"
 import { BigNumberish } from "ethers";
 import loadingNoun from "@/assets/loading-noun.gif";
 import { useQuery } from "react-query";
+import { useWorkspaceState } from "../../state/workspaceState";
 
 export type PreviewProps = {};
 
 export const Preview: FC<PreviewProps> = ({}) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const setRandomizeAllHovered = useWorkspaceState((state) => state.setRandomizeAllHovered);
   const nounState = useNounState();
   const [canvasSize, setCanvasSize] = useState(256);
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
@@ -99,7 +101,14 @@ export const Preview: FC<PreviewProps> = ({}) => {
           </Box>
         </Center>
         <HStack color="gray.800" w="full" justifyContent="end" spacing={0}>
-          <NounActionButton label="Randomize" icon={GiDiceSixFacesThree} onClick={nounState.randomize} disabled={nounLoading} />
+          <NounActionButton
+            label="Randomize"
+            icon={GiDiceSixFacesThree}
+            onClick={nounState.randomize}
+            onMouseEnter={() => setRandomizeAllHovered(true)}
+            onMouseLeave={() => setRandomizeAllHovered(false)}
+            disabled={nounLoading}
+          />
           <Popover>
             <PopoverTrigger>
               <NounActionButton label="Load Noun" icon={LoadingNoun} disabled={nounLoading} />

@@ -1,45 +1,20 @@
-import { Box, HStack, VStack, BoxProps, Text, Center } from "@chakra-ui/layout";
-import { ChangeEvent, Dispatch, FC, forwardRef, RefObject, SetStateAction, SVGProps, useEffect, useState } from "react";
-import { Preview, PreviewProps } from "./Preview";
+import { HStack, Text, VStack } from "@chakra-ui/layout";
+import { FC, SVGProps, useState } from "react";
 
 import { NounPart, nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
-import {
-  Button,
-  Icon,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItemProps,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Tooltip,
-  useBoolean,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { clearCanvas, replaceCanvas } from "../../utils/canvas";
+import { Icon, IconButton, Menu, MenuButton, MenuItem, MenuItemProps, MenuList, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { Panel } from "./Panel";
 import { useWorkspaceState } from "../../state/workspaceState";
 import { useNounState } from "../../state/nounState";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { FaDice, FaUserEdit } from "react-icons/fa";
-import { HiEye, HiEyeOff, HiLockClosed, HiLockOpen } from "react-icons/hi";
-import { GiDiceSixFacesFive, GiDiceSixFacesThree } from "react-icons/gi";
-import { PixelArtCanvas } from "../PixelArtCanvas";
-import { RiEraserFill, RiFolderOpenFill, RiImageFill, RiSave3Fill } from "react-icons/ri";
+import { FaUserEdit } from "react-icons/fa";
+import { HiEye, HiEyeOff } from "react-icons/hi";
+import { GiDiceSixFacesThree } from "react-icons/gi";
+import { RiEraserFill, RiFolderOpenFill, RiSave3Fill } from "react-icons/ri";
 import { IconType } from "react-icons";
 import { ExportModal } from "../ExportModal";
 import { ReactIcon } from "../ReactIcon";
 import { NounPartState } from "../../state/nounPartState";
-import { offPalette } from "../../utils/colors";
-import { colord } from "colord";
-import { chunk, uniq } from "lodash";
 import { ImportModal } from "../ImportModal";
 
 export type NounPanelPros = {};
@@ -73,6 +48,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
   const partState = state[part];
   const [exportedPart, setExportedPart] = useState<NounPart>();
   const fileLoader = document.createElement("input");
+  const randomizeAllHovered = useWorkspaceState((state) => state.randomizeAllHovered);
   fileLoader.type = "file";
   fileLoader.accept = "image/x-png";
   fileLoader.onchange = loadFile(partState);
@@ -126,6 +102,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
                 <ReactIcon
                   icon={GiDiceSixFacesThree}
                   boxSize={4}
+                  color={randomizeAllHovered ? "gray.100" : undefined}
                   _hover={{ color: "gray.100", cursor: "pointer" }}
                   onClick={(e) => {
                     partState.randomize();
