@@ -6,6 +6,7 @@ import { PaletteFixer } from "./components/pages/PaletteFixer";
 import theme from "./theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useEffect } from "react";
+import { BraveDisclaimer } from "./components/BraveDisclaimer";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <ChakraProvider theme={theme} resetCSS>
       <ColorModeFixer />
+      <BraveDisclaimer />
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<Editor />} />
