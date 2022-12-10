@@ -7,10 +7,11 @@ import theme from "./theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useEffect } from "react";
 import { BraveDisclaimer } from "./components/BraveDisclaimer";
+import { inject } from "@vercel/analytics";
 
 const App = () => {
+  inject();
   const queryClient = new QueryClient();
-
   return (
     <ChakraProvider theme={theme} resetCSS>
       <ColorModeFixer />
