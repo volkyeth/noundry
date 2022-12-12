@@ -1,25 +1,12 @@
 import { IconType } from "react-icons";
-import { RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
-import { TbLine, TbShape } from "react-icons/tb";
+import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { useToolboxState } from "../state/toolboxState";
-import { drawLine, drawPixel, erasePixel, paintPixel, Point } from "../utils/canvas";
-import {
-  BiShapeSquare,
-  BiSquare,
-  BsSlash,
-  BsSlashLg,
-  BsSquare,
-  CgShapeSquare,
-  IoColorFill,
-  IoEllipseOutline,
-  IoMdColorFill,
-  IoMdSquareOutline,
-  IoSquareOutline,
-} from "react-icons/all";
-import { colord, Colord } from "colord";
+import { drawLine, erasePixel, paintPixel, Point } from "../utils/canvas";
+import { BsSlash, IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/all";
+import { Colord } from "colord";
 import { getPixelColor } from "../utils/colors";
 
-export type ToolAction = (points: Point[], canvas: HTMLCanvasElement) => void;
+export type ToolAction = (points: Point[], workingCanvas: HTMLCanvasElement, originalCanvas: HTMLCanvasElement) => void;
 
 export type Tool = {
   use: ToolAction;
@@ -30,7 +17,7 @@ export type Tool = {
 export type Color = string;
 
 export const Pen = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const { fgColor, brushSize } = useToolboxState.getState();
 
     for (let i = 0; i < points.length; i++) {
@@ -41,8 +28,24 @@ export const Pen = (): Tool => ({
   icon: RiPencilFill,
 });
 
+export const Move = (): Tool => ({
+  use: (points, workingCanvas, originalCanvas) => {
+    const ctx = workingCanvas.getContext("2d")!;
+    const startPoint = points[0];
+    const xOffset = points[points.length - 1].x - startPoint.x;
+    const yOffset = points[points.length - 1].y - startPoint.y;
+
+    ctx.clearRect(0, 0, workingCanvas.width, workingCanvas.height);
+    ctx.translate(xOffset, yOffset);
+    ctx.drawImage(originalCanvas, 0, 0);
+    ctx.resetTransform();
+  },
+  name: "Move",
+  icon: RiDragMove2Line,
+});
+
 export const Line = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const { fgColor, brushSize } = useToolboxState.getState();
 
     drawLine(points[points.length > 1 ? 1 : 0], points[Math.max(0, points.length - 2)], fgColor, brushSize, canvas);
@@ -52,7 +55,7 @@ export const Line = (): Tool => ({
 });
 
 export const Rectangle = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const { fgColor, bgColor, brushSize } = useToolboxState.getState();
 
     const { start, end } = getBoundingBoxIncludingBrush(points, brushSize);
@@ -76,7 +79,7 @@ export const Rectangle = (): Tool => ({
 });
 
 export const Ellipse = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const { fgColor, bgColor, brushSize } = useToolboxState.getState();
 
     const { start, end } = { start: points[0], end: points[points.length - 1] };
@@ -100,7 +103,7 @@ export const Ellipse = (): Tool => ({
 });
 
 export const Eraser = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const { brushSize } = useToolboxState.getState();
     const ctx = canvas.getContext("2d")!;
 
@@ -113,7 +116,7 @@ export const Eraser = (): Tool => ({
 });
 
 export const Eyedropper = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const ctx = canvas.getContext("2d")!;
     const lastPoint = points[points.length - 1];
     const [r, g, b, a] = ctx.getImageData(lastPoint.x, lastPoint.y, 1, 1).data;
@@ -131,7 +134,7 @@ export const Eyedropper = (): Tool => ({
 });
 
 export const Bucket = (): Tool => ({
-  use: (points: Point[], canvas: HTMLCanvasElement) => {
+  use: (points, canvas) => {
     const ctx = canvas.getContext("2d")!;
     const { fgColor } = useToolboxState.getState();
     ctx.fillStyle = fgColor;

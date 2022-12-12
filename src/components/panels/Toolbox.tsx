@@ -4,7 +4,7 @@ import { Panel } from "./Panel";
 
 import { MdRedo, MdUndo } from "react-icons/md";
 import { IconType } from "react-icons";
-import { Bucket, Ellipse, Eraser, Eyedropper, Line, Pen, Rectangle } from "../../tools/tools";
+import { Bucket, Ellipse, Eraser, Eyedropper, Line, Move, Pen, Rectangle } from "../../tools/tools";
 import { useToolboxState } from "../../state/toolboxState";
 import { useNounState } from "../../state/nounState";
 import { FaSquareFull } from "react-icons/fa";
@@ -47,7 +47,7 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           ))}
         </HStack>
         <SimpleGrid columns={2} spacing={4}>
-          {[Pen(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket()].map((tool) => (
+          {[Pen(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket(), Move()].map((tool) => (
             <Tool
               key={tool.name}
               name={tool.name}

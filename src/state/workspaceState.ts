@@ -113,5 +113,5 @@ const drawBrushHover = (point: Point, state: WorkspaceState) => {
 const applyTool = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
   const tool = useToolboxState.getState().tool;
   replaceCanvas(partState.canvas, workingCanvas);
-  tool.use(points, workingCanvas);
+  tool.use(points, workingCanvas, partState.canvas);
 };
