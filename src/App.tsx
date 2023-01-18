@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useEffect } from "react";
 import { BraveDisclaimer } from "./components/BraveDisclaimer";
 import { inject } from "@vercel/analytics";
+import { CheckThisNoun } from "./components/pages/CheckThisNoun";
 
 const App = () => {
   inject();
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Editor />} />
           <Route path="palette" element={<PaletteFixer />} />
+          <Route path="check-this-noun/:id" element={<CheckThisNoun />} />
         </Routes>
       </QueryClientProvider>
     </ChakraProvider>

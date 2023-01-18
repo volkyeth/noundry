@@ -1,11 +1,9 @@
-import { createRef, RefObject } from "react";
 import { NounPart, NounPartMapping, nounParts } from "../utils/constants";
 import create from "zustand";
-import { clearCanvas, drawCanvas, fillCanvas, replaceCanvasWithBlob, scaleCanvas } from "../utils/canvas";
+import { clearCanvas, drawCanvas } from "../utils/canvas";
 import { NounSeed } from "@nouns/assets/dist/types";
-import { ImageData, getNounData, getRandomNounSeed } from "@nouns/assets";
-import { buildSVG, EncodedImage } from "@nouns/sdk";
 import { createNounPart, NounPartState } from "./nounPartState";
+import { BigNumberish } from "ethers";
 
 export type NounState = {
   activePart: NounPart | null;
@@ -77,4 +75,26 @@ export const drawNoun = (state: NounState) => {
     }
     drawCanvas(state[part].canvas, state.canvas);
   }
+};
+
+export const loadNoun = async (nounId: BigNumberish) => {
+  return fetch("https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph", {
+    body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
+    method: "POST",
+  })
+    .then((r) => r.json() as Promise<{ data: { seed: { background: string; body: string; accessory: string; head: string; glasses: string } } }>)
+    .then(
+      async ({
+        data: {
+          seed: { accessory, background, body, glasses, head },
+        },
+      }) =>
+        await useNounState.getState().loadSeed({
+          accessory: parseInt(accessory),
+          background: parseInt(background),
+          body: parseInt(body),
+          glasses: parseInt(glasses),
+          head: parseInt(head),
+        })
+    );
 };

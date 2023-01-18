@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { FC, SVGProps, useEffect, useRef, useState } from "react";
 import { RiSave3Fill } from "react-icons/ri";
-import { useNounState } from "../../state/nounState";
+import { loadNoun, useNounState } from "../../state/nounState";
 import { checkerboardBg } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
 import { PixelArtCanvas } from "../PixelArtCanvas";
@@ -33,7 +33,6 @@ import { Panel } from "./Panel";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { IconType } from "react-icons";
 import { ReactComponent as LoadingNoun } from "@/assets/nouns-loading-sharp.svg";
-import { BigNumberish } from "ethers";
 import loadingNoun from "@/assets/loading-noun.gif";
 import { useQuery } from "react-query";
 import { useWorkspaceState } from "../../state/workspaceState";
@@ -184,25 +183,3 @@ const NounActionButton = forwardRef<NounActionButtonProps, "button">(({ label, i
     />
   </Tooltip>
 ));
-
-const loadNoun = async (nounId: BigNumberish) => {
-  return fetch("https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph", {
-    body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
-    method: "POST",
-  })
-    .then((r) => r.json() as Promise<{ data: { seed: { background: string; body: string; accessory: string; head: string; glasses: string } } }>)
-    .then(
-      async ({
-        data: {
-          seed: { accessory, background, body, glasses, head },
-        },
-      }) =>
-        await useNounState.getState().loadSeed({
-          accessory: parseInt(accessory),
-          background: parseInt(background),
-          body: parseInt(body),
-          glasses: parseInt(glasses),
-          head: parseInt(head),
-        })
-    );
-};
