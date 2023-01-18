@@ -1,9 +1,8 @@
-import { Colord, colord } from "colord";
-import { chunk, uniq } from "lodash";
 import { useMemo, useState } from "react";
-import { ColorSubstitutions } from "./colors";
 
 export type Point = { x: number; y: number };
+
+export type Matrix = { [x: number]: { [y: number]: true } };
 
 const coordinates = (point: Point) => Object.values(point) as [number, number];
 
@@ -20,8 +19,7 @@ export const erasePixel = (point: Point, ctx: CanvasRenderingContext2D) => {
 };
 
 // Uses Bresenham's line algorithm
-export const drawLine = (start: Point, end: Point, color: string, brushSize: number, canvas: HTMLCanvasElement) => {
-  const ctx = canvas.getContext("2d")!;
+export const drawLine = (start: Point, end: Point, color: string, brushSize: number, ctx: CanvasRenderingContext2D) => {
   ctx.fillStyle = color;
 
   var x0 = start.x;
@@ -58,10 +56,10 @@ export const clearCanvas = (canvas: HTMLCanvasElement) => {
   canvas.getContext("2d")!.clearRect(0, 0, canvas.width, canvas.height);
 };
 
-export const drawCanvas = (source: CanvasImageSource, destinationCanvas: HTMLCanvasElement) => {
+export const drawCanvas = (source: CanvasImageSource, destinationCanvas: HTMLCanvasElement, dx: number = 0, dy: number = 0) => {
   const ctx = destinationCanvas.getContext("2d")!;
   ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(source, 0, 0, destinationCanvas.width, destinationCanvas.height);
+  ctx.drawImage(source, dx, dy, destinationCanvas.width, destinationCanvas.height);
 };
 
 export const replaceCanvas = (source: CanvasImageSource, destinationCanvas: HTMLCanvasElement) => {
@@ -129,4 +127,49 @@ export const useCanvasInitializer = (initialize: (canvas: HTMLCanvasElement) => 
   };
 
   return { canvas, canvasRef };
+};
+
+export const applyClip = (ctx: CanvasRenderingContext2D, points: Point[]) => {
+  const clipPath = new Path2D();
+  points.forEach((point) => clipPath.rect(point.x, point.y, 1, 1));
+  ctx.clip(clipPath);
+};
+
+export const withClip = (ctx: CanvasRenderingContext2D, points: Point[], fn: () => void) => {
+  ctx.save();
+  applyClip(ctx, points);
+  fn();
+  ctx.restore();
+};
+
+export const getNonTransparentPixels = (canvas: HTMLCanvasElement): Point[] => {
+  const ctx = canvas.getContext("2d")!;
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const pixels = imageData.data;
+  const nonTransparentPixels = [];
+  for (let i = 0; i < pixels.length; i += 4) {
+    const alpha = pixels[i + 3];
+    if (alpha > 0) {
+      const x = (i / 4) % canvas.width;
+      const y = Math.floor(i / 4 / canvas.width);
+      nonTransparentPixels.push({ x, y });
+    }
+  }
+  return nonTransparentPixels;
+};
+
+export const insideCanvas = (canvas: HTMLCanvasElement, point: Point) =>
+  point.x >= 0 && point.x < canvas.width && point.y >= 0 && point.y < canvas.height;
+
+export const toString = (point: Point) => `${point.x},${point.y}`;
+
+export const getBoundingRect = (points: Point[]) => {
+  const xs = points.map((p) => p.x);
+  const ys = points.map((p) => p.y);
+  return {
+    x: Math.min(...xs),
+    y: Math.min(...ys),
+    width: Math.max(...xs) - Math.min(...xs),
+    height: Math.max(...ys) - Math.min(...ys),
+  };
 };

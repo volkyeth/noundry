@@ -7,23 +7,27 @@ import { Palette } from "../panels/Palette";
 import { Preview } from "../panels/Preview";
 import { Toolbox } from "../panels/Toolbox";
 import { Socials } from "../Socials";
+import { useHotkeys } from "../../utils/hotkeys";
 
-export const Editor = () => (
-  <VStack color="white" fontSize="8pt" h="100vh" minW="100vw" spacing={0}>
-    <Header />
-    <HStack w="full" h="full" p={0} justifyContent="space-between" spacing={0}>
-      <Sidebar w={64}>
-        <Toolbox />
-        <Palette />
-      </Sidebar>
-      <Workspace bgColor="gray.900" h="full" w="full" />
-      <Sidebar w="352px" justifyContent={"space-between"}>
-        <VStack>
-          <Preview />
-          <Layers />
-        </VStack>
-        <Socials p={2} h={10} justifyContent={"end"} w={"full"} />
-      </Sidebar>
-    </HStack>
-  </VStack>
-);
+export const Editor = () => {
+  useHotkeys();
+  return (
+    <VStack color="white" fontSize="8pt" h="100vh" minW="100vw" spacing={0}>
+      <Header />
+      <HStack w="full" h="full" p={0} justifyContent="space-between" spacing={0}>
+        <Sidebar w={64}>
+          <Toolbox />
+          <Palette />
+        </Sidebar>
+        <Workspace bgColor="gray.900" h="full" w="full" />
+        <Sidebar w="352px" justifyContent={"space-between"}>
+          <VStack>
+            <Preview />
+            <Layers />
+          </VStack>
+          <Socials p={2} h={10} justifyContent={"end"} w={"full"} />
+        </Sidebar>
+      </HStack>
+    </VStack>
+  );
+};

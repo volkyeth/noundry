@@ -1,10 +1,12 @@
 import { MouseEvent as ReactMouseEvent } from "react";
 import create from "zustand";
-import { canvasPoint, Point, replaceCanvas } from "../utils/canvas";
+import { canvasPoint, drawCanvas, Point, replaceCanvas } from "../utils/canvas";
 import { MouseButton as MouseButton, MouseEventType } from "../utils/constants";
 import { NounPartState } from "./nounPartState";
 import { useNounState } from "./nounState";
 import { useToolboxState } from "./toolboxState";
+import { useClipboardState } from "./clipboardState";
+import { defaultFinalize } from "../tools/tools";
 
 export type WorkspaceState = {
   gridOn: boolean;
@@ -16,9 +18,10 @@ export type WorkspaceState = {
   pathPoints: Point[];
   clickingLeft: boolean;
   handleMouseEvent: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
+  apply: (action: (ctx: CanvasRenderingContext2D) => void) => void;
 };
 
-export const useWorkspaceState = create<WorkspaceState>()((set) => ({
+export const useWorkspaceState = create<WorkspaceState>()((set, get) => ({
   gridOn: false,
   toggleGrid: () => set((state) => ({ gridOn: !state.gridOn })),
   randomizeAllHovered: false,
@@ -72,9 +75,27 @@ export const useWorkspaceState = create<WorkspaceState>()((set) => ({
       }
     });
   },
+  apply: (action) => {
+    const nounState = useNounState.getState();
+    const { canvas } = get();
+
+    if (!canvas || !nounState.activePart) {
+      return;
+    }
+
+    const activePartState = nounState[nounState.activePart];
+    const ctx = canvas.getContext("2d")!;
+    action(ctx);
+    replaceCanvas(canvas, activePartState.canvas);
+    activePartState.commit();
+  },
 }));
 
 const handleLeftMouseDown = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
+  const tool = useToolboxState.getState().tool;
+  if (tool.begin) {
+    tool.begin([point], state.canvas!, partState);
+  }
   applyTool([point], state.canvas!, partState);
   drawBrushHover(point, state);
   return { pathPoints: [point], clickingLeft: true };
@@ -87,17 +108,20 @@ const handleLeftMouseMove = (point: Point, state: WorkspaceState, partState: Nou
 };
 
 const handleLeftMouseUp = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
-  applyTool([...state.pathPoints, point], state.canvas!, partState);
+  const tool = useToolboxState.getState().tool;
+  const points = [...state.pathPoints, point];
+  applyTool(points, state.canvas!, partState);
   replaceCanvas(state.canvas!, partState.canvas);
   drawBrushHover(point, state);
-  partState.commit();
+  const finalize = tool.finalize ?? defaultFinalize;
+  finalize(points, state.canvas!, partState);
+
   return { pathPoints: [], clickingLeft: false };
 };
 
 const handleMouseMove = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {
   replaceCanvas(partState.canvas, state.canvas!);
   drawBrushHover(point, state);
-
   return state;
 };
 
@@ -112,6 +136,10 @@ const drawBrushHover = (point: Point, state: WorkspaceState) => {
 
 const applyTool = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
   const tool = useToolboxState.getState().tool;
+  const { placingCanvas, placing, placeOffset } = useClipboardState.getState();
   replaceCanvas(partState.canvas, workingCanvas);
-  tool.use(points, workingCanvas, partState.canvas);
+  tool.apply(points, workingCanvas, partState);
+  if (placing) {
+    drawCanvas(placingCanvas, workingCanvas, placeOffset.x, placeOffset.y);
+  }
 };

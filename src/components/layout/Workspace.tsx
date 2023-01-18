@@ -8,6 +8,8 @@ import { CheckerboardBg } from "../CheckerboardBg";
 import { CanvasGrid } from "../CanvasGrid";
 import { ReactIcon } from "../ReactIcon";
 import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/all";
+import { SelectionOverlay } from "../SelectionOverlay";
+import { PlacingOverlay } from "../PlacingOverlay";
 
 type Point = { x: number; y: number };
 
@@ -26,7 +28,9 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
       {activePart ? (
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
-          {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" />}
+          {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" left={0} top={0} />}
+          <SelectionOverlay position={"absolute"} />
+          <PlacingOverlay position={"absolute"} />
           <HStack h={10} position="absolute" bottom={-10} right={0}>
             <Tooltip label={"Toggle grid"}>
               <ReactIcon

@@ -1,61 +1,106 @@
 import { IconType } from "react-icons";
 import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { useToolboxState } from "../state/toolboxState";
-import { drawLine, erasePixel, paintPixel, Point } from "../utils/canvas";
-import { BsSlash, IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/all";
+import { clearCanvas, drawCanvas, drawLine, erasePixel, insideCanvas, paintPixel, Point, replaceCanvas, withClip } from "../utils/canvas";
+import { BsSlash, IoColorFill, IoEllipseOutline, IoSquareOutline, TbCircleDashed, TbMarquee } from "react-icons/all";
 import { Colord } from "colord";
 import { getPixelColor } from "../utils/colors";
+import { useSelectionState } from "../state/selectionState";
+import { useClipboardState } from "../state/clipboardState";
+import { NounPartState } from "../state/nounPartState";
 
-export type ToolAction = (points: Point[], workingCanvas: HTMLCanvasElement, originalCanvas: HTMLCanvasElement) => void;
+export type ToolAction = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => void;
 
 export type Tool = {
-  use: ToolAction;
+  apply: ToolAction;
+  begin?: ToolAction;
+  finalize?: ToolAction;
   name: string;
   icon: IconType;
+};
+
+export const defaultFinalize = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
+  partState.commit();
 };
 
 export type Color = string;
 
 export const Pen = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const { fgColor, brushSize } = useToolboxState.getState();
 
-    for (let i = 0; i < points.length; i++) {
-      drawLine(points[i === 0 ? 0 : i - 1], points[i], fgColor, brushSize, canvas);
-    }
+    const ctx = canvas.getContext("2d")!;
+    console.log("pen");
+    withSelectionClip(ctx, () => {
+      for (let i = 0; i < points.length; i++) {
+        drawLine(points[i === 0 ? 0 : i - 1], points[i], fgColor, brushSize, ctx);
+      }
+    });
   },
   name: "Pen",
   icon: RiPencilFill,
 });
 
 export const Move = (): Tool => ({
-  use: (points, workingCanvas, originalCanvas) => {
-    const ctx = workingCanvas.getContext("2d")!;
+  apply: (points, workingCanvas, partState) => {
     const startPoint = points[0];
+
+    const { placing, offsetPlacing } = useClipboardState.getState();
+    if (placing) {
+      const xOffset = points[points.length - 1].x - points[points.length - 2]?.x ?? points[points.length - 1].x;
+      const yOffset = points[points.length - 1].y - points[points.length - 2]?.y ?? points[points.length - 1].y;
+      offsetPlacing(xOffset, yOffset);
+      return;
+    }
+
     const xOffset = points[points.length - 1].x - startPoint.x;
     const yOffset = points[points.length - 1].y - startPoint.y;
-
-    ctx.clearRect(0, 0, workingCanvas.width, workingCanvas.height);
-    ctx.translate(xOffset, yOffset);
-    ctx.drawImage(originalCanvas, 0, 0);
-    ctx.resetTransform();
+    clearCanvas(workingCanvas);
+    drawCanvas(partState.canvas, workingCanvas, xOffset, yOffset);
+  },
+  begin: (points, workingCanvas, partState) => {
+    const { hasSelection, clearSelection } = useSelectionState.getState();
+    const { placeFromSelection, placingCanvas } = useClipboardState.getState();
+    if (hasSelection()) {
+      console.log("placing from selection");
+      const ctx = workingCanvas.getContext("2d")!;
+      placeFromSelection(workingCanvas);
+      withSelectionClip(ctx, () => {
+        clearCanvas(workingCanvas);
+      });
+      replaceCanvas(workingCanvas, partState.canvas);
+      partState.commit();
+      clearSelection();
+      return;
+    }
+  },
+  finalize: (points, workingCanvas, partState) => {
+    const { placing } = useClipboardState.getState();
+    if (placing) {
+      console.log("still placing");
+      return;
+    }
+    partState.commit();
   },
   name: "Move",
   icon: RiDragMove2Line,
 });
 
 export const Line = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const { fgColor, brushSize } = useToolboxState.getState();
 
-    drawLine(points[points.length > 1 ? 1 : 0], points[Math.max(0, points.length - 2)], fgColor, brushSize, canvas);
+    const ctx = canvas.getContext("2d")!;
+    withSelectionClip(ctx, () => {
+      drawLine(points[points.length > 1 ? 1 : 0], points[Math.max(0, points.length - 2)], fgColor, brushSize, ctx);
+    });
   },
   name: "Line",
   icon: BsSlash,
 });
 
 export const Rectangle = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const { fgColor, bgColor, brushSize } = useToolboxState.getState();
 
     const { start, end } = getBoundingBoxIncludingBrush(points, brushSize);
@@ -65,58 +110,81 @@ export const Rectangle = (): Tool => ({
 
     const ctx = canvas.getContext("2d")!;
 
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(start.x, start.y, width, height);
+    withSelectionClip(ctx, () => {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(start.x, start.y, width, height);
 
-    ctx.fillStyle = fgColor;
-    ctx.fillRect(start.x, start.y, width, brushSize);
-    ctx.fillRect(end.x + 1, end.y + 1, -width, -brushSize);
-    ctx.fillRect(start.x, start.y, brushSize, height);
-    ctx.fillRect(end.x + 1, end.y + 1, -brushSize, -height);
+      ctx.fillStyle = fgColor;
+      ctx.fillRect(start.x, start.y, width, brushSize);
+      ctx.fillRect(end.x + 1, end.y + 1, -width, -brushSize);
+      ctx.fillRect(start.x, start.y, brushSize, height);
+      ctx.fillRect(end.x + 1, end.y + 1, -brushSize, -height);
+    });
   },
   name: "Rectangle",
   icon: IoSquareOutline,
 });
 
+export const RectangularSelection = (): Tool => ({
+  apply: (points, canvas) => {
+    const { setRectSelection } = useSelectionState.getState();
+
+    const start = points[0];
+    const end = points[points.length - 1];
+
+    if (!insideCanvas(canvas, start) && !insideCanvas(canvas, end)) {
+      return;
+    }
+
+    setRectSelection(start, end);
+  },
+  name: "Rectangular Selection",
+  icon: TbMarquee,
+});
+
+export const CircularSelection = (): Tool => ({
+  apply: (points, canvas) => {
+    const { clearSelection, addRectSelection } = useSelectionState.getState();
+    clearSelection();
+    ellipse(points, 1, true, (x, y, w, h) => addRectSelection({ x, y }, { x: x + w, y: y + h }));
+  },
+  name: "Elliptical Selection",
+  icon: TbCircleDashed,
+});
+
 export const Ellipse = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const { fgColor, bgColor, brushSize } = useToolboxState.getState();
-
-    const { start, end } = { start: points[0], end: points[points.length - 1] };
-
-    const xRadius = (end.x - start.x + 1) / 2;
-    const yRadius = (end.y - start.y + 1) / 2;
-    const center = { x: (end.x - start.x) / 2, y: (end.y - start.y) / 2 };
-
     const ctx = canvas.getContext("2d")!;
-
     const fill = true;
 
-    // strokeEllipse(center, xRadius, yRadius, brushSize, ctx, fgColor);
-    ctx.fillStyle = bgColor;
-    ellipse(points, brushSize, ctx, fill);
-    ctx.fillStyle = fgColor;
-    ellipse(points, brushSize, ctx, !fill);
+    withSelectionClip(ctx, () => {
+      ctx.fillStyle = bgColor;
+      drawEllipse(points, brushSize, ctx, fill);
+      ctx.fillStyle = fgColor;
+      drawEllipse(points, brushSize, ctx, !fill);
+    });
   },
   name: "Ellipse",
   icon: IoEllipseOutline,
 });
 
 export const Eraser = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const { brushSize } = useToolboxState.getState();
     const ctx = canvas.getContext("2d")!;
-
-    for (let i = 0; i < points.length; i++) {
-      ctx.clearRect(points[i].x - brushSize + 1, points[i].y - brushSize + 1, brushSize, brushSize);
-    }
+    withSelectionClip(ctx, () => {
+      for (let i = 0; i < points.length; i++) {
+        ctx.clearRect(points[i].x - brushSize + 1, points[i].y - brushSize + 1, brushSize, brushSize);
+      }
+    });
   },
   name: "Eraser",
   icon: RiEraserFill,
 });
 
 export const Eyedropper = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const ctx = canvas.getContext("2d")!;
     const lastPoint = points[points.length - 1];
     const [r, g, b, a] = ctx.getImageData(lastPoint.x, lastPoint.y, 1, 1).data;
@@ -134,14 +202,16 @@ export const Eyedropper = (): Tool => ({
 });
 
 export const Bucket = (): Tool => ({
-  use: (points, canvas) => {
+  apply: (points, canvas) => {
     const ctx = canvas.getContext("2d")!;
     const { fgColor } = useToolboxState.getState();
     ctx.fillStyle = fgColor;
 
     const lastPoint = points[points.length - 1];
 
-    floodFill(ctx, lastPoint);
+    withSelectionClip(ctx, () => {
+      floodFill(ctx, lastPoint);
+    });
   },
   name: "Bucket",
   icon: IoColorFill,
@@ -196,7 +266,11 @@ const getBoundingBox = (points: Point[]) => {
   return { x0: x0, y0: y0, x1: x1, y1: y1 };
 };
 
-const ellipse = (points: Point[], brushSize: number, ctx: CanvasRenderingContext2D, fill: boolean) => {
+const drawEllipse = (points: Point[], brushSize: number, ctx: CanvasRenderingContext2D, fill: boolean) => {
+  ellipse(points, brushSize, fill, (x, y, w, h) => ctx.fillRect(x, y, w, h));
+};
+
+const ellipse = (points: Point[], brushSize: number, fill: boolean, fillRect: (x: number, y: number, w: number, h: number) => void) => {
   const coords = getBoundingBox(points);
 
   let xC = Math.round((coords.x0 + coords.x1) / 2);
@@ -228,11 +302,21 @@ const ellipse = (points: Point[], brushSize: number, ctx: CanvasRenderingContext
         r < (rX * rY) / Math.sqrt(rY * rY * Math.pow(Math.cos(angle), 2) + rX * rX * Math.pow(Math.sin(angle), 2)) + 0.5
       ) {
         // fill pixels in all quadrants
-        ctx.fillRect(xC + x, yC + y, 1, 1);
-        ctx.fillRect(xC - x - evenX, yC + y, 1, 1);
-        ctx.fillRect(xC + x, yC - y - evenY, 1, 1);
-        ctx.fillRect(xC - x - evenX, yC - y - evenY, 1, 1);
+        fillRect(xC + x, yC + y, 1, 1);
+        fillRect(xC - x - evenX, yC + y, 1, 1);
+        fillRect(xC + x, yC - y - evenY, 1, 1);
+        fillRect(xC - x - evenX, yC - y - evenY, 1, 1);
       }
     }
   }
+};
+
+export const withSelectionClip = (ctx: CanvasRenderingContext2D, fn: () => void) => {
+  const { selectedPoints } = useSelectionState.getState();
+
+  if (selectedPoints.length === 0) {
+    fn();
+  }
+
+  return withClip(ctx, selectedPoints, fn);
 };
