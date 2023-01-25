@@ -24,7 +24,7 @@ Pull requests are more than welcome. If it's a big change, please open an issue 
 
 **Contributors are eligible for a [GitPOAP](https://www.gitpoap.io/gh/volkyeth/noundry-studio). Get yours now!**
 
-![Noundry studio contributor GitPOAP](https://www.gitpoap.io/_next/image?url=https%3A%2F%2Fassets.poap.xyz%2Fgitpoap3a-2023-noundry-studio-contributor-2023-logo-1674585988613.png&w=256&q=100)
+<img width="250" alt="Noundry studio contributor GitPOAP" src="https://user-images.githubusercontent.com/847070/214595331-eaabcbe4-6f82-4bfc-af16-84a1dbacf50c.png">
 
 ## Author
 
