@@ -1,9 +1,10 @@
+import { Colord } from "colord";
 import { IconType } from "react-icons";
+import { BsSlash } from "react-icons/bs";
+import { IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/io5";
 import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { useToolboxState } from "../state/toolboxState";
-import { drawLine, erasePixel, paintPixel, Point } from "../utils/canvas";
-import { BsSlash, IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/all";
-import { Colord } from "colord";
+import { Point, drawLine, erasePixel, paintPixel } from "../utils/canvas";
 import { getPixelColor } from "../utils/colors";
 
 export type ToolAction = (points: Point[], workingCanvas: HTMLCanvasElement, originalCanvas: HTMLCanvasElement) => void;

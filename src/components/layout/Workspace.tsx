@@ -1,13 +1,13 @@
-import React, { FC, useEffect } from "react";
 import { Center, CenterProps, HStack, Text, Tooltip } from "@chakra-ui/react";
-import { PixelArtCanvas } from "../PixelArtCanvas";
-import { replaceCanvas } from "../../utils/canvas";
-import { useWorkspaceState } from "../../state/workspaceState";
+import { FC, useEffect } from "react";
+import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
 import { useNounState } from "../../state/nounState";
-import { CheckerboardBg } from "../CheckerboardBg";
+import { useWorkspaceState } from "../../state/workspaceState";
+import { replaceCanvas } from "../../utils/canvas";
 import { CanvasGrid } from "../CanvasGrid";
+import { CheckerboardBg } from "../CheckerboardBg";
+import { PixelArtCanvas } from "../PixelArtCanvas";
 import { ReactIcon } from "../ReactIcon";
-import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/all";
 
 type Point = { x: number; y: number };
 

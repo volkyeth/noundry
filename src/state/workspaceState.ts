@@ -1,7 +1,7 @@
 import { MouseEvent as ReactMouseEvent } from "react";
 import create from "zustand";
 import { canvasPoint, Point, replaceCanvas } from "../utils/canvas";
-import { MouseButton as MouseButton, MouseEventType } from "../utils/constants";
+import { MouseButton, MouseEventType } from "../utils/constants";
 import { NounPartState } from "./nounPartState";
 import { useNounState } from "./nounState";
 import { useToolboxState } from "./toolboxState";
@@ -16,6 +16,8 @@ export type WorkspaceState = {
   pathPoints: Point[];
   clickingLeft: boolean;
   handleMouseEvent: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
+  demoMode: boolean;
+  toggleDemoMode: () => void;
 };
 
 export const useWorkspaceState = create<WorkspaceState>()((set) => ({
@@ -72,6 +74,8 @@ export const useWorkspaceState = create<WorkspaceState>()((set) => ({
       }
     });
   },
+  demoMode: false,
+  toggleDemoMode: () => set((state) => ({ demoMode: !state.demoMode })),
 }));
 
 const handleLeftMouseDown = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {

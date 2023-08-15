@@ -1,7 +1,8 @@
 import { HStack, Icon, Image, Link, StackProps, Tooltip } from "@chakra-ui/react";
-import { FaDiscord, FaGithub, RiGithubFill } from "react-icons/all";
-import volky from "../assets/volky.png";
 import { FC } from "react";
+import { FaDiscord } from "react-icons/fa";
+import { RiGithubFill } from "react-icons/ri";
+import volky from "../assets/volky.png";
 
 export const Socials: FC<StackProps> = (props) => {
   return (
