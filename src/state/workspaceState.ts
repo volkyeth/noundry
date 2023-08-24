@@ -7,6 +7,7 @@ import { useClipboardState } from "./clipboardState";
 import { NounPartState } from "./nounPartState";
 import { useNounState } from "./nounState";
 import { useToolboxState } from "./toolboxState";
+import { useBrushState } from "./brushState";
 
 export type WorkspaceState = {
   gridOn: boolean;
@@ -130,7 +131,7 @@ const handleMouseMove = (point: Point, state: WorkspaceState, partState: NounPar
 };
 
 const drawBrushHover = (point: Point, state: WorkspaceState) => {
-  const { brushSize } = useToolboxState.getState();
+  const { brushSize } = useBrushState.getState();
   const ctx = state.canvas?.getContext("2d")!;
   ctx.fillStyle = "#ffffff70";
   ctx.globalCompositeOperation = "difference";

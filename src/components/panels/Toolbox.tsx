@@ -6,6 +6,7 @@ import { IconType } from "react-icons";
 import { CgCornerDoubleRightDown } from "react-icons/cg";
 import { FaSquareFull } from "react-icons/fa";
 import { MdRedo, MdUndo } from "react-icons/md";
+import { useBrushState } from "../../state/brushState";
 import { useNounState } from "../../state/nounState";
 import { useToolboxState } from "../../state/toolboxState";
 import { Bucket, CircularSelection, Ellipse, Eraser, Eyedropper, Line, Move, Pen, Rectangle, RectangularSelection } from "../../tools/tools";
@@ -27,8 +28,8 @@ const ColorBox: FC<ColorBoxProps> = ({ color, ...props }) => {
 };
 
 export const Toolbox: FC<ToolboxProps> = ({}) => {
-  const toolboxState = useToolboxState();
-  const { fgColor, bgColor, setFgColor, setBgColor } = toolboxState;
+  const { tool, selectTool } = useToolboxState();
+  const { fgColor, bgColor, setFgColor, setBgColor, brushSize, setBrushSize } = useBrushState();
   const eyedropper = Eyedropper();
 
   return (
@@ -40,9 +41,9 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
               key={`brush-size-${brushSize}`}
               icon={FaSquareFull}
               name={`Brush size: ${brushSize}`}
-              action={() => toolboxState.setBrushSize(brushSize)}
+              action={() => setBrushSize(brushSize)}
               boxSize={brushSize + 1}
-              isActive={toolboxState.brushSize === brushSize}
+              isActive={brushSize === brushSize}
             />
           ))}
         </HStack>
@@ -53,9 +54,9 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
               name={tool.name}
               icon={tool.icon}
               action={() => {
-                toolboxState.selectTool(tool);
+                selectTool(tool);
               }}
-              isActive={tool.name === toolboxState.tool.name}
+              isActive={tool.name === tool.name}
             />
           ))}
         </SimpleGrid>
@@ -87,9 +88,9 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
             name={eyedropper.name}
             icon={eyedropper.icon}
             action={() => {
-              toolboxState.selectTool(eyedropper);
+              selectTool(eyedropper);
             }}
-            isActive={eyedropper.name === toolboxState.tool.name}
+            isActive={eyedropper.name === tool.name}
           />
         </HStack>
       </VStack>

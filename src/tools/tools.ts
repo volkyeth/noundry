@@ -4,10 +4,10 @@ import { BsSlash } from "react-icons/bs";
 import { IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/io5";
 import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { TbCircleDashed, TbMarquee } from "react-icons/tb";
+import { useBrushState } from "../state/brushState";
 import { useClipboardState } from "../state/clipboardState";
 import { NounPartState } from "../state/nounPartState";
 import { useSelectionState } from "../state/selectionState";
-import { useToolboxState } from "../state/toolboxState";
 import { Point, clearCanvas, drawCanvas, drawLine, erasePixel, insideCanvas, paintPixel, replaceCanvas, withClip } from "../utils/canvas";
 import { getPixelColor } from "../utils/colors";
 
@@ -29,7 +29,7 @@ export type Color = string;
 
 export const Pen = (): Tool => ({
   apply: (points, canvas) => {
-    const { fgColor, brushSize } = useToolboxState.getState();
+    const { fgColor, brushSize } = useBrushState.getState();
 
     const ctx = canvas.getContext("2d")!;
     console.log("pen");
@@ -90,7 +90,7 @@ export const Move = (): Tool => ({
 
 export const Line = (): Tool => ({
   apply: (points, canvas) => {
-    const { fgColor, brushSize } = useToolboxState.getState();
+    const { fgColor, brushSize } = useBrushState.getState();
 
     const ctx = canvas.getContext("2d")!;
     withSelectionClip(ctx, () => {
@@ -103,7 +103,7 @@ export const Line = (): Tool => ({
 
 export const Rectangle = (): Tool => ({
   apply: (points, canvas) => {
-    const { fgColor, bgColor, brushSize } = useToolboxState.getState();
+    const { fgColor, bgColor, brushSize } = useBrushState.getState();
 
     const { start, end } = getBoundingBoxIncludingBrush(points, brushSize);
 
@@ -156,7 +156,7 @@ export const CircularSelection = (): Tool => ({
 
 export const Ellipse = (): Tool => ({
   apply: (points, canvas) => {
-    const { fgColor, bgColor, brushSize } = useToolboxState.getState();
+    const { fgColor, bgColor, brushSize } = useBrushState.getState();
     const ctx = canvas.getContext("2d")!;
     const fill = true;
 
@@ -173,7 +173,7 @@ export const Ellipse = (): Tool => ({
 
 export const Eraser = (): Tool => ({
   apply: (points, canvas) => {
-    const { brushSize } = useToolboxState.getState();
+    const { brushSize } = useBrushState.getState();
     const ctx = canvas.getContext("2d")!;
     withSelectionClip(ctx, () => {
       for (let i = 0; i < points.length; i++) {
@@ -193,7 +193,7 @@ export const Eyedropper = (): Tool => ({
 
     const color = [r, g, b, a].map((i) => i.toString(16).padStart(2, "0")).join("");
 
-    const { setFgColor } = useToolboxState.getState();
+    const { setFgColor } = useBrushState.getState();
     if (color === "00000000") {
       return;
     }
@@ -206,7 +206,7 @@ export const Eyedropper = (): Tool => ({
 export const Bucket = (): Tool => ({
   apply: (points, canvas) => {
     const ctx = canvas.getContext("2d")!;
-    const { fgColor } = useToolboxState.getState();
+    const { fgColor } = useBrushState.getState();
     ctx.fillStyle = fgColor;
 
     const lastPoint = points[points.length - 1];
