@@ -1,5 +1,5 @@
 import { MouseEvent as ReactMouseEvent } from "react";
-import create from "zustand";
+import { create } from "zustand";
 import { defaultFinalize } from "../tools/tools";
 import { canvasPoint, drawCanvas, Point, replaceCanvas } from "../utils/canvas";
 import { MouseButton, MouseEventType } from "../utils/constants";

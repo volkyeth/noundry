@@ -1,6 +1,6 @@
-import create from "zustand";
-import { clearCanvas, drawCanvas } from "../utils/canvas";
+import { create } from "zustand";
 import { withSelectionClip } from "../tools/tools";
+import { clearCanvas, drawCanvas } from "../utils/canvas";
 
 export type ClipboardState = {
   clipboardCanvas: HTMLCanvasElement;

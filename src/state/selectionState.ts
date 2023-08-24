@@ -1,6 +1,6 @@
-import create from "zustand";
-import { Point, toString } from "../utils/canvas";
 import { unionBy } from "lodash";
+import { create } from "zustand";
+import { Point, toString } from "../utils/canvas";
 
 export type SelectionState = {
   selectedPoints: Point[];

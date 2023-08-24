@@ -1,10 +1,7 @@
-import { createRef, RefObject } from "react";
-import { NounPart, NounPartMapping, nounParts } from "../utils/constants";
-import create from "zustand";
-import { clearCanvas, drawCanvas, fillCanvas, replaceCanvasWithBlob, scaleCanvas } from "../utils/canvas";
 import { NounSeed } from "@nouns/assets/dist/types";
-import { ImageData, getNounData, getRandomNounSeed } from "@nouns/assets";
-import { buildSVG, EncodedImage } from "@nouns/sdk";
+import { create } from "zustand";
+import { clearCanvas, drawCanvas } from "../utils/canvas";
+import { NounPart, NounPartMapping, nounParts } from "../utils/constants";
 import { createNounPart, NounPartState } from "./nounPartState";
 
 export type NounState = {
