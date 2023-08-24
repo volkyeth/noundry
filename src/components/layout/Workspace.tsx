@@ -1,6 +1,7 @@
 import { Center, CenterProps, HStack, Text, Tooltip } from "@chakra-ui/react";
 import { FC, useEffect } from "react";
 import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
+import { useClipboardState } from "../../state/clipboardState";
 import { useNounState } from "../../state/nounState";
 import { useWorkspaceState } from "../../state/workspaceState";
 import { replaceCanvas } from "../../utils/canvas";
@@ -17,6 +18,7 @@ export type WorkspaceProps = {} & CenterProps;
 
 export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   const { activePart } = useNounState();
+  const { placing } = useClipboardState();
   const { canvasRef, handleMouseEvent, gridOn, toggleGrid } = useWorkspaceState();
   useLoadActivePartToWorkingCanvasWhenChanged();
   useUndoRedoKeyboardShortcut();
@@ -24,7 +26,13 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   const canvasSize = ["224px", "256px", "320px", "512px", "640px", "768px", "960px"];
 
   return (
-    <Center {...props} onMouseDown={handleMouseEvent} onMouseUp={handleMouseEvent} onMouseMove={handleMouseEvent}>
+    <Center
+      {...props}
+      onMouseDown={handleMouseEvent}
+      onMouseUp={handleMouseEvent}
+      onMouseMove={handleMouseEvent}
+      border={placing ? "10px cyan solid" : undefined}
+    >
       {activePart ? (
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />

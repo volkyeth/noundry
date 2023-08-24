@@ -1,4 +1,4 @@
-import { Box, BoxProps, StackProps, Text, VStack } from "@chakra-ui/react";
+import { StackProps, VStack } from "@chakra-ui/react";
 import { FC } from "react";
 
 export type PanelProps = {
@@ -6,7 +6,7 @@ export type PanelProps = {
 } & StackProps;
 
 export const Panel: FC<StackProps> = ({ children, title, ...props }) => (
-  <VStack {...props} bgColor="gray.700" w="full" p={2} pt={3} pb={4}>
+  <VStack {...props} bgColor="gray.700" w="full" px={2} py={3}>
     {/* <Text pb={4} fontSize={14} alignSelf="start">
       {title}
     </Text> */}
