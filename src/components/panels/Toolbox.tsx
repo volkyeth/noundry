@@ -48,15 +48,15 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           ))}
         </HStack>
         <SimpleGrid columns={2} spacing={4}>
-          {[Pen(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket(), Move(), RectangularSelection(), CircularSelection()].map((tool) => (
+          {[Pen(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket(), Move(), RectangularSelection(), CircularSelection()].map((t) => (
             <Tool
-              key={tool.name}
-              name={tool.name}
-              icon={tool.icon}
+              key={t.name}
+              name={t.name}
+              icon={t.icon}
               action={() => {
-                selectTool(tool);
+                selectTool(t);
               }}
-              isActive={tool.name === tool.name}
+              isActive={t.name === tool.name}
             />
           ))}
         </SimpleGrid>
