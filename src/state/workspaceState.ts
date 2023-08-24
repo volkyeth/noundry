@@ -1,12 +1,12 @@
 import { MouseEvent as ReactMouseEvent } from "react";
 import create from "zustand";
+import { defaultFinalize } from "../tools/tools";
 import { canvasPoint, drawCanvas, Point, replaceCanvas } from "../utils/canvas";
-import { MouseButton as MouseButton, MouseEventType } from "../utils/constants";
+import { MouseButton, MouseEventType } from "../utils/constants";
+import { useClipboardState } from "./clipboardState";
 import { NounPartState } from "./nounPartState";
 import { useNounState } from "./nounState";
 import { useToolboxState } from "./toolboxState";
-import { useClipboardState } from "./clipboardState";
-import { defaultFinalize } from "../tools/tools";
 
 export type WorkspaceState = {
   gridOn: boolean;
@@ -19,6 +19,8 @@ export type WorkspaceState = {
   clickingLeft: boolean;
   handleMouseEvent: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
   apply: (action: (ctx: CanvasRenderingContext2D) => void) => void;
+  demoMode: boolean;
+  toggleDemoMode: () => void;
 };
 
 export const useWorkspaceState = create<WorkspaceState>()((set, get) => ({
@@ -89,6 +91,8 @@ export const useWorkspaceState = create<WorkspaceState>()((set, get) => ({
     replaceCanvas(canvas, activePartState.canvas);
     activePartState.commit();
   },
+  demoMode: false,
+  toggleDemoMode: () => set((state) => ({ demoMode: !state.demoMode })),
 }));
 
 const handleLeftMouseDown = (point: Point, state: WorkspaceState, partState: NounPartState): WorkspaceState | Partial<WorkspaceState> => {

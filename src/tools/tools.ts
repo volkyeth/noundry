@@ -1,13 +1,15 @@
-import { IconType } from "react-icons";
-import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
-import { useToolboxState } from "../state/toolboxState";
-import { clearCanvas, drawCanvas, drawLine, erasePixel, insideCanvas, paintPixel, Point, replaceCanvas, withClip } from "../utils/canvas";
-import { BsSlash, IoColorFill, IoEllipseOutline, IoSquareOutline, TbCircleDashed, TbMarquee } from "react-icons/all";
 import { Colord } from "colord";
-import { getPixelColor } from "../utils/colors";
-import { useSelectionState } from "../state/selectionState";
+import { IconType } from "react-icons";
+import { BsSlash } from "react-icons/bs";
+import { IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/io5";
+import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
+import { TbCircleDashed, TbMarquee } from "react-icons/tb";
 import { useClipboardState } from "../state/clipboardState";
 import { NounPartState } from "../state/nounPartState";
+import { useSelectionState } from "../state/selectionState";
+import { useToolboxState } from "../state/toolboxState";
+import { Point, clearCanvas, drawCanvas, drawLine, erasePixel, insideCanvas, paintPixel, replaceCanvas, withClip } from "../utils/canvas";
+import { getPixelColor } from "../utils/colors";
 
 export type ToolAction = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => void;
 

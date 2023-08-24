@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import { Color, Pen, Tool } from "../tools/tools";
 
 export type ToolboxState = {

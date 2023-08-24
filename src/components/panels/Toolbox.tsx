@@ -2,15 +2,15 @@ import { Box, CenterProps, Grid, GridItem, HStack, IconProps, SimpleGrid, Simple
 import { FC } from "react";
 import { Panel } from "./Panel";
 
-import { MdRedo, MdUndo } from "react-icons/md";
 import { IconType } from "react-icons";
-import { Bucket, CircularSelection, Ellipse, Eraser, Eyedropper, Line, Move, Pen, Rectangle, RectangularSelection } from "../../tools/tools";
-import { useToolboxState } from "../../state/toolboxState";
-import { useNounState } from "../../state/nounState";
+import { CgCornerDoubleRightDown } from "react-icons/cg";
 import { FaSquareFull } from "react-icons/fa";
+import { MdRedo, MdUndo } from "react-icons/md";
+import { useNounState } from "../../state/nounState";
+import { useToolboxState } from "../../state/toolboxState";
+import { Bucket, CircularSelection, Ellipse, Eraser, Eyedropper, Line, Move, Pen, Rectangle, RectangularSelection } from "../../tools/tools";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { ReactIcon } from "../ReactIcon";
-import { CgCornerDoubleRightDown } from "react-icons/all";
 
 export type ToolboxProps = {};
 
