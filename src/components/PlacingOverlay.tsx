@@ -1,8 +1,8 @@
 import { chakra, HTMLChakraProps, keyframes } from "@chakra-ui/react";
-import { useToolboxState } from "../state/toolboxState";
-import { Move } from "../tools/tools";
 import { FC, useRef } from "react";
-import { useClipboardState } from "../state/clipboardState";
+import { useClipboardState } from "../model/Clipboard";
+import { useToolboxState } from "../model/Toolbox";
+import { Move } from "../tools/tools";
 import { getBoundingRect, getNonTransparentPixels } from "../utils/canvas";
 
 export type PlacingOverlayProps = {} & HTMLChakraProps<"svg">;

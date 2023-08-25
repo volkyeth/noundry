@@ -1,5 +1,5 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import { useBrushState } from "../../state/brushState";
+import { useBrushState } from "../../model/Brush";
 import { sortedPalette } from "../../utils/colors";
 import { MouseButton } from "../../utils/constants";
 import { CheckerboardBg } from "../CheckerboardBg";

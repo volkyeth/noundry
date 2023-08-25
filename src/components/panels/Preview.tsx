@@ -1,3 +1,5 @@
+import loadingNoun from "@/assets/loading-noun.gif";
+import { ReactComponent as LoadingNoun } from "@/assets/nouns-loading-sharp.svg";
 import {
   Box,
   Button,
@@ -23,20 +25,18 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import { BigNumberish } from "ethers";
 import { FC, SVGProps, useEffect, useRef, useState } from "react";
+import { IconType } from "react-icons";
+import { GiDiceSixFacesThree } from "react-icons/gi";
 import { RiSave3Fill } from "react-icons/ri";
-import { useNounState } from "../../state/nounState";
+import { useQuery } from "react-query";
+import { useNounState } from "../../model/Noun";
+import { useWorkspaceState } from "../../model/Workspace";
 import { checkerboardBg } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
 import { PixelArtCanvas } from "../PixelArtCanvas";
 import { Panel } from "./Panel";
-import { GiDiceSixFacesThree } from "react-icons/gi";
-import { IconType } from "react-icons";
-import { ReactComponent as LoadingNoun } from "@/assets/nouns-loading-sharp.svg";
-import { BigNumberish } from "ethers";
-import loadingNoun from "@/assets/loading-noun.gif";
-import { useQuery } from "react-query";
-import { useWorkspaceState } from "../../state/workspaceState";
 
 export type PreviewProps = {};
 

@@ -1,31 +1,9 @@
-import {
-  Box,
-  Button,
-  Center,
-  Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  ModalProps,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { FC, useEffect, useRef, useState } from "react";
-import { useNounState } from "../state/nounState";
-import { clearCanvas, drawCanvas, replaceCanvas } from "../utils/canvas";
-import { checkerboardBg, NounPart } from "../utils/constants";
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalProps } from "@chakra-ui/react";
+import { FC, useEffect, useState } from "react";
+import { useNounState } from "../model/Noun";
+import { replaceCanvas } from "../utils/canvas";
+import { NounPart } from "../utils/constants";
 import { PartImporter } from "./PartImporter";
-import { PixelArtCanvas } from "./PixelArtCanvas";
 
 export type ImportModalProps = {
   part: NounPart;

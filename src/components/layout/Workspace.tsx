@@ -1,9 +1,9 @@
 import { Center, CenterProps, HStack, Text, Tooltip } from "@chakra-ui/react";
 import { FC, useEffect } from "react";
 import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
-import { useClipboardState } from "../../state/clipboardState";
-import { useNounState } from "../../state/nounState";
-import { useWorkspaceState } from "../../state/workspaceState";
+import { useClipboardState } from "../../model/Clipboard";
+import { useNounState } from "../../model/Noun";
+import { useWorkspaceState } from "../../model/Workspace";
 import { replaceCanvas } from "../../utils/canvas";
 import { CanvasGrid } from "../CanvasGrid";
 import { CheckerboardBg } from "../CheckerboardBg";

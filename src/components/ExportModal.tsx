@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Center,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,10 +19,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FC, useEffect, useRef, useState } from "react";
-import { useNounState } from "../state/nounState";
-import { clearCanvas, drawCanvas, replaceCanvas } from "../utils/canvas";
-import { checkerboardBg, NounPart } from "../utils/constants";
+import { FC, useEffect, useState } from "react";
+import { useNounState } from "../model/Noun";
+import { drawCanvas } from "../utils/canvas";
+import { NounPart, checkerboardBg } from "../utils/constants";
 import { PixelArtCanvas } from "./PixelArtCanvas";
 
 export type ExportModalProps = {

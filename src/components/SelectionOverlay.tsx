@@ -1,8 +1,8 @@
-import { useSelectionState } from "../state/selectionState";
 import { chakra, HTMLChakraProps, keyframes } from "@chakra-ui/react";
-import { useToolboxState } from "../state/toolboxState";
-import { Move } from "../tools/tools";
 import { FC } from "react";
+import { useSelectionState } from "../model/Selection";
+import { useToolboxState } from "../model/Toolbox";
+import { Move } from "../tools/tools";
 
 export type SelectionOverlayProps = {} & HTMLChakraProps<"svg">;
 

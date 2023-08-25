@@ -3,11 +3,11 @@ import { create } from "zustand";
 import { defaultFinalize } from "../tools/tools";
 import { canvasPoint, drawCanvas, Point, replaceCanvas } from "../utils/canvas";
 import { MouseButton, MouseEventType } from "../utils/constants";
-import { useClipboardState } from "./clipboardState";
-import { NounPartState } from "./nounPartState";
-import { useNounState } from "./nounState";
-import { useToolboxState } from "./toolboxState";
-import { useBrushState } from "./brushState";
+import { useBrushState } from "./Brush";
+import { useClipboardState } from "./Clipboard";
+import { useNounState } from "./Noun";
+import { NounPartState } from "./NounPart";
+import { useToolboxState } from "./Toolbox";
 
 export type WorkspaceState = {
   gridOn: boolean;

@@ -1,9 +1,8 @@
-import { ImageData, getNounData } from "@nouns/assets";
-import { NounSeed } from "@nouns/assets/dist/types";
-import { buildSVG, EncodedImage } from "@nouns/sdk";
+import { ImageData } from "@nouns/assets";
+import { EncodedImage, buildSVG } from "@nouns/sdk";
 import { clearCanvas, fillCanvas, getBlob, replaceCanvasWithBlob } from "../utils/canvas";
-import { NounPart, NounPartMapping } from "../utils/constants";
-import { drawNoun, NounState, useNounState } from "./nounState";
+import { NounPart } from "../utils/constants";
+import { NounState, drawNoun } from "./Noun";
 
 export type NounPartState = {
   visible: boolean;

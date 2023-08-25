@@ -1,21 +1,21 @@
 import { HStack, Text, VStack } from "@chakra-ui/layout";
 import { FC, SVGProps, useState } from "react";
 
-import { NounPart, nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
 import { Icon, IconButton, Menu, MenuButton, MenuItem, MenuItemProps, MenuList, Tooltip, useDisclosure } from "@chakra-ui/react";
-import { Panel } from "./Panel";
-import { useWorkspaceState } from "../../state/workspaceState";
-import { useNounState } from "../../state/nounState";
+import { IconType } from "react-icons";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { FaUserEdit } from "react-icons/fa";
-import { HiEye, HiEyeOff } from "react-icons/hi";
 import { GiDiceSixFacesThree } from "react-icons/gi";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import { RiEraserFill, RiFolderOpenFill, RiSave3Fill } from "react-icons/ri";
-import { IconType } from "react-icons";
+import { useNounState } from "../../model/Noun";
+import { NounPartState } from "../../model/NounPart";
+import { useWorkspaceState } from "../../model/Workspace";
+import { NounPart, nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
-import { ReactIcon } from "../ReactIcon";
-import { NounPartState } from "../../state/nounPartState";
 import { ImportModal } from "../ImportModal";
+import { ReactIcon } from "../ReactIcon";
+import { Panel } from "./Panel";
 
 export type NounPanelPros = {};
 

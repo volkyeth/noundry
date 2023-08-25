@@ -2,7 +2,7 @@ import { NounSeed } from "@nouns/assets/dist/types";
 import { create } from "zustand";
 import { clearCanvas, drawCanvas } from "../utils/canvas";
 import { NounPart, NounPartMapping, nounParts } from "../utils/constants";
-import { createNounPart, NounPartState } from "./nounPartState";
+import { NounPartState, createNounPart } from "./NounPart";
 
 export type NounState = {
   activePart: NounPart | null;

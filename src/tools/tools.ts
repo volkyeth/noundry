@@ -4,10 +4,10 @@ import { BsSlash } from "react-icons/bs";
 import { IoColorFill, IoEllipseOutline, IoSquareOutline } from "react-icons/io5";
 import { RiDragMove2Line, RiEraserFill, RiPencilFill, RiSipFill } from "react-icons/ri";
 import { TbCircleDashed, TbMarquee } from "react-icons/tb";
-import { useBrushState } from "../state/brushState";
-import { useClipboardState } from "../state/clipboardState";
-import { NounPartState } from "../state/nounPartState";
-import { useSelectionState } from "../state/selectionState";
+import { useBrushState } from "../model/Brush";
+import { useClipboardState } from "../model/Clipboard";
+import { NounPartState } from "../model/NounPart";
+import { useSelectionState } from "../model/Selection";
 import { Point, clearCanvas, drawCanvas, drawLine, erasePixel, insideCanvas, paintPixel, replaceCanvas, withClip } from "../utils/canvas";
 import { getPixelColor } from "../utils/colors";
 

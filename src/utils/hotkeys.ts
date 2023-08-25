@@ -1,8 +1,8 @@
 import Mousetrap from "mousetrap";
-import { useSelectionState } from "../state/selectionState";
 import { useEffect } from "react";
-import { useWorkspaceState } from "../state/workspaceState";
-import { useClipboardState } from "../state/clipboardState";
+import { useClipboardState } from "../model/Clipboard";
+import { useSelectionState } from "../model/Selection";
+import { useWorkspaceState } from "../model/Workspace";
 import { withSelectionClip } from "../tools/tools";
 import { clearCanvas } from "./canvas";
 
