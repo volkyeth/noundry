@@ -1,12 +1,12 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import { useBrushState } from "../../model/Brush";
+import { useBrush } from "../../model/Brush";
 import { sortedPalette } from "../../utils/colors";
 import { MouseButton } from "../../utils/constants";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { Panel } from "./Panel";
 
 export const Palette = () => {
-  const { setFgColor, setBgColor } = useBrushState((state) => ({ setFgColor: state.setFgColor, setBgColor: state.setBgColor }));
+  const { setFgColor, setBgColor } = useBrush((state) => ({ setFgColor: state.setFgColor, setBgColor: state.setBgColor }));
   return (
     <Panel title={"Palette"} flexGrow={1}>
       <SimpleGrid columns={8} w="full" h="full" spacing="1px">

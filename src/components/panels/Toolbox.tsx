@@ -6,7 +6,7 @@ import { IconType } from "react-icons";
 import { CgCornerDoubleRightDown } from "react-icons/cg";
 import { FaSquareFull } from "react-icons/fa";
 import { MdRedo, MdUndo } from "react-icons/md";
-import { useBrushState } from "../../model/Brush";
+import { useBrush } from "../../model/Brush";
 import { useNounState } from "../../model/Noun";
 import { useToolboxState } from "../../model/Toolbox";
 import { Bucket, CircularSelection, Ellipse, Eraser, Eyedropper, Line, Move, Pen, Rectangle, RectangularSelection } from "../../tools/tools";
@@ -29,21 +29,21 @@ const ColorBox: FC<ColorBoxProps> = ({ color, ...props }) => {
 
 export const Toolbox: FC<ToolboxProps> = ({}) => {
   const { tool, selectTool } = useToolboxState();
-  const { fgColor, bgColor, setFgColor, setBgColor, brushSize, setBrushSize } = useBrushState();
+  const { fgColor, bgColor, setFgColor, setBgColor, brushSize, setBrushSize } = useBrush();
   const eyedropper = Eyedropper();
 
   return (
     <Panel title="Toolbox">
       <VStack>
         <HStack>
-          {[1, 2, 3, 4, 5, 6].map((brushSize) => (
+          {[1, 2, 3, 4, 5, 6].map((size) => (
             <Tool
-              key={`brush-size-${brushSize}`}
+              key={`brush-size-${size}`}
               icon={FaSquareFull}
-              name={`Brush size: ${brushSize}`}
-              action={() => setBrushSize(brushSize)}
-              boxSize={brushSize + 1}
-              isActive={brushSize === brushSize}
+              name={`Brush size: ${size}`}
+              action={() => setBrushSize(size)}
+              boxSize={size + 1}
+              isActive={size === brushSize}
             />
           ))}
         </HStack>

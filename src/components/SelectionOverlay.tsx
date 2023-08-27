@@ -1,13 +1,13 @@
 import { chakra, HTMLChakraProps, keyframes } from "@chakra-ui/react";
 import { FC } from "react";
-import { useSelectionState } from "../model/Selection";
+import { useSelection } from "../model/Selection";
 import { useToolboxState } from "../model/Toolbox";
 import { Move } from "../tools/tools";
 
 export type SelectionOverlayProps = {} & HTMLChakraProps<"svg">;
 
 export const SelectionOverlay: FC<SelectionOverlayProps> = (props) => {
-  const selectedPoints = useSelectionState((state) => state.selectedPoints);
+  const selectedPoints = useSelection((state) => state.selectedPoints);
   const isMoveTool = useToolboxState((state) => state.tool.name === Move.name);
   if (selectedPoints.length === 0) {
     return <></>;

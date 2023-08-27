@@ -18,7 +18,7 @@ export type SelectionState = {
   restoreSelection: () => void;
 };
 
-export const useSelectionState = create<SelectionState>()((set, get) => ({
+export const useSelection = create<SelectionState>()((set, get) => ({
   selectedPoints: [],
   hasSelection: () => get().selectedPoints.length > 0,
   clearSelection: () => set({ selectedPoints: [] }),

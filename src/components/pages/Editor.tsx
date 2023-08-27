@@ -1,4 +1,5 @@
 import { HStack, VStack } from "@chakra-ui/react";
+import { Socials } from "../Socials";
 import { Header } from "../layout/Header";
 import { Sidebar } from "../layout/Sidebar";
 import { Workspace } from "../layout/Workspace";
@@ -6,11 +7,8 @@ import { Layers } from "../panels/Layers";
 import { Palette } from "../panels/Palette";
 import { Preview } from "../panels/Preview";
 import { Toolbox } from "../panels/Toolbox";
-import { Socials } from "../Socials";
-import { useHotkeys } from "../../utils/hotkeys";
 
 export const Editor = () => {
-  useHotkeys();
   return (
     <VStack color="white" fontSize="8pt" h="100vh" minW="100vw" spacing={0}>
       <Header />

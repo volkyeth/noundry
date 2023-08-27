@@ -19,7 +19,7 @@ export type WorkspaceProps = {} & CenterProps;
 export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   const { activePart } = useNounState();
   const { placing } = useClipboardState();
-  const { canvasRef, handleMouseEvent, gridOn, toggleGrid } = useWorkspaceState();
+  const { canvasRef, mode, gridOn, toggleGrid } = useWorkspaceState();
   useLoadActivePartToWorkingCanvasWhenChanged();
   useUndoRedoKeyboardShortcut();
 
@@ -28,9 +28,9 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   return (
     <Center
       {...props}
-      onMouseDown={handleMouseEvent}
-      onMouseUp={handleMouseEvent}
-      onMouseMove={handleMouseEvent}
+      onMouseDown={mode.handleMouseEvent}
+      onMouseUp={mode.handleMouseEvent}
+      onMouseMove={mode.handleMouseEvent}
       border={placing ? "10px cyan solid" : undefined}
     >
       {activePart ? (
