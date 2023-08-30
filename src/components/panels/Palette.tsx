@@ -30,7 +30,6 @@ export const Palette = () => {
             bgColor={color}
             onContextMenu={(e) => e.preventDefault()}
             onMouseUp={(e) => {
-              console.log(e);
               if (e.button === MouseButton.Left) {
                 setFgColor(color);
               }

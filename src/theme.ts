@@ -1,4 +1,4 @@
-import { cssVar, extendTheme, ThemeConfig } from "@chakra-ui/react";
+import { cssVar, extendTheme } from "@chakra-ui/react";
 
 const Tooltip = () => {
   const $bg = cssVar("tooltip-bg");
@@ -62,6 +62,15 @@ const config = {
             color: "white",
           },
         },
+      },
+    },
+    Kbd: {
+      baseStyle: {
+        fontFamily: '"Press Start 2P", cursive',
+        fontSize: 10,
+        px: 2,
+        py: 1,
+        borderRadius: 0,
       },
     },
     Tooltip: Tooltip(),

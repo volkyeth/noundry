@@ -171,18 +171,13 @@ const ActionMenuItem: FC<ActionMenuItemProps> = ({ children, icon, ...props }) =
 );
 
 const loadFile = (partState: NounPartState) => (e: Event) => {
-  console.log(e);
   const file = (e.target as HTMLInputElement).files![0];
   const reader = new FileReader();
 
   reader.onload = () => {
-    console.log(reader.readyState);
     if (reader.readyState !== FileReader.DONE) {
       return;
     }
-
-    console.log("loading");
-    console.log(reader.result);
 
     const canvas = partState.canvas;
 

@@ -1,4 +1,4 @@
-import { Box, CenterProps, Grid, GridItem, HStack, IconProps, SimpleGrid, SimpleGridProps, Tooltip, VStack } from "@chakra-ui/react";
+import { Box, CenterProps, Grid, GridItem, HStack, IconProps, Kbd, SimpleGrid, SimpleGridProps, Text, Tooltip, VStack } from "@chakra-ui/react";
 import { FC } from "react";
 import { Panel } from "./Panel";
 
@@ -8,8 +8,9 @@ import { FaSquareFull } from "react-icons/fa";
 import { MdRedo, MdUndo } from "react-icons/md";
 import { useBrush } from "../../model/Brush";
 import { useNounState } from "../../model/Noun";
-import { useToolboxState } from "../../model/Toolbox";
-import { Bucket, CircularSelection, Ellipse, Eraser, Eyedropper, Line, Move, Pen, Rectangle, RectangularSelection } from "../../tools/tools";
+import { tools, useToolboxState } from "../../model/Toolbox";
+import { useWorkspaceState } from "../../model/Workspace";
+import { Eyedropper } from "../../tools/tools";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { ReactIcon } from "../ReactIcon";
 
@@ -32,8 +33,11 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
   const { fgColor, bgColor, setFgColor, setBgColor, brushSize, setBrushSize } = useBrush();
   const eyedropper = Eyedropper();
 
+  const mode = useWorkspaceState((state) => state.mode);
+  const showHotkeys = true;
+
   return (
-    <Panel title="Toolbox">
+    <Panel title="Toolbox" position={"relative"}>
       <VStack>
         <HStack>
           {[1, 2, 3, 4, 5, 6].map((size) => (
@@ -48,7 +52,7 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           ))}
         </HStack>
         <SimpleGrid columns={2} spacing={4}>
-          {[Pen(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket(), Move(), RectangularSelection(), CircularSelection()].map((t) => (
+          {tools.map((t) => (
             <Tool
               key={t.name}
               name={t.name}
@@ -94,6 +98,20 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           />
         </HStack>
       </VStack>
+      {mode.name === "Placing" && (
+        <VStack justify={"center"} p={2} spacing={8} position={"absolute"} top={0} w={"full"} h={"full"} bg={"gray.700"}>
+          <Text>Drag to position</Text>
+          <VStack>
+            <Kbd>Enter</Kbd>
+            <Text>to place</Text>
+          </VStack>
+
+          <VStack>
+            <Kbd>Escape</Kbd>
+            <Text>to cancel</Text>
+          </VStack>
+        </VStack>
+      )}
     </Panel>
   );
 };
@@ -125,6 +143,7 @@ type ToolProps = {
   name: string;
   icon: IconType;
   action: () => void;
+  shortcuts?: string[];
   isActive?: boolean;
   isDisabled?: boolean;
 } & IconProps;

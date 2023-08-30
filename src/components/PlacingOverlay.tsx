@@ -1,14 +1,14 @@
 import { chakra, HTMLChakraProps, keyframes } from "@chakra-ui/react";
 import { FC, useRef } from "react";
-import { useClipboardState } from "../model/Clipboard";
 import { useToolboxState } from "../model/Toolbox";
+import { usePlacingState } from "../model/WorkspaceModes/PlacingMode";
 import { Move } from "../tools/tools";
 import { getBoundingRect, getNonTransparentPixels } from "../utils/canvas";
 
 export type PlacingOverlayProps = {} & HTMLChakraProps<"svg">;
 
 export const PlacingOverlay: FC<PlacingOverlayProps> = (props) => {
-  const { placingCanvas, placeOffset } = useClipboardState();
+  const { placingCanvas, placeOffset } = usePlacingState();
   const svgRef = useRef<SVGSVGElement>(null);
   const canvasWidth = svgRef.current?.getBoundingClientRect().width ?? 0;
   const pixelSize = canvasWidth / 32;
@@ -28,9 +28,6 @@ export const PlacingOverlay: FC<PlacingOverlayProps> = (props) => {
       strokeWidth={2}
       pointerEvents={"fill"}
       transform={`translate(${placeOffset.x * pixelSize}px, ${placeOffset.y * pixelSize}px)`}
-      _hover={{
-        cursor: isMoveTool ? "move" : undefined,
-      }}
       animation={`${marquee} 0.3s linear infinite`}
       {...props}
     >

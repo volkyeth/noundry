@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Pen, Tool } from "../tools/tools";
+import { Brush, Bucket, Ellipse, EllipticalSelection, Eraser, Line, Move, Rectangle, RectangularSelection, Tool } from "../tools/tools";
 
 export type ToolboxState = {
   tool: Tool;
@@ -7,6 +7,9 @@ export type ToolboxState = {
 };
 
 export const useToolboxState = create<ToolboxState>()((set) => ({
-  tool: Pen(),
+  tool: Brush(),
   selectTool: (tool: Tool) => set({ tool }),
 }));
+
+
+export const tools = [Brush(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket(), Move(), RectangularSelection(), EllipticalSelection()]

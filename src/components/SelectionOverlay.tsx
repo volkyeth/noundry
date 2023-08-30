@@ -8,7 +8,6 @@ export type SelectionOverlayProps = {} & HTMLChakraProps<"svg">;
 
 export const SelectionOverlay: FC<SelectionOverlayProps> = (props) => {
   const selectedPoints = useSelection((state) => state.selectedPoints);
-  const isMoveTool = useToolboxState((state) => state.tool.name === Move.name);
   if (selectedPoints.length === 0) {
     return <></>;
   }
@@ -16,18 +15,7 @@ export const SelectionOverlay: FC<SelectionOverlayProps> = (props) => {
   const d = selectedPoints.map((point) => `M${point.x} ${point.y} h1 v1 h-1 z`).join(" ");
 
   return (
-    <chakra.svg
-      viewBox="0 0 32 32"
-      width="full"
-      height="full"
-      strokeWidth={2}
-      pointerEvents={"none"}
-      _hover={{
-        cursor: isMoveTool ? "move" : undefined,
-      }}
-      overflow={"visible"}
-      {...props}
-    >
+    <chakra.svg viewBox="0 0 32 32" width="full" height="full" strokeWidth={2} pointerEvents={"none"} overflow={"visible"} {...props}>
       <mask id="fillMask">
         <rect x="0" y="0" width="100%" height="100%" fill="white" />
         <chakra.path d={d} fill="black" />

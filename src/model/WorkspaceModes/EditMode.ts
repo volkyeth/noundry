@@ -1,27 +1,45 @@
 import { MouseEvent as ReactMouseEvent } from "react";
-import { create } from "zustand";
-import { withSelectionClip } from "../../tools/tools";
-import { Point, canvasPoint, clearCanvas, drawCanvas, replaceCanvas } from "../../utils/canvas";
+import { useCheatSheetState } from "../../components/CheatSheetButton";
+import {
+  Brush as BrushTool,
+  Bucket,
+  Ellipse,
+  EllipticalSelection,
+  Eraser,
+  Eyedropper,
+  Line,
+  Move,
+  Rectangle,
+  RectangularSelection,
+  withSelectionClip,
+} from "../../tools/tools";
+import { Point, canvasPoint, clearCanvas, replaceCanvas } from "../../utils/canvas";
 import { MouseButton, MouseEventType } from "../../utils/constants";
-import { Brush } from "../Brush";
+import { Brush, useBrush } from "../Brush";
 import { useClipboardState } from "../Clipboard";
+import { useCursor } from "../Cursor";
 import { useNounState } from "../Noun";
 import { NounPartState } from "../NounPart";
 import { useSelection } from "../Selection";
 import { useToolboxState } from "../Toolbox";
 import { WorkspaceMode, useWorkspaceState } from "../Workspace";
-
-type EditModeState = {
-  pathPoints: Point[];
-  clickingLeft: boolean;
-};
-
-const useEditModeState = create<EditModeState>()(() => ({
-  pathPoints: [],
-  clickingLeft: false,
-}));
+import { usePlacingState } from "./PlacingMode";
 
 export const EditMode: WorkspaceMode = {
+  name: "Edit",
+  init: () => {
+    const nounState = useNounState.getState();
+    if (!nounState.activePart) {
+      return;
+    }
+    const activeNounPart = nounState[nounState.activePart];
+    const workspaceCanvas = useWorkspaceState.getState().canvas;
+    if (!workspaceCanvas) {
+      return;
+    }
+
+    replaceCanvas(activeNounPart.canvas, workspaceCanvas);
+  },
   handleMouseEvent: (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
     const nounState = useNounState.getState();
 
@@ -31,7 +49,7 @@ export const EditMode: WorkspaceMode = {
 
     const activeNounPart = nounState[nounState.activePart];
 
-    const { clickingLeft } = useEditModeState.getState();
+    const { clickingLeft } = useCursor.getState();
 
     const workspace = useWorkspaceState.getState();
     if (!workspace.canvas) return;
@@ -56,42 +74,54 @@ export const EditMode: WorkspaceMode = {
     }
   },
   keyBindings: [
-    { commands: ["escape"], action: useSelection.getState().clearSelection },
+    { commands: ["escape"], callback: useSelection.getState().clearSelection, description: "Clear selection" },
+    {
+      commands: ["ctrl+z", "command+z"],
+      callback: (e) => {
+        e.preventDefault();
+        const activePart = useNounState.getState().getActivePartState();
+        if (!activePart || !activePart.canUndo) return;
+        activePart.undo();
+      },
+      description: "Undo",
+    },
+    {
+      commands: ["ctrl+shift+z", "command+shift+z"],
+      callback: (e) => {
+        e.preventDefault();
+        const activePart = useNounState.getState().getActivePartState();
+        if (!activePart || !activePart.canRedo) return;
+        activePart.redo();
+      },
+      description: "Redo",
+    },
     {
       commands: ["ctrl+c", "command+c"],
-      action: () => {
-        const { hasSelection } = useSelection.getState();
-        if (!hasSelection()) return;
-
-        const { canvas } = useWorkspaceState.getState();
-        if (!canvas) return;
-
-        const { saveSelectionToClipboard } = useClipboardState.getState();
-        saveSelectionToClipboard(canvas);
-      },
+      callback: () => copySelectionToClipboard(),
+      description: "Copy selection",
     },
     {
       commands: ["ctrl+x", "command+x"],
-      action: () => {
-        const { hasSelection } = useSelection.getState();
-        if (!hasSelection()) return;
+      callback: () => {
+        const { clearSelection } = useSelection.getState();
 
         const { canvas } = useWorkspaceState.getState();
         if (!canvas) return;
 
-        const { saveSelectionToClipboard } = useClipboardState.getState();
-        saveSelectionToClipboard(canvas);
+        copySelectionToClipboard();
         apply((ctx) => {
           withSelectionClip(ctx, () => {
             clearCanvas(canvas);
           });
         });
+        clearSelection();
       },
+      description: "Cut selection",
     },
 
     {
       commands: ["del", "backspace"],
-      action: () => {
+      callback: () => {
         const { hasSelection } = useSelection.getState();
         if (!hasSelection()) return;
 
@@ -104,123 +134,120 @@ export const EditMode: WorkspaceMode = {
           });
         });
       },
+      description: "Delete selection",
     },
     {
       commands: ["ctrl+v", "command+v"],
-      action: () => {
-        const { hasSelection } = useSelection.getState();
-        if (!hasSelection()) return;
+      callback: () => {
+        const { hasClipboard } = useClipboardState.getState();
+        const { clearSelection } = useSelection.getState();
+        if (!hasClipboard()) {
+          return;
+        }
 
         const { canvas } = useWorkspaceState.getState();
-        if (!canvas) return;
+        if (!canvas) {
+          return;
+        }
 
-        apply((ctx) => {
-          withSelectionClip(ctx, () => {
-            clearCanvas(canvas);
-          });
-        });
+        clearSelection();
+        const { placeFromClipboard } = usePlacingState.getState();
+        placeFromClipboard();
       },
+      description: "Paste",
     },
+    { commands: ["1"], callback: () => useBrush.setState({ brushSize: 1 }), description: "Brush size 1" },
+    { commands: ["2"], callback: () => useBrush.setState({ brushSize: 2 }), description: "Brush size 2" },
+    { commands: ["3"], callback: () => useBrush.setState({ brushSize: 3 }), description: "Brush size 3" },
+    { commands: ["4"], callback: () => useBrush.setState({ brushSize: 4 }), description: "Brush size 4" },
+    { commands: ["5"], callback: () => useBrush.setState({ brushSize: 5 }), description: "Brush size 5" },
+    { commands: ["6"], callback: () => useBrush.setState({ brushSize: 6 }), description: "Brush size 6" },
+    { commands: ["b"], callback: () => useToolboxState.setState({ tool: BrushTool() }), description: "Brush tool" },
+    { commands: ["e"], callback: () => useToolboxState.setState({ tool: Eraser() }), description: "Eraser tool" },
+    {
+      commands: ["u"],
+      callback: () =>
+        useToolboxState.setState((state) => {
+          switch (state.tool.name) {
+            case "Line":
+              return { tool: Rectangle() };
+            case "Rectangle":
+              return { tool: Ellipse() };
+            case "Ellipse":
+            default:
+              return { tool: Line() };
+          }
+        }),
+      description: "Cycle between Line, Rectangle and Ellipse tool",
+    },
+    { commands: ["g"], callback: () => useToolboxState.setState({ tool: Bucket() }), description: "Bucket tool" },
+    { commands: ["v"], callback: () => useToolboxState.setState({ tool: Move() }), description: "Move tool" },
+    {
+      commands: ["m"],
+      callback: () =>
+        useToolboxState.setState((state) => {
+          switch (state.tool.name) {
+            case "Rectangular Selection":
+              return { tool: EllipticalSelection() };
+            case "Elliptical Selection":
+            default:
+              return { tool: RectangularSelection() };
+          }
+        }),
+      description: "Cycle between Rectangular and Elliptical Marquee tool",
+    },
+    {
+      commands: ["x"],
+      callback: () =>
+        useBrush.setState((state) => {
+          return { fgColor: state.bgColor, bgColor: state.fgColor };
+        }),
+      description: "Switch Foreground/Background colors",
+    },
+    { commands: ["i"], callback: () => useToolboxState.setState({ tool: Eyedropper() }), description: "Eyedropper tool" },
+    { commands: ["?"], callback: () => useCheatSheetState.getState().toggle(), description: "Open cheat sheet" },
   ],
-  // Mousetrap.bind("escape", () => {
-  //   if (!canvas) {
-  //     return;
-  //   }
+};
 
-  //   if (placing) {
-  //     place(canvas);
-  //     return;
-  //   }
-  //   clearSelection();
-  // });
+const copySelectionToClipboard = () => {
+  const { hasSelection } = useSelection.getState();
+  if (!hasSelection()) return;
 
-  // Mousetrap.bind("enter", () => {
-  //   if (!canvas || !placing) {
-  //     return;
-  //   }
+  const { canvas } = useWorkspaceState.getState();
+  if (!canvas) return;
 
-  //   place(canvas);
-  // });
+  const { getActivePartState } = useNounState.getState();
+  const activePartCanvas = getActivePartState()?.canvas;
+  if (!activePartCanvas) {
+    return;
+  }
 
-  // Mousetrap.bind(["ctrl+c", "command+c"], () => {
-  //   if (!hasSelection() || !canvas) {
-  //     return;
-  //   }
-
-  //   console.log("copied");
-
-  //   saveSelectionToClipboard(canvas);
-  // });
-
-  // Mousetrap.bind(["ctrl+x", "command+x"], () => {
-  //   if (!hasSelection() || !canvas) {
-  //     return;
-  //   }
-
-  //   saveSelectionToClipboard(canvas);
-  //   apply((ctx) => {
-  //     withSelectionClip(ctx, () => {
-  //       clearCanvas(canvas);
-  //     });
-  //   });
-  // });
-
-  // Mousetrap.bind(["del", "backspace"], () => {
-  //   if (!hasSelection() || !canvas) {
-  //     return;
-  //   }
-
-  //   apply((ctx) => {
-  //     withSelectionClip(ctx, () => {
-  //       clearCanvas(canvas);
-  //     });
-  //   });
-  // });
-
-  // Mousetrap.bind(["ctrl+v", "command+v"], () => {
-  //   if (!canvas) {
-  //     return;
-  //   }
-
-  //   if (placing) {
-  //     place(canvas);
-  //   }
-
-  //   clearSelection();
-  //   placeFromClipboard();
-  // });
-
-  // Mousetrap.bind(["ctrl+shift+v", "command+shift+v"], () => {
-  //   if (!canvas) {
-  //     return;
-  //   }
-
-  //   placeFromClipboard();
-  // });
+  const { saveSelectionToClipboard } = useClipboardState.getState();
+  saveSelectionToClipboard();
 };
 
 const handleLeftMouseDown = (point: Point, canvas: HTMLCanvasElement, partState: NounPartState) => {
   applyTool([point], canvas, partState);
   Brush.drawHover(point, canvas!);
-  useEditModeState.setState({ pathPoints: [point], clickingLeft: true });
+  useCursor.setState({ pathPoints: [point], clickingLeft: true });
 };
 
 const handleLeftMouseMove = (point: Point, canvas: HTMLCanvasElement, partState: NounPartState) => {
-  const { pathPoints } = useEditModeState.getState();
+  const { pathPoints } = useCursor.getState();
   applyTool([...pathPoints, point], canvas, partState);
   Brush.drawHover(point, canvas);
-  useEditModeState.setState({ pathPoints: [...pathPoints, point] });
+  useCursor.setState({ pathPoints: [...pathPoints, point] });
 };
 
 const handleLeftMouseUp = (point: Point, canvas: HTMLCanvasElement, partState: NounPartState) => {
-  const { pathPoints } = useEditModeState.getState();
+  const { pathPoints } = useCursor.getState();
   const points = [...pathPoints, point];
   applyTool(points, canvas, partState);
   replaceCanvas(canvas, partState.canvas);
   Brush.drawHover(point, canvas);
   partState.commit();
 
-  useEditModeState.setState({ pathPoints: [], clickingLeft: false });
+  useCursor.setState({ pathPoints: [], clickingLeft: false });
 };
 
 const handleMouseMove = (point: Point, canvas: HTMLCanvasElement, partState: NounPartState) => {
@@ -230,12 +257,8 @@ const handleMouseMove = (point: Point, canvas: HTMLCanvasElement, partState: Nou
 
 const applyTool = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
   const tool = useToolboxState.getState().tool;
-  const { placingCanvas, placing, placeOffset } = useClipboardState.getState();
   replaceCanvas(partState.canvas, workingCanvas);
   tool.apply(points, workingCanvas, partState);
-  if (placing) {
-    drawCanvas(placingCanvas, workingCanvas, placeOffset.x, placeOffset.y);
-  }
 };
 
 const apply = (action: (ctx: CanvasRenderingContext2D) => void) => {

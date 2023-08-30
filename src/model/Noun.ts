@@ -6,6 +6,7 @@ import { NounPartState, createNounPart } from "./NounPart";
 
 export type NounState = {
   activePart: NounPart | null;
+  getActivePartState: () => NounPartState | null;
   background: NounPartState;
   body: NounPartState;
   head: NounPartState;
@@ -33,6 +34,14 @@ export const useNounState = create<NounState>()((set, get) => {
 
   return {
     activePart: null,
+    getActivePartState: () => {
+      const nounState = get();
+      if (!nounState.activePart) {
+        return null;
+      }
+
+      return nounState[nounState.activePart];
+    },
     ...parts,
     canvas: null,
     loadSeed: async (seed: NounSeed) => {

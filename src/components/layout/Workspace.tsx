@@ -1,9 +1,10 @@
 import { Center, CenterProps, HStack, Text, Tooltip } from "@chakra-ui/react";
 import { FC, useEffect } from "react";
 import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
-import { useClipboardState } from "../../model/Clipboard";
 import { useNounState } from "../../model/Noun";
+import { useToolboxState } from "../../model/Toolbox";
 import { useWorkspaceState } from "../../model/Workspace";
+import { Move } from "../../tools/tools";
 import { replaceCanvas } from "../../utils/canvas";
 import { CanvasGrid } from "../CanvasGrid";
 import { CheckerboardBg } from "../CheckerboardBg";
@@ -18,12 +19,12 @@ export type WorkspaceProps = {} & CenterProps;
 
 export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
   const { activePart } = useNounState();
-  const { placing } = useClipboardState();
   const { canvasRef, mode, gridOn, toggleGrid } = useWorkspaceState();
   useLoadActivePartToWorkingCanvasWhenChanged();
-  useUndoRedoKeyboardShortcut();
 
   const canvasSize = ["224px", "256px", "320px", "512px", "640px", "768px", "960px"];
+  const isPlacing = mode.name === "Placing";
+  const isMoveTool = useToolboxState((state) => state.tool.name === Move.name);
 
   return (
     <Center
@@ -31,14 +32,15 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
       onMouseDown={mode.handleMouseEvent}
       onMouseUp={mode.handleMouseEvent}
       onMouseMove={mode.handleMouseEvent}
-      border={placing ? "10px cyan solid" : undefined}
+      border={isPlacing ? "10px cyan solid" : undefined}
+      cursor={isPlacing || isMoveTool ? "move" : undefined}
     >
       {activePart ? (
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
           {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" left={0} top={0} />}
           <SelectionOverlay position={"absolute"} />
-          <PlacingOverlay position={"absolute"} />
+          {isPlacing && <PlacingOverlay position={"absolute"} />}
           <HStack h={10} position="absolute" bottom={-10} right={0}>
             <Tooltip label={"Toggle grid"}>
               <ReactIcon
@@ -57,32 +59,6 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
       )}
     </Center>
   );
-};
-
-const useUndoRedoKeyboardShortcut = () => {
-  const { activePart } = useNounState();
-  const { canvas } = useWorkspaceState();
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!activePart) {
-        return;
-      }
-
-      const activePartState = useNounState.getState()[activePart];
-      if (!activePartState.canvas || !canvas || (!e.ctrlKey && !e.metaKey) || !["z", "Z"].includes(e.key)) {
-        return;
-      }
-
-      if (e.shiftKey ? !activePartState.canRedo : !activePartState.canUndo) {
-        return;
-      }
-      e.shiftKey ? activePartState.redo() : activePartState.undo();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [activePart, canvas]);
 };
 
 const useLoadActivePartToWorkingCanvasWhenChanged = () => {
