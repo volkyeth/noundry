@@ -156,13 +156,17 @@ export const EditMode: WorkspaceMode = {
       },
       description: "Paste",
     },
-    { commands: ["1"], callback: () => useBrush.setState({ brushSize: 1 }), description: "Brush size 1" },
-    { commands: ["2"], callback: () => useBrush.setState({ brushSize: 2 }), description: "Brush size 2" },
-    { commands: ["3"], callback: () => useBrush.setState({ brushSize: 3 }), description: "Brush size 3" },
-    { commands: ["4"], callback: () => useBrush.setState({ brushSize: 4 }), description: "Brush size 4" },
-    { commands: ["5"], callback: () => useBrush.setState({ brushSize: 5 }), description: "Brush size 5" },
-    { commands: ["6"], callback: () => useBrush.setState({ brushSize: 6 }), description: "Brush size 6" },
     { commands: ["b"], callback: () => useToolboxState.setState({ tool: BrushTool() }), description: "Brush tool" },
+    {
+      commands: ["["],
+      callback: () => useBrush.setState(({ brushSize }) => ({ brushSize: Math.max(brushSize - 1, 1) })),
+      description: "Decrease brush size",
+    },
+    {
+      commands: ["]"],
+      callback: () => useBrush.setState(({ brushSize }) => ({ brushSize: Math.min(brushSize + 1, 6) })),
+      description: "Increase brush size",
+    },
     { commands: ["e"], callback: () => useToolboxState.setState({ tool: Eraser() }), description: "Eraser tool" },
     {
       commands: ["u"],
