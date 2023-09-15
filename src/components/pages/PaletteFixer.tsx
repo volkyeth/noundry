@@ -1,21 +1,5 @@
-import { Box, Center, CenterProps, Heading, HStack, Image, Input, Text, VStack } from "@chakra-ui/react";
-import { useSize } from "@chakra-ui/react-use-size";
-import { Dispatch, FC, ReactEventHandler, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Text, VStack } from "@chakra-ui/react";
 import { Header } from "../layout/Header";
-import { useDropzone } from "react-dropzone";
-import { checkerboardBg } from "../../utils/constants";
-import {
-  applyColorSubstitutions,
-  ColorSubstitutionCandidates,
-  ColorSubstitutions,
-  getColorSubstitutionCandidates,
-  getPixels,
-  setImageDataFromPixels,
-} from "../../utils/colors";
-import { PixelArtCanvas } from "../PixelArtCanvas";
-import { clearCanvas, useOffscreenCanvas } from "../../utils/canvas";
-import { ReactIcon } from "../ReactIcon";
-import { HiArrowCircleRight } from "react-icons/hi";
 import { PartImporter } from "../PartImporter";
 
 export const PaletteFixer = () => {

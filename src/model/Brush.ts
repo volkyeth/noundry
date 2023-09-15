@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Color } from "../tools/tools";
-import { Point } from "../utils/canvas";
+import { Point } from "../types/geometry";
 
 export type BrushState = {
   brushSize: number;

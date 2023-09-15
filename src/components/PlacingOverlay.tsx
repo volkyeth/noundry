@@ -3,7 +3,8 @@ import { FC, useRef } from "react";
 import { useToolboxState } from "../model/Toolbox";
 import { usePlacingState } from "../model/WorkspaceModes/PlacingMode";
 import { Move } from "../tools/tools";
-import { getBoundingRect, getNonTransparentPixels } from "../utils/canvas";
+import { getBoundingRect } from "../utils/canvas";
+import { getPaintedPixels } from "../utils/canvas/getPaintedPixels";
 
 export type PlacingOverlayProps = {} & HTMLChakraProps<"svg">;
 
@@ -12,7 +13,7 @@ export const PlacingOverlay: FC<PlacingOverlayProps> = (props) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const canvasWidth = svgRef.current?.getBoundingClientRect().width ?? 0;
   const pixelSize = canvasWidth / 32;
-  const pixels = placingCanvas ? getNonTransparentPixels(placingCanvas) : [];
+  const pixels = placingCanvas ? getPaintedPixels(placingCanvas) : [];
   const isMoveTool = useToolboxState((state) => state.tool.name === Move.name);
   if (pixels.length === 0) {
     return <></>;

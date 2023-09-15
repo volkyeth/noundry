@@ -1,11 +1,13 @@
 import { NounSeed } from "@nouns/assets/dist/types";
 import { create } from "zustand";
-import { clearCanvas, drawCanvas } from "../utils/canvas";
-import { NounPart, NounPartMapping, nounParts } from "../utils/constants";
+import { NounPartMapping, NounPartType } from "../types/noun";
+import { clearCanvas } from "../utils/canvas/clearCanvas";
+import { drawCanvas } from "../utils/canvas/drawCanvas";
+import { nounParts } from "../utils/constants";
 import { NounPartState, createNounPart } from "./NounPart";
 
 export type NounState = {
-  activePart: NounPart | null;
+  activePart: NounPartType | null;
   getActivePartState: () => NounPartState | null;
   background: NounPartState;
   body: NounPartState;
@@ -16,7 +18,7 @@ export type NounState = {
   loadSeed: (seed: NounSeed) => Promise<void>;
   randomize: () => void;
   canvasRef: (canvas: null | HTMLCanvasElement) => void;
-  activatePart: (part: NounPart) => void;
+  activatePart: (part: NounPartType) => void;
 };
 
 export const useNounState = create<NounState>()((set, get) => {
@@ -47,7 +49,7 @@ export const useNounState = create<NounState>()((set, get) => {
     loadSeed: async (seed: NounSeed) => {
       const state = get();
 
-      await Promise.all(Object.entries(seed).map(([part, partSeed]) => state[part as NounPart].loadPart(partSeed)));
+      await Promise.all(Object.entries(seed).map(([part, partSeed]) => state[part as NounPartType].loadPart(partSeed)));
     },
     randomize: () => {
       const state = get();
@@ -64,15 +66,15 @@ export const useNounState = create<NounState>()((set, get) => {
       }
 
       set((state) => {
-        drawNoun(state);
+        drawNounCanvas(state);
         return { canvas };
       });
     },
-    activatePart: (part: NounPart) => set({ activePart: part }),
+    activatePart: (part: NounPartType) => set({ activePart: part }),
   };
 });
 
-export const drawNoun = (state: NounState) => {
+export const drawNounCanvas = (state: NounState) => {
   if (!state.canvas) {
     return;
   }
@@ -82,5 +84,12 @@ export const drawNoun = (state: NounState) => {
       continue;
     }
     drawCanvas(state[part].canvas, state.canvas);
+  }
+};
+
+export const drawNoun = (parts: NounPartMapping<HTMLCanvasElement>, targetCanvas: HTMLCanvasElement) => {
+  clearCanvas(targetCanvas);
+  for (const part of nounParts) {
+    drawCanvas(parts[part], targetCanvas);
   }
 };

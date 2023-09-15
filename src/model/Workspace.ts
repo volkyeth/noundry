@@ -1,7 +1,7 @@
 import Mousetrap, { ExtendedKeyboardEvent } from "mousetrap";
 import { MouseEvent as ReactMouseEvent } from "react";
 import { create } from "zustand";
-import { replaceCanvas } from "../utils/canvas";
+import { replaceCanvas } from "../utils/canvas/replaceCanvas";
 import { useNounState } from "./Noun";
 import { EditMode } from "./WorkspaceModes/EditMode";
 export interface WorkspaceMode {

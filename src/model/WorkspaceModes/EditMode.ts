@@ -13,8 +13,11 @@ import {
   RectangularSelection,
   withSelectionClip,
 } from "../../tools/tools";
-import { Point, canvasPoint, clearCanvas, replaceCanvas } from "../../utils/canvas";
+import { Point } from "../../types/geometry";
+import { clearCanvas } from "../../utils/canvas/clearCanvas";
+import { replaceCanvas } from "../../utils/canvas/replaceCanvas";
 import { MouseButton, MouseEventType } from "../../utils/constants";
+import { getCanvasPoint } from "../../utils/geometry/getCanvasPoint";
 import { Brush, useBrush } from "../Brush";
 import { useClipboardState } from "../Clipboard";
 import { useCursor } from "../Cursor";
@@ -54,7 +57,7 @@ export const EditMode: WorkspaceMode = {
     const workspace = useWorkspaceState.getState();
     if (!workspace.canvas) return;
 
-    const point = canvasPoint(e, workspace.canvas);
+    const point = getCanvasPoint(e, workspace.canvas);
     switch (true) {
       case e.type === MouseEventType.Down && e.button === MouseButton.Left:
         handleLeftMouseDown(point, workspace.canvas, activeNounPart);

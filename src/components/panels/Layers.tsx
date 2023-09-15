@@ -11,7 +11,8 @@ import { RiEraserFill, RiFolderOpenFill, RiSave3Fill } from "react-icons/ri";
 import { useNounState } from "../../model/Noun";
 import { NounPartState } from "../../model/NounPart";
 import { useWorkspaceState } from "../../model/Workspace";
-import { NounPart, nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
+import { NounPartType } from "../../types/noun";
+import { nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
 import { ImportModal } from "../ImportModal";
 import { ReactIcon } from "../ReactIcon";
@@ -36,7 +37,7 @@ export const Layers: FC<NounPanelPros> = ({}) => {
 
 export type PartSelectorProps = {
   PartIcon: FC<SVGProps<SVGSVGElement>>;
-  part: NounPart;
+  part: NounPartType;
 };
 
 export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
@@ -46,7 +47,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
   const { isOpen: isImportOpen, onOpen: onImportOpen, onClose: onImportClose } = useDisclosure();
   const partState = state[part];
-  const [exportedPart, setExportedPart] = useState<NounPart>();
+  const [exportedPart, setExportedPart] = useState<NounPartType>();
   const fileLoader = document.createElement("input");
   const randomizeAllHovered = useWorkspaceState((state) => state.randomizeAllHovered);
   fileLoader.type = "file";

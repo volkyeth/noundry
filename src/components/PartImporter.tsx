@@ -1,17 +1,18 @@
-import {
-  applyColorSubstitutions,
-  ColorSubstitutionCandidates,
-  ColorSubstitutions,
-  getColorSubstitutionCandidates,
-  getPixels,
-  setImageDataFromPixels,
-} from "../utils/colors";
-import { Box, Button, ButtonProps, Center, CenterProps, HStack, Input, StackProps, Text, useBoolean, VStack } from "@chakra-ui/react";
-import { useSize } from "@chakra-ui/react-use-size";
-import { Dispatch, FC, ReactEventHandler, Ref, RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
+import { Box, Button, Center, CenterProps, HStack, Input, StackProps, Text, VStack } from "@chakra-ui/react";
+import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { HiArrowCircleRight } from "react-icons/hi";
-import { clearCanvas, replaceCanvas, useCanvasInitializer, useOffscreenCanvas } from "../utils/canvas";
+import { useCanvasInitializer, useOffscreenCanvas } from "../utils/canvas";
+import { clearCanvas } from "../utils/canvas/clearCanvas";
+import { getPixels } from "../utils/canvas/getPixels";
+import { replaceCanvas } from "../utils/canvas/replaceCanvas";
+import {
+  ColorSubstitutionCandidates,
+  ColorSubstitutions,
+  applyColorSubstitutions,
+  getColorSubstitutionCandidates,
+  setImageDataFromPixels,
+} from "../utils/colors";
 import { checkerboardBg } from "../utils/constants";
 import { PixelArtCanvas } from "./PixelArtCanvas";
 import { ReactIcon } from "./ReactIcon";
@@ -43,7 +44,7 @@ export const PartImporter: FC<PartImporterProps> = ({ canFinishIfPaletteConforms
   }, [colorSubstitutions]);
 
   return (
-    <VStack h="full" w="full" fontSize={14} spacing={4} justifyContent="space-around" overflow="clip">
+    <VStack h="full" w="full" fontSize={14} spacing={4} justifyContent="space-around" p={10} overflow="clip">
       {hasPartLoaded && (
         <HStack justifyContent="space-around" flexGrow={1} alignItems="start" spacing={8} overflow="clip">
           <VStack bgColor="gray.800" p={2}>
@@ -133,7 +134,7 @@ const SubstituteColorPicker: FC<SubstituteColorPickerProps> = ({ candidates, sub
     <VStack spacing={2} {...props}>
       {Object.entries(candidates).map(([offPaletteColor, substitutionCandidates], i) => (
         <HStack key={`color-picker-${i}`}>
-          <Box boxSize={7} bgColor={offPaletteColor} />
+          <Box boxSize={7} bgColor={offPaletteColor} borderWidth={1} />
           <ReactIcon icon={HiArrowCircleRight} />
           <HStack>
             {substitutionCandidates.map((candidate, j) => (
@@ -142,8 +143,8 @@ const SubstituteColorPicker: FC<SubstituteColorPickerProps> = ({ candidates, sub
                 boxSize={7}
                 bgColor={candidate}
                 borderWidth={2}
-                borderColor={substitutions[offPaletteColor] === candidate ? "white" : "transparent"}
-                _hover={{ borderColor: "gray.100" }}
+                borderColor={substitutions[offPaletteColor] === candidate ? "red" : "transparent"}
+                _hover={{ borderColor: "red" }}
                 onClick={() => {
                   setSubstitutions({
                     ...substitutions,
@@ -183,10 +184,10 @@ const Dropzone: FC<DropzoneProps> = ({ onPartLoaded, hasPartLoaded, ...props }) 
       <Input {...getInputProps()} size="0" type="file" accept="image/x-png" />
       <p>
         {isDragActive
-          ? "Drop the part here"
+          ? "Drop the image here"
           : hasPartLoaded
-          ? "Drop another part here, or click to select a file"
-          : "Drop your part here, or click to select a file"}
+          ? "Drop another image here to replace, or click to select a file"
+          : "Drop your image here, or click to select a file"}
       </p>
     </Center>
   );

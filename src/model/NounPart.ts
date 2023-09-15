@@ -1,12 +1,13 @@
-import { ImageData } from "@nouns/assets";
-import { EncodedImage, buildSVG } from "@nouns/sdk";
-import { clearCanvas, fillCanvas, getBlob, replaceCanvasWithBlob } from "../utils/canvas";
-import { NounPart } from "../utils/constants";
-import { NounState, drawNoun } from "./Noun";
+import { NounPartType } from "../types/noun";
+import { clearCanvas } from "../utils/canvas/clearCanvas";
+import { getBlob } from "../utils/canvas/getBlob";
+import { replaceCanvasWithBlob } from "../utils/canvas/replaceCanvasWithBlob";
+import { drawPartFromSeed, getRandomSeed } from "../utils/nounAssets";
+import { NounState, drawNounCanvas } from "./Noun";
 
 export type NounPartState = {
   visible: boolean;
-  part: NounPart;
+  part: NounPartType;
   canvas: HTMLCanvasElement;
   history: Blob[];
   currentHistoryIndex: number;
@@ -26,7 +27,7 @@ export type NounPartState = {
 type PartialUpdate<T> = T | Partial<T> | ((state: T) => T | Partial<T>);
 type Set<T> = (partial: PartialUpdate<T>, replace?: boolean | undefined) => void;
 
-const moveToHistory = async (part: NounPart, get: () => NounState, index: number) => {
+const moveToHistory = async (part: NounPartType, get: () => NounState, index: number) => {
   const state = get();
   const partState = state[part];
 
@@ -36,7 +37,7 @@ const moveToHistory = async (part: NounPart, get: () => NounState, index: number
   const blob = partState.history[index];
 
   await replaceCanvasWithBlob(blob, partState.canvas).then(() => {
-    drawNoun(state);
+    drawNounCanvas(state);
   });
 
   return {
@@ -47,7 +48,7 @@ const moveToHistory = async (part: NounPart, get: () => NounState, index: number
   };
 };
 
-const scopedSet = (part: NounPart, set: Set<NounState>) => (partial: PartialUpdate<NounPartState>) => {
+const scopedSet = (part: NounPartType, set: Set<NounState>) => (partial: PartialUpdate<NounPartState>) => {
   set((prev) => {
     const updatedPartState = typeof partial === "function" ? partial(prev[part]) : partial;
     return {
@@ -56,26 +57,7 @@ const scopedSet = (part: NounPart, set: Set<NounState>) => (partial: PartialUpda
   });
 };
 
-const drawPart = async (part: EncodedImage, canvas: HTMLCanvasElement) => {
-  const { palette } = ImageData;
-  const svgString = buildSVG([part], palette, "00000000");
-
-  const img = new Image();
-
-  return new Promise<void>((resolve, reject) => {
-    img.onload = () => {
-      clearCanvas(canvas);
-      canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
-      resolve();
-    };
-
-    img.onerror = reject;
-
-    img.src = `data:image/svg+xml;base64,${btoa(svgString)}`;
-  });
-};
-
-export const createNounPart = (part: NounPart, set: Set<NounState>, get: () => NounState): NounPartState => {
+export const createNounPart = (part: NounPartType, set: Set<NounState>, get: () => NounState): NounPartState => {
   const canvas = document.createElement("canvas");
   canvas.width = 32;
   canvas.height = 32;
@@ -112,7 +94,7 @@ export const createNounPart = (part: NounPart, set: Set<NounState>, get: () => N
     },
     // Redraws the Noun and pushes current canvas content to history
     commit: async () => {
-      drawNoun(get());
+      drawNounCanvas(get());
       await getBlob(canvas).then(async (blob) => {
         const partState = get()[part];
 
@@ -157,44 +139,9 @@ export const createNounPart = (part: NounPart, set: Set<NounState>, get: () => N
     },
     toggleVisibility: () => {
       scopedSet(part, set)((state) => ({ visible: !state.visible }));
-      drawNoun(get());
+      drawNounCanvas(get());
     },
   };
-};
-
-const getRandomSeed = (part: NounPart) => {
-  const { bgcolors, images } = ImageData;
-  const { bodies, accessories, heads, glasses } = images;
-
-  const availableParts = {
-    background: bgcolors.length,
-    body: bodies.length,
-    accessory: accessories.length,
-    head: heads.length,
-    glasses: glasses.length,
-  };
-
-  return Math.floor(Math.random() * availableParts[part]);
-};
-
-const drawPartFromSeed = async (part: NounPart, seed: number, canvas: HTMLCanvasElement) => {
-  if (part === "background") {
-    const background = ImageData.bgcolors[seed];
-    if (!background) throw `there's no background with index ${seed}`;
-    clearCanvas(canvas);
-    fillCanvas(canvas, `#${background}`);
-    return;
-  }
-
-  const partImage = {
-    head: ImageData.images.heads,
-    body: ImageData.images.bodies,
-    accessory: ImageData.images.accessories,
-    glasses: ImageData.images.glasses,
-  }[part][seed] as EncodedImage;
-
-  if (!partImage) throw `there's no ${part} with index ${seed}`;
-  await drawPart(partImage, canvas);
 };
 
 const blobsAreEqual = async (blobA: Blob, blobB: Blob) => {

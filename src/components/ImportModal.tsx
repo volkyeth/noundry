@@ -1,12 +1,12 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalProps } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { useNounState } from "../model/Noun";
-import { replaceCanvas } from "../utils/canvas";
-import { NounPart } from "../utils/constants";
+import { NounPartType } from "../types/noun";
+import { replaceCanvas } from "../utils/canvas/replaceCanvas";
 import { PartImporter } from "./PartImporter";
 
 export type ImportModalProps = {
-  part: NounPart;
+  part: NounPartType;
 } & Omit<ModalProps, "children">;
 
 export const ImportModal: FC<ImportModalProps> = ({ part, onClose, ...props }) => {

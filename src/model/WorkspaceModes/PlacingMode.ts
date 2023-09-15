@@ -1,8 +1,13 @@
 import { MouseEvent as ReactMouseEvent } from "react";
 import { create } from "zustand";
 import { useCheatSheetState } from "../../components/CheatSheetButton";
-import { Point, canvasPoint, clearCanvas, drawCanvas, replaceCanvas, withClip } from "../../utils/canvas";
+import { Point } from "../../types/geometry";
+import { withClip } from "../../utils/canvas";
+import { clearCanvas } from "../../utils/canvas/clearCanvas";
+import { drawCanvas } from "../../utils/canvas/drawCanvas";
+import { replaceCanvas } from "../../utils/canvas/replaceCanvas";
 import { MouseButton, MouseEventType } from "../../utils/constants";
+import { getCanvasPoint } from "../../utils/geometry/getCanvasPoint";
 import { useClipboardState } from "../Clipboard";
 import { useCursor } from "../Cursor";
 import { useNounState } from "../Noun";
@@ -104,7 +109,7 @@ export const PlacingMode: WorkspaceMode = {
 
     const { clickingLeft } = useCursor.getState();
 
-    const point = canvasPoint(e, workspace.canvas);
+    const point = getCanvasPoint(e, workspace.canvas);
     switch (true) {
       case e.type === MouseEventType.Down && e.button === MouseButton.Left:
         handleLeftMouseDown(point, workspace.canvas, activeNounPart);

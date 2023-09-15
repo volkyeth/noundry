@@ -5,7 +5,7 @@ import { useNounState } from "../../model/Noun";
 import { useToolboxState } from "../../model/Toolbox";
 import { useWorkspaceState } from "../../model/Workspace";
 import { Move } from "../../tools/tools";
-import { replaceCanvas } from "../../utils/canvas";
+import { replaceCanvas } from "../../utils/canvas/replaceCanvas";
 import { CanvasGrid } from "../CanvasGrid";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { PixelArtCanvas } from "../PixelArtCanvas";

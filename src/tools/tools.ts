@@ -9,8 +9,12 @@ import { useBrush } from "../model/Brush";
 import { NounPartState } from "../model/NounPart";
 import { useSelection } from "../model/Selection";
 import { usePlacingState } from "../model/WorkspaceModes/PlacingMode";
-import { Point, clearCanvas, drawCanvas, drawLine, erasePixel, insideCanvas, paintPixel, withClip } from "../utils/canvas";
-import { getPixelColor } from "../utils/colors";
+import { Point } from "../types/geometry";
+import { drawLine, erasePixel, paintPixel, withClip } from "../utils/canvas";
+import { clearCanvas } from "../utils/canvas/clearCanvas";
+import { drawCanvas } from "../utils/canvas/drawCanvas";
+import { getPixelColor } from "../utils/canvas/getPixelColor";
+import { isInside } from "../utils/canvas/isInside";
 
 export type ToolAction = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => void;
 
@@ -111,7 +115,7 @@ export const RectangularSelection = (): Tool => ({
     const start = points[0];
     const end = points[points.length - 1];
 
-    if (!insideCanvas(canvas, start) && !insideCanvas(canvas, end)) {
+    if (!isInside(canvas, start) && !isInside(canvas, end)) {
       return;
     }
 

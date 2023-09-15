@@ -1,7 +1,8 @@
 import { unionBy } from "lodash";
 import { create } from "zustand";
 import { withSelectionClip } from "../tools/tools";
-import { Point, toString } from "../utils/canvas";
+import { Point } from "../types/geometry";
+import { toString } from "../utils/canvas";
 import { useNounState } from "./Noun";
 
 export type SelectionState = {

@@ -21,12 +21,13 @@ import {
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { useNounState } from "../model/Noun";
-import { drawCanvas } from "../utils/canvas";
-import { NounPart, checkerboardBg } from "../utils/constants";
+import { NounPartType } from "../types/noun";
+import { drawCanvas } from "../utils/canvas/drawCanvas";
+import { checkerboardBg } from "../utils/constants";
 import { PixelArtCanvas } from "./PixelArtCanvas";
 
 export type ExportModalProps = {
-  part?: NounPart;
+  part?: NounPartType;
 } & Omit<ModalProps, "children">;
 
 export const ExportModal: FC<ExportModalProps> = ({ part, onClose, ...props }) => {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Point } from "../utils/canvas";
+import { Point } from "../types/geometry";
 
 export type CursorState = {
   pathPoints: Point[];

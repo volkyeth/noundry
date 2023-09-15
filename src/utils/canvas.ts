@@ -1,8 +1,5 @@
 import { useMemo, useState } from "react";
-
-export type Point = { x: number; y: number };
-
-export type Matrix = { [x: number]: { [y: number]: true } };
+import { Point } from "../types/geometry";
 
 const coordinates = (point: Point) => Object.values(point) as [number, number];
 
@@ -46,67 +43,6 @@ export const drawLine = (start: Point, end: Point, color: string, brushSize: num
   }
 };
 
-export const fillCanvas = (canvas: HTMLCanvasElement, color: string) => {
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-};
-
-export const clearCanvas = (canvas: HTMLCanvasElement) => {
-  canvas.getContext("2d")!.clearRect(0, 0, canvas.width, canvas.height);
-};
-
-export const drawCanvas = (source: CanvasImageSource, destinationCanvas: HTMLCanvasElement, dx: number = 0, dy: number = 0) => {
-  const ctx = destinationCanvas.getContext("2d")!;
-  ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(source, dx, dy, destinationCanvas.width, destinationCanvas.height);
-};
-
-export const replaceCanvas = (source: CanvasImageSource, destinationCanvas: HTMLCanvasElement) => {
-  clearCanvas(destinationCanvas);
-  drawCanvas(source, destinationCanvas);
-};
-
-export const getBlob = (canvas: HTMLCanvasElement): Promise<Blob> =>
-  new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        reject("Couldn't create blob");
-        return;
-      }
-
-      resolve(blob);
-    });
-  });
-
-// convert the point from a mouse pointer event to a point on the canvas
-export const canvasPoint = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, canvas: HTMLCanvasElement): Point => {
-  const canvasRect = canvas.getBoundingClientRect();
-  return {
-    x: Math.floor(((event.clientX - canvasRect.left) * canvas.width) / canvasRect.width),
-    y: Math.floor(((event.clientY - canvasRect.top) * canvas.height) / canvasRect.height),
-  };
-};
-
-export const replaceCanvasWithBlob = (blob: Blob, canvas: HTMLCanvasElement) => {
-  const img = new Image();
-  const ctx = canvas.getContext("2d")!;
-
-  return new Promise<void>((resolve) => {
-    img.src = URL.createObjectURL(blob);
-    img.onload = () => {
-      clearCanvas(canvas);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      resolve();
-    };
-  });
-};
-
-export const scaleCanvas = (canvas: HTMLCanvasElement, scale: number) => {
-  const ctx = canvas.getContext("2d")!;
-  ctx.scale(scale, scale);
-};
-
 export const useOffscreenCanvas = () => {
   return useMemo(() => {
     const canvas = document.createElement("canvas");
@@ -141,25 +77,6 @@ export const withClip = (ctx: CanvasRenderingContext2D, points: Point[], fn: () 
   fn();
   ctx.restore();
 };
-
-export const getNonTransparentPixels = (canvas: HTMLCanvasElement): Point[] => {
-  const ctx = canvas.getContext("2d")!;
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const pixels = imageData.data;
-  const nonTransparentPixels = [];
-  for (let i = 0; i < pixels.length; i += 4) {
-    const alpha = pixels[i + 3];
-    if (alpha > 0) {
-      const x = (i / 4) % canvas.width;
-      const y = Math.floor(i / 4 / canvas.width);
-      nonTransparentPixels.push({ x, y });
-    }
-  }
-  return nonTransparentPixels;
-};
-
-export const insideCanvas = (canvas: HTMLCanvasElement, point: Point) =>
-  point.x >= 0 && point.x < canvas.width && point.y >= 0 && point.y < canvas.height;
 
 export const toString = (point: Point) => `${point.x},${point.y}`;
 

@@ -24,6 +24,9 @@ const config = {
     initialColorMode: "dark",
     useSystemColorMode: false,
   },
+  styles: {
+    global: { "html, body, #root": { height: "100%" } },
+  },
   colors: {
     gray: {
       50: "#F2F2F2",
@@ -62,6 +65,11 @@ const config = {
             color: "white",
           },
         },
+      },
+    },
+    Heading: {
+      baseStyle: {
+        fontFamily: '"Press Start 2P", cursive',
       },
     },
     Kbd: {

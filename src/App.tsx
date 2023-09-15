@@ -1,13 +1,16 @@
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
-import "@fontsource/press-start-2p/400.css";
+import "@fontsource/press-start-2p";
+import "@fontsource/vt323";
+import { inject } from "@vercel/analytics";
+import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { Route, Routes } from "react-router-dom";
+import { BraveDisclaimer } from "./components/BraveDisclaimer";
+import { MainLayout } from "./components/layout/MainLayout";
 import { Editor } from "./components/pages/Editor";
 import { PaletteFixer } from "./components/pages/PaletteFixer";
+import { Propose } from "./components/pages/Propose";
 import theme from "./theme";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useEffect } from "react";
-import { BraveDisclaimer } from "./components/BraveDisclaimer";
-import { inject } from "@vercel/analytics";
 
 const App = () => {
   inject();
@@ -17,10 +20,14 @@ const App = () => {
       <ColorModeFixer />
       <BraveDisclaimer />
       <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route path="/" element={<Editor />} />
-          <Route path="palette" element={<PaletteFixer />} />
-        </Routes>
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<Editor />} />
+            <Route path="palette" element={<PaletteFixer />} />
+            <Route path="propose" element={<Propose />} />
+            <Route path="propose/:partType" element={<Propose />} />
+          </Routes>
+        </MainLayout>
       </QueryClientProvider>
     </ChakraProvider>
   );
