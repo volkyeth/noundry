@@ -1,5 +1,7 @@
-import { ImageData } from "@nouns/assets";
 import { chunk } from "lodash";
+import { deflateRaw } from "pako";
+import { encodeAbiParameters } from "viem";
+import { getPixels } from "./canvas/getPixels";
 
 const TRANSPARENT = 0;
 
@@ -21,23 +23,80 @@ export type BoundedPixels = {
   pixels: ColorIndex[];
 };
 
-export const paletteLookup = ImageData.palette.reduce(
-  (lookup, color, index) => ({ ...lookup, [`#${color}`.toLowerCase()]: index }),
-  {} as Record<string, number>
-);
+export type EncodedCompressedParts = [
+  encodedCompressedArtwork: `0x${string}`,
+  originalLength: bigint,
+  itemCount: number
+];
 
-export const encodeArtwork = (decoded: DecodedArtwork) => {
-  const { width, height, paletteIndex, pixels } = decoded;
+export const getPaletteDict = (palette: string[]) =>
+  palette.reduce(
+    (lookup, color, index) => ({
+      ...lookup,
+      [`#${color}`.toLowerCase()]: index,
+    }),
+    {} as Record<string, number>
+  );
 
+export const compressAndEncodeArtwork = (
+  partCanvas: HTMLCanvasElement,
+  palette: string[],
+  paletteIndex?: number
+): EncodedCompressedParts =>
+  compressEncodedArtwork([
+    encodeArtwork(
+      partCanvas.height,
+      partCanvas.width,
+      getColorIndexes(partCanvas, palette),
+      (paletteIndex = 0)
+    ),
+  ]);
+
+const getColorIndexes = (partCanvas: HTMLCanvasElement, palette: string[]) => {
+  const paletteDict = getPaletteDict(palette);
+  return getPixels(partCanvas).map(
+    (color) => paletteDict[color.toHex().toLowerCase()] ?? TRANSPARENT
+  );
+};
+
+export const compressEncodedArtwork = (
+  encodedArtwork: EncodedArtwork[]
+): EncodedCompressedParts => {
+  const abiEncodedArtwork = encodeAbiParameters(
+    [{ type: "bytes[]" }],
+    [encodedArtwork]
+  );
+  const encodedCompressedArtwork = ("0x" +
+    Buffer.from(
+      deflateRaw(Buffer.from(abiEncodedArtwork.substring(2), "hex"))
+    ).toString("hex")) as `0x${string}`;
+  const originalLength = BigInt(abiEncodedArtwork.substring(2).length / 2);
+  const itemCount = encodedArtwork.length;
+
+  return [encodedCompressedArtwork, originalLength, itemCount];
+};
+
+export const encodeArtwork = (
+  height: number,
+  width: number,
+  pixels: number[],
+  paletteIndex: number
+): `0x${string}` => {
   const {
     bounds: { top, right, bottom, left },
     pixels: boundedPixels,
   } = packToBoundedPixels(pixels, width, height);
-  const metadata = [paletteIndex, top, right, bottom, left].map((v) => toHexByte(v));
+  const metadata = [paletteIndex, top, right, bottom, left].map((v) =>
+    toHexByte(v)
+  );
   return `0x${metadata.join("")}${rleEncode(boundedPixels)}`;
 };
 
-export const decodeArtwork = (encoded: EncodedArtwork, width: number, height: number): DecodedArtwork => {
+export const decodeArtwork = (
+  encoded: EncodedArtwork,
+  width: number,
+  height: number
+): DecodedArtwork => {
   const paletteIndex = parseHex(encoded.substring(2, 4));
   const top = parseHex(encoded.substring(4, 6));
   const right = parseHex(encoded.substring(6, 8)) - 1;
@@ -45,7 +104,11 @@ export const decodeArtwork = (encoded: EncodedArtwork, width: number, height: nu
   const left = parseHex(encoded.substring(10, 12));
   const boundedPixels = rleDecode(encoded.substring(12));
 
-  const pixels = unpackBoundedPixels({ pixels: boundedPixels, bounds: { top, right, bottom, left } }, width, height);
+  const pixels = unpackBoundedPixels(
+    { pixels: boundedPixels, bounds: { top, right, bottom, left } },
+    width,
+    height
+  );
 
   return {
     paletteIndex,
@@ -55,7 +118,11 @@ export const decodeArtwork = (encoded: EncodedArtwork, width: number, height: nu
   };
 };
 
-export const packToBoundedPixels = (pixels: ColorIndex[], width: number, height: number): BoundedPixels => {
+export const packToBoundedPixels = (
+  pixels: ColorIndex[],
+  width: number,
+  height: number
+): BoundedPixels => {
   let top = height - 1;
   let right = 0;
   let bottom = 0;
@@ -77,7 +144,9 @@ export const packToBoundedPixels = (pixels: ColorIndex[], width: number, height:
     }
   }
 
-  const boundedPixels = rows.slice(top, bottom + 1).flatMap((row) => row.slice(left, right + 1));
+  const boundedPixels = rows
+    .slice(top, bottom + 1)
+    .flatMap((row) => row.slice(left, right + 1));
 
   // right bound is calculated to be one pixel outside the content
   right++;
@@ -93,7 +162,11 @@ export const packToBoundedPixels = (pixels: ColorIndex[], width: number, height:
   };
 };
 
-export const unpackBoundedPixels = (boundedPixels: BoundedPixels, width: number, height: number): number[] => {
+export const unpackBoundedPixels = (
+  boundedPixels: BoundedPixels,
+  width: number,
+  height: number
+): number[] => {
   const {
     bounds: { top, right, bottom, left },
     pixels,
@@ -105,7 +178,11 @@ export const unpackBoundedPixels = (boundedPixels: BoundedPixels, width: number,
   const boundedRows = chunk(pixels, right - left + 1);
   return [
     ...new Array(top).fill(null).flatMap(() => emptyRow()),
-    ...boundedRows.flatMap((boundedRow) => [...leftGap(), ...boundedRow, ...rightGap()]),
+    ...boundedRows.flatMap((boundedRow) => [
+      ...leftGap(),
+      ...boundedRow,
+      ...rightGap(),
+    ]),
     ...new Array(height - bottom - 1).fill(null).flatMap(() => emptyRow()),
   ];
 };

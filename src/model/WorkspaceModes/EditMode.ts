@@ -77,7 +77,14 @@ export const EditMode: WorkspaceMode = {
     }
   },
   keyBindings: [
-    { commands: ["escape"], callback: useSelection.getState().clearSelection, description: "Clear selection" },
+    {
+      commands: ["escape"],
+      callback: (e) => {
+        useSelection.getState().clearSelection();
+        e.preventDefault();
+      },
+      description: "Clear selection",
+    },
     {
       commands: ["ctrl+z", "command+z"],
       callback: (e) => {

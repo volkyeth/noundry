@@ -129,7 +129,14 @@ export const PlacingMode: WorkspaceMode = {
     }
   },
   keyBindings: [
-    { commands: ["escape"], callback: () => endPlacing(), description: "Cancel placing" },
+    {
+      commands: ["escape"],
+      callback: (e) => {
+        endPlacing();
+        e.preventDefault();
+      },
+      description: "Cancel placing",
+    },
     {
       commands: ["enter"],
       callback: () => {

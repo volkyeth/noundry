@@ -1,12 +1,31 @@
-import loadingNounSmall from "@/assets/loading-noun-smaller.gif";
-import loadingNoun from "@/assets/loading-noun.gif";
-import { Button, FormControl, FormHelperText, FormLabel, Input, SimpleGrid, StackProps, Text, Textarea, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  HStack,
+  Input,
+  Link,
+  SimpleGrid,
+  Spinner,
+  StackProps,
+  Text,
+  Textarea,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
-import { AMOUNT_PROPOSAL_GALLERY_IMAGES } from "../constants/proposal";
+import { formatEther } from "viem";
+import { useAccount, useWaitForTransaction } from "wagmi";
+import { useNounsDataCreateCandidateCost } from "../generated";
 import { useProposalState } from "../model/Proposal";
 import { NounPartType } from "../types/noun";
 import { generateProposalContent } from "../utils/propose/generateProposalContent";
-import { ProposalImages, generateProposalImages } from "../utils/propose/generateProposalImages";
+import { useIsNouner } from "../utils/propose/useIsNouner";
+import { useProposalImages } from "../utils/propose/useProposalImages";
+import { useProposePart } from "../utils/propose/useProposePart";
+import { OnchainActionButton } from "./OnchainActionButton";
 import { ProposalPreview } from "./ProposalPreview";
 
 export interface ProposePartProps extends StackProps {
@@ -19,39 +38,86 @@ export const ProposePart: FC<ProposePartProps> = ({ partType, partBitmap }) => {
     setPartBitmap,
     setPartName,
     partName,
-    setProofOfNounishnessUrl,
-    proofOfNounishnessUrl,
     provenanceUrl,
     setprovenanceUrl,
     setWordsFromArtist,
     wordsFromArtist,
   } = useProposalState();
-  useEffect(() => {
-    if (!partBitmap) return;
-    generateProposalImages(partType, partBitmap).then(setProposalImages);
-  }, [partBitmap]);
 
-  const [proposalImages, setProposalImages] = useState<ProposalImages>({
-    galleryImages: new Array(AMOUNT_PROPOSAL_GALLERY_IMAGES).fill(loadingNounSmall),
-    editionImage: loadingNoun,
-    mainImage: loadingNoun,
-  });
+  const { isOpen: agreedToCc0, onToggle: toggleCc0Agreement } = useDisclosure();
+
+  const { isConnected, address: artistAddress } = useAccount();
+
+  const isNameValid = partName.length > 0;
+  const areWordsFromArtistValid = wordsFromArtist.length > 0;
+  const { data: createCandidateCost } = useNounsDataCreateCandidateCost();
+  const isNouner = useIsNouner(artistAddress);
+
+  const { isUploading, ...proposalImages } = useProposalImages(
+    partType,
+    partBitmap
+  );
+  const canSubmit =
+    isNameValid && areWordsFromArtistValid && !isUploading && agreedToCc0;
   const [description, setDescription] = useState("Loading...");
 
-  console.log({ description });
-
   useEffect(() => {
-    generateProposalContent(partType, partName, proposalImages, wordsFromArtist, proofOfNounishnessUrl, provenanceUrl).then(setDescription);
-  }, [partBitmap, partName, proofOfNounishnessUrl, provenanceUrl, wordsFromArtist, proposalImages]);
+    generateProposalContent(
+      partType,
+      partName,
+      proposalImages,
+      wordsFromArtist,
+      provenanceUrl
+    ).then(setDescription);
+  }, [partBitmap, partName, provenanceUrl, wordsFromArtist, proposalImages]);
+
+  const { data, writeAsync: proposePart } = useProposePart({
+    description,
+    partType,
+    partName,
+    artistAddress,
+    droposalMediaUri: proposalImages.editionImage,
+    partBitmap,
+  });
+
+  const {
+    isLoading: isSubmitting,
+    isSuccess,
+    isError,
+  } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
   return (
-    <VStack align={"start"} bgColor="gray.900" color="gray.100" h="full" w="full" overflowY={"hidden"} p={10} spacing={10}>
+    <VStack
+      align={"start"}
+      bgColor="gray.900"
+      color="gray.100"
+      h="full"
+      w="full"
+      overflowY={"hidden"}
+      p={10}
+      spacing={10}
+    >
       <Button onClick={() => setPartBitmap(null)}>← Back</Button>
 
-      <SimpleGrid templateColumns={"repeat(2,1fr)"} columnGap={10} h="full" mb={2} overflow={"hidden"}>
-        <VStack spacing={8} overflowY={"scroll"}>
-          <FormControl textAlign={"left"} isRequired isInvalid={partName.length === 0}>
+      <SimpleGrid
+        templateColumns={"auto minmax(360px, 675px)"}
+        columnGap={10}
+        h="full"
+        mb={2}
+        overflow={"hidden"}
+      >
+        <VStack spacing={4} justifyContent={"start"} overflowY={"scroll"}>
+          <FormControl textAlign={"left"} isRequired isInvalid={!isNameValid}>
             <FormLabel>Name your {partType}</FormLabel>
-            <Input value={partName} placeholder="Foo" maxW={"md"} textAlign={"left"} onChange={(e) => setPartName(e.target.value)} />
+            <Input
+              value={partName}
+              placeholder="Foo"
+              maxW={"md"}
+              textAlign={"left"}
+              onChange={(e) => setPartName(e.target.value)}
+            />
           </FormControl>
           <FormControl>
             <FormLabel>Provenance</FormLabel>
@@ -63,21 +129,12 @@ export const ProposePart: FC<ProposePartProps> = ({ partType, partBitmap }) => {
               textAlign={"left"}
               onChange={(e) => setprovenanceUrl(e.target.value)}
             />
-            <FormHelperText textAlign={"left"}>Include a link that shows the first appearance of your artwork</FormHelperText>
+            <FormHelperText textAlign={"left"}>
+              Include a link that shows the first public appearance of your
+              artwork
+            </FormHelperText>
           </FormControl>
-          <FormControl>
-            <FormLabel>Proof of Nounishness</FormLabel>
-            <Input
-              type="url"
-              value={proofOfNounishnessUrl}
-              fontSize={"xs"}
-              placeholder="https://nouns.wtf"
-              textAlign={"left"}
-              onChange={(e) => setProofOfNounishnessUrl(e.target.value)}
-            />
-            <FormHelperText textAlign={"left"}>Include a link that shows the community approval of your art</FormHelperText>
-          </FormControl>
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!areWordsFromArtistValid}>
             <FormLabel>Words from the artist</FormLabel>
             <Textarea
               rows={10}
@@ -87,14 +144,64 @@ export const ProposePart: FC<ProposePartProps> = ({ partType, partBitmap }) => {
               textAlign={"left"}
               onChange={(e) => setWordsFromArtist(e.target.value)}
             />
-            <FormHelperText textAlign={"left"}>Say a few words about your art. Markdown accepted</FormHelperText>
+            <FormHelperText textAlign={"left"}>
+              Say a few words about your art. Markdown accepted
+            </FormHelperText>
           </FormControl>
-          <Button w={"full"} colorScheme="pink" size={"lg"}>
-            Submit
-          </Button>
+          <FormControl isRequired isInvalid={!agreedToCc0}>
+            <FormLabel>CC-0 acknowledgement</FormLabel>
+            <Checkbox
+              size={"lg"}
+              spacing={6}
+              isChecked={agreedToCc0}
+              onChange={toggleCc0Agreement}
+            >
+              <Text textAlign={"left"} fontSize={"xs"}>
+                I acknowledge that I am releasing my artwork under the{" "}
+                <Link
+                  textDecoration={"underline"}
+                  color={"blue.400"}
+                  href="https://creativecommons.org/publicdomain/zero/1.0/"
+                >
+                  Creative Commons Zero
+                </Link>{" "}
+                license if the proposal is executed.
+              </Text>
+            </Checkbox>
+            <FormHelperText textAlign={"left"}></FormHelperText>
+          </FormControl>
+          <OnchainActionButton
+            disconnectedText="Connect to submit"
+            wrongNetworkText="Switch network to submit"
+            isLoading={isSubmitting}
+            loadingText="Submitting"
+            onClick={() => proposePart?.()}
+            w={"full"}
+            p={6}
+            h={"fit-content"}
+            maxH={"full"}
+            colorScheme="pink"
+            size={"lg"}
+            isDisabled={!proposePart || !canSubmit}
+          >
+            Submit proposal candidate
+          </OnchainActionButton>
+          {!!createCandidateCost && isConnected && isNouner === false && (
+            <Text fontSize={12}>{`Since you're not a Nouner, a ${formatEther(
+              createCandidateCost
+            )} ETH fee will be included`}</Text>
+          )}
         </VStack>
         <VStack align={"start"} h="full" overflow={"hidden"}>
-          <Text>Proposal Preview:</Text>
+          <HStack w={"full"} justifyContent={"space-between"}>
+            <Text fontSize={16}>Proposal Preview:</Text>
+            {isUploading && (
+              <Text fontSize={10}>
+                <Spinner size={"xs"} />
+                {"  Uploading images"}
+              </Text>
+            )}
+          </HStack>
           <ProposalPreview description={description} overflowY={"scroll"} />
         </VStack>
       </SimpleGrid>

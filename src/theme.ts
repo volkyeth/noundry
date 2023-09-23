@@ -6,7 +6,7 @@ const Tooltip = () => {
   const $arrowBg = cssVar("popper-arrow-bg");
   return {
     baseStyle: {
-      fontFamily: '"Press Start 2P", cursive',
+      fontFamily: '"Press Start 2P", sans-serif',
       fontSize: 8,
       borderRadius: 0,
       bg: $bg.reference,
@@ -69,12 +69,12 @@ const config = {
     },
     Heading: {
       baseStyle: {
-        fontFamily: '"Press Start 2P", cursive',
+        fontFamily: '"Press Start 2P", sans-serif',
       },
     },
     Kbd: {
       baseStyle: {
-        fontFamily: '"Press Start 2P", cursive',
+        fontFamily: '"Press Start 2P", sans-serif',
         fontSize: 10,
         px: 2,
         py: 1,

@@ -1,7 +1,9 @@
 import { ReactComponent as LogoNoggles } from "@/assets/NoundryStudio.svg";
-import { Center, Heading, SimpleGrid, StackProps } from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid, StackProps } from "@chakra-ui/react";
+import { ConnectKitButton } from "connectkit";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { useAccount } from "wagmi";
 import { create } from "zustand";
 
 export interface HeaderProps extends StackProps {
@@ -10,14 +12,27 @@ export interface HeaderProps extends StackProps {
 
 export const Header: FC<HeaderProps> = ({ ...props }) => {
   const { sectionTitle } = useHeaderState();
+  const { isConnected } = useAccount();
   return (
-    <SimpleGrid templateColumns={"repeat(3,1fr)"} {...props} bg="gray.800" w="full" p={0} spacing={8}>
+    <SimpleGrid
+      templateColumns={"repeat(3,1fr)"}
+      alignItems={"center"}
+      {...props}
+      bg="gray.800"
+      w="full"
+      p={0}
+      spacing={8}
+    >
       <Link to="/">
         <LogoNoggles />
       </Link>
-      <Center>
-        <Heading fontSize={16}>{sectionTitle}</Heading>
-      </Center>
+      <Heading fontSize={16}>{sectionTitle}</Heading>
+
+      {isConnected && (
+        <Box justifySelf={"end"} px={4}>
+          <ConnectKitButton />
+        </Box>
+      )}
     </SimpleGrid>
   );
 };
