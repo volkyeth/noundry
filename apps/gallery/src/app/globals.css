@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "../../public/fonts.css";
+
+@layer base {
+  body {
+    @apply dark:bg-dark bg-light;
+  }
+  #Text {
+    @apply fill-red-600;
+  }
+}
+
+.form-group input:checked + label:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 8px;
+  height: 15px;
+  border: solid #478558;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Palette */
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(20px, 1fr)
+  ); /* Adjust the grid size as needed */
+  grid-gap: 2px; /* Adjust the gap between squares as needed */
+  max-width: 100%; /* Ensure the grid does not exceed its container width */
+  background-color: transparent;
+}
+
+.color-square {
+  width: 100%;
+  padding-top: 100%; /* Create square aspect ratio (1:1) */
+  cursor: pointer;
+}
+
+.color-modal {
+  font-size: 1rem;
+  color: white;
+  padding: 0.75rem;
+  text-align: center;
+  background-color: black;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="500px"
+	 height="500px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+<g id="Background" fill="#D5D7E1">
+	<rect  width="500" height="500"/>
+</g>
+<g id="Body" fill="#27282D">
+	<rect x="125" y="335.723"  width="250" height="164.277"/>
+</g>
+<g id="Skin" fill="#FFCCFA" >
+	<polygon points="136.91,218.245 136.91,137.603 363.09,137.603 363.09,331.147 136.91,331.147 	"/>
+</g>
+
+<g id="Default">
+	<rect x="171.875" y="281.25" width="156.249" height="15.625"/>
+	<path d="M125,500V125h250v375h-15.624V343.75H140.624V500H125z M140.624,218.749v109.376h218.752v-187.5H140.624V218.749z"/>
+	<rect x="203.124" y="187.5" width="31.251" height="62.5"/>
+	<rect x="312.5" y="187.5" width="31.25" height="62.5"/>
+	<rect x="328.124" y="390.626" width="15.627" height="109.374"/>
+	<rect x="156.25" y="390.626" width="15.626" height="109.374"/>
+</g>
+
+<g id="Glasses" fill="#FF2165">
+	<path  d="M250,203.125h15.624v-31.251h93.752v93.751h-93.752v-46.876H250v46.876h-93.751v-46.876H125V250h-15.625
+		v-31.251v-15.624h46.874v-31.251H250V203.125z M171.875,250h62.5v-62.5h-62.5V250z M281.25,250h62.5v-62.5h-62.5V250z"/>
+</g>
+
+<g id="WhiteEyes" fill="#FFFFFF" >
+	<rect x="281.25" y="187.5" width="31.25" height="62.5"/>
+	<rect x="171.875" y="187.5"  width="31.249" height="62.5"/>
+</g>
+
+</svg>
