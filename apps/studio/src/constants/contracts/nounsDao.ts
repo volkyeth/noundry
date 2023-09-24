@@ -1,3 +1,6 @@
+export const nounsDaoAddress =
+  "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d" as `0x${string}`;
+
 export const nounsDaoAbi = [
   { inputs: [], name: "AdminOnly", type: "error" },
   { inputs: [], name: "CanOnlyInitializeOnce", type: "error" },
@@ -12,7 +15,12 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "numTokens", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "numTokens",
+        type: "uint256",
+      },
       { indexed: false, internalType: "address", name: "to", type: "address" },
     ],
     name: "DAONounsSupplyIncreasedFromEscrow",
@@ -21,7 +29,12 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
+      },
       { indexed: false, internalType: "address", name: "to", type: "address" },
     ],
     name: "DAOWithdrawNounsFromEscrow",
@@ -30,8 +43,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address[]", name: "oldErc20Tokens", type: "address[]" },
-      { indexed: false, internalType: "address[]", name: "newErc20tokens", type: "address[]" },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "oldErc20Tokens",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "newErc20tokens",
+        type: "address[]",
+      },
     ],
     name: "ERC20TokensToIncludeInForkSet",
     type: "event",
@@ -40,10 +63,30 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint32", name: "forkId", type: "uint32" },
-      { indexed: true, internalType: "address", name: "owner", type: "address" },
-      { indexed: false, internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
-      { indexed: false, internalType: "uint256[]", name: "proposalIds", type: "uint256[]" },
-      { indexed: false, internalType: "string", name: "reason", type: "string" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "proposalIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "reason",
+        type: "string",
+      },
     ],
     name: "EscrowedToFork",
     type: "event",
@@ -52,10 +95,30 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint32", name: "forkId", type: "uint32" },
-      { indexed: false, internalType: "address", name: "forkTreasury", type: "address" },
-      { indexed: false, internalType: "address", name: "forkToken", type: "address" },
-      { indexed: false, internalType: "uint256", name: "forkEndTimestamp", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "tokensInEscrow", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "forkTreasury",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "forkToken",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "forkEndTimestamp",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokensInEscrow",
+        type: "uint256",
+      },
     ],
     name: "ExecuteFork",
     type: "event",
@@ -63,8 +126,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "oldForkDAODeployer", type: "address" },
-      { indexed: false, internalType: "address", name: "newForkDAODeployer", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oldForkDAODeployer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newForkDAODeployer",
+        type: "address",
+      },
     ],
     name: "ForkDAODeployerSet",
     type: "event",
@@ -72,8 +145,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldForkPeriod", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newForkPeriod", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldForkPeriod",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newForkPeriod",
+        type: "uint256",
+      },
     ],
     name: "ForkPeriodSet",
     type: "event",
@@ -81,8 +164,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldForkThreshold", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newForkThreshold", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldForkThreshold",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newForkThreshold",
+        type: "uint256",
+      },
     ],
     name: "ForkThresholdSet",
     type: "event",
@@ -91,10 +184,30 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint32", name: "forkId", type: "uint32" },
-      { indexed: true, internalType: "address", name: "owner", type: "address" },
-      { indexed: false, internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
-      { indexed: false, internalType: "uint256[]", name: "proposalIds", type: "uint256[]" },
-      { indexed: false, internalType: "string", name: "reason", type: "string" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "proposalIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "reason",
+        type: "string",
+      },
     ],
     name: "JoinFork",
     type: "event",
@@ -102,8 +215,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint32", name: "oldLastMinuteWindowInBlocks", type: "uint32" },
-      { indexed: false, internalType: "uint32", name: "newLastMinuteWindowInBlocks", type: "uint32" },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "oldLastMinuteWindowInBlocks",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "newLastMinuteWindowInBlocks",
+        type: "uint32",
+      },
     ],
     name: "LastMinuteWindowSet",
     type: "event",
@@ -111,8 +234,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint16", name: "oldMaxQuorumVotesBPS", type: "uint16" },
-      { indexed: false, internalType: "uint16", name: "newMaxQuorumVotesBPS", type: "uint16" },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "oldMaxQuorumVotesBPS",
+        type: "uint16",
+      },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "newMaxQuorumVotesBPS",
+        type: "uint16",
+      },
     ],
     name: "MaxQuorumVotesBPSSet",
     type: "event",
@@ -120,8 +253,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint16", name: "oldMinQuorumVotesBPS", type: "uint16" },
-      { indexed: false, internalType: "uint16", name: "newMinQuorumVotesBPS", type: "uint16" },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "oldMinQuorumVotesBPS",
+        type: "uint16",
+      },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "newMinQuorumVotesBPS",
+        type: "uint16",
+      },
     ],
     name: "MinQuorumVotesBPSSet",
     type: "event",
@@ -129,8 +272,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "oldAdmin", type: "address" },
-      { indexed: false, internalType: "address", name: "newAdmin", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oldAdmin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newAdmin",
+        type: "address",
+      },
     ],
     name: "NewAdmin",
     type: "event",
@@ -138,8 +291,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "oldImplementation", type: "address" },
-      { indexed: false, internalType: "address", name: "newImplementation", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oldImplementation",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newImplementation",
+        type: "address",
+      },
     ],
     name: "NewImplementation",
     type: "event",
@@ -147,8 +310,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "oldPendingAdmin", type: "address" },
-      { indexed: false, internalType: "address", name: "newPendingAdmin", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oldPendingAdmin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newPendingAdmin",
+        type: "address",
+      },
     ],
     name: "NewPendingAdmin",
     type: "event",
@@ -156,8 +329,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "oldPendingVetoer", type: "address" },
-      { indexed: false, internalType: "address", name: "newPendingVetoer", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oldPendingVetoer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newPendingVetoer",
+        type: "address",
+      },
     ],
     name: "NewPendingVetoer",
     type: "event",
@@ -165,8 +348,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "oldVetoer", type: "address" },
-      { indexed: false, internalType: "address", name: "newVetoer", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oldVetoer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newVetoer",
+        type: "address",
+      },
     ],
     name: "NewVetoer",
     type: "event",
@@ -174,32 +367,91 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint32", name: "oldObjectionPeriodDurationInBlocks", type: "uint32" },
-      { indexed: false, internalType: "uint32", name: "newObjectionPeriodDurationInBlocks", type: "uint32" },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "oldObjectionPeriodDurationInBlocks",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "newObjectionPeriodDurationInBlocks",
+        type: "uint32",
+      },
     ],
     name: "ObjectionPeriodDurationSet",
     type: "event",
   },
-  { anonymous: false, inputs: [{ indexed: false, internalType: "uint256", name: "id", type: "uint256" }], name: "ProposalCanceled", type: "event" },
   {
     anonymous: false,
     inputs: [
       { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: false, internalType: "address", name: "proposer", type: "address" },
-      { indexed: false, internalType: "address[]", name: "targets", type: "address[]" },
-      { indexed: false, internalType: "uint256[]", name: "values", type: "uint256[]" },
-      { indexed: false, internalType: "string[]", name: "signatures", type: "string[]" },
-      { indexed: false, internalType: "bytes[]", name: "calldatas", type: "bytes[]" },
-      { indexed: false, internalType: "uint256", name: "startBlock", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "endBlock", type: "uint256" },
-      { indexed: false, internalType: "string", name: "description", type: "string" },
+    ],
+    name: "ProposalCanceled",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "proposer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "targets",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "values",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string[]",
+        name: "signatures",
+        type: "string[]",
+      },
+      {
+        indexed: false,
+        internalType: "bytes[]",
+        name: "calldatas",
+        type: "bytes[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "startBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "endBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
     ],
     name: "ProposalCreated",
     type: "event",
   },
   {
     anonymous: false,
-    inputs: [{ indexed: false, internalType: "uint256", name: "id", type: "uint256" }],
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
+    ],
     name: "ProposalCreatedOnTimelockV1",
     type: "event",
   },
@@ -207,18 +459,78 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: false, internalType: "address", name: "proposer", type: "address" },
-      { indexed: false, internalType: "address[]", name: "signers", type: "address[]" },
-      { indexed: false, internalType: "address[]", name: "targets", type: "address[]" },
-      { indexed: false, internalType: "uint256[]", name: "values", type: "uint256[]" },
-      { indexed: false, internalType: "string[]", name: "signatures", type: "string[]" },
-      { indexed: false, internalType: "bytes[]", name: "calldatas", type: "bytes[]" },
-      { indexed: false, internalType: "uint256", name: "startBlock", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "endBlock", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "updatePeriodEndBlock", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "proposalThreshold", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "quorumVotes", type: "uint256" },
-      { indexed: false, internalType: "string", name: "description", type: "string" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "proposer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "signers",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "targets",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "values",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string[]",
+        name: "signatures",
+        type: "string[]",
+      },
+      {
+        indexed: false,
+        internalType: "bytes[]",
+        name: "calldatas",
+        type: "bytes[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "startBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "endBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "updatePeriodEndBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "proposalThreshold",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quorumVotes",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
     ],
     name: "ProposalCreatedWithRequirements",
     type: "event",
@@ -227,16 +539,66 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: false, internalType: "address", name: "proposer", type: "address" },
-      { indexed: false, internalType: "address[]", name: "targets", type: "address[]" },
-      { indexed: false, internalType: "uint256[]", name: "values", type: "uint256[]" },
-      { indexed: false, internalType: "string[]", name: "signatures", type: "string[]" },
-      { indexed: false, internalType: "bytes[]", name: "calldatas", type: "bytes[]" },
-      { indexed: false, internalType: "uint256", name: "startBlock", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "endBlock", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "proposalThreshold", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "quorumVotes", type: "uint256" },
-      { indexed: false, internalType: "string", name: "description", type: "string" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "proposer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "targets",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "values",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string[]",
+        name: "signatures",
+        type: "string[]",
+      },
+      {
+        indexed: false,
+        internalType: "bytes[]",
+        name: "calldatas",
+        type: "bytes[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "startBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "endBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "proposalThreshold",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quorumVotes",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
     ],
     name: "ProposalCreatedWithRequirements",
     type: "event",
@@ -245,19 +607,46 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: true, internalType: "address", name: "proposer", type: "address" },
-      { indexed: false, internalType: "string", name: "description", type: "string" },
-      { indexed: false, internalType: "string", name: "updateMessage", type: "string" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "proposer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "updateMessage",
+        type: "string",
+      },
     ],
     name: "ProposalDescriptionUpdated",
     type: "event",
   },
-  { anonymous: false, inputs: [{ indexed: false, internalType: "uint256", name: "id", type: "uint256" }], name: "ProposalExecuted", type: "event" },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
+    ],
+    name: "ProposalExecuted",
+    type: "event",
+  },
   {
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "objectionPeriodEndBlock", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "objectionPeriodEndBlock",
+        type: "uint256",
+      },
     ],
     name: "ProposalObjectionPeriodSet",
     type: "event",
@@ -274,8 +663,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldProposalThresholdBPS", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newProposalThresholdBPS", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldProposalThresholdBPS",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newProposalThresholdBPS",
+        type: "uint256",
+      },
     ],
     name: "ProposalThresholdBPSSet",
     type: "event",
@@ -284,12 +683,42 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: true, internalType: "address", name: "proposer", type: "address" },
-      { indexed: false, internalType: "address[]", name: "targets", type: "address[]" },
-      { indexed: false, internalType: "uint256[]", name: "values", type: "uint256[]" },
-      { indexed: false, internalType: "string[]", name: "signatures", type: "string[]" },
-      { indexed: false, internalType: "bytes[]", name: "calldatas", type: "bytes[]" },
-      { indexed: false, internalType: "string", name: "updateMessage", type: "string" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "proposer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "targets",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "values",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string[]",
+        name: "signatures",
+        type: "string[]",
+      },
+      {
+        indexed: false,
+        internalType: "bytes[]",
+        name: "calldatas",
+        type: "bytes[]",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "updateMessage",
+        type: "string",
+      },
     ],
     name: "ProposalTransactionsUpdated",
     type: "event",
@@ -297,8 +726,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint32", name: "oldProposalUpdatablePeriodInBlocks", type: "uint32" },
-      { indexed: false, internalType: "uint32", name: "newProposalUpdatablePeriodInBlocks", type: "uint32" },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "oldProposalUpdatablePeriodInBlocks",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "newProposalUpdatablePeriodInBlocks",
+        type: "uint32",
+      },
     ],
     name: "ProposalUpdatablePeriodSet",
     type: "event",
@@ -307,23 +746,75 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint256", name: "id", type: "uint256" },
-      { indexed: true, internalType: "address", name: "proposer", type: "address" },
-      { indexed: false, internalType: "address[]", name: "targets", type: "address[]" },
-      { indexed: false, internalType: "uint256[]", name: "values", type: "uint256[]" },
-      { indexed: false, internalType: "string[]", name: "signatures", type: "string[]" },
-      { indexed: false, internalType: "bytes[]", name: "calldatas", type: "bytes[]" },
-      { indexed: false, internalType: "string", name: "description", type: "string" },
-      { indexed: false, internalType: "string", name: "updateMessage", type: "string" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "proposer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "targets",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "values",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "string[]",
+        name: "signatures",
+        type: "string[]",
+      },
+      {
+        indexed: false,
+        internalType: "bytes[]",
+        name: "calldatas",
+        type: "bytes[]",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "updateMessage",
+        type: "string",
+      },
     ],
     name: "ProposalUpdated",
     type: "event",
   },
-  { anonymous: false, inputs: [{ indexed: false, internalType: "uint256", name: "id", type: "uint256" }], name: "ProposalVetoed", type: "event" },
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint32", name: "oldQuorumCoefficient", type: "uint32" },
-      { indexed: false, internalType: "uint32", name: "newQuorumCoefficient", type: "uint32" },
+      { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
+    ],
+    name: "ProposalVetoed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "oldQuorumCoefficient",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "newQuorumCoefficient",
+        type: "uint32",
+      },
     ],
     name: "QuorumCoefficientSet",
     type: "event",
@@ -331,8 +822,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldQuorumVotesBPS", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newQuorumVotesBPS", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldQuorumVotesBPS",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newQuorumVotesBPS",
+        type: "uint256",
+      },
     ],
     name: "QuorumVotesBPSSet",
     type: "event",
@@ -340,9 +841,24 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "voter", type: "address" },
-      { indexed: false, internalType: "uint256", name: "refundAmount", type: "uint256" },
-      { indexed: false, internalType: "bool", name: "refundSent", type: "bool" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "voter",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "refundAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "refundSent",
+        type: "bool",
+      },
     ],
     name: "RefundableVote",
     type: "event",
@@ -350,7 +866,12 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "signer", type: "address" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "signer",
+        type: "address",
+      },
       { indexed: false, internalType: "bytes", name: "sig", type: "bytes" },
     ],
     name: "SignatureCancelled",
@@ -359,9 +880,24 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "timelock", type: "address" },
-      { indexed: false, internalType: "address", name: "timelockV1", type: "address" },
-      { indexed: false, internalType: "address", name: "admin", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "timelock",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "timelockV1",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
     ],
     name: "TimelocksAndAdminSet",
     type: "event",
@@ -369,11 +905,31 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "voter", type: "address" },
-      { indexed: false, internalType: "uint256", name: "proposalId", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "voter",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
       { indexed: false, internalType: "uint8", name: "support", type: "uint8" },
-      { indexed: false, internalType: "uint256", name: "votes", type: "uint256" },
-      { indexed: false, internalType: "string", name: "reason", type: "string" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "votes",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "reason",
+        type: "string",
+      },
     ],
     name: "VoteCast",
     type: "event",
@@ -381,8 +937,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldVoteSnapshotBlockSwitchProposalId", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newVoteSnapshotBlockSwitchProposalId", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldVoteSnapshotBlockSwitchProposalId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newVoteSnapshotBlockSwitchProposalId",
+        type: "uint256",
+      },
     ],
     name: "VoteSnapshotBlockSwitchProposalIdSet",
     type: "event",
@@ -390,8 +956,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldVotingDelay", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newVotingDelay", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldVotingDelay",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newVotingDelay",
+        type: "uint256",
+      },
     ],
     name: "VotingDelaySet",
     type: "event",
@@ -399,8 +975,18 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "oldVotingPeriod", type: "uint256" },
-      { indexed: false, internalType: "uint256", name: "newVotingPeriod", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldVotingPeriod",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newVotingPeriod",
+        type: "uint256",
+      },
     ],
     name: "VotingPeriodSet",
     type: "event",
@@ -408,7 +994,12 @@ export const nounsDaoAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
       { indexed: false, internalType: "bool", name: "sent", type: "bool" },
     ],
     name: "Withdraw",
@@ -418,8 +1009,18 @@ export const nounsDaoAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "uint32", name: "forkId", type: "uint32" },
-      { indexed: true, internalType: "address", name: "owner", type: "address" },
-      { indexed: false, internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
+      },
     ],
     name: "WithdrawFromForkEscrow",
     type: "event",
@@ -466,9 +1067,27 @@ export const nounsDaoAbi = [
     stateMutability: "pure",
     type: "function",
   },
-  { inputs: [], name: "_acceptAdmin", outputs: [], stateMutability: "nonpayable", type: "function" },
-  { inputs: [], name: "_acceptVetoer", outputs: [], stateMutability: "nonpayable", type: "function" },
-  { inputs: [], name: "_burnVetoPower", outputs: [], stateMutability: "nonpayable", type: "function" },
+  {
+    inputs: [],
+    name: "_acceptAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "_acceptVetoer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "_burnVetoPower",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
   {
     inputs: [
       { internalType: "uint16", name: "newMinQuorumVotesBPS", type: "uint16" },
@@ -481,21 +1100,27 @@ export const nounsDaoAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address[]", name: "erc20tokens", type: "address[]" }],
+    inputs: [
+      { internalType: "address[]", name: "erc20tokens", type: "address[]" },
+    ],
     name: "_setErc20TokensToIncludeInFork",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "newForkDAODeployer", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "newForkDAODeployer", type: "address" },
+    ],
     name: "_setForkDAODeployer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "newForkEscrow", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "newForkEscrow", type: "address" },
+    ],
     name: "_setForkEscrow",
     outputs: [],
     stateMutability: "nonpayable",
@@ -505,7 +1130,11 @@ export const nounsDaoAbi = [
     inputs: [
       { internalType: "address", name: "forkEscrow_", type: "address" },
       { internalType: "address", name: "forkDAODeployer_", type: "address" },
-      { internalType: "address[]", name: "erc20TokensToIncludeInFork_", type: "address[]" },
+      {
+        internalType: "address[]",
+        name: "erc20TokensToIncludeInFork_",
+        type: "address[]",
+      },
       { internalType: "uint256", name: "forkPeriod_", type: "uint256" },
       { internalType: "uint256", name: "forkThresholdBPS_", type: "uint256" },
     ],
@@ -515,77 +1144,115 @@ export const nounsDaoAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "newForkPeriod", type: "uint256" }],
+    inputs: [
+      { internalType: "uint256", name: "newForkPeriod", type: "uint256" },
+    ],
     name: "_setForkPeriod",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "newForkThresholdBPS", type: "uint256" }],
+    inputs: [
+      { internalType: "uint256", name: "newForkThresholdBPS", type: "uint256" },
+    ],
     name: "_setForkThresholdBPS",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint32", name: "newLastMinuteWindowInBlocks", type: "uint32" }],
+    inputs: [
+      {
+        internalType: "uint32",
+        name: "newLastMinuteWindowInBlocks",
+        type: "uint32",
+      },
+    ],
     name: "_setLastMinuteWindowInBlocks",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint16", name: "newMaxQuorumVotesBPS", type: "uint16" }],
+    inputs: [
+      { internalType: "uint16", name: "newMaxQuorumVotesBPS", type: "uint16" },
+    ],
     name: "_setMaxQuorumVotesBPS",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint16", name: "newMinQuorumVotesBPS", type: "uint16" }],
+    inputs: [
+      { internalType: "uint16", name: "newMinQuorumVotesBPS", type: "uint16" },
+    ],
     name: "_setMinQuorumVotesBPS",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint32", name: "newObjectionPeriodDurationInBlocks", type: "uint32" }],
+    inputs: [
+      {
+        internalType: "uint32",
+        name: "newObjectionPeriodDurationInBlocks",
+        type: "uint32",
+      },
+    ],
     name: "_setObjectionPeriodDurationInBlocks",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "newPendingAdmin", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "newPendingAdmin", type: "address" },
+    ],
     name: "_setPendingAdmin",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "newPendingVetoer", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "newPendingVetoer", type: "address" },
+    ],
     name: "_setPendingVetoer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "newProposalThresholdBPS", type: "uint256" }],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newProposalThresholdBPS",
+        type: "uint256",
+      },
+    ],
     name: "_setProposalThresholdBPS",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint32", name: "newProposalUpdatablePeriodInBlocks", type: "uint32" }],
+    inputs: [
+      {
+        internalType: "uint32",
+        name: "newProposalUpdatablePeriodInBlocks",
+        type: "uint32",
+      },
+    ],
     name: "_setProposalUpdatablePeriodInBlocks",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint32", name: "newQuorumCoefficient", type: "uint32" }],
+    inputs: [
+      { internalType: "uint32", name: "newQuorumCoefficient", type: "uint32" },
+    ],
     name: "_setQuorumCoefficient",
     outputs: [],
     stateMutability: "nonpayable",
@@ -602,16 +1269,26 @@ export const nounsDaoAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-  { inputs: [], name: "_setVoteSnapshotBlockSwitchProposalId", outputs: [], stateMutability: "nonpayable", type: "function" },
   {
-    inputs: [{ internalType: "uint256", name: "newVotingDelay", type: "uint256" }],
+    inputs: [],
+    name: "_setVoteSnapshotBlockSwitchProposalId",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "newVotingDelay", type: "uint256" },
+    ],
     name: "_setVotingDelay",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "newVotingPeriod", type: "uint256" }],
+    inputs: [
+      { internalType: "uint256", name: "newVotingPeriod", type: "uint256" },
+    ],
     name: "_setVotingPeriod",
     outputs: [],
     stateMutability: "nonpayable",
@@ -706,7 +1383,11 @@ export const nounsDaoAbi = [
   {
     inputs: [
       { internalType: "uint256", name: "againstVotes", type: "uint256" },
-      { internalType: "uint256", name: "adjustedTotalSupply_", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "adjustedTotalSupply_",
+        type: "uint256",
+      },
       {
         components: [
           { internalType: "uint16", name: "minQuorumVotesBPS", type: "uint16" },
@@ -768,7 +1449,9 @@ export const nounsDaoAbi = [
   {
     inputs: [],
     name: "forkDAODeployer",
-    outputs: [{ internalType: "contract IForkDAODeployer", name: "", type: "address" }],
+    outputs: [
+      { internalType: "contract IForkDAODeployer", name: "", type: "address" },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -782,12 +1465,30 @@ export const nounsDaoAbi = [
   {
     inputs: [],
     name: "forkEscrow",
-    outputs: [{ internalType: "contract INounsDAOForkEscrow", name: "", type: "address" }],
+    outputs: [
+      {
+        internalType: "contract INounsDAOForkEscrow",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "forkPeriod", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "forkThreshold", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "forkPeriod",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "forkThreshold",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [],
     name: "forkThresholdBPS",
@@ -808,7 +1509,9 @@ export const nounsDaoAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "blockNumber_", type: "uint256" }],
+    inputs: [
+      { internalType: "uint256", name: "blockNumber_", type: "uint256" },
+    ],
     name: "getDynamicQuorumParamsAt",
     outputs: [
       {
@@ -857,10 +1560,26 @@ export const nounsDaoAbi = [
         components: [
           { internalType: "uint256", name: "votingPeriod", type: "uint256" },
           { internalType: "uint256", name: "votingDelay", type: "uint256" },
-          { internalType: "uint256", name: "proposalThresholdBPS", type: "uint256" },
-          { internalType: "uint32", name: "lastMinuteWindowInBlocks", type: "uint32" },
-          { internalType: "uint32", name: "objectionPeriodDurationInBlocks", type: "uint32" },
-          { internalType: "uint32", name: "proposalUpdatablePeriodInBlocks", type: "uint32" },
+          {
+            internalType: "uint256",
+            name: "proposalThresholdBPS",
+            type: "uint256",
+          },
+          {
+            internalType: "uint32",
+            name: "lastMinuteWindowInBlocks",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "objectionPeriodDurationInBlocks",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "proposalUpdatablePeriodInBlocks",
+            type: "uint32",
+          },
         ],
         internalType: "struct NounsDAOStorageV3.NounsDAOParams",
         name: "daoParams_",
@@ -924,7 +1643,9 @@ export const nounsDaoAbi = [
   {
     inputs: [],
     name: "nouns",
-    outputs: [{ internalType: "contract NounsTokenLike", name: "", type: "address" }],
+    outputs: [
+      { internalType: "contract NounsTokenLike", name: "", type: "address" },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -942,8 +1663,20 @@ export const nounsDaoAbi = [
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "pendingVetoer", outputs: [{ internalType: "address", name: "", type: "address" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "proposalCount", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "pendingVetoer",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "proposalCount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [],
     name: "proposalMaxOperations",
@@ -980,7 +1713,11 @@ export const nounsDaoAbi = [
         components: [
           { internalType: "uint256", name: "id", type: "uint256" },
           { internalType: "address", name: "proposer", type: "address" },
-          { internalType: "uint256", name: "proposalThreshold", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "proposalThreshold",
+            type: "uint256",
+          },
           { internalType: "uint256", name: "quorumVotes", type: "uint256" },
           { internalType: "uint256", name: "eta", type: "uint256" },
           { internalType: "uint256", name: "startBlock", type: "uint256" },
@@ -1010,7 +1747,11 @@ export const nounsDaoAbi = [
         components: [
           { internalType: "uint256", name: "id", type: "uint256" },
           { internalType: "address", name: "proposer", type: "address" },
-          { internalType: "uint256", name: "proposalThreshold", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "proposalThreshold",
+            type: "uint256",
+          },
           { internalType: "uint256", name: "quorumVotes", type: "uint256" },
           { internalType: "uint256", name: "eta", type: "uint256" },
           { internalType: "uint256", name: "startBlock", type: "uint256" },
@@ -1024,8 +1765,16 @@ export const nounsDaoAbi = [
           { internalType: "uint256", name: "totalSupply", type: "uint256" },
           { internalType: "uint256", name: "creationBlock", type: "uint256" },
           { internalType: "address[]", name: "signers", type: "address[]" },
-          { internalType: "uint256", name: "updatePeriodEndBlock", type: "uint256" },
-          { internalType: "uint256", name: "objectionPeriodEndBlock", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "updatePeriodEndBlock",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "objectionPeriodEndBlock",
+            type: "uint256",
+          },
           { internalType: "bool", name: "executeOnTimelockV1", type: "bool" },
         ],
         internalType: "struct NounsDAOStorageV3.ProposalCondensed",
@@ -1055,7 +1804,11 @@ export const nounsDaoAbi = [
         components: [
           { internalType: "bytes", name: "sig", type: "bytes" },
           { internalType: "address", name: "signer", type: "address" },
-          { internalType: "uint256", name: "expirationTimestamp", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "expirationTimestamp",
+            type: "uint256",
+          },
         ],
         internalType: "struct NounsDAOStorageV3.ProposerSignature[]",
         name: "proposerSignatures",
@@ -1101,16 +1854,29 @@ export const nounsDaoAbi = [
           { internalType: "uint32", name: "fromBlock", type: "uint32" },
           {
             components: [
-              { internalType: "uint16", name: "minQuorumVotesBPS", type: "uint16" },
-              { internalType: "uint16", name: "maxQuorumVotesBPS", type: "uint16" },
-              { internalType: "uint32", name: "quorumCoefficient", type: "uint32" },
+              {
+                internalType: "uint16",
+                name: "minQuorumVotesBPS",
+                type: "uint16",
+              },
+              {
+                internalType: "uint16",
+                name: "maxQuorumVotesBPS",
+                type: "uint16",
+              },
+              {
+                internalType: "uint32",
+                name: "quorumCoefficient",
+                type: "uint32",
+              },
             ],
             internalType: "struct NounsDAOStorageV3.DynamicQuorumParams",
             name: "params",
             type: "tuple",
           },
         ],
-        internalType: "struct NounsDAOStorageV3.DynamicQuorumParamsCheckpoint[]",
+        internalType:
+          "struct NounsDAOStorageV3.DynamicQuorumParamsCheckpoint[]",
         name: "",
         type: "tuple[]",
       },
@@ -1127,9 +1893,21 @@ export const nounsDaoAbi = [
           { internalType: "uint32", name: "fromBlock", type: "uint32" },
           {
             components: [
-              { internalType: "uint16", name: "minQuorumVotesBPS", type: "uint16" },
-              { internalType: "uint16", name: "maxQuorumVotesBPS", type: "uint16" },
-              { internalType: "uint32", name: "quorumCoefficient", type: "uint32" },
+              {
+                internalType: "uint16",
+                name: "minQuorumVotesBPS",
+                type: "uint16",
+              },
+              {
+                internalType: "uint16",
+                name: "maxQuorumVotesBPS",
+                type: "uint16",
+              },
+              {
+                internalType: "uint32",
+                name: "quorumCoefficient",
+                type: "uint32",
+              },
             ],
             internalType: "struct NounsDAOStorageV3.DynamicQuorumParams",
             name: "params",
@@ -1161,18 +1939,32 @@ export const nounsDaoAbi = [
   {
     inputs: [{ internalType: "uint256", name: "proposalId", type: "uint256" }],
     name: "state",
-    outputs: [{ internalType: "enum NounsDAOStorageV3.ProposalState", name: "", type: "uint8" }],
+    outputs: [
+      {
+        internalType: "enum NounsDAOStorageV3.ProposalState",
+        name: "",
+        type: "uint8",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "timelock",
-    outputs: [{ internalType: "contract INounsDAOExecutor", name: "", type: "address" }],
+    outputs: [
+      { internalType: "contract INounsDAOExecutor", name: "", type: "address" },
+    ],
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "timelockV1", outputs: [{ internalType: "address", name: "", type: "address" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "timelockV1",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [
       { internalType: "uint256", name: "proposalId", type: "uint256" },
@@ -1195,7 +1987,11 @@ export const nounsDaoAbi = [
         components: [
           { internalType: "bytes", name: "sig", type: "bytes" },
           { internalType: "address", name: "signer", type: "address" },
-          { internalType: "uint256", name: "expirationTimestamp", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "expirationTimestamp",
+            type: "uint256",
+          },
         ],
         internalType: "struct NounsDAOStorageV3.ProposerSignature[]",
         name: "proposerSignatures",
@@ -1245,7 +2041,13 @@ export const nounsDaoAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-  { inputs: [], name: "vetoer", outputs: [{ internalType: "address", name: "", type: "address" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "vetoer",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [],
     name: "voteSnapshotBlockSwitchProposalId",
@@ -1253,8 +2055,20 @@ export const nounsDaoAbi = [
     stateMutability: "view",
     type: "function",
   },
-  { inputs: [], name: "votingDelay", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "votingPeriod", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "votingDelay",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "votingPeriod",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [
       { internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
@@ -1266,14 +2080,18 @@ export const nounsDaoAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256[]", name: "tokenIds", type: "uint256[]" }],
+    inputs: [
+      { internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
+    ],
     name: "withdrawDAONounsFromEscrowToTreasury",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256[]", name: "tokenIds", type: "uint256[]" }],
+    inputs: [
+      { internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
+    ],
     name: "withdrawFromForkEscrow",
     outputs: [],
     stateMutability: "nonpayable",

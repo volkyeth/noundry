@@ -1,3 +1,6 @@
+export const nounsDescriptorV2Address =
+  "0x6229c811D04501523C6058bfAAc29c91bb586268" as `0x${string}`;
+
 export const nounsDescriptorV2Abi = [
   {
     inputs: [

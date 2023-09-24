@@ -17,8 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { formatEther } from "viem";
-import { useAccount, useWaitForTransaction } from "wagmi";
-import { useNounsDataCreateCandidateCost } from "../generated";
+import { useAccount, useContractRead, useWaitForTransaction } from "wagmi";
+import {
+  nounsDaoDataAbi,
+  nounsDaoDataAddress,
+} from "../constants/contracts/nounsDaoData";
 import { useProposalState } from "../model/Proposal";
 import { NounPartType } from "../types/noun";
 import { generateProposalContent } from "../utils/propose/generateProposalContent";
@@ -50,7 +53,11 @@ export const ProposePart: FC<ProposePartProps> = ({ partType, partBitmap }) => {
 
   const isNameValid = partName.length > 0;
   const areWordsFromArtistValid = wordsFromArtist.length > 0;
-  const { data: createCandidateCost } = useNounsDataCreateCandidateCost();
+  const { data: createCandidateCost } = useContractRead({
+    abi: nounsDaoDataAbi,
+    address: nounsDaoDataAddress,
+    functionName: "createCandidateCost",
+  });
   const isNouner = useIsNouner(artistAddress);
 
   const { isUploading, ...proposalImages } = useProposalImages(

@@ -1,8 +1,12 @@
 import {
-  useNounsDataCreateCandidateCost,
-  useNounsDataCreateProposalCandidate,
-  usePrepareNounsDataCreateProposalCandidate,
-} from "../../generated";
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
+import {
+  nounsDaoDataAbi,
+  nounsDaoDataAddress,
+} from "../../constants/contracts/nounsDaoData";
 import { NounPartType } from "../../types/noun";
 import { useIsNouner } from "./useIsNouner";
 import { useProposalTransactions } from "./useProposalTransactions";
@@ -25,7 +29,11 @@ export const useProposePart = ({
   partBitmap,
 }: UseProposePartArgs) => {
   const isNouner = useIsNouner(artistAddress);
-  const { data: createCandidateCost } = useNounsDataCreateCandidateCost();
+  const { data: createCandidateCost } = useContractRead({
+    abi: nounsDaoDataAbi,
+    address: nounsDaoDataAddress,
+    functionName: "createCandidateCost",
+  });
 
   const transactions = useProposalTransactions({
     partType,
@@ -49,7 +57,10 @@ export const useProposePart = ({
     isNouner !== undefined &&
     createCandidateCost !== undefined;
 
-  const { config } = usePrepareNounsDataCreateProposalCandidate({
+  const { config } = usePrepareContractWrite({
+    abi: nounsDaoDataAbi,
+    address: nounsDaoDataAddress,
+    functionName: "createProposalCandidate",
     enabled,
     args: [
       targets,
@@ -63,25 +74,5 @@ export const useProposePart = ({
     value,
   });
 
-  console.log({
-    transactions,
-    partType,
-    partName,
-    artistAddress,
-    droposalMediaUri,
-    partBitmap,
-    enabled,
-    args: [
-      targets,
-      values,
-      signatures,
-      calldatas,
-      description,
-      slug,
-      proposalIdToUpdate,
-    ],
-    value,
-  });
-
-  return useNounsDataCreateProposalCandidate(config);
+  return useContractWrite(config);
 };

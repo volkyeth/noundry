@@ -19,4 +19,7 @@ export default defineConfig({
       target: "esnext", // you can also use 'es2020' here
     },
   },
+  build: {
+    target: "esnext",
+  },
 });

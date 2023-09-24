@@ -1,22 +1,67 @@
+export const nounsDaoExecutorAddress =
+  "0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71" as `0x${string}`;
+
 export const nounsDaoExecutorAbi = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "address", name: "previousAdmin", type: "address" },
-      { indexed: false, internalType: "address", name: "newAdmin", type: "address" },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "previousAdmin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newAdmin",
+        type: "address",
+      },
     ],
     name: "AdminChanged",
     type: "event",
   },
-  { anonymous: false, inputs: [{ indexed: true, internalType: "address", name: "beacon", type: "address" }], name: "BeaconUpgraded", type: "event" },
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "bytes32", name: "txHash", type: "bytes32" },
-      { indexed: true, internalType: "address", name: "target", type: "address" },
-      { indexed: false, internalType: "uint256", name: "value", type: "uint256" },
-      { indexed: false, internalType: "string", name: "signature", type: "string" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "beacon",
+        type: "address",
+      },
+    ],
+    name: "BeaconUpgraded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "target",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "signature",
+        type: "string",
+      },
       { indexed: false, internalType: "bytes", name: "data", type: "bytes" },
       { indexed: false, internalType: "uint256", name: "eta", type: "uint256" },
     ],
@@ -27,8 +72,18 @@ export const nounsDaoExecutorAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "to", type: "address" },
-      { indexed: true, internalType: "address", name: "erc20Token", type: "address" },
-      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "erc20Token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
     name: "ERC20Sent",
     type: "event",
@@ -37,7 +92,12 @@ export const nounsDaoExecutorAbi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "to", type: "address" },
-      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
     name: "ETHSent",
     type: "event",
@@ -45,31 +105,102 @@ export const nounsDaoExecutorAbi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "bytes32", name: "txHash", type: "bytes32" },
-      { indexed: true, internalType: "address", name: "target", type: "address" },
-      { indexed: false, internalType: "uint256", name: "value", type: "uint256" },
-      { indexed: false, internalType: "string", name: "signature", type: "string" },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "target",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "signature",
+        type: "string",
+      },
       { indexed: false, internalType: "bytes", name: "data", type: "bytes" },
       { indexed: false, internalType: "uint256", name: "eta", type: "uint256" },
     ],
     name: "ExecuteTransaction",
     type: "event",
   },
-  { anonymous: false, inputs: [{ indexed: true, internalType: "address", name: "newAdmin", type: "address" }], name: "NewAdmin", type: "event" },
-  { anonymous: false, inputs: [{ indexed: true, internalType: "uint256", name: "newDelay", type: "uint256" }], name: "NewDelay", type: "event" },
   {
     anonymous: false,
-    inputs: [{ indexed: true, internalType: "address", name: "newPendingAdmin", type: "address" }],
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newAdmin",
+        type: "address",
+      },
+    ],
+    name: "NewAdmin",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "newDelay",
+        type: "uint256",
+      },
+    ],
+    name: "NewDelay",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newPendingAdmin",
+        type: "address",
+      },
+    ],
     name: "NewPendingAdmin",
     type: "event",
   },
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "bytes32", name: "txHash", type: "bytes32" },
-      { indexed: true, internalType: "address", name: "target", type: "address" },
-      { indexed: false, internalType: "uint256", name: "value", type: "uint256" },
-      { indexed: false, internalType: "string", name: "signature", type: "string" },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "target",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "signature",
+        type: "string",
+      },
       { indexed: false, internalType: "bytes", name: "data", type: "bytes" },
       { indexed: false, internalType: "uint256", name: "eta", type: "uint256" },
     ],
@@ -78,17 +209,60 @@ export const nounsDaoExecutorAbi = [
   },
   {
     anonymous: false,
-    inputs: [{ indexed: true, internalType: "address", name: "implementation", type: "address" }],
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "implementation",
+        type: "address",
+      },
+    ],
     name: "Upgraded",
     type: "event",
   },
   { stateMutability: "payable", type: "fallback" },
-  { inputs: [], name: "GRACE_PERIOD", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "MAXIMUM_DELAY", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "MINIMUM_DELAY", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "NAME", outputs: [{ internalType: "string", name: "", type: "string" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "acceptAdmin", outputs: [], stateMutability: "nonpayable", type: "function" },
-  { inputs: [], name: "admin", outputs: [{ internalType: "address", name: "", type: "address" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "GRACE_PERIOD",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MAXIMUM_DELAY",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MINIMUM_DELAY",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "NAME",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "acceptAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "admin",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [
       { internalType: "address", name: "target", type: "address" },
@@ -102,7 +276,13 @@ export const nounsDaoExecutorAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-  { inputs: [], name: "delay", outputs: [{ internalType: "uint256", name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "delay",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [
       { internalType: "address", name: "target", type: "address" },
@@ -126,7 +306,13 @@ export const nounsDaoExecutorAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-  { inputs: [], name: "pendingAdmin", outputs: [{ internalType: "address", name: "", type: "address" }], stateMutability: "view", type: "function" },
+  {
+    inputs: [],
+    name: "pendingAdmin",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
   {
     inputs: [
       { internalType: "address", name: "target", type: "address" },
@@ -176,14 +362,18 @@ export const nounsDaoExecutorAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "pendingAdmin_", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "pendingAdmin_", type: "address" },
+    ],
     name: "setPendingAdmin",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "newImplementation", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "newImplementation", type: "address" },
+    ],
     name: "upgradeTo",
     outputs: [],
     stateMutability: "nonpayable",

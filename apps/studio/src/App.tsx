@@ -44,8 +44,8 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Editor />} />
                 <Route path="palette" element={<PaletteFixer />} />
-                <Route path="propose" element={<Propose />} />
-                <Route path="propose/:partType" element={<Propose />} />
+                {/* <Route path="propose" element={<Propose />} />
+                <Route path="propose/:partType" element={<Propose />} /> */}
               </Routes>
             </MainLayout>
           </ConnectKitProvider>

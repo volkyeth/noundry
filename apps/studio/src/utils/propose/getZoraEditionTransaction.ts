@@ -1,10 +1,10 @@
 import { encodeFunctionData, getAbiItem, maxUint64, zeroAddress } from "viem";
-import { mainnet } from "wagmi";
+
+import { nounsDaoExecutorAddress } from "../../constants/contracts/nounsDaoExecutor";
 import {
-  nounsExecutorAddress,
-  zoraNftCreatorABI,
+  zoraNftCreatorAbi,
   zoraNftCreatorAddress,
-} from "../../generated";
+} from "../../constants/contracts/zoraNftCreator";
 import { NounPartType } from "../../types/noun";
 import { Transaction } from "../../types/proposal";
 import { getFunctionSignature } from "./getFunctionSignature";
@@ -24,7 +24,7 @@ export const getZoraEditionTransaction = (
   const editionSize = maxUint64;
   const royaltyBPS = 0;
   const fundsRecipient = artistAddress;
-  const defaultAdmin = nounsExecutorAddress[mainnet.id];
+  const defaultAdmin = nounsDaoExecutorAddress;
   const publicSalePrice = 0n;
   const maxSalePurchasePerAddress = 0;
   const publicSaleStart = now + estimatedExecutionDelay;
@@ -48,10 +48,10 @@ export const getZoraEditionTransaction = (
   const createReferral =
     import.meta.env.VITE_CREATE_REFERRAL_ADDRESS || zeroAddress;
 
-  const target = zoraNftCreatorAddress[mainnet.id];
+  const target = zoraNftCreatorAddress;
   const calldata = ("0x" +
     encodeFunctionData({
-      abi: zoraNftCreatorABI,
+      abi: zoraNftCreatorAbi,
       functionName: "createEditionWithReferral",
       args: [
         name,
@@ -69,7 +69,7 @@ export const getZoraEditionTransaction = (
     }).substring(10)) as `0x${string}`;
 
   const signature = getFunctionSignature(
-    getAbiItem({ abi: zoraNftCreatorABI, name: "createEditionWithReferral" })
+    getAbiItem({ abi: zoraNftCreatorAbi, name: "createEditionWithReferral" })
   );
   const value = 0n;
 

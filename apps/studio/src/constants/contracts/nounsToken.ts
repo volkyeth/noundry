@@ -1,3 +1,6 @@
+export const nounsTokenAddress =
+  "0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03" as `0x${string}`;
+
 export const nounsTokenAbi = [
   {
     inputs: [

@@ -1,8 +1,9 @@
 import { ImageData } from "@nouns/assets";
 import { encodeFunctionData, getAbiItem } from "viem";
-import { mainnet } from "wagmi";
-import { nounsDescriptorV2Abi } from "../../abis/NounsDescriptorV2";
-import { nounsDescriptorAddress } from "../../generated";
+import {
+  nounsDescriptorV2Abi,
+  nounsDescriptorV2Address,
+} from "../../constants/contracts/nounsDescriptorV2";
 import { NounPartType } from "../../types/noun";
 import { Transaction } from "../../types/proposal";
 import { compressAndEncodeArtwork } from "../artworkEncoding";
@@ -17,7 +18,7 @@ export const getAddPartTransaction = (
     ImageData.palette,
     0
   );
-  const target = nounsDescriptorAddress[mainnet.id];
+  const target = nounsDescriptorV2Address;
   const value = 0n;
   const functionName = getAddPartCallFunc(partType);
   const calldata = ("0x" +

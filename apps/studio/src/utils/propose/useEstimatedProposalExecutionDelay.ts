@@ -1,29 +1,58 @@
-import { AVERAGE_MAINNET_BLOCK_TIME } from "../../constants/ethereum";
+import { useContractReads } from "wagmi";
 import {
-  useNounsDaoProposalUpdatablePeriodInBlocks,
-  useNounsDaoVotingDelay,
-  useNounsDaoVotingPeriod,
-  useNounsExecutorDelay,
-} from "../../generated";
+  nounsDaoAbi,
+  nounsDaoAddress,
+} from "../../constants/contracts/nounsDao";
+import {
+  nounsDaoExecutorAbi,
+  nounsDaoExecutorAddress,
+} from "../../constants/contracts/nounsDaoExecutor";
+import { AVERAGE_MAINNET_BLOCK_TIME } from "../../constants/ethereum";
 
 export const useEstimatedProposalExecutionDelay = () => {
-  const { data: timelockDelayInSeconds } = useNounsExecutorDelay();
-  const { data: updatablePeriodInBlocks } =
-    useNounsDaoProposalUpdatablePeriodInBlocks();
-  const { data: pendingPeriodInBlocks } = useNounsDaoVotingDelay();
-  const { data: votingPeriodInBlocks } = useNounsDaoVotingPeriod();
+  const executorContract = {
+    abi: nounsDaoExecutorAbi,
+    address: nounsDaoExecutorAddress,
+  };
+
+  const daoContract = {
+    abi: nounsDaoAbi,
+    address: nounsDaoAddress,
+  };
+
+  const { data } = useContractReads({
+    contracts: [
+      { ...executorContract, functionName: "delay" },
+      { ...daoContract, functionName: "proposalUpdatablePeriodInBlocks" },
+      { ...daoContract, functionName: "votingDelay" },
+      { ...daoContract, functionName: "votingPeriod" },
+    ],
+  });
+
+  if (data === undefined || data[0].result) return undefined;
+
+  const [
+    timelockDelayInSeconds,
+    updatablePeriodInBlocks,
+    pendingPeriodInBlocks,
+    votingPeriodInBlocks,
+  ] = data;
 
   if (
-    timelockDelayInSeconds === undefined ||
-    updatablePeriodInBlocks === undefined ||
-    pendingPeriodInBlocks === undefined ||
-    votingPeriodInBlocks === undefined
+    timelockDelayInSeconds.result === undefined ||
+    updatablePeriodInBlocks.result === undefined ||
+    pendingPeriodInBlocks.result === undefined ||
+    votingPeriodInBlocks.result === undefined
   )
     return undefined;
 
   return (
-    timelockDelayInSeconds +
-    [updatablePeriodInBlocks, pendingPeriodInBlocks, votingPeriodInBlocks]
+    timelockDelayInSeconds.result +
+    [
+      updatablePeriodInBlocks.result,
+      pendingPeriodInBlocks.result,
+      votingPeriodInBlocks.result,
+    ]
       .map(toSeconds)
       .reduce((a, b) => a + b, 0n)
   );
