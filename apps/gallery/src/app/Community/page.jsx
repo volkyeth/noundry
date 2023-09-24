@@ -6,7 +6,7 @@ import { BiCaretDown } from "react-icons/bi";
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
 import { LiaSearchSolid } from "react-icons/lia";
 import { useAccount } from "wagmi";
-import { AccountImage } from "../components/AccountImage/AccountImage";
+import AccountImage from "../components/AccountImage/AccountImage";
 import BannerModal from "../components/BannerModal/BannerModal";
 import ErrorBanner from "../components/ErrorBanner/ErrorBanner";
 import { LoadingNoggles } from "../components/LoadingNoggles/LoadingNoggles";

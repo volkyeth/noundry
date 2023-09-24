@@ -1,18 +1,17 @@
 import { useWeb3Modal } from "@web3modal/react";
-import jwt from "jsonwebtoken";
 import axios from "axios";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import logoImage from "public/EraserLogo.svg";
 import profilePreview from "public/DefaultProfile.svg";
+import logoImage from "public/EraserLogo.svg";
 import { useEffect, useRef, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BiCaretDown } from "react-icons/bi";
-import { useAccount, useDisconnect, useNetwork, useSignMessage } from "wagmi";
 import { BsSquareHalf } from "react-icons/bs";
+import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,10 +87,9 @@ const Navbar = () => {
     });
   }, []);
 
-  let isChecked = localStorage.getItem("token");
   useEffect(() => {
     setIsAccountConnected(isConnected);
-    if (isConnected && !isChecked) {
+    if (isConnected && !localStorage.getItem("token")) {
       setTimeout(() => {
         setShowModal(true);
       }, 1500);
