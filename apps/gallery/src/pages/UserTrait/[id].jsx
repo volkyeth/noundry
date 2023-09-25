@@ -3,11 +3,14 @@ import { LoadingNoggles } from "@/components/LoadingNoggles/LoadingNoggles";
 import EditModal from "@/components/Modal/EditModal";
 import axios from "axios";
 import moment from "moment";
-import { useTheme } from "next-themes";
-import { useParams, usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsSuitHeartFill } from "react-icons/bs";
 import { useAccount } from "wagmi";
+
+export const getServerSideProps = async () => {
+  return { props: {} };
+};
 
 const UserTrait = () => {
   const [nft, setNft] = useState({});
@@ -15,17 +18,17 @@ const UserTrait = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isGenerateLoading, setIsGenerateLoading] = useState(false);
   const [generatedNfts, setGeneratedNfts] = useState([]);
-  const searchParams = useParams();
   const { isConnected, address } = useAccount();
   const [like, setLike] = useState(0);
   const [isLike, setIsLike] = useState(false);
   const [localAddress, setLocalAddress] = useState("");
-  const { theme, setTheme } = useTheme();
-  const x = usePathname();
+  const {
+    query: { id },
+  } = useRouter();
 
   const updateNft = () => {
     axios
-      .post(`/api/getNft?id=${x.split("/")[2]}`)
+      .post(`/api/getNft?id=${id}`)
       // .post(`/api/getNft?id=6502b90f8b7753fd6458103e`)
       .then((getNftApiRes) => {
         setNft(getNftApiRes.data);
@@ -42,7 +45,7 @@ const UserTrait = () => {
     setIsLoading(true);
 
     axios
-      .post(`/api/getNft?id=${x.split("/")[2]}`)
+      .post(`/api/getNft?id=${id}`)
       // .post(`/api/getNft?id=6502b90f8b7753fd6458103e`)e
       .then(async (getNftApiRes) => {
         setNft(getNftApiRes.data);

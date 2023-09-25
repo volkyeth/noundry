@@ -1,16 +1,19 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import UserDetails from "../../components/UserDetails/UserDetails";
 
-const Profile = () => {
-  // const router = useRouter();
-  // const params = useParams();
-  const x = usePathname();
-  // const address = params.address;
+export const getServerSideProps = async () => {
+  return { props: {} };
+};
+
+const Profile = (props) => {
+  const {
+    query: { address },
+  } = useRouter();
   return (
     <>
       <div>
-        <UserDetails searchAddress={x.split("/")[2]} />
+        <UserDetails searchAddress={address} />
       </div>
     </>
   );
