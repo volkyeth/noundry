@@ -1,6 +1,6 @@
 "use client";
-import { LoadingNoggles } from "@/app/components/LoadingNoggles/LoadingNoggles";
-import EditModal from "@/app/components/Modal/EditModal";
+import { LoadingNoggles } from "@/components/LoadingNoggles/LoadingNoggles";
+import EditModal from "@/components/Modal/EditModal";
 import axios from "axios";
 import moment from "moment";
 import { useTheme } from "next-themes";
