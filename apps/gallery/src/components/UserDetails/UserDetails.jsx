@@ -1,5 +1,4 @@
 "use client";
-import { MainContext } from "@/app/layout";
 import axios from "axios";
 import { useTheme } from "next-themes";
 import userImage from "public/DefaultProfile.svg";
@@ -10,6 +9,7 @@ import { useAccount } from "wagmi";
 import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
 import ModalComp from "../Modal/ModalComp";
 import UserAccountGallery from "../UserAccountGallery/UserAccountGallery";
+import { MainContext } from "../../pages/_app";
 
 const UserDetails = ({ searchAddress }) => {
   const [userData, setUserData] = useState({});

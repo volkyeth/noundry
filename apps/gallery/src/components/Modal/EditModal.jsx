@@ -1,5 +1,5 @@
-import { MainContext } from "@/app/layout";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { BiCaretDown } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
@@ -7,8 +7,18 @@ import { GrClose } from "react-icons/gr";
 import { useAccount } from "wagmi";
 import BannerModal from "../BannerModal/BannerModal";
 import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
+import { MainContext } from "../../pages/_app";
 
-const ModalComp = ({ setIsModalOpen, traitsData }) => {
+const EditModal = ({ setIsModalOpen, nft, updateNft }) => {
+  const router = useRouter();
+  const [traitsData, setTraitsData] = useState({
+    backgrounds: [],
+    bodies: [],
+    accessories: [],
+    heads: [],
+    glasses: [],
+  });
+
   const [selectedBackground, setSelectedBackground] = useState("random");
   const [selectedBody, setSelectedBody] = useState("random");
   const [selectedAccessory, setSelectedAccessory] = useState("random");
@@ -16,10 +26,10 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
   const [selectedGlasses, setSelectedGlasses] = useState("random");
   const [twitterHandler, setTwitterHandler] = useState("");
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imageUrl, setimageUrl] = useState(null);
-  const [traitName, setTraitName] = useState("");
-  const [radiovalue, setradisovalue] = useState("");
+  const [selectedFile, setSelectedFile] = useState(nft.trait);
+  const [imageUrl, setimageUrl] = useState(nft.nft);
+  const [traitName, setTraitName] = useState(nft.name);
+  const [radiovalue, setradisovalue] = useState(nft.type);
   const [isNftGenerated, setIsNftGenerated] = useState(false);
 
   const [generateRes, setGenerateRes] = useState({});
@@ -29,6 +39,8 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
   const [imageError, setImageError] = useState(false);
 
   const [isBannerOpen, setIsBannerOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { address } = useAccount();
   let { trigger, setTrigger } = useContext(MainContext);
@@ -73,6 +85,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
 
   const handleRadioChange = (event) => {
     setradisovalue(event.target.value);
+    handleGenerate(event, event.target.value);
   };
 
   const handleTraitNameChange = (event) => {
@@ -87,32 +100,56 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
     e.preventDefault();
     setIsUploading(true);
     const formData = new FormData();
-    formData.append("nft", generateRes.image);
+    formData.append("id", nft._id);
+    formData.append("traitId", nft.traitId);
+    formData.append("nft", isNftGenerated ? generateRes.image : nft.nft);
     formData.append("name", traitName);
     formData.append("type", radiovalue);
+    formData.append("oldType", nft.type);
     formData.append("twitter", twitterHandler);
     formData.append("userAddress", address);
-    formData.append("trait", generateRes.trait);
-    formData.append("background", generateRes.background);
-    formData.append("body", generateRes.body);
-    formData.append("head", generateRes.head);
-    formData.append("accessory", generateRes.accessory);
-    formData.append("glasses", generateRes.glasses);
+    formData.append("trait", isNftGenerated ? generateRes.trait : nft.trait);
+    formData.append(
+      "background",
+      isNftGenerated ? generateRes.background : nft.background
+    );
+    formData.append("body", isNftGenerated ? generateRes.body : nft.body);
+    formData.append(
+      "head",
+      isNftGenerated
+        ? generateRes.head
+        : nft.type == "heads"
+        ? traitName
+        : nft.head
+    );
+    formData.append(
+      "accessory",
+      isNftGenerated
+        ? generateRes.accessory
+        : nft.type == "accessories"
+        ? traitName
+        : nft.accessory
+    );
+    formData.append(
+      "glasses",
+      isNftGenerated ? generateRes.glasses : nft.glasses
+    );
 
-    const uploadApiRes = await axios.post("/api/uploadTraits", formData);
+    const uploadApiRes = await axios.post("/api/editTrait", formData);
     setradisovalue("");
     setIsBannerOpen(true);
     setIsUploading(false);
+    updateNft();
     setTrigger(trigger + 2);
   };
 
-  const handleGenerate = async (e) => {
+  const handleGenerate = async (e, trait = null) => {
     // e.preventDefault();
     setIsGenereting(true);
     const formData = new FormData();
     formData.append("trait", selectedFile);
     formData.append("name", traitName);
-    formData.append("type", radiovalue);
+    formData.append("type", trait ? trait : radiovalue);
     formData.append("twitter", twitterHandler);
 
     formData.append("background", selectedBackground);
@@ -128,11 +165,25 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
     setIsNftGenerated(true);
   };
 
+  const deleteNft = async () => {
+    const formData = new FormData();
+    formData.append("nftId", nft._id);
+    formData.append("traitId", nft.traitId);
+    formData.append("address", nft.address);
+    formData.append("type", nft.type);
+    formData.append("likesCount", nft.likesCount);
+
+    setIsDeleting(true);
+    axios.post(`/api/deleteTrait`, formData).then((res) => {
+      router.push("/");
+    });
+  };
+
   useEffect(() => {
-    if (selectedFile != null && traitName != "" && radiovalue != false) {
-      handleGenerate();
-    }
-  }, [traitName, selectedFile, radiovalue]);
+    axios.post(`/api/getTraits`).then((res) => {
+      setTraitsData(res.data);
+    });
+  }, []);
 
   return (
     <div
@@ -147,12 +198,42 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
           setIsModalOpenBanner={setIsModalOpen}
           className="my-auto"
         />
+      ) : isDeleteOpen ? (
+        <div className=" my-auto flex gap-4 font-Pix container h-fit p-8 py-20 text-center font-bold flex-col rounded-lg border-1 border-[#4A5568] bg-white text-black bg-clip-padding text-current shadow-lg dark:bg-off-dark">
+          <p className="font-Pix text-xl">
+            Are you sure you want to delete your trait?
+          </p>
+          <div className="flex justify-end items-center gap-20 px-8">
+            {!isDeleting ? (
+              <>
+                <button
+                  className="flex justify-center bg-light dark:bg-dark rounded-md items-center mt-6 align-middle p-1 px-8 border-1 border-[#4A5568]"
+                  onClick={() => {
+                    deleteNft();
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => {
+                    setIsDeleteOpen(false);
+                  }}
+                  className="flex justify-center bg-light dark:bg-dark rounded-md items-center mt-6 align-middle p-1 px-8 border-1 border-[#4A5568]"
+                >
+                  No
+                </button>
+              </>
+            ) : (
+              <LoadingNoggles />
+            )}
+          </div>
+        </div>
       ) : (
         <div className="flex  container h-fit  flex-col rounded-2xl my-auto border-2 border-[#4A5568] bg-light bg-clip-padding text-current shadow-lg outline-none dark:bg-[#3C4049] text-black py-5 px-10">
           <div className="relative">
             <div className="w-full flex justify-between items-center mb-3 ">
               <div>
-                <h1 className="font-bold text-xl">Upload Your Nounish Trait</h1>
+                <h1 className="font-bold text-xl">Edit Your Nounish Trait</h1>
               </div>
               <div
                 className="h-fit w-fit p-2 border-2 border-off-light rounded-xl cursor-pointer"
@@ -190,9 +271,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                       : "text-gray-400"
                   } `}
                 >
-                  {selectedFile?.name
-                    ? selectedFile?.name
-                    : "Only 32X32 PNG images are accepted."}
+                  {selectedFile?.name ? selectedFile?.name : nft.name}
                 </p>
                 <input
                   className={`opacity-0 absolute top-1 cursor-pointer file:cursor-pointer `}
@@ -274,7 +353,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                       name="type"
                       className="form-radio h-5 w-5 dark:text-green-300 text-green-500 checked:border-red checked hidden"
                       value="heads"
-                      // checked={radiovalue === "head"}
+                      checked={radiovalue === "heads"}
                       onChange={handleRadioChange}
                     />
                     <label
@@ -293,7 +372,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                       name="type"
                       className="form-radio border border-white h-5 w-5 text-green-500 hidden"
                       value="accessories"
-                      // checked={radiovalue === "accessories"}
+                      checked={radiovalue === "accessories"}
                       onChange={handleRadioChange}
                     />
                     <label
@@ -328,7 +407,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
           </div>
           <div
             className={`border border-[#27282D] px-5 py-6 flex flex-row rounded-md dsm:flex-col-reverse dsm:gap-4 justify-around ${
-              selectedFile == null || traitName == "" || radiovalue == false
+              traitName == "" || radiovalue == false
                 ? "bg-[#DEDEDE] dark:bg-[#2D2F35]"
                 : "bg-[#FCFCFC] dark:bg-[#3C4049]"
             }`}
@@ -337,11 +416,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
               <button
                 onClick={handleGenerate}
                 className={`overflow-hidden max-h-11 border-1 border-[#4A5568] w-full p-0 py-2 rounded-lg text-base font-medium text-black dark:text-white justify-center flex `}
-                disabled={
-                  selectedFile == null || traitName == "" || radiovalue == false
-                    ? true
-                    : false
-                }
+                disabled={traitName == "" || radiovalue == false ? true : false}
               >
                 {isGenerating ? (
                   <LoadingNoggles className={"h-full !my-0"} />
@@ -357,11 +432,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                   }`}
                   onChange={handleBackgroundChange}
                   disabled={
-                    selectedFile == null ||
-                    traitName == "" ||
-                    radiovalue == false
-                      ? true
-                      : false
+                    traitName == "" || radiovalue == false ? true : false
                   }
                   value={selectedBackground}
                 >
@@ -400,11 +471,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                   }`}
                   onChange={handleBodyChange}
                   disabled={
-                    selectedFile == null ||
-                    traitName == "" ||
-                    radiovalue == false
-                      ? true
-                      : false
+                    traitName == "" || radiovalue == false ? true : false
                   }
                   value={selectedBody}
                 >
@@ -443,9 +510,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                   }`}
                   onChange={handleAccessoryChange}
                   disabled={
-                    selectedFile == null ||
-                    traitName == "" ||
-                    radiovalue == "accessories"
+                    traitName == "" || radiovalue == "accessories"
                       ? true
                       : false
                   }
@@ -502,11 +567,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                   }`}
                   onChange={handleHeadChange}
                   disabled={
-                    selectedFile == null ||
-                    traitName == "" ||
-                    radiovalue == "heads"
-                      ? true
-                      : false
+                    traitName == "" || radiovalue == "heads" ? true : false
                   }
                   value={selectedHead}
                 >
@@ -562,11 +623,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                   }`}
                   onChange={handleGlassesChange}
                   disabled={
-                    selectedFile == null ||
-                    traitName == "" ||
-                    radiovalue == "glasses"
-                      ? true
-                      : false
+                    traitName == "" || radiovalue == "glasses" ? true : false
                   }
                   value={selectedGlasses}
                 >
@@ -618,7 +675,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                 <img
                   className="w-full h-full"
                   style={{ objectFit: "cover", imageRendering: "pixelated" }}
-                  src={selectedFile == null ? "/GuideNounModal.svg" : imageUrl}
+                  src={imageUrl}
                   fill={true}
                   alt="Image"
                 />
@@ -632,21 +689,22 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
                   <LoadingNoggles className={"!h-full"} />
                 </div>
               ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={
-                    selectedFile == null ||
-                    radiovalue == "" ||
-                    traitName == "" ||
-                    imageUrl == null ||
-                    isNftGenerated == false
-                      ? true
-                      : false
-                  }
-                  className="border-1 w-full border-[#4A5568] disabled:bg-[#4A5568] bg-[#27282D] px-[110px] py-2 rounded-lg text-lg font-bold text-white"
-                >
-                  Submit
-                </button>
+                <div className="w-full flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsDeleteOpen(true);
+                    }}
+                    className="border-1 w-1/2 border-[#4A5568] disabled:bg-[#4A5568] bg-[#27282D] px-[110px] py-2 rounded-lg text-lg font-bold text-white"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="border-1 w-1/2 border-[#4A5568] disabled:bg-[#4A5568] bg-[#27282D] px-[110px] py-2 rounded-lg text-lg font-bold text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -656,4 +714,4 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
   );
 };
 
-export default ModalComp;
+export default EditModal;

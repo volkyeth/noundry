@@ -1,22 +1,19 @@
-import { useWeb3Modal } from "@web3modal/react";
 import axios from "axios";
+import { ConnectKitButton } from "connectkit";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import profilePreview from "public/DefaultProfile.svg";
 import logoImage from "public/EraserLogo.svg";
 import { useEffect, useRef, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BiCaretDown } from "react-icons/bi";
 import { BsSquareHalf } from "react-icons/bs";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isErrorBanner, setIsErrorBanner] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [isOpensidebarDropdown, setIsOpensidebarDropdown] = useState(false);
@@ -32,24 +29,9 @@ const Navbar = () => {
   });
   const [profileImage, setProfileImage] = useState("");
 
-  const { open, close } = useWeb3Modal();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const router = useRouter();
-  const [show, setShowModal] = useState(false);
-
-  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
-    message: "Welcome To Noundry Gallery.",
-  });
-
-  const handleModalToggle = () => {
-    if (isConnected) {
-      setIsModalOpen(!isModalOpen);
-      setIsOpensidebar(false);
-    } else {
-      setIsErrorBanner(true);
-    }
-  };
 
   const handleCommunity = () => {
     // navigation.navigate('/Community');
@@ -86,27 +68,6 @@ const Navbar = () => {
       setTraitsData(res.data);
     });
   }, []);
-
-  useEffect(() => {
-    setIsAccountConnected(isConnected);
-    if (isConnected && !localStorage.getItem("token")) {
-      setTimeout(() => {
-        setShowModal(true);
-      }, 1500);
-    }
-    axios.post(`/api/getProfileImage?address=${address}`).then((res) => {
-      setProfileImage(res.data.profilePic);
-    });
-  }, [isConnected]);
-
-  useEffect(() => {
-    if (data) {
-      axios.post(`/api/getVerify?address=${address}`).then((res) => {
-        localStorage.setItem("token", res.data.token);
-        setShowModal(false);
-      });
-    }
-  }, [data]);
 
   return (
     <>
@@ -193,58 +154,7 @@ const Navbar = () => {
             </a>
             <div className="hidden w-1/2 lg:w-1/2 md:w-1/2 relative 2xl:flex ">
               <div className="flex gap-2 w-full">
-                {isAccountConnected ? (
-                  <img
-                    className="!h-11 !w-11 object-fill aspect-square border-1 border-black dark:border-white rounded-full cursor-pointer"
-                    onClick={() => {
-                      setIsProfileModalOpen(false);
-                      router.push(`/profile/${address}`);
-                    }}
-                    src={
-                      profileImage == undefined || profileImage == ""
-                        ? profilePreview.src
-                        : profileImage
-                    }
-                  ></img>
-                ) : null}
-                <button
-                  className="relative justify-center border-1 flex items-center bg-off-dark  w-full border-off-light dark:border-white rounded-md text-white p-2 px-5 text-base font-bold"
-                  onClick={() =>
-                    !isConnected
-                      ? open()
-                      : setIsProfileModalOpen(!isProfileModalOpen)
-                  }
-                >
-                  {!isAccountConnected
-                    ? "Connect"
-                    : `${address?.slice(0, 5)}...${address?.slice(38)}`}
-                  {isProfileModalOpen ? (
-                    <ClickAwayListener
-                      onClickAway={() => setIsProfileModalOpen(false)}
-                    >
-                      <div
-                        className={`absolute z-10 top-14 left-0 border border-[#27282D] rounded-md overflow-hidden w-full flex flex-col`}
-                      >
-                        <button
-                          onClick={() => {
-                            setIsProfileModalOpen(false);
-                            disconnect();
-                          }}
-                          className="p-2 bg-primary w-full text-white"
-                        >
-                          Disconnect
-                        </button>
-                      </div>
-                    </ClickAwayListener>
-                  ) : null}
-                  {!isAccountConnected ? null : <BiCaretDown fontSize={20} />}
-                </button>
-
-                {/* <button disabled={isLoading} onClick={() => signMessage()}>
-                  Sign message
-                </button>
-                {isSuccess && <div>Signature: {data}</div>}
-                {isError && <div>Error signing message</div>} */}
+                <ConnectKitButton />
               </div>
             </div>
             <div className="flex 2xl:hidden" onClick={toggleSidebar}>
@@ -263,41 +173,7 @@ const Navbar = () => {
 
             {/*Connect Mobile Menu*/}
             <div className="flex flex-col gap-2 w-full">
-              <button
-                className="bg-[#000] w-full border-1 border-black dark:border-white  rounded-md text-white p-2 px-5 text-base font-bold"
-                onClick={() =>
-                  !isConnected
-                    ? open()
-                    : setIsProfileModalOpen(!isProfileModalOpen)
-                }
-              >
-                {!isAccountConnected
-                  ? "Connect"
-                  : `${address?.slice(0, 5)}...${address?.slice(38)}`}
-              </button>
-              {isConnected ? (
-                <>
-                  {/*<a href={`/profile/${address}`}>
-                    <button
-                      onClick={() => {
-                        setIsProfileModalOpen(false);
-                      }}
-                      className="bg-dark w-full border-2 border-black rounded-md text-white p-2 px-5 text-base font-bold"
-                    >
-                      Profile
-                    </button>
-                  </a>*/}
-                  <button
-                    onClick={() => {
-                      setIsProfileModalOpen(false);
-                      disconnect();
-                    }}
-                    className="bg-primary w-full border-2 border-black dark:border-white rounded-md text-white p-2 px-5 text-base font-bold"
-                  >
-                    Disconnect
-                  </button>
-                </>
-              ) : null}
+              <ConnectKitButton />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -334,38 +210,6 @@ const Navbar = () => {
           </div>
         ) : null}
       </div>
-
-      {/* modal here.... */}
-
-      {show && (
-        <div
-          className={`fixed top-0 left-0 flex bg-white dark:bg-black bg-opacity-50 dark:bg-opacity-50 justify-center z-[1] h-full w-full overflow-y-scroll overflow-x-hidden `}
-          id="exampleModalLg"
-          aria-labelledby="exampleModalLgLabel"
-          aria-modal="true"
-          role="dialog"
-        >
-          <div className=" my-auto flex gap-4 font-Pix container h-fit p-8 py-20 text-center font-bold flex-col rounded-lg border-1 border-[#4A5568] bg-white text-black bg-clip-padding text-current shadow-lg dark:bg-off-dark">
-            <p className="font-Pix text-xl">WelCome To Noundry Gallery</p>
-            <div className="w-full mt-10 flex text-center justify-evenly">
-              <button
-                className="bg-white text-black dark:bg-off-dark w-1/3 border-1 border-black dark:border-white rounded-md dark:text-white p-2 px-5 text-base font-bold"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-
-              <button
-                className="bg-white text-black dark:bg-off-dark w-1/3 border-1 border-black dark:border-white rounded-md dark:text-white p-2 px-5 text-base font-bold"
-                disabled={isLoading}
-                onClick={() => signMessage()}
-              >
-                Accept and Sign
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };

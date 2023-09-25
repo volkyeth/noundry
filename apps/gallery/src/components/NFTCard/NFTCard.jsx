@@ -1,4 +1,3 @@
-import { MainContext } from "@/app/layout";
 import axios from "axios";
 import Link from "next/link";
 import { useContext, useEffect, useState, useCallback, useRef } from "react";
@@ -7,6 +6,7 @@ import { useAccount } from "wagmi";
 import headIcon from "public/HeadIcon.svg";
 import dummyImg from "public/dummyImg.png";
 import accssoryIcon from "public/AccessoryIcon.svg";
+import { MainContext } from "../../pages/_app";
 
 const NFTCard = ({ nft }) => {
   const [like, setLike] = useState(nft.likesCount);

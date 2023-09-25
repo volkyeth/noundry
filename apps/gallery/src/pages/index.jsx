@@ -2,21 +2,21 @@
 
 import axios from "axios";
 import { useTheme } from "next-themes";
+import { useContext, useEffect, useState } from "react";
+import ErrorBanner from "../components/ErrorBanner/ErrorBanner";
+import Gallery from "../components/Imagegallery/gallery";
+import Input from "../components/Inputs/Input";
+import { LoadingNoggles } from "../components/LoadingNoggles/LoadingNoggles";
+import ModalComp from "../components/Modal/ModalComp";
+import { MainContext } from "./_app";
 {
   /*import Image from "next/image";
 import bannerImageDark from "public/pixel-heart-darkmode.svg";
 import bannerImage from "public/pixel-heart.svg";*/
 }
-import { useContext, useEffect, useState } from "react";
-import ErrorBanner from "./components/ErrorBanner/ErrorBanner";
-import Gallery from "./components/Imagegallery/gallery";
-import Input from "./components/Inputs/Input";
-import ModalComp from "./components/Modal/ModalComp";
 {
   /*import "./globals.css";*/
 }
-import { MainContext } from "./layout";
-import { LoadingNoggles } from "./components/LoadingNoggles/LoadingNoggles";
 
 export default function Home() {
   const [nfts, setNfts] = useState([]);

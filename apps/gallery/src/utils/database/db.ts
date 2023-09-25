@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 function main() {
-  const client = new MongoClient(process.env.MONGODB_HOST, {
+  const client = new MongoClient(process.env.MONGODB_HOST!, {
     auth: {
       username: process.env.MONGODB_USER,
       password: process.env.MONGODB_PASSWORD,
@@ -18,7 +18,6 @@ function main() {
     console.error(e);
   }
 }
-const client = main();
-const database = client.db("nouns-wall");
 
-module.exports = { database, client };
+export const client = main();
+export const database = client!.db("nouns-wall");

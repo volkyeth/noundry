@@ -1,5 +1,5 @@
+import { database } from "@/utils/database/db";
 import { NextResponse } from "next/server";
-import { database } from "@/app/database/db";
 export async function POST(req, res) {
   const [backgrounds, bodies, accessories, heads, glasses] = await Promise.all([
     database.collection("backgrounds").find({}).toArray(),

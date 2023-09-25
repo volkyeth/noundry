@@ -1,4 +1,4 @@
-import { database } from "@/app/database/db";
+import { database } from "@/utils/database/db";
 import { NextResponse } from "next/server";
 export async function POST(req, res) {
   const body = await req.json();
@@ -38,7 +38,6 @@ export async function POST(req, res) {
       }
     );
   } else {
-    
   }
 
   return NextResponse.json({ status: "success" });

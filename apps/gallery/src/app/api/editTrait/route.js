@@ -1,4 +1,4 @@
-import { database } from "@/app/database/db";
+import { database } from "@/utils/database/db";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 

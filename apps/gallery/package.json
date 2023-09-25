@@ -6,15 +6,13 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.1.13",
-    "@web3modal/ethereum": "^2.7.1",
-    "@web3modal/react": "^2.7.1",
     "autoprefixer": "10.4.14",
     "axios": "^1.5.0",
     "canvas": "^2.11.2",
+    "connectkit": "^1.5.3",
+    "connectkit-next-siwe": "^0.2.0",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.4",
-    "iron-session": "^6.3.1",
-    "jsonwebtoken": "^9.0.2",
     "lokijs": "^1.5.12",
     "moment": "^2.29.4",
     "mongodb": "^5.9.0",
@@ -27,6 +25,7 @@
     "react-click-away-listener": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "siwe": "^2.1.4",
     "supports-color": "^9.4.0",
     "tailwindcss": "3.3.3",
     "tw-elements": "^1.0.0",
@@ -39,5 +38,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17"
   }
 }

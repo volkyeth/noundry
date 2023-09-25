@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { database } from "@/app/database/db";
+import { database } from "@/utils/database/db";
 export async function POST(req) {
   const { searchParams } = new URL(req.url);
   const address = searchParams.get("address");
