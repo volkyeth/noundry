@@ -6,7 +6,8 @@ import { createContext, useState } from "react";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { ThemedConnectKitProvider } from "@/components/ThemedConnectKitProvider";
+import { getDefaultConfig } from "connectkit";
 import { AppProps } from "next/app";
 import { WagmiConfig, createConfig } from "wagmi";
 import "../globals.css";
@@ -31,13 +32,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <MainContext.Provider value={{ trigger, setTrigger }}>
         <WagmiConfig config={config}>
           <siweClient.Provider>
-            <ConnectKitProvider>
-              <NextThemesProvider attribute="class" defaultTheme="dark">
+            <NextThemesProvider attribute="class" defaultTheme="dark">
+              <ThemedConnectKitProvider>
                 <Navbar />
                 <Component {...pageProps} />
                 <Footer />
-              </NextThemesProvider>
-            </ConnectKitProvider>
+              </ThemedConnectKitProvider>
+            </NextThemesProvider>
           </siweClient.Provider>
         </WagmiConfig>
       </MainContext.Provider>
