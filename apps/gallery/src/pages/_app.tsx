@@ -33,7 +33,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <WagmiConfig config={config}>
           <siweClient.Provider>
             <NextThemesProvider attribute="class" defaultTheme="dark">
-              <ThemedConnectKitProvider>
+              <ThemedConnectKitProvider
+                options={{ enforceSupportedChains: false }}
+              >
                 <Navbar />
                 <Component {...pageProps} />
                 <Footer />
