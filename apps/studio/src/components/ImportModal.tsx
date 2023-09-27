@@ -31,7 +31,7 @@ export const ImportModal: FC<ImportModalProps> = ({
       <ModalOverlay />
       <ModalContent
         m={20}
-        maxH={"80%"}
+        h={"80%"}
         color="gray.100"
         bgColor="gray.800"
         borderRadius={0}
