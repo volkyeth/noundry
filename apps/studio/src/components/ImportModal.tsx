@@ -1,4 +1,14 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalProps } from "@chakra-ui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ModalProps,
+} from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { useNounState } from "../model/Noun";
 import { NounPartType } from "../types/noun";
@@ -9,16 +19,27 @@ export type ImportModalProps = {
   part: NounPartType;
 } & Omit<ModalProps, "children">;
 
-export const ImportModal: FC<ImportModalProps> = ({ part, onClose, ...props }) => {
+export const ImportModal: FC<ImportModalProps> = ({
+  part,
+  onClose,
+  ...props
+}) => {
   const partState = useNounState((state) => state[part]);
 
   return (
     <Modal {...props} onClose={onClose} size="6xl">
       <ModalOverlay />
-      <ModalContent h="80%" color="gray.100" bgColor="gray.800" borderRadius={0}>
+      <ModalContent
+        m={20}
+        maxH={"80%"}
+        color="gray.100"
+        bgColor="gray.800"
+        borderRadius={0}
+        overflow={"scroll"}
+      >
         <ModalHeader fontSize={16}>{`Import ${part}`}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody overflow="clip">
+        <ModalBody>
           <PartImporter
             canFinishIfPaletteConforms={true}
             finishText="Import"
