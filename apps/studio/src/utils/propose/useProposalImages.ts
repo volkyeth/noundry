@@ -11,7 +11,7 @@ import { NounPartType } from "../../types/noun";
 import { drawCanvas } from "../canvas/drawCanvas";
 import { nounParts } from "../constants";
 import { getNftStorageClient } from "../ipfs";
-import { drawPartFromSeed, getRandomSeed } from "../nounAssets";
+import { amountOfParts, drawPartFromSeed, getRandomSeed } from "../nounAssets";
 import { generateDroposalGif } from "./generateDroposalGif";
 
 export interface ProposalImages {
@@ -38,7 +38,7 @@ export const useProposalImages = (
       Promise.all(
         new Array(AMOUNT_PROPOSAL_GALLERY_IMAGES)
           .fill(null)
-          .map(() => generateGalleryImage(partType, partBitmap))
+          .map((_, i) => generateGalleryImage(partType, partBitmap, i))
       )
         .then((galleryImages) =>
           storageClient.storeDirectory([
@@ -76,7 +76,8 @@ export const useProposalImages = (
 
 export const generateGalleryImage = async (
   staticPart: NounPartType,
-  staticPartBitmap: ImageBitmap
+  staticPartBitmap: ImageBitmap,
+  index: number = 0
 ) => {
   const imageCanvas = document.createElement("canvas");
   imageCanvas.width = PROPOSAL_GALLERY_IMAGE_SIZE;
@@ -88,9 +89,27 @@ export const generateGalleryImage = async (
       continue;
     }
 
+    if (currentPart === "head") {
+      await drawPartFromSeed(
+        currentPart,
+        getRandomSeed(currentPart),
+        imageCanvas
+      );
+      continue;
+    }
+
+    if (currentPart === "accessory") {
+      await drawPartFromSeed(
+        currentPart,
+        index < amountOfParts("body") ? 70 : getRandomSeed(currentPart), //use "none" accessory on the first appearance of each body color
+        imageCanvas
+      );
+      continue;
+    }
+
     await drawPartFromSeed(
       currentPart,
-      getRandomSeed(currentPart),
+      index % amountOfParts(currentPart),
       imageCanvas
     );
   }
@@ -128,6 +147,7 @@ export const generateMainImage = async (
   imageCanvas.height = PROPOSAL_MAIN_IMAGE_SIZE;
 
   for (const currentPart of nounParts) {
+    console.log(currentPart);
     switch (currentPart) {
       case staticPart:
         await drawCanvas(staticPartBitmap, imageCanvas);
@@ -141,11 +161,12 @@ export const generateMainImage = async (
         await drawPartFromSeed("accessory", 70, imageCanvas); //none
         continue;
 
-      case "head":
       case "body":
+        await drawPartFromSeed("body", 13, imageCanvas); //black
+        continue;
+
       case "background":
-      default:
-        await drawPartFromSeed(currentPart, 0, imageCanvas);
+        await drawPartFromSeed("background", 0, imageCanvas);
     }
   }
 

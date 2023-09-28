@@ -6,21 +6,31 @@ import { drawCanvas } from "./canvas/drawCanvas";
 import { fillCanvas } from "./canvas/fillCanvas";
 
 export const getRandomSeed = (part: NounPartType) => {
+  return Math.floor(Math.random() * amountOfParts(part));
+};
+
+export const amountOfParts = (partType: NounPartType) => {
   const { bgcolors, images } = ImageData;
   const { bodies, accessories, heads, glasses } = images;
 
-  const availableParts = {
-    background: bgcolors.length,
-    body: bodies.length,
-    accessory: accessories.length,
-    head: heads.length,
-    glasses: glasses.length,
-  };
-
-  return Math.floor(Math.random() * availableParts[part]);
+  switch (partType) {
+    case "background":
+      return bgcolors.length;
+    case "body":
+      return bodies.length;
+    case "accessory":
+      return accessories.length;
+    case "head":
+      return heads.length;
+    case "glasses":
+      return glasses.length;
+  }
 };
 
-export const drawPart = async (part: EncodedImage, canvas: HTMLCanvasElement) => {
+export const drawPart = async (
+  part: EncodedImage,
+  canvas: HTMLCanvasElement
+) => {
   const { palette } = ImageData;
   const svgString = buildSVG([part], palette, "00000000");
 
@@ -38,7 +48,11 @@ export const drawPart = async (part: EncodedImage, canvas: HTMLCanvasElement) =>
   });
 };
 
-export const drawPartFromSeed = async (part: NounPartType, seed: number, canvas: HTMLCanvasElement) => {
+export const drawPartFromSeed = async (
+  part: NounPartType,
+  seed: number,
+  canvas: HTMLCanvasElement
+) => {
   if (part === "background") {
     const background = ImageData.bgcolors[seed];
     if (!background) throw `there's no background with index ${seed}`;

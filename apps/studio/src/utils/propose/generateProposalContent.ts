@@ -12,7 +12,7 @@ export const generateProposalContent = async (
   return `
 # [Noundry] Add ${partType}: ${partNameWithFallback}
 
-*This proposal was submitted via [studio.noundry.wtf](https://studio.noundry.wtf)*
+*This proposal was submitted via [propose.noundry.wtf](https://propose.noundry.wtf)*
 
 
 This proposal **adds a new ${partType} trait: ${partNameWithFallback}**
