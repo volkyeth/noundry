@@ -5,6 +5,13 @@
             "destination": "/"
         }
     ],
+    "redirects": [
+        {
+            "source": "https://propose.noundry.wtf/(.*)",
+            "destination": "https://studio.noundry.wtf/propose",
+            "permanent": false
+        }
+    ],
     "github": {
         "silent": true
     }
