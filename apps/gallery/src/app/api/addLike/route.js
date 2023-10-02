@@ -1,6 +1,9 @@
 import { database } from "@/utils/database/db";
+import Session from "@/utils/siwe/session";
 import { NextResponse } from "next/server";
 export async function POST(req, res) {
+  await Session.assertSiwe(req);
+
   const body = await req.json();
 
   const nft = await database.collection("nfts").findOne({ nft: body.nft });

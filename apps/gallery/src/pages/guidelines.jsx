@@ -1,12 +1,9 @@
 "use client";
-import { useTheme } from "next-themes";
+import Image from "next/image";
 import React from "react";
 import ColorGrid from "../components/ColorGrid/ColorGrid";
-import Image from "next/image";
 
 const GuideLines = () => {
-  const { theme, setTheme } = useTheme();
-
   const colors = [
     "ffffff",
     "c5b9a1",

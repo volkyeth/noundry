@@ -1,7 +1,10 @@
 import { database } from "@/utils/database/db";
+import Session from "@/utils/siwe/session";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
+  await Session.assertSiwe(req);
+
   const formData = await req.formData();
   const nft = formData.get("nft");
   let name = formData.get("name");

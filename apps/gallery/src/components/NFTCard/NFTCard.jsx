@@ -1,14 +1,17 @@
 import axios from "axios";
+import { useModal, useSIWE } from "connectkit";
 import Link from "next/link";
-import { useContext, useEffect, useState, useCallback, useRef } from "react";
-import { BsSuitHeartFill } from "react-icons/bs";
-import { useAccount } from "wagmi";
+import accssoryIcon from "public/AccessoryIcon.svg";
 import headIcon from "public/HeadIcon.svg";
 import dummyImg from "public/dummyImg.png";
-import accssoryIcon from "public/AccessoryIcon.svg";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { BsSuitHeartFill } from "react-icons/bs";
+import { useAccount } from "wagmi";
 import { MainContext } from "../../pages/_app";
 
 const NFTCard = ({ nft }) => {
+  const { openSIWE } = useModal();
+  const { isSignedIn } = useSIWE();
   const [like, setLike] = useState(nft.likesCount);
   const [isLike, setIsLike] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +21,8 @@ const NFTCard = ({ nft }) => {
   const { isConnected, address } = useAccount();
 
   const handleLike = async () => {
+    if (!isSignedIn) return openSIWE();
+
     if (isConnected) {
       try {
         if (!showModal && !loading) {
@@ -43,8 +48,6 @@ const NFTCard = ({ nft }) => {
         console.error("Error:", error);
         setLoading(false);
       }
-    } else {
-      setShowModal(true);
     }
   };
 

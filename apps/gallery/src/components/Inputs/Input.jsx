@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { BiCaretDown } from "react-icons/bi";
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
 import { LiaSearchSolid } from "react-icons/lia";
-import { useAccount } from "wagmi";
-import ModalComp from "../Modal/ModalComp";
+import { UploadTraitButton } from "../UploadTraitButton";
 
 const Input = ({
   setDisplayNfts,
@@ -18,9 +17,6 @@ const Input = ({
   order,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [head, setHead] = useState(false);
-  const [accessories, setAccessories] = useState(false);
-  const [glasses, setGlasses] = useState(false);
   const [filterArray, setFilterArray] = useState([]);
   const [isReverse, setIsReverse] = useState(false);
   const [sort, setSort] = useState("creation date");
@@ -28,10 +24,7 @@ const Input = ({
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isWalletError, setIsWalletError] = useState(false);
   const dropdownRef = useRef(null);
-  const { isConnected } = useAccount();
 
   const handleDocumentClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -50,7 +43,6 @@ const Input = ({
     const arrWithTypeFilter = nfts.filter((nft) => {
       return filterArray.length > 0 ? filterArray.includes(nft.type) : true;
     });
-    //SearchQuery(search);
 
     const filterArr = arrWithTypeFilter.filter(
       (obj) =>
@@ -122,24 +114,10 @@ const Input = ({
 
   return (
     <div className="grid grid-cols-2 gap-4 mt-6 lg:grid-cols-3 xl:grid-cols-3 md:grid-cols-2 2xl:grid-cols-4 sm:grid-cols-1 sm:px-4">
-      <button
+      <UploadTraitButton
         className="relative w-full flex shadow-md justify-center items-center min-h-[2.8rem] bg-primary text-white rounded-md border-1 border-black  dark:border-white font-bold tracking-wider"
-        onClick={() => {
-          if (isConnected) {
-            setIsModalOpen(!isModalOpen);
-            setIsWalletError(false);
-          } else {
-            setIsWalletError(true);
-          }
-        }}
-      >
-        Upload Trait
-        {isWalletError ? (
-          <span className="absolute bottom-[-1.3rem] text-primary dark:text-white text-[0.7rem] italic">
-            Please connect wallet to continue
-          </span>
-        ) : null}
-      </button>
+        traitsData={traitsData}
+      />
       <div className="flex text-black w-full">
         <div
           className="cursor-pointer justify-center w-2/5 bg-white dark:bg-dark md:flex md:justify-center text-black dark:text-white flex items-center py-3 gap-1 border-1 border-[#4A5568] rounded-l-md font-normal text-sm dmd:text-xs"
@@ -259,7 +237,6 @@ const Input = ({
             placeholder="Search..."
             required
             value={SearchQuery}
-            //value={search.replace(" ", "-")}
             onChange={(e) => SetSearchQuery(e.target.value)}
           />
           <button
@@ -273,10 +250,6 @@ const Input = ({
           </button>
         </div>
       </div>
-
-      {isModalOpen && (
-        <ModalComp traitsData={traitsData} setIsModalOpen={setIsModalOpen} />
-      )}
     </div>
   );
 };

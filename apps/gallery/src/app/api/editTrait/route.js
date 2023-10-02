@@ -1,8 +1,11 @@
 import { database } from "@/utils/database/db";
+import Session from "@/utils/siwe/session";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
+  await Session.assertSiwe(req);
+
   const formData = await req.formData();
   const id = formData.get("id");
   const nft = formData.get("nft");

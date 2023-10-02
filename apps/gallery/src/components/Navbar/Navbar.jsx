@@ -3,14 +3,12 @@ import { ConnectKitButton } from "connectkit";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import logoImage from "public/EraserLogo.svg";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BiCaretDown } from "react-icons/bi";
 import { BsSquareHalf } from "react-icons/bs";
-import { useAccount, useDisconnect } from "wagmi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,8 +16,6 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [isOpensidebarDropdown, setIsOpensidebarDropdown] = useState(false);
   const [isCaretRotated, setIsCaretRotated] = useState(false);
-  const [isAccountConnected, setIsAccountConnected] = useState(false);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [traitsData, setTraitsData] = useState({
     backgrounds: [],
     bodies: [],
@@ -27,17 +23,6 @@ const Navbar = () => {
     heads: [],
     glasses: [],
   });
-  const [profileImage, setProfileImage] = useState("");
-
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-  const router = useRouter();
-
-  const handleCommunity = () => {
-    // navigation.navigate('/Community');
-    window.location.href = "/Community";
-    setIsOpensidebar(false);
-  };
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -56,13 +41,6 @@ const Navbar = () => {
     setIsCaretRotated(!isCaretRotated);
   };
 
-  const sidebarRef = useRef(null);
-  const handleDocumentClicksidebar = (event) => {
-    // if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-    //   setIsOpensidebar(false);
-    // setIsOpensidebarDropdown(false);
-    // }
-  };
   useEffect(() => {
     axios.post(`/api/getTraits`).then((res) => {
       setTraitsData(res.data);

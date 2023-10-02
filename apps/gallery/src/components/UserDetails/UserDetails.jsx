@@ -1,26 +1,20 @@
 "use client";
+import { UploadTraitButton } from "@/components/UploadTraitButton";
 import axios from "axios";
-import { useTheme } from "next-themes";
 import userImage from "public/DefaultProfile.svg";
 import { useContext, useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { BsSuitHeartFill, BsTwitter } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
-import ModalComp from "../Modal/ModalComp";
-import UserAccountGallery from "../UserAccountGallery/UserAccountGallery";
 import { MainContext } from "../../pages/_app";
+import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
+import UserAccountGallery from "../UserAccountGallery/UserAccountGallery";
 
 const UserDetails = ({ searchAddress }) => {
   const [userData, setUserData] = useState({});
   const [userAddress, setUserAddress] = useState("");
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [traitData, setTraitData] = useState(false);
+  const [traitsData, setTraitsData] = useState(false);
   const [isErrorBanner, setIsErrorBanner] = useState(false);
-  const [isOpensidebar, setIsOpensidebar] = useState(false);
   const [isLoading, setIsLoading] = useState({});
-  const [isSaving, setIsSaving] = useState(false);
 
   const [imageError, setImageError] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
@@ -32,7 +26,6 @@ const UserDetails = ({ searchAddress }) => {
   const [filter, setFilter] = useState("none");
   const [nfts, setNfts] = useState([]);
   const [likedNfts, setLikedNfts] = useState([]);
-  const { theme, setTheme } = useTheme();
   const [headFilter, setHeadFilter] = useState(false);
   const [accessoryFilter, setAccessoryFilter] = useState(false);
 
@@ -56,54 +49,9 @@ const UserDetails = ({ searchAddress }) => {
     }
   };
 
-  const handleNameChange = (e) => {
-    const { value } = e.target;
-    setUsername(value.slice(0, 18));
-    // setUserData({ ...userData, userName: value.slice(0, 18) });
-  };
-  const handleTwitterChange = (e) => {
-    const { value } = e.target;
-    setTwitter(value);
-    // setUserData({ ...userData, twitter: value });
-  };
-  const handleAboutChange = (e) => {
-    const { value } = e.target;
-    setAbout(value.slice(0, 240));
-    // setUserData({ ...userData, about: value.slice(0, 240) });
-  };
-
-  const handleSubmit = async () => {
-    if (imageError == false) {
-      setIsSaving(true);
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("name", username);
-      formData.append("twitter", twitter);
-      formData.append("about", about);
-      formData.append("userAddress", address);
-
-      const editProfileApiRes = await axios.post("/api/editProfile", formData);
-      setIsEditModalOpen(false);
-      setIsSaving(false);
-      setTrigger(trigger + 2);
-    }
-  };
-
   const { address, isConnected } = useAccount();
   const { trigger, setTrigger } = useContext(MainContext);
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   if (isConnected) {
-  //     axios
-  //       .post(`/api/getUser?address=${searchAddress}`)
-  //       .then((getUserApiRes) => {
-  //         setUserData(getUserApiRes.data);
-  //         setNfts(getUserApiRes.data.nfts);
-  //         setLikedNfts(getUserApiRes.data.likedNfts);
-  //         setIsLoading(false);
-  //       });
-  //   }
-  // }, []);
+
   useEffect(() => {
     setIsLoading(true);
     axios
@@ -121,7 +69,7 @@ const UserDetails = ({ searchAddress }) => {
     axios
       .post("/api/getTraits")
       .then((res) => {
-        setTraitData(res.data);
+        setTraitsData(res.data);
       })
       .catch((getTraitsApiError) => {});
   }, [trigger]);
@@ -196,18 +144,10 @@ const UserDetails = ({ searchAddress }) => {
             <div className="flex flex-wrap gap-6 ">
               {searchAddress == userAddress ? (
                 <>
-                  <button
+                  <UploadTraitButton
                     className="bg-primary p-2 rounded-md text-white text-sm font-semibold border-1 border-[#1F1D28] dark:border-white  items-center gap-1  px-12 hidden 2xl:flex "
-                    onClick={handleModalToggle}
-                  >
-                    Upload Trait
-                  </button>
-                  <button
-                    className="bg-bright-light dark:bg-bright-dark p-2 rounded-md text-black dark:text-white border-1 border-[#1F1D28] dark:border-white text-sm font-medium flex items-center gap-1 px-5 xl:mr-5 lg:mr-10 md:mr-0"
-                    onClick={() => setIsEditModalOpen(true)}
-                  >
-                    Edit Profile
-                  </button>
+                    traitsData={traitsData}
+                  />
                 </>
               ) : null}
             </div>
@@ -283,132 +223,10 @@ const UserDetails = ({ searchAddress }) => {
         </div>
       </div>
 
-      {isEditModalOpen ? (
-        <div className="z-10 bg-transparent fixed overflow-scroll top-0 w-full h-full flex justify-center  bg-white dark:bg-black bg-opacity-50 dark:bg-opacity-50">
-          <div className=" rounded-2xl bg-white dark:bg-[#3C4049] container border-[#4A5568] border-2 my-auto flex flex-col gap-5 p-4">
-            <div className="flex justify-between">
-              <img
-                src={
-                  file
-                    ? imageUrl
-                    : userData.profilePic
-                    ? userData.profilePic
-                    : userImage.src
-                }
-                className="h-52 w-52 rounded-full object-cover"
-              />
-              <div
-                className="h-fit w-fit p-2 border-2 border-gray-300 rounded-xl cursor-pointer"
-                onClick={() => setIsEditModalOpen(false)}
-              >
-                <AiOutlineClose className="text-3xl stroke-white dark:stroke-black" />
-              </div>
-            </div>
-            <div
-              className={`relative dark:bg-[#434B58] flex text-xl overflow-hidden m-0  pr-2 text-black w-full  flex-auto rounded-t-lg rounded-b-lg border-gray-300 dark:border-[#4D5566] border-2`}
-            >
-              <p
-                className={`dmd:text-sm text-black dark:text-white border-r-2 border-gray-300 dark:border-[#4D5566] w-1/4 dmd:w-1/2 bg-[#EBEBEB] dark:bg-[#16191E]  px-4 flex items-center`}
-              >
-                Choose File
-              </p>
-              <label
-                className={`dmd:text-sm py-2 px-4 dmd:w-1/2 dmd:line-clamp-1 dmd:text-ellipsis  ${
-                  imageError
-                    ? "text-red-500"
-                    : !file
-                    ? "text-gray-400"
-                    : "text-black dark:text-white"
-                }`}
-              >
-                {!file || imageError
-                  ? "Minimum 400px and maximum 1024px images are allowed."
-                  : file?.name}
-              </label>
-              <input
-                className={`opacity-0  absolute top-0 w-full h-full`}
-                type="file"
-                id="formFile"
-                accept="image/*"
-                onChange={handleFileChange}
-                required
-              />
-            </div>
-            <div className="flex w-full text-black dark:text-white rounded-lg border-2 border-gray-300 dark:border-[#4D5566]">
-              <div className="dmd:text-sm px-4 py-2 min-w-fit w-1/4 dmd:w-1/2 text-xl bg-[#EBEBEB] dark:bg-[#16191E]  rounded-l-lg border-r-2 border-gray-300 dark:border-[#4D5566]">
-                {" "}
-                Username
-              </div>
-              <input
-                className="dmd:text-sm px-4 py-2 text-xl w-3/4 dmd:w-1/2 rounded-r-lg  bg-gray-50 dark:bg-[#434B58] text-[#1F1D28] dark:text-white"
-                type="text"
-                onChange={handleNameChange}
-                value={username}
-                name="userName"
-              />
-            </div>
-            <div className="w-full">
-              <div className="flex w-full text-black dark:text-white rounded-lg border-2 border-gray-300 dark:border-[#4D5566]">
-                <div className="dmd:text-sm px-4 py-2 min-w-fit w-1/4 dmd:w-1/2 text-xl bg-[#EBEBEB] dark:bg-[#16191E] rounded-l-lg border-r-2 border-gray-300 dark:border-[#4D5566]">
-                  {" "}
-                  Twitter handler
-                </div>
-                <input
-                  className="dmd:text-sm px-4 py-2 text-xl w-3/4 dmd:w-1/2 rounded-r-lg border-0 bg-gray-50 dark:bg-[#434B58] text-[#1F1D28] dark:text-white"
-                  type="text"
-                  value={twitter}
-                  onChange={handleTwitterChange}
-                  name="twitter"
-                />
-              </div>
-              <div className="flex w-full text-gray-500 dark:text-gray-300 italic">
-                <div className="w-1/4 dmd:w-1/2"></div>
-                <div className="w-3/4 dmd:w-1/2 dmd:text-sm">
-                  <a
-                    href={`https://twitter.com/${userData?.twitter}`}
-                    target="_blank"
-                  >
-                    https://twitter.com/{twitter}
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="w-full text-black dark:text-white">
-              <p className="w-full px-4 py-2 dmd:text-sm text-xl">About</p>
-              <textarea
-                className=" dmd:text-sm w-full px-4 py-2 border-2 bg-gray-50 dark:bg-[#434B58] border-gray-300 dark:border-[#4D5566] rounded-lg"
-                rows={3}
-                value={about}
-                placeholder="240 characters max"
-                onChange={handleAboutChange}
-                name="description"
-              />
-            </div>
-            <div className="w-full min-h-11 flex justify-end ">
-              {isSaving ? (
-                <div className="w-full flex justify-end">
-                  <LoadingNoggles className="!mx-0" />
-                </div>
-              ) : (
-                <button
-                  className="rounded-lg bg-black p-2 w-1/4 text-xl text-white"
-                  onClick={handleSubmit}
-                >
-                  Save
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : null}
       {isLoading ? (
         <div className="bg-[#F5F5F5] dark:bg-[#24272F] fixed top-0 w-full h-full flex justify-center items-center">
           <LoadingNoggles />
         </div>
-      ) : null}
-      {isModalOpen}
-      {isModalOpen ? (
-        <ModalComp traitsData={traitData} setIsModalOpen={setIsModalOpen} />
       ) : null}
     </>
   );

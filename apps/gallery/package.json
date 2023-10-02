@@ -1,9 +1,8 @@
 {
-  "name": "nouns-wall",
+  "name": "@noundry/gallery",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.1.13",
     "autoprefixer": "10.4.14",
@@ -13,13 +12,13 @@
     "connectkit-next-siwe": "^0.2.0",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.4",
+    "iron-session": "^6.3.1",
     "lokijs": "^1.5.12",
     "moment": "^2.29.4",
     "mongodb": "^5.9.0",
     "next": "13.4.13",
     "next-navigation": "^1.0.6",
     "next-themes": "^0.2.1",
-    "pino-pretty": "^10.2.0",
     "postcss": "8.4.27",
     "react": "^18.2.0",
     "react-click-away-listener": "^2.2.3",
@@ -28,7 +27,6 @@
     "siwe": "^2.1.4",
     "supports-color": "^9.4.0",
     "tailwindcss": "3.3.3",
-    "tw-elements": "^1.0.0",
     "viem": "^1.12.2",
     "wagmi": "^1.4.2"
   },
@@ -40,6 +38,7 @@
     "lint": "next lint"
   },
   "devDependencies": {
-    "@types/react": "^18.0.17"
+    "@types/react": "^18.0.17",
+    "typescript": "^5.2.2"
   }
 }

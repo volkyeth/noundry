@@ -2,6 +2,7 @@
 import { LoadingNoggles } from "@/components/LoadingNoggles/LoadingNoggles";
 import EditModal from "@/components/Modal/EditModal";
 import axios from "axios";
+import { useModal, useSIWE } from "connectkit";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -13,6 +14,8 @@ export const getServerSideProps = async () => {
 };
 
 const UserTrait = () => {
+  const { openSIWE } = useModal();
+  const { isSignedIn } = useSIWE();
   const [nft, setNft] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -136,6 +139,8 @@ const UserTrait = () => {
               {nft.address == localAddress ? (
                 <button
                   onClick={() => {
+                    if (!isSignedIn) return openSIWE();
+
                     setIsEditOpen(true);
                   }}
                   className="flex justify-center bg-light dark:bg-dark rounded-md items-center align-middle p-1 px-2 border-1 border-[#4A5568] text-sm"

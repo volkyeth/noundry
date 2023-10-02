@@ -1,6 +1,6 @@
 "use client";
+import { UploadTraitButton } from "@/components/UploadTraitButton";
 import axios from "axios";
-import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import { BiCaretDown } from "react-icons/bi";
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
@@ -10,7 +10,6 @@ import AccountImage from "../components/AccountImage/AccountImage";
 import BannerModal from "../components/BannerModal/BannerModal";
 import ErrorBanner from "../components/ErrorBanner/ErrorBanner";
 import { LoadingNoggles } from "../components/LoadingNoggles/LoadingNoggles";
-import ModalComp from "../components/Modal/ModalComp";
 
 const Community = () => {
   const [page, setPage] = useState(1);
@@ -22,7 +21,6 @@ const Community = () => {
   const [sort, setSort] = useState("likes");
   const [isReverse, setIsReverse] = useState(false);
   const [search, setSearch] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
   const [isErrorBanner, setIsErrorBanner] = useState(false);
   const [traitsData, setTraitsData] = useState({
@@ -34,7 +32,6 @@ const Community = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const { isConnected } = useAccount();
-  const { theme, setTheme } = useTheme();
   const dropdownRef = useRef(null);
   const handleModalToggle = () => {
     if (isConnected) {
@@ -218,12 +215,10 @@ const Community = () => {
               </div>
             </div>
           </div>
-          <button
+          <UploadTraitButton
             className="bg-primary p-2 rounded-md text-base dmd:text-sm font-semibold items-center gap-1 border-1 border-[#1F1D28] dark:border-white text-white px-12 hidden 2xl:flex "
-            onClick={handleModalToggle}
-          >
-            Upload Trait
-          </button>
+            traitsData={traitsData}
+          />
         </div>
 
         <div>
@@ -242,19 +237,6 @@ const Community = () => {
           </button>
         </div>
         <div className="col-span-4 mt-28 ml-3 mr-3">
-          {/* <button
-            onClick={handleModalToggle}
-            className="w-16 bg-[#FF443B] border-1 border-[#FFFFFF] rounded-md text-[#FFFFFF] p-3 text-base font-bold"
-          >
-            Submit Your Trait
-          </button> */}
-          {isModalOpen ? (
-            <ModalComp
-              setIsModalOpen={setIsModalOpen}
-              setIsModalOpenBanner={setIsModalOpenBanner}
-              traitsData={traitsData}
-            />
-          ) : null}
           {isModalOpenBanner ? (
             <BannerModal
               isModalOpenBanner={isModalOpenBanner}

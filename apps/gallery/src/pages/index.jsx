@@ -1,13 +1,10 @@
 "use client";
 
 import axios from "axios";
-import { useTheme } from "next-themes";
 import { useContext, useEffect, useState } from "react";
-import ErrorBanner from "../components/ErrorBanner/ErrorBanner";
 import Gallery from "../components/Imagegallery/gallery";
 import Input from "../components/Inputs/Input";
 import { LoadingNoggles } from "../components/LoadingNoggles/LoadingNoggles";
-import ModalComp from "../components/Modal/ModalComp";
 import { MainContext } from "./_app";
 {
   /*import Image from "next/image";
@@ -24,9 +21,6 @@ export default function Home() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const [displayNfts, setDisplayNfts] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isErrorBanner, setIsErrorBanner] = useState(false);
-  const [themeState, setThemeState] = useState(false);
 
   const [traitsData, setTraitsData] = useState({
     backgrounds: [],
@@ -42,8 +36,6 @@ export default function Home() {
   const [order, setOrder] = useState(false);
 
   let { trigger } = useContext(MainContext);
-
-  const { theme, setTheme } = useTheme();
 
   const loadMore = async () => {
     setIsLoadingMore(true);
@@ -82,55 +74,20 @@ export default function Home() {
 
     const getNFTApiRes = await axios.post(url);
 
-    // var sorted = getNFTApiRes.data.sort(
-    //   (a, b) => b.creationDate - a.creationDate
-    // );
-
     setNfts(getNFTApiRes.data);
     setDisplayNfts(getNFTApiRes.data);
   };
-
-  // const SortData = async () => {
-  //   const params = {};
-  //   params.orderBy = orderType;
-
-  //   const queryString = new URLSearchParams(params).toString();
-
-  //   const url = `/api/getNFTs${queryString ? `?${queryString}` : ""}`;
-
-  //   const getNFTApiRes = await axios.post(url);
-  //   setNfts(getNFTApiRes.data);
-  //   setDisplayNfts(getNFTApiRes.data);
-  // };
 
   useEffect(() => {
     axios.post("/api/getTraits").then((res) => {
       setTraitsData(res.data);
     });
     updateNFTs();
-    // SortData();
   }, [types1, types2, searchQuery, order, trigger]);
-
-  // useEffect(() => {
-  //   updateNFTs();
-  // }, [trigger]);
-
-  useEffect(() => {
-    localStorage.setItem("theme", theme == "dark" ? "dark" : "light");
-    setThemeState(localStorage.getItem("theme"));
-    setTheme(theme);
-  }, [theme]);
 
   return (
     <>
       <div className="container mx-auto my-12 xl:px-10 lg:px-10 md:px-5 sm:px-2 xs:px-2 px-4">
-        {/*<div className="flex items-center justify-center dsm:justify-between">
-          <Image
-            src={themeState == "dark" ? bannerImage : bannerImageDark}
-            className="w-full dsm:w-5/6 h-auto select-none"
-            alt="Image"
-          />
-        </div>*/}
         <Input
           setThemeState1={setTypes1}
           setTypes2={setTypes2}
@@ -162,22 +119,6 @@ export default function Home() {
             "Load More"
           )}
         </button>
-        <div className="col-span-4 mt-28 ml-3 mr-3">
-          {isModalOpen ? (
-            <ModalComp
-              setIsModalOpen={setIsModalOpen}
-              traitsData={traitsData}
-            />
-          ) : null}
-
-          {isErrorBanner ? (
-            <ErrorBanner
-              isErrorBanner={isErrorBanner}
-              setIsErrorBanner={setIsErrorBanner}
-              message={"Please Connect wallet to continue"}
-            />
-          ) : null}
-        </div>
       </div>
     </>
   );
