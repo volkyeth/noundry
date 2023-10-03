@@ -4,9 +4,9 @@ import { BiCaretDown } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { useAccount } from "wagmi";
+import { MainContext } from "../../pages/_app";
 import BannerModal from "../BannerModal/BannerModal";
 import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
-import { MainContext } from "../../pages/_app";
 
 const ModalComp = ({ setIsModalOpen, traitsData }) => {
   const [selectedBackground, setSelectedBackground] = useState("random");
@@ -136,7 +136,7 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 flex bg-white dark:bg-black bg-opacity-50 dark:bg-opacity-50 justify-center z-[1] h-full w-full overflow-y-scroll overflow-x-hidden `}
+      className={`fixed z-50 top-0 left-0 flex bg-white dark:bg-black bg-opacity-50 dark:bg-opacity-50 justify-center h-full w-full overflow-y-scroll overflow-x-hidden `}
       id="exampleModalLg"
       aria-labelledby="exampleModalLgLabel"
       aria-modal="true"

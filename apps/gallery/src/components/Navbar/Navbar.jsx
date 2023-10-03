@@ -1,9 +1,8 @@
 import axios from "axios";
 import { ConnectKitButton } from "connectkit";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import Link from "next/link";
-import logoImage from "public/EraserLogo.svg";
+import LogoImage from "public/EraserLogo.svg";
 import { useEffect, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
@@ -53,7 +52,7 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center xl:px-10 lg:px-10 md:px-5 sm:px-2 px-4">
           <Link href="/">
             <div className="flex items-center gap-4">
-              <Image src={logoImage} alt="Image" className="h-16 w-16" />
+              <LogoImage className="h-16 w-16" />
               <div>
                 <h1 className="text-[16px] 2xl:text-lg xl:text-lg lg:text-lg md:text-lg font-Pix text-black dark:text-white">
                   Noundry Gallery
