@@ -1,18 +1,18 @@
 import { TraitType } from "@/types/trait";
-import accessoryIcon from "public/AccessoryIcon.svg";
-import headIcon from "public/HeadIcon.svg";
+import AccessoryIcon from "public/AccessoryIcon.svg";
+import HeadIcon from "public/HeadIcon.svg";
 import { FC } from "react";
 
-export interface TraitIconProps extends React.HTMLAttributes<HTMLImageElement> {
+export interface TraitIconProps extends React.HTMLAttributes<SVGElement> {
   type: TraitType;
 }
 
 export const TraitIcon: FC<TraitIconProps> = ({ type, ...props }) => {
   switch (type) {
     case "accessories":
-      return <img src={accessoryIcon.src} {...props} />;
+      return <AccessoryIcon {...props} />;
     case "heads":
-      return <img src={headIcon.src} {...props} />;
+      return <HeadIcon {...props} />;
     default:
       return <></>;
   }
