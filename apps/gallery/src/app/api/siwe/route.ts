@@ -33,7 +33,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    session.address = fields.address;
+    session.address = fields.address as `0x${string}`;
     session.chainId = fields.chainId;
   } catch (error) {
     switch (error) {

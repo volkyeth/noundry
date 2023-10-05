@@ -14,7 +14,6 @@ export const useTraits = (query: Partial<TraitsQuery>) => {
         ...query,
         page: pageParam,
       } as Partial<TraitsQuery>);
-      console.log({ pageParam, queryString });
       return fetch(`/api/traits?${queryString}`).then(
         (r) =>
           r.json() as Promise<{
