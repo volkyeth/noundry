@@ -28,8 +28,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/index.jsx",
-    "src/app/api/addLike/route.js"
+    "src/pages/index.tsx",
+    "src/app/api/toggleLike/route.js"
   ],
   "exclude": ["node_modules"]
 }

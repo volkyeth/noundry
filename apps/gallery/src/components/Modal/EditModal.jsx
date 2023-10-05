@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiCaretDown } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { useAccount } from "wagmi";
 import BannerModal from "../BannerModal/BannerModal";
 import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
-import { MainContext } from "../../pages/_app";
 
 const EditModal = ({ setIsModalOpen, nft, updateNft }) => {
   const router = useRouter();
@@ -43,7 +42,6 @@ const EditModal = ({ setIsModalOpen, nft, updateNft }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { address } = useAccount();
-  let { trigger, setTrigger } = useContext(MainContext);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -140,7 +138,6 @@ const EditModal = ({ setIsModalOpen, nft, updateNft }) => {
     setIsBannerOpen(true);
     setIsUploading(false);
     updateNft();
-    setTrigger(trigger + 2);
   };
 
   const handleGenerate = async (e, trait = null) => {

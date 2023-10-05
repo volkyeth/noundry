@@ -1,5 +1,5 @@
 <svg viewBox="0 0 160 60" xmlns="http://www.w3.org/2000/svg" shaperendering="crispEdges">
-  <g id="frame" fill="black">
+  <g id="frame" fill="currentColor">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M30 0H90V20H100V0H160V60H100V30H90V60H30V30H10V50H0V30V20H30V0Z" />
   </g>
   <g id="state-1" class="state">

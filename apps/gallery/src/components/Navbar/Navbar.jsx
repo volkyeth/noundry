@@ -1,9 +1,8 @@
-import axios from "axios";
 import { ConnectKitButton } from "connectkit";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import LogoImage from "public/EraserLogo.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BiCaretDown } from "react-icons/bi";
@@ -15,13 +14,6 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [isOpensidebarDropdown, setIsOpensidebarDropdown] = useState(false);
   const [isCaretRotated, setIsCaretRotated] = useState(false);
-  const [traitsData, setTraitsData] = useState({
-    backgrounds: [],
-    bodies: [],
-    accessories: [],
-    heads: [],
-    glasses: [],
-  });
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -39,12 +31,6 @@ const Navbar = () => {
     setIsOpensidebarDropdown(!isOpensidebarDropdown);
     setIsCaretRotated(!isCaretRotated);
   };
-
-  useEffect(() => {
-    axios.post(`/api/getTraits`).then((res) => {
-      setTraitsData(res.data);
-    });
-  }, []);
 
   return (
     <>

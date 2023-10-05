@@ -2,10 +2,9 @@
 import { UploadTraitButton } from "@/components/UploadTraitButton";
 import axios from "axios";
 import userImage from "public/DefaultProfile.svg";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsSuitHeartFill, BsTwitter } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { MainContext } from "../../pages/_app";
 import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
 import UserAccountGallery from "../UserAccountGallery/UserAccountGallery";
 
@@ -50,7 +49,6 @@ const UserDetails = ({ searchAddress }) => {
   };
 
   const { address, isConnected } = useAccount();
-  const { trigger, setTrigger } = useContext(MainContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -72,7 +70,7 @@ const UserDetails = ({ searchAddress }) => {
         setTraitsData(res.data);
       })
       .catch((getTraitsApiError) => {});
-  }, [trigger]);
+  }, []);
 
   const handleModalToggle = () => {
     if (isConnected) {

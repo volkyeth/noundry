@@ -1,10 +1,9 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiCaretDown } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { useAccount } from "wagmi";
-import { MainContext } from "../../pages/_app";
 import BannerModal from "../BannerModal/BannerModal";
 import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
 
@@ -31,7 +30,6 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
   const [isBannerOpen, setIsBannerOpen] = useState(false);
 
   const { address } = useAccount();
-  let { trigger, setTrigger } = useContext(MainContext);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -103,7 +101,6 @@ const ModalComp = ({ setIsModalOpen, traitsData }) => {
     setradisovalue("");
     setIsBannerOpen(true);
     setIsUploading(false);
-    setTrigger(trigger + 2);
   };
 
   const handleGenerate = async (e) => {

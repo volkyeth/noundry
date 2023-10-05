@@ -3,33 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.1.13",
     "@nextui-org/theme": "^2.1.9",
-    "autoprefixer": "10.4.14",
+    "@tanstack/react-query": "^4.35.7",
     "axios": "^1.5.0",
     "canvas": "^2.11.2",
     "connectkit": "^1.5.3",
     "connectkit-next-siwe": "^0.2.0",
-    "encoding": "^0.1.13",
     "framer-motion": "^10.16.4",
     "iron-session": "^6.3.1",
-    "lokijs": "^1.5.12",
     "moment": "^2.29.4",
-    "mongodb": "^5.9.0",
+    "mongodb": "^6.1.0",
     "next": "13.4.13",
     "next-navigation": "^1.0.6",
     "next-themes": "^0.2.1",
-    "postcss": "8.4.27",
     "react": "^18.2.0",
     "react-click-away-listener": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-intersection-observer": "^9.5.2",
     "siwe": "^2.1.4",
-    "supports-color": "^9.4.0",
-    "tailwindcss": "3.3.3",
     "viem": "^1.12.2",
-    "wagmi": "^1.4.2"
+    "wagmi": "^1.4.2",
+    "zod": "^3.22.3"
   },
   "scripts": {
     "dev": "next dev",
@@ -41,7 +37,10 @@
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
     "@types/react": "^18.0.17",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
     "prettier": "^3.0.3",
+    "tailwindcss": "3.3.3",
     "typescript": "^5.2.2"
   }
 }

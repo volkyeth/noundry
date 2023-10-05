@@ -1,9 +1,9 @@
-import { Base64EncodedPng } from "./image";
+import { Base64EncodedPng } from "@/types/image";
+import { TraitType } from "@/types/trait";
+import { ObjectId } from "mongodb";
 
-export type TraitType = "heads" | "glasses" | "accessories" | "bodies";
-
-export interface Trait {
-  _id: string;
+export interface TraitSchema {
+  _id: ObjectId;
   nft: Base64EncodedPng;
   name: string;
   type: TraitType;
@@ -14,6 +14,6 @@ export interface Trait {
   head: string;
   accessory: string;
   glasses: string;
-  likesCount: number;
+  likedBy: `0x${string}`[];
   creationDate: number;
 }

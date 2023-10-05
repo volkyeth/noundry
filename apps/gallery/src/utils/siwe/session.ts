@@ -4,6 +4,7 @@ import {
   SIWE_TTL,
 } from "@/utils/siwe/constants";
 import { sealData, unsealData } from "iron-session";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_OPTIONS = {
@@ -20,12 +21,12 @@ export type ISession = {
 class Session {
   nonce?: string;
   chainId?: number;
-  address?: string;
+  address?: `0x${string}`;
 
   constructor(session?: ISession) {
     this.nonce = session?.nonce;
     this.chainId = session?.chainId;
-    this.address = session?.address;
+    this.address = session?.address as `0x${string}`;
   }
 
   static async fromRequest(req: NextRequest): Promise<Session> {
