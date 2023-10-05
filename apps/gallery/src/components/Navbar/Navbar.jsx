@@ -1,17 +1,14 @@
 import { ConnectKitButton } from "connectkit";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import LogoImage from "public/EraserLogo.svg";
 import { useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BiCaretDown } from "react-icons/bi";
-import { BsSquareHalf } from "react-icons/bs";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
   const [isOpensidebarDropdown, setIsOpensidebarDropdown] = useState(false);
   const [isCaretRotated, setIsCaretRotated] = useState(false);
 
@@ -48,14 +45,6 @@ const Navbar = () => {
           </Link>
 
           <div className="flex w-1/2 gap-4 2xl:justify-between dsm:justify-end md:justify-end lg:justify-end dxl:justify-end items-center">
-            <div>
-              <BsSquareHalf
-                className="text-sm fill-dark dark:fill-light cursor-pointer"
-                onClick={() => {
-                  setTheme(theme == "dark" ? "light" : "dark");
-                }}
-              />
-            </div>
             <div className="gap-6 w-1/4 hidden md:hidden lg:hidden xl:hidden 2xl:!flex">
               <div className="relative w-full flex justify-center bg-light dark:bg-dark rounded-md items-center align-middle p-2 px-8 border-1 border-[#4A5568] text-base font-bold">
                 <button

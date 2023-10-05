@@ -1,22 +1,18 @@
 "use client";
-import { useTheme } from "next-themes";
-import Image from "next/image";
-import bannerImageDark from "public/pixel-heart-darkmode.svg";
-import bannerImage from "public/pixel-heart.svg";
+import Banner from "public/pixel-heart.svg";
 import React from "react";
 
 const About = () => {
-  const { theme } = useTheme();
-
   return (
     <>
       <div className="container w-full mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
         <div className="flex items-center justify-center dsm:justify-between">
-          <Image
-            src={theme === "dark" ? bannerImageDark : bannerImage}
+          {/* <Image
+            src={bannerImage}
             className="w-full h-auto select-none"
             alt="Image"
-          />
+          /> */}
+          <Banner className="text-black w-full h-auto select-none" />
         </div>
 
         <div className="flex flex-col gap-4 text-lg">

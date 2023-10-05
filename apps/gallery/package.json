@@ -16,7 +16,6 @@
     "mongodb": "^6.1.0",
     "next": "13.4.13",
     "next-navigation": "^1.0.6",
-    "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-click-away-listener": "^2.2.3",
     "react-dom": "^18.2.0",

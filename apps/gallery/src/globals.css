@@ -5,10 +5,7 @@
 
 @layer base {
   body {
-    @apply dark:bg-dark bg-light;
-  }
-  #Text {
-    @apply fill-red-600;
+    @apply bg-light;
   }
 }
 
