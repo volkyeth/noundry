@@ -36,41 +36,60 @@ export async function GET(req: NextRequest) {
 
   const sortField = getSortField(query.sortBy);
 
-  const cursor = database
-    .collection<TraitSchema>("nfts")
-    .aggregate(
-      [
-        {
-          $match: {
-            // address: query.author,
-            $expr: { $in: ["$type", query.includeTypes] },
+  const cursor = database.collection<TraitSchema>("nfts").aggregate(
+    [
+      {
+        $match: {
+          // address: query.author,
+          $expr: { $in: ["$type", query.includeTypes] },
+        },
+      },
+      { $sort: { [sortField]: query.direction === "asc" ? 1 : -1 } },
+      {
+        $addFields: {
+          likesCount: {
+            $cond: {
+              if: { $isArray: "$likedBy" },
+              then: { $size: "$likedBy" },
+              else: 0,
+            },
           },
         },
-        ...(session.address
-          ? [
-              {
-                $addFields: {
-                  likesCount: {
-                    $cond: {
-                      if: { $isArray: "$likedBy" },
-                      then: { $size: "$likedBy" },
-                      else: 0,
-                    },
-                  },
-                  liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
-                },
+      },
+      ...(session.address
+        ? [
+            {
+              $addFields: {
+                liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
               },
-            ]
-          : []),
-        { $project: { likedBy: 0, likers: 0 } },
-      ],
-      { collation: { locale: "en", strength: 2 } }
-    )
-    .sort({ [sortField]: query.direction === "asc" ? 1 : -1 })
-    .skip(PAGE_SIZE * query.page - 1)
-    .limit(PAGE_SIZE);
+            },
+          ]
+        : []),
+      { $project: { likedBy: 0, likers: 0 } },
+      {
+        $group: {
+          _id: null,
+          allTraits: { $push: "$$ROOT" },
+        },
+      },
+      {
+        $addFields: {
+          traits: {
+            $slice: ["$allTraits", PAGE_SIZE * query.page - 1, PAGE_SIZE],
+          },
+          pageNumber: query.page,
+          traitCount: { $size: "$allTraits" },
+          totalPages: {
+            $ceil: { $divide: [{ $size: "$allTraits" }, PAGE_SIZE] },
+          },
+        },
+      },
+      { $project: { allTraits: 0, _id: 0 } },
+    ],
+    { collation: { locale: "en", strength: 2 } }
+  );
 
-  return NextResponse.json(await cursor.toArray());
+  return NextResponse.json(await cursor.next());
 }
 
 const getSortField = (sortBy: TraitsQuery["sortBy"]) => {

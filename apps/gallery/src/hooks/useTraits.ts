@@ -15,10 +15,19 @@ export const useTraits = (query: Partial<TraitsQuery>) => {
         page: pageParam,
       } as Partial<TraitsQuery>);
       console.log({ pageParam, queryString });
-      return fetch(`/api/traits?${queryString}`)
-        .then((r) => r.json() as Promise<(Trait & { liked?: boolean })[]>)
-        .then((traits) => ({ page: pageParam, traits }));
+      return fetch(`/api/traits?${queryString}`).then(
+        (r) =>
+          r.json() as Promise<{
+            traits: (Trait & { liked?: boolean })[];
+            traitCount: number;
+            totalPages: number;
+            pageNumber: number;
+          }>
+      );
     },
-    getNextPageParam: (lastPage) => lastPage.page + 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pageNumber < lastPage.totalPages
+        ? lastPage.pageNumber + 1
+        : undefined,
   });
 };
