@@ -16,12 +16,14 @@ export type TraitsQuery = z.infer<typeof traitsQuerySchema>;
 
 export const toQuerySting = ({
   page,
+  account,
   includeTypes,
   ...query
 }: Partial<TraitsQuery>) => {
   const searchParams = new URLSearchParams(query);
 
   if (page) searchParams.set("page", page.toString());
+  if (account) searchParams.set("account", account);
 
   if (includeTypes) {
     includeTypes.forEach((type) => {

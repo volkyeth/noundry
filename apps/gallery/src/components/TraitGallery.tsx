@@ -21,10 +21,11 @@ export const TraitGallery: FC<TraitGalleryProps> = ({ account }) => {
         {data?.pages && (
           <>
             <div className="container grid grid-cols-2 gap-4 mt-6 lg:grid-cols-3 xl:grid-cols-3 md:grid-cols-2 2xl:grid-cols-4 sm:grid-cols-1 sm:px-4">
-              {data.pages.flatMap((page) =>
-                page.traits.map((trait) => (
-                  <TraitCard key={`card-${trait._id}`} trait={trait} />
-                ))
+              {data.pages.flatMap(
+                (page) =>
+                  page.traits?.map((trait) => (
+                    <TraitCard key={`card-${trait._id}`} trait={trait} />
+                  ))
               )}
             </div>
             <div
