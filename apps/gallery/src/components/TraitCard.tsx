@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import NextLink from "next/link";
 import LoadingNoggles from "public/loading-noggles.svg";
 import NoggleIcon from "public/mono-noggles.svg";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { TraitIcon } from "./TraitIcon";
 
 export interface TraitCardProps {
@@ -20,6 +20,7 @@ export interface TraitCardProps {
 }
 
 const TraitCard: FC<TraitCardProps> = ({ trait }) => {
+  const [seeThrough, setSeeThrough] = useState(false);
   const author = trait.address;
   const username = useUsername(author);
   const {
@@ -59,8 +60,10 @@ const TraitCard: FC<TraitCardProps> = ({ trait }) => {
         </div>
 
         <TraitIcon
+          onMouseEnter={() => setSeeThrough(true)}
+          onMouseLeave={() => setSeeThrough(false)}
           type={trait.type}
-          className="w-[20px] text-default-300 absolute right-3"
+          className="w-[20px] text-default-300 absolute right-3 hover:text-default-200"
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-[192px]">
@@ -73,7 +76,9 @@ const TraitCard: FC<TraitCardProps> = ({ trait }) => {
         />
         <img
           alt="Trait preview"
-          className="absolute w-[192px] h-[192px] hover:opacity-0"
+          className={`absolute w-[192px] h-[192px] ${
+            seeThrough ? "opacity-0" : ""
+          }`}
           src={trait.nft}
           style={{ imageRendering: "pixelated" }}
         />
