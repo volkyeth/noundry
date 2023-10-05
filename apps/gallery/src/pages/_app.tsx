@@ -30,9 +30,11 @@ export default function App({ Component, pageProps }: AppProps) {
             mode={"light"}
             options={{ enforceSupportedChains: false }}
           >
-            <NextUIProvider>
+            <NextUIProvider className="flex flex-col h-full">
               <Navbar />
-              <Component {...pageProps} />
+              <div className="flex-grow">
+                <Component {...pageProps} />
+              </div>
               <Footer />
             </NextUIProvider>
           </ConnectKitProvider>

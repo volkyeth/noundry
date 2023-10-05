@@ -8,7 +8,7 @@ export const traitsQuerySchema = z.object({
   includeTypes: z
     .optional(z.array(z.enum(["heads", "glasses", "accessories", "bodies"])))
     .default(["heads", "glasses", "accessories", "bodies"]),
-  author: z.optional(addressSchema),
+  account: z.optional(addressSchema),
   page: z.optional(z.coerce.number().min(1)).default(1),
 });
 

@@ -7,6 +7,12 @@
   body {
     @apply bg-light;
   }
+
+  html,
+  body,
+  #__next {
+    height: 100%;
+  }
 }
 
 .form-group input:checked + label:after {

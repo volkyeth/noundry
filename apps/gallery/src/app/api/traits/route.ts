@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   const direction = searchParams.get("direction") ?? undefined;
   const search = searchParams.get("search") ?? undefined;
   const includeTypes = searchParams.getAll("includeType");
-  const author = searchParams.get("author") ?? undefined;
+  const account = searchParams.get("account") ?? undefined;
   const page = searchParams.get("page") ?? undefined;
 
   const PAGE_SIZE = 16;
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     direction,
     search,
     includeTypes: includeTypes.length === 0 ? imageTraitTypes : includeTypes,
-    author,
+    account,
     page,
   });
 
@@ -36,11 +36,13 @@ export async function GET(req: NextRequest) {
 
   const sortField = getSortField(query.sortBy);
 
+  console.log(query);
+
   const cursor = database.collection<TraitSchema>("nfts").aggregate(
     [
       {
         $match: {
-          // address: query.author,
+          ...(query.account ? { address: query.account } : {}),
           $expr: { $in: ["$type", query.includeTypes] },
         },
       },
@@ -88,6 +90,8 @@ export async function GET(req: NextRequest) {
     ],
     { collation: { locale: "en", strength: 2 } }
   );
+
+  console.log(cursor.pipeline);
 
   return NextResponse.json(await cursor.next());
 }

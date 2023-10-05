@@ -3,10 +3,8 @@ import { UploadTraitButton } from "@/components/UploadTraitButton";
 import axios from "axios";
 import userImage from "public/DefaultProfile.svg";
 import { useEffect, useState } from "react";
-import { BsSuitHeartFill, BsTwitter } from "react-icons/bs";
+import { BsTwitter } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { LoadingNoggles } from "../LoadingNoggles/LoadingNoggles";
-import UserAccountGallery from "../UserAccountGallery/UserAccountGallery";
 
 const UserDetails = ({ searchAddress }) => {
   const [userData, setUserData] = useState({});
@@ -118,115 +116,54 @@ const UserDetails = ({ searchAddress }) => {
   }, [headFilter, accessoryFilter, filter]);
 
   return (
-    <>
-      {/* <div className="container mx-auto flex flex-col py-10 text-white gap-5"> */}
-      <div className="container  flex flex-col mx-auto gap-5 my-12 xl:px-10 lg:px-10 md:px-5 sm:px-4 xs:px-2 px-4">
-        <div className=" flex w-full justify-between">
-          <img
-            src={userData?.profilePic ? userData?.profilePic : userImage.src}
-            alt="Image"
-            className="w-52 h-52 rounded-full border-2 dark:border-off-light border-off-dark object-cover select-none"
-          />
-        </div>
-        <div className="w-full flex flex-col flex-wrap gap-4">
-          <div className="flex flex-wrap justify-between ">
-            <div className="flex">
-              <h1 className="font-Pix text-xl text-black dark:text-white">
-                {userData?.userName
-                  ? userData?.userName
-                  : userData?._id?.slice(0, 6) +
-                    "..." +
-                    userData?._id?.slice(38)}
-              </h1>
-            </div>
-            <div className="flex flex-wrap gap-6 ">
-              {searchAddress == userAddress ? (
-                <>
-                  <UploadTraitButton
-                    className="bg-primary p-2 rounded-md text-white text-sm font-semibold border-1 border-[#1F1D28] dark:border-white  items-center gap-1  px-12 hidden 2xl:flex "
-                    traitsData={traitsData}
-                  />
-                </>
-              ) : null}
-            </div>
+    <div className="container  flex flex-col mx-auto gap-5 my-12 xl:px-10 lg:px-10 md:px-5 sm:px-4 xs:px-2 px-4">
+      <div className=" flex w-full justify-between">
+        <img
+          src={userData?.profilePic ? userData?.profilePic : userImage.src}
+          alt="Image"
+          className="w-52 h-52 rounded-full border-2 dark:border-off-light border-off-dark object-cover select-none"
+        />
+      </div>
+      <div className="w-full flex flex-col flex-wrap gap-4">
+        <div className="flex flex-wrap justify-between ">
+          <div className="flex">
+            <h1 className="font-Pix text-xl text-black dark:text-white">
+              {userData?.userName
+                ? userData?.userName
+                : userData?._id?.slice(0, 6) + "..." + userData?._id?.slice(38)}
+            </h1>
           </div>
-        </div>
-        {userData?.twitter != "" ? (
-          <div className="w-1/2 flex justify-between">
-            <a
-              href={`https://twitter.com/${userData?.twitter}`}
-              target="_blank"
-            >
-              <div className="flex gap-2 text-md">
-                <BsTwitter className="text-xl text-sky-500  hover:text-primary" />
-                <p className="text-black dark:text-white text-md hover:text-primary">
-                  @{userData?.twitter}
-                </p>
-              </div>
-            </a>
+          <div className="flex flex-wrap gap-6 ">
+            {searchAddress == userAddress ? (
+              <>
+                <UploadTraitButton
+                  className="bg-primary p-2 rounded-md text-white text-sm font-semibold border-1 border-[#1F1D28] dark:border-white  items-center gap-1  px-12 hidden 2xl:flex "
+                  traitsData={traitsData}
+                />
+              </>
+            ) : null}
           </div>
-        ) : null}
-
-        <div className="2xl:w-[570px]">
-          <p className="text-lg text-black dark:text-white break-words">
-            {userData?.about}
-          </p>
-        </div>
-        <div className="flex flex-col py-8 gap-4">
-          <h1 className="font-Pix text-xl text-black dark:text-white">
-            My Traits
-          </h1>
-          <div className="flex w-3/4 gap-4 justify-start">
-            <button
-              onClick={() => setHeadFilter(!headFilter)}
-              className={`bg-bright-light dark:bg-bright-dark ${
-                headFilter ? "brightness-75" : ""
-              } p-2 px-3 border-1 rounded-md border-[#1F1D28] dark:border-white text-black dark:text-white text-sm flex items-center gap-1`}
-            >
-              {`${userData?.headCount} Heads`}
-            </button>
-            <button
-              onClick={() => setAccessoryFilter(!accessoryFilter)}
-              className={`bg-bright-light dark:bg-bright-dark ${
-                accessoryFilter ? "brightness-75" : ""
-              } p-2 px-3 border-1 border-[#1F1D28] dark:border-white rounded-md text-black dark:text-white text-sm flex items-center gap-1`}
-            >
-              {`${userData?.accessoryCount} Accesories`}
-            </button>
-            <button
-              // onClick={() => setFilter("likes")}
-              onClick={() => setFilter(filter === "likes" ? null : "heads")}
-              className={`bg-bright-light dark:bg-bright-dark p-2 px-3 border-1 border-[#1F1D28] dark:border-white rounded-md text-black dark:text-white text-sm flex items-center gap-1`}
-            >
-              {" "}
-              <p>Total</p>
-              <BsSuitHeartFill color="#FF2165" />
-              {userData?.likesCount}
-            </button>
-            <button
-              className={`bg-bright-light dark:bg-bright-dark  p-2 px-3 border-1 border-[#1F1D28] dark:border-white rounded-md text-black dark:text-white text-sm flex items-center gap-1`}
-            >
-              {" "}
-              {userData && userData.likedNfts && userData.likedNfts.length}
-              <p>Favorites</p>
-            </button>
-          </div>
-          <UserAccountGallery userFavouriteData={nfts} />
-        </div>
-        <div className="flex flex-col gap-4 py-8">
-          <h1 className="font-Pix text-xl text-black dark:text-white">
-            My Favorites
-          </h1>
-          <UserAccountGallery userFavouriteData={likedNfts} />
         </div>
       </div>
-
-      {isLoading ? (
-        <div className="bg-[#F5F5F5] dark:bg-[#24272F] fixed top-0 w-full h-full flex justify-center items-center">
-          <LoadingNoggles />
+      {userData?.twitter != "" ? (
+        <div className="w-1/2 flex justify-between">
+          <a href={`https://twitter.com/${userData?.twitter}`} target="_blank">
+            <div className="flex gap-2 text-md">
+              <BsTwitter className="text-xl text-sky-500  hover:text-primary" />
+              <p className="text-black dark:text-white text-md hover:text-primary">
+                @{userData?.twitter}
+              </p>
+            </div>
+          </a>
         </div>
       ) : null}
-    </>
+
+      <div className="2xl:w-[570px]">
+        <p className="text-lg text-black dark:text-white break-words">
+          {userData?.about}
+        </p>
+      </div>
+    </div>
   );
 };
 

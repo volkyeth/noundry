@@ -1,4 +1,5 @@
 "use client";
+import { TraitGallery } from "@/components/TraitGallery";
 import { useRouter } from "next/router";
 import UserDetails from "../../components/UserDetails/UserDetails";
 
@@ -14,6 +15,7 @@ const Profile = (props) => {
     <>
       <div>
         <UserDetails searchAddress={address} />
+        <TraitGallery account={address as `0x${string}`} />
       </div>
     </>
   );
