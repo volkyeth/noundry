@@ -1,23 +1,17 @@
 "use client";
 import { SmallAccountBadge } from "@/components/SmallAccountBadge";
 import { TraitIcon } from "@/components/TraitIcon";
+import { UserStats } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-interface User {
-  _id: `0x${string}`;
-  traits: number;
-  heads: number;
-  accessories: number;
-  glasses: number;
-  bodies: number;
-}
-
-const Community = () => {
+export default () => {
   const { data: users, isLoading } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["artists"],
     queryFn: () =>
-      fetch("/api/users").then((res) => res.json() as Promise<User[]>),
+      fetch("/api/artists/stats").then(
+        (res) => res.json() as Promise<UserStats[]>
+      ),
   });
 
   return (
@@ -51,5 +45,3 @@ const Community = () => {
     </div>
   );
 };
-
-export default Community;

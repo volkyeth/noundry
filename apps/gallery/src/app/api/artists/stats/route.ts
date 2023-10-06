@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
+
 export async function GET(req) {
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {

@@ -1,13 +1,11 @@
-import { Base64EncodedPng } from "./image";
-
 export type TraitType = "heads" | "glasses" | "accessories" | "bodies";
 
 export interface Trait {
   _id: string;
-  nft: Base64EncodedPng;
+  nft: string;
   name: string;
   type: TraitType;
-  trait: Base64EncodedPng;
+  trait: string;
   address: `0x${string}`;
   background: string;
   body: string;

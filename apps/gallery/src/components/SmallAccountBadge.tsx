@@ -1,3 +1,4 @@
+import { useUserInfo } from "@/hooks/useUserInfo";
 import { shortAddress } from "@/utils/address/format";
 import { Avatar } from "@nextui-org/react";
 import dummyImg from "public/dummyImg.png";
@@ -13,13 +14,17 @@ export const SmallAccountBadge: FC<SmallAccountBadgeProps> = ({
   address,
   ...props
 }) => {
-  const { data: name } = useEnsName({ address });
-  const { data: avatar } = useEnsAvatar({ name: name });
+  const { data: ensName } = useEnsName({ address });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName });
+  const { data: userInfo } = useUserInfo(address);
+
+  const avatar = userInfo?.profilePic || ensAvatar || dummyImg.src;
+  const username = userInfo?.userName || ensName || shortAddress(address);
 
   return (
     <div className="flex flex-row items-center gap-2" {...props}>
-      <Avatar className="w-8 h-8 p-0" src={avatar || dummyImg.src} />
-      <p>{name || shortAddress(address)}</p>
+      <Avatar className="w-8 h-8 p-0" src={avatar} />
+      <p>{username}</p>
     </div>
   );
 };

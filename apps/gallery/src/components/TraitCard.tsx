@@ -1,6 +1,6 @@
+import { useUsername } from "@/hooks/useUsername";
 import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
-import { useUsername } from "@/utils/user/useUsername";
 import {
   Card,
   CardBody,

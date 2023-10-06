@@ -95,12 +95,12 @@ const Navbar = () => {
               </div>
             </div>
             <a
-              href="/Community"
+              href="/artists"
               className="w-1/4 relative hidden md:hidden lg:hidden xl:hidden 2xl:!flex "
             >
               <div className="relative w-full flex justify-center bg-light dark:bg-dark rounded-md items-center align-middle p-2 px-8 border-1 border-[#4A5568] text-base font-bold">
                 <button className="flex gap-1 align-middle items-center text-black dark:text-white">
-                  Community
+                  Artists
                 </button>
               </div>
             </a>
@@ -129,9 +129,9 @@ const Navbar = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <a href={`/Community`}>
+              <a href={`/artists`}>
                 <button className="bg-white text-black dark:bg-off-dark w-full border-1 border-black dark:border-white rounded-md dark:text-white p-2 px-5 text-base font-bold">
-                  Community
+                  Artists
                 </button>
               </a>
 

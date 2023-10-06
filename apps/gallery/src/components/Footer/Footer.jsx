@@ -30,9 +30,9 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="/Community">
+              <a href="/artists">
                 <p className="py-1 font-normal hover:underline hover:text-[#FF2165] text-sm ">
-                  Community
+                  Artists
                 </p>
               </a>
             </li>
