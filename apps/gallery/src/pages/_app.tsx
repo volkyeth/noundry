@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
           >
             <NextUIProvider className="flex flex-col min-h-full">
               <Navbar />
-              <div className="flex-grow">
+              <div className="flex-grow overflow-scroll">
                 <Component {...pageProps} />
               </div>
               <Footer />

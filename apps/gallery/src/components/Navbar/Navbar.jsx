@@ -31,13 +31,13 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-bright-dark py-2 flex items-center">
+      <div className="bg-white  py-2 flex items-center">
         <div className="container mx-auto flex justify-between items-center xl:px-10 lg:px-10 md:px-5 sm:px-2 px-4">
           <Link href="/">
             <div className="flex items-center gap-4">
               <LogoImage className="h-16 w-16" />
               <div>
-                <h1 className="text-[16px] 2xl:text-lg xl:text-lg lg:text-lg md:text-lg font-Pix text-black dark:text-white">
+                <h1 className="text-[16px] 2xl:text-lg xl:text-lg lg:text-lg md:text-lg font-Pix text-black">
                   Noundry Gallery
                 </h1>
               </div>

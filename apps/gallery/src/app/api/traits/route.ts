@@ -36,8 +36,6 @@ export async function GET(req: NextRequest) {
 
   const sortField = getSortField(query.sortBy);
 
-  console.log(query);
-
   const cursor = database.collection<TraitSchema>("nfts").aggregate(
     [
       {
@@ -90,8 +88,6 @@ export async function GET(req: NextRequest) {
     ],
     { collation: { locale: "en", strength: 2 } }
   );
-
-  console.log(cursor.pipeline);
 
   return NextResponse.json(await cursor.next());
 }
