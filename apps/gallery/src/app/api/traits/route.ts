@@ -54,6 +54,9 @@ export async function GET(req: NextRequest) {
               else: 0,
             },
           },
+          id: {
+            $toString: "$_id",
+          },
         },
       },
       ...(session.address
@@ -65,7 +68,7 @@ export async function GET(req: NextRequest) {
             },
           ]
         : []),
-      { $project: { likedBy: 0, likers: 0 } },
+      { $project: { likedBy: 0, likers: 0, _id: 0 } },
       {
         $group: {
           _id: null,
@@ -75,7 +78,7 @@ export async function GET(req: NextRequest) {
       {
         $addFields: {
           traits: {
-            $slice: ["$allTraits", PAGE_SIZE * query.page - 1, PAGE_SIZE],
+            $slice: ["$allTraits", PAGE_SIZE * (query.page - 1), PAGE_SIZE],
           },
           pageNumber: query.page,
           traitCount: { $size: "$allTraits" },

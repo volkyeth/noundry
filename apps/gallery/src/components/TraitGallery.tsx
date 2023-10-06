@@ -3,7 +3,7 @@ import LoadingNoggles from "public/loading-noggles.svg";
 import NoggleIcon from "public/mono-noggles.svg";
 import { FC, HtmlHTMLAttributes } from "react";
 import { useInView } from "react-intersection-observer";
-import TraitCard from "./TraitCard";
+import { SmallTraitCard } from "./SmallTraitCard";
 
 export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
   account?: `0x${string}`;
@@ -23,7 +23,7 @@ export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
             {data.pages.flatMap(
               (page) =>
                 page.traits?.map((trait) => (
-                  <TraitCard key={`card-${trait._id}`} trait={trait} />
+                  <SmallTraitCard key={`card-${trait.id}`} trait={trait} />
                 ))
             )}
           </div>

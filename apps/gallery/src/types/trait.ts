@@ -1,7 +1,7 @@
 export type TraitType = "heads" | "glasses" | "accessories" | "bodies";
 
 export interface Trait {
-  _id: string;
+  id: string;
   nft: string;
   name: string;
   type: TraitType;

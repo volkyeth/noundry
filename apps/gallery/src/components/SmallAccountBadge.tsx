@@ -24,7 +24,7 @@ export const SmallAccountBadge: FC<SmallAccountBadgeProps> = ({
   return (
     <div className="flex flex-row items-center gap-2" {...props}>
       <Avatar className="w-8 h-8 p-0" src={avatar} />
-      <p>{username}</p>
+      <p className="font-semibold">{username}</p>
     </div>
   );
 };
