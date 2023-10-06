@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
             mode={"light"}
             options={{ enforceSupportedChains: false }}
           >
-            <NextUIProvider className="flex flex-col min-h-full">
+            <NextUIProvider className="flex flex-col min-h-screen">
               <Navbar />
               <div className="flex-grow overflow-scroll">
                 <Component {...pageProps} />

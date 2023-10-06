@@ -13,7 +13,7 @@ const Profile = (props) => {
   } = useRouter();
   return (
     <>
-      <div>
+      <div className="container  px-2 self-center my-12 mx-auto">
         <UserDetails searchAddress={address} />
         <TraitGallery account={address as `0x${string}`} />
       </div>
