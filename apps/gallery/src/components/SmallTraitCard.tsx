@@ -18,24 +18,25 @@ export interface SmallTraitCardProps {
   trait: Trait & { liked?: boolean };
 }
 
+
 export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
   const [seeThrough, setSeeThrough] = useState(false);
   const author = trait.address;
   const username = useUsername(author);
 
   return (
-    <Card className="p-4  rounded-none shadow-none light">
+    <Card className="p-4 py-2 rounded-none shadow-none light">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
-        <div className="flex flex-col  items-start ">
+        <div className="flex flex-col items-start ">
           <Link
             color="foreground"
             as={NextLink}
             href={`/UserTrait/${trait.id}`}
           >
-            <h4 className="font-bold text-[16px]/4">{trait.name}</h4>
+            <h4 className="font-bold pt-1 text-off-dark text-[16px]/4">{trait.name}</h4>
           </Link>
-          <small className="text-default-300 text-tiny uppercase font-bold">
-            {formatTraitType(trait.type)}
+          <small className="text-off-dark uppercase opacity-40 text-tiny font-semibold">
+             {formatTraitType(trait.type)} 
           </small>
         </div>
 
@@ -43,7 +44,7 @@ export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
           onMouseEnter={() => setSeeThrough(true)}
           onMouseLeave={() => setSeeThrough(false)}
           type={trait.type}
-          className="w-[20px] text-default-300 absolute right-3 hover:text-default-200"
+          className="w-[20px] text-off-dark opacity-40  pt-1 absolute right-4 hover:opacity-20 "
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-[192px]">
@@ -68,7 +69,7 @@ export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
           href={`/profile/${author}`}
           as={NextLink}
           color="foreground"
-          className="text-sm text-default-500"
+          className="text-sm font-medium text-off-dark"
         >
           {username}
         </Link>
