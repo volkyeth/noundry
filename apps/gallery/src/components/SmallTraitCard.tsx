@@ -35,7 +35,7 @@ export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
           >
             <h4 className="font-bold pt-1 text-off-dark text-[16px]/4">{trait.name}</h4>
           </Link>
-          <small className="text-off-dark uppercase opacity-40 text-tiny font-semibold">
+          <small className="text-off-dark uppercase opacity-30 text-tiny font-semibold">
              {formatTraitType(trait.type)} 
           </small>
         </div>
@@ -44,7 +44,7 @@ export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
           onMouseEnter={() => setSeeThrough(true)}
           onMouseLeave={() => setSeeThrough(false)}
           type={trait.type}
-          className="w-[20px] text-off-dark opacity-40  pt-1 absolute right-4 hover:opacity-20 "
+          className="w-[20px] text-off-dark opacity-30  pt-1 absolute right-4 hover:opacity-10 "
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-[192px]">
