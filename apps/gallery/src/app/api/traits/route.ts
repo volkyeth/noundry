@@ -1,7 +1,6 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { TraitsQuery, traitsQuerySchema } from "@/queries/traitsQuery";
 import { database } from "@/utils/database/db";
-import { imageTraitTypes } from "@/utils/nouns/artwork";
 import Session from "@/utils/siwe/session";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -23,7 +22,10 @@ export async function GET(req: NextRequest) {
     sortBy,
     direction,
     search,
-    includeTypes: includeTypes.length === 0 ? imageTraitTypes : includeTypes,
+    includeTypes:
+      includeTypes.length === 0
+        ? ["heads", "glasses", "accessories", "bodies"]
+        : includeTypes,
     account,
     page,
   });

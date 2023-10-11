@@ -26,7 +26,7 @@ export const TraitCard: FC<TraitCardProps> = ({ trait }) => {
   const username = useUsername(author);
 
   return (
-    <Card className="p-6 rounded-none shadow-none light w-fit">
+    <Card className="p-4 xs:p-6 rounded-none shadow-none w-fit h-fit">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col  items-start ">
           <h4 className="font-bold text-2xl">{trait.name}</h4>
@@ -42,22 +42,23 @@ export const TraitCard: FC<TraitCardProps> = ({ trait }) => {
           className="w-[32px] text-default-300 absolute right-6 hover:text-default-200"
         />
       </CardHeader>
-      <CardBody className="overflow-visible items-center p-0 w-[320px]">
-        <div className="w-[320px] h-[320px] bg-default-200" />
-        <img
-          alt="Trait preview"
-          className="absolute w-[320px] h-[320px]"
-          src={trait.trait}
-          style={{ imageRendering: "pixelated" }}
-        />
-        <img
-          alt="Trait preview"
-          className={`absolute w-[320px] h-[320px] ${
-            seeThrough ? "opacity-0" : ""
-          }`}
-          src={trait.nft}
-          style={{ imageRendering: "pixelated" }}
-        />
+      <CardBody className="overflow-visible items-center p-0 w-fit">
+        <div className="relative w-[256px] h-[256px] xs:w-[320px] xs:h-[320px] bg-default-200">
+          <img
+            alt="Trait preview"
+            className="absolute w-full h-full"
+            src={trait.trait}
+            style={{ imageRendering: "pixelated" }}
+          />
+          <img
+            alt="Trait preview"
+            className={`absolute w-full h-full ${
+              seeThrough ? "opacity-0" : ""
+            }`}
+            src={trait.nft}
+            style={{ imageRendering: "pixelated" }}
+          />
+        </div>
       </CardBody>
       <CardFooter className="p-0 pt-1  flex items-end justify-between  rounded-none">
         <div className="flex flex-col gap-2">

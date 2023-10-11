@@ -1,6 +1,6 @@
-import { TraitType } from "@/types/trait";
+import { TraitCategory } from "@/types/trait";
 
-export const formatTraitType = (type: TraitType) => {
+export const formatTraitType = (type: TraitCategory) => {
   switch (type) {
     case "heads":
       return "head";

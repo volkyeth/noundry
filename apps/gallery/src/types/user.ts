@@ -1,5 +1,5 @@
 export interface UserStats {
-  _id: `0x${string}`;
+  id: `0x${string}`;
   traits: number;
   heads: number;
   accessories: number;

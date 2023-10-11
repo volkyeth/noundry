@@ -17,6 +17,15 @@ importers:
       '@tanstack/react-query':
         specifier: ^4.35.7
         version: 4.35.7(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^4.36.1
+        version: 4.36.1(@tanstack/react-query@4.35.7)(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-virtual':
+        specifier: 3.0.0-beta.65
+        version: 3.0.0-beta.65(react@18.2.0)
+      '@wagmi/core':
+        specifier: ^1.4.3
+        version: 1.4.3(@types/react@18.0.17)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3)
       axios:
         specifier: ^1.5.0
         version: 1.5.0
@@ -50,6 +59,9 @@ importers:
       next-navigation:
         specifier: ^1.0.6
         version: 1.0.6
+      noggles:
+        specifier: workspace:^
+        version: link:../../packages/noggles
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -65,6 +77,12 @@ importers:
       react-intersection-observer:
         specifier: ^9.5.2
         version: 9.5.2(react@18.2.0)
+      remeda:
+        specifier: ^1.27.1
+        version: 1.27.1
+      seedrandom:
+        specifier: ^3.0.5
+        version: 3.0.5
       siwe:
         specifier: ^2.1.4
         version: 2.1.4(ethers@6.7.1)
@@ -84,6 +102,9 @@ importers:
       '@types/react':
         specifier: ^18.0.17
         version: 18.0.17
+      '@types/seedrandom':
+        specifier: ^3.0.6
+        version: 3.0.6
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.31)
@@ -185,7 +206,7 @@ importers:
         version: 3.0.3
       viem:
         specifier: ^1.10.14
-        version: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+        version: 1.10.14(typescript@5.2.2)
       wagmi:
         specifier: ^1.4.2
         version: 1.4.2(@types/react@18.0.17)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
@@ -235,6 +256,31 @@ importers:
       vitest:
         specifier: ^0.34.4
         version: 0.34.4
+
+  packages/noggles:
+    dependencies:
+      colord:
+        specifier: ^2.9.3
+        version: 2.9.3
+      fast-png:
+        specifier: ^6.2.0
+        version: 6.2.0
+      pako:
+        specifier: ^2.1.0
+        version: 2.1.0
+      remeda:
+        specifier: ^1.27.1
+        version: 1.27.1
+      viem:
+        specifier: ^1.12.2
+        version: 1.12.2(typescript@5.2.2)(zod@3.22.3)
+    devDependencies:
+      '@types/pako':
+        specifier: ^2.0.0
+        version: 2.0.0
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
 
 packages:
 
@@ -5563,7 +5609,7 @@ packages:
     resolution: {integrity: sha512-gYw0ki/EAuV1oSyMxpqandHjnthZjYYy+YWpTAzf8BqfXM3ItcZLpjxfg+3+mXW8HIO+3jw6T9iiqEXsqHaMMw==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.12.0
-      viem: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+      viem: 1.12.2(typescript@5.2.2)(zod@3.22.3)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -5575,7 +5621,7 @@ packages:
     resolution: {integrity: sha512-XJbEPuaVc7b9n23MqlF6c+ToYIS3f7P2Sel8f3cSBQ9WORE4xrSuvhMpK9fDSFqJ7by/brc+rmJR/5HViRr0/w==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.12.0
-      viem: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+      viem: 1.12.2(typescript@5.2.2)(zod@3.22.3)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -6056,6 +6102,13 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@tanstack/match-sorter-utils@8.8.4:
+    resolution: {integrity: sha512-rKH8LjZiszWEvmi01NR72QWZ8m4xmXre0OOwlRGnjU01Eqz/QnN+cqpty2PJ0efHblq09+KilvyR7lsbzmXVEw==}
+    engines: {node: '>=12'}
+    dependencies:
+      remove-accents: 0.4.2
+    dev: false
+
   /@tanstack/query-core@4.35.3:
     resolution: {integrity: sha512-PS+WEjd9wzKTyNjjQymvcOe1yg8f3wYc6mD+vb6CKyZAKvu4sIJwryfqfBULITKCla7P9C4l5e9RXePHvZOZeQ==}
     dev: false
@@ -6064,10 +6117,20 @@ packages:
     resolution: {integrity: sha512-PgDJtX75ubFS0WCYFM7DqEoJ4QbxU3S5OH3gJSI40xr7UVVax3/J4CM3XUMOTs+EOT5YGEfssi3tfRVGte4DEw==}
     dev: false
 
+  /@tanstack/query-core@4.36.1:
+    resolution: {integrity: sha512-DJSilV5+ytBP1FbFcEJovv4rnnm/CokuVvrBEtW/Va9DvuJ3HksbXUJEpI0aV1KtuL4ZoO9AVE6PyNLzF7tLeA==}
+    dev: false
+
   /@tanstack/query-persist-client-core@4.35.3:
     resolution: {integrity: sha512-UlUMsvmy12qgPzphIq8iyFtwxuv/vaEyFQEFDVVCvyrqj2G020qMZiCA1vj3+gasmCXh59EraiC2eY4Iqo0/PA==}
     dependencies:
       '@tanstack/query-core': 4.35.3
+    dev: false
+
+  /@tanstack/query-persist-client-core@4.36.1:
+    resolution: {integrity: sha512-eocgCeI7D7TRv1IUUBMfVwOI0wdSmMkBIbkKhqEdTrnUHUQEeOaYac8oeZk2cumAWJdycu6P/wB+WqGynTnzXg==}
+    dependencies:
+      '@tanstack/query-core': 4.36.1
     dev: false
 
   /@tanstack/query-sync-storage-persister@4.35.3:
@@ -6076,12 +6139,36 @@ packages:
       '@tanstack/query-persist-client-core': 4.35.3
     dev: false
 
+  /@tanstack/react-query-devtools@4.36.1(@tanstack/react-query@4.35.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-WYku83CKP3OevnYSG8Y/QO9g0rT75v1om5IvcWUwiUZJ4LanYGLVCZ8TdFG5jfsq4Ej/lu2wwDAULEUnRIMBSw==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.36.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tanstack/match-sorter-utils': 8.8.4
+      '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      superjson: 1.13.3
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
   /@tanstack/react-query-persist-client@4.35.5(@tanstack/react-query@4.35.7):
     resolution: {integrity: sha512-d8pFzvMD6AD2guGXLP2A4r0mfCRuZ8C4VMBl5+EZvka/e4o9/DRfizZB4S9w0Za+sOQJ4/SdD3OOk2BwYEykkQ==}
     peerDependencies:
       '@tanstack/react-query': ^4.35.3
     dependencies:
       '@tanstack/query-persist-client-core': 4.35.3
+      '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react@18.2.0)
+    dev: false
+
+  /@tanstack/react-query-persist-client@4.36.1(@tanstack/react-query@4.35.7):
+    resolution: {integrity: sha512-32I5b9aAu4NCiXZ7Te/KEQLfHbYeTNriVPrKYcvEThnZ9tlW01vLcSoxpUIsMYRsembvJUUAkzYBAiZHLOd6pQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.36.1
+    dependencies:
+      '@tanstack/query-persist-client-core': 4.36.1
       '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
@@ -6101,6 +6188,19 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/react-virtual@3.0.0-beta.65(react@18.2.0):
+    resolution: {integrity: sha512-Q21cUoE0C8Oyzy3RAMV+u4BuB+RwIf2/oQRCWksmIBp1PqLEtvXhAldh7v/wUt7WKEkislKDICZAvbYYs7EAyQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tanstack/virtual-core': 3.0.0-beta.65
+      react: 18.2.0
+    dev: false
+
+  /@tanstack/virtual-core@3.0.0-beta.65:
+    resolution: {integrity: sha512-ObP2pvXBdbivinr7BWDbGqYt4TK8wNzYsOWio+qBkDx5AJFuvqcdJxcCCYnv4dzVTe5ELA1MT4tkt8NB/tnEdA==}
     dev: false
 
   /@trysound/sax@0.2.0:
@@ -6348,7 +6448,6 @@ packages:
 
   /@types/pako@2.0.0:
     resolution: {integrity: sha512-10+iaz93qR5WYxTo+PMifD5TSxiOtdRaxBf7INGGXMQgTCu8Z/7GYWYFUOS3q/G0nE5boj1r4FEB+WSy7s5gbA==}
-    dev: true
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -6383,6 +6482,10 @@ packages:
 
   /@types/scheduler@0.16.3:
     resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
+
+  /@types/seedrandom@3.0.6:
+    resolution: {integrity: sha512-3+JLzzsdbTrEDXSKaudKajj3w8x4ZWDk7CunwHnSWxtfMoetnKtIbFXMru7RXw6Hq1dU0td+soPX8vVjdgCPBA==}
+    dev: true
 
   /@types/send@0.17.1:
     resolution: {integrity: sha512-Cwo8LE/0rnvX7kIIa3QHCkcuF21c05Ayb0ZfxPiv0W8VRiZiNW/WuRupHKpqqGVGf7SUA44QSOUKaEd9lIrd/Q==}
@@ -6514,7 +6617,7 @@ packages:
       abitype: 0.8.7(typescript@5.2.2)(zod@3.22.3)
       eventemitter3: 4.0.7
       typescript: 5.2.2
-      viem: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+      viem: 1.10.14(typescript@5.2.2)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -6573,7 +6676,7 @@ packages:
       abitype: 0.8.7(typescript@5.2.2)(zod@3.22.3)
       eventemitter3: 4.0.7
       typescript: 5.2.2
-      viem: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+      viem: 1.10.14(typescript@5.2.2)
       zustand: 4.4.1(@types/react@18.0.17)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -6590,6 +6693,34 @@ packages:
 
   /@wagmi/core@1.4.2(@types/react@18.0.17)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3):
     resolution: {integrity: sha512-szgNs2DCbBXKsq3wdm/YD8FWkg7lfmTRAv25b2nJYJUTQN59pVXznlWfq8VCJLamhKOYjeYHlTQxXkAeUAJdhw==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      viem: '>=0.3.35'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@wagmi/connectors': 3.1.2(@types/react@18.0.17)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3)
+      abitype: 0.8.7(typescript@5.2.2)(zod@3.22.3)
+      eventemitter3: 4.0.7
+      typescript: 5.2.2
+      viem: 1.12.2(typescript@5.2.2)(zod@3.22.3)
+      zustand: 4.4.1(@types/react@18.0.17)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - immer
+      - lokijs
+      - react
+      - supports-color
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@wagmi/core@1.4.3(@types/react@18.0.17)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3):
+    resolution: {integrity: sha512-CIV9jwv5ue+WpqmA3FvwGa+23cppe7oIaz6TRnlGm0Hm0wDImSaQSWqcsFyOPvleD29oOIJ8e3KnHINEvI64AA==}
     peerDependencies:
       typescript: '>=5.0.4'
       viem: '>=0.3.35'
@@ -7779,7 +7910,7 @@ packages:
       react-use-measure: 2.1.1(react-dom@18.2.0)(react@18.2.0)
       resize-observer-polyfill: 1.5.1
       styled-components: 5.3.11(@babel/core@7.22.20)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
-      viem: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+      viem: 1.10.14(typescript@5.2.2)
       wagmi: 1.4.2(@types/react@18.0.17)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.10.14)
     transitivePeerDependencies:
       - '@babel/core'
@@ -7822,6 +7953,13 @@ packages:
   /cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /copy-anything@3.0.5:
+    resolution: {integrity: sha512-yCEafptTtb4bk7GLEQoM8KVJpxAfdBJYaXyzQEgQQQgYrZiDp8SJmGKlYza6CYjEDNstAdNdKA3UuoULlEbS6w==}
+    engines: {node: '>=12.13'}
+    dependencies:
+      is-what: 4.1.15
     dev: false
 
   /copy-to-clipboard@3.3.1:
@@ -8765,6 +8903,14 @@ packages:
       merge2: 1.4.1
       micromatch: 4.0.5
 
+  /fast-png@6.2.0:
+    resolution: {integrity: sha512-fO4DewoEd9WwuP8DQcfj8Tlc88Jno6lJAjlDYzvJSqMIZwxUpRT4zuzPXgqygjJqngBdCbeQRaL/FVz3InExhA==}
+    dependencies:
+      '@types/pako': 2.0.0
+      iobuffer: 5.3.2
+      pako: 2.1.0
+    dev: false
+
   /fast-redact@3.3.0:
     resolution: {integrity: sha512-6T5V1QK1u4oF+ATxs1lWUmlEk6P2T9HqJG3e2DnHOdVgZy2rFJBoEnrIedcTXlkAHU/zKC+7KETJ+KGGKwxgMQ==}
     engines: {node: '>=6'}
@@ -9245,6 +9391,10 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
+  /iobuffer@5.3.2:
+    resolution: {integrity: sha512-kO3CjNfLZ9t+tHxAMd+Xk4v3D/31E91rMs1dHrm7ikEQrlZ8mLDbQ4z3tZfDM48zOkReas2jx8MWSAmN9+c8Fw==}
+    dev: false
+
   /ip-regex@4.3.0:
     resolution: {integrity: sha512-B9ZWJxHHOHUhUjCPrMpLD4xEq35bUTClHM1S6CBU5ixQnkZmwipwgc96vAd7AAGM9TGHvJR+Uss+/Ak6UphK+Q==}
     engines: {node: '>=8'}
@@ -9523,6 +9673,11 @@ packages:
 
   /is-typedarray@1.0.0:
     resolution: {integrity: sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==}
+    dev: false
+
+  /is-what@4.1.15:
+    resolution: {integrity: sha512-uKua1wfy3Yt+YqsD6mTUEa2zSi3G1oPlqTflgaPJ7z63vUGN5pxFpnQfeSLMFnJDEsdvOtkp1rUWkYjB4YfhgA==}
+    engines: {node: '>=12.13'}
     dev: false
 
   /iso-url@1.2.1:
@@ -11409,6 +11564,10 @@ packages:
       unified: 10.1.2
     dev: false
 
+  /remeda@1.27.1:
+    resolution: {integrity: sha512-va05uuDBz/E55O9wmpDdbVlwdWbHGJJy3oC0EAHSFn74MpWF3S81NVJDz/FW05bc/UDg769t1u6YPhBK/gmvLw==}
+    dev: false
+
   /remove-accents@0.4.2:
     resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
     dev: false
@@ -11536,6 +11695,10 @@ packages:
 
   /scrypt-js@3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
+    dev: false
+
+  /seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
     dev: false
 
   /semver@5.7.2:
@@ -11838,6 +12001,13 @@ packages:
       mz: 2.7.0
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
+
+  /superjson@1.13.3:
+    resolution: {integrity: sha512-mJiVjfd2vokfDxsQPOwJ/PtanO87LhpYY88ubI5dUB1Ab58Txbyje3+jpm+/83R/fevaq/107NNhtYBLuoTrFg==}
+    engines: {node: '>=10'}
+    dependencies:
+      copy-anything: 3.0.5
+    dev: false
 
   /superstruct@0.14.2:
     resolution: {integrity: sha512-nPewA6m9mR3d6k7WkZ8N8zpTWfenFH3q9pA2PkuiZxINr9DKB2+40wEQf0ixn8VaGuJ78AB6iWOtStI+/4FKZQ==}
@@ -12333,7 +12503,7 @@ packages:
       vfile-message: 3.1.4
     dev: false
 
-  /viem@1.10.14(typescript@5.2.2)(zod@3.22.3):
+  /viem@1.10.14(typescript@5.2.2):
     resolution: {integrity: sha512-GRwFXLFr+/7+7nYYkABgHom3zMIE3DdxZ/DP78QlYWUanpjUV5IebxMOm6pfKD+ZAj3vf9YPAmz+WogjiUgDWw==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -12555,7 +12725,7 @@ packages:
       react: 18.2.0
       typescript: 5.2.2
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.10.14(typescript@5.2.2)(zod@3.22.3)
+      viem: 1.10.14(typescript@5.2.2)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@types/react'
@@ -12582,7 +12752,7 @@ packages:
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.35.3
       '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/react-query-persist-client': 4.35.5(@tanstack/react-query@4.35.7)
+      '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.35.7)
       '@wagmi/core': 1.4.2(@types/react@18.0.17)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3)
       abitype: 0.8.7(typescript@5.2.2)(zod@3.22.3)
       react: 18.2.0

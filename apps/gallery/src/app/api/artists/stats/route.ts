@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
 
-export async function GET(req) {
+export async function GET() {
+  return NextResponse.json(await getArtistStats());
+}
+
+export const getArtistStats = async () => {
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {
       $project: {
@@ -49,7 +53,16 @@ export async function GET(req) {
       },
     },
     {
+      $addFields: {
+        id: {
+          $toString: "$_id",
+        },
+      },
+    },
+    {
       $project: {
+        _id: false,
+        id: true,
         traits: true,
         heads: true,
         accessories: true,
@@ -59,5 +72,5 @@ export async function GET(req) {
     },
   ]);
 
-  return NextResponse.json(await cursor.toArray());
-}
+  return await cursor.toArray();
+};

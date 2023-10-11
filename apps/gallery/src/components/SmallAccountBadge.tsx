@@ -4,6 +4,7 @@ import { Avatar } from "@nextui-org/react";
 import dummyImg from "public/dummyImg.png";
 import { FC } from "react";
 import { useEnsAvatar, useEnsName } from "wagmi";
+import Dynamic from "./Dynamic";
 
 export interface SmallAccountBadgeProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -22,9 +23,11 @@ export const SmallAccountBadge: FC<SmallAccountBadgeProps> = ({
   const username = userInfo?.userName || ensName || shortAddress(address);
 
   return (
-    <div className="flex flex-row items-center gap-2" {...props}>
-      <Avatar className="w-8 h-8 p-0" src={avatar} />
-      <p className="font-semibold">{username}</p>
-    </div>
+    <Dynamic>
+      <div className="flex flex-row items-center gap-2" {...props}>
+        <Avatar className="w-8 h-8 p-0" src={avatar} />
+        <p className="font-semibold">{username}</p>
+      </div>
+    </Dynamic>
   );
 };

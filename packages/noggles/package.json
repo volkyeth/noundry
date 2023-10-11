@@ -1,0 +1,26 @@
+{
+  "name": "noggles",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colord": "^2.9.3",
+    "fast-png": "^6.2.0",
+    "pako": "^2.1.0",
+    "remeda": "^1.27.1",
+    "viem": "^1.12.2"
+  },
+  "devDependencies": {
+    "@types/pako": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}

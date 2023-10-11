@@ -1,10 +1,17 @@
-export type TraitType = "heads" | "glasses" | "accessories" | "bodies";
+export type TraitCategory = "heads" | "glasses" | "accessories" | "bodies";
+
+export type TraitType =
+  | "head"
+  | "glasses"
+  | "accessory"
+  | "body"
+  | "background";
 
 export interface Trait {
   id: string;
   nft: string;
   name: string;
-  type: TraitType;
+  type: TraitCategory;
   trait: string;
   address: `0x${string}`;
   background: string;

@@ -1,17 +1,30 @@
 "use client";
+import { getArtistStats } from "@/app/api/artists/stats/route";
 import { SmallAccountBadge } from "@/components/SmallAccountBadge";
 import { TraitIcon } from "@/components/TraitIcon";
 import { UserStats } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
+import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 
-export default () => {
-  const { data: users, isLoading } = useQuery({
-    queryKey: ["artists"],
+export const getServerSideProps: GetServerSideProps<{
+  artistsStats: UserStats[];
+}> = async () => {
+  const artistsStats = await getArtistStats();
+  return {
+    props: { artistsStats: artistsStats as UserStats[] },
+  };
+};
+
+export default (({ artistsStats: initialArtistsStats }) => {
+  const { data: artistsStats } = useQuery({
+    queryKey: ["artistsStats"],
     queryFn: () =>
       fetch("/api/artists/stats").then(
         (res) => res.json() as Promise<UserStats[]>
       ),
+    initialData: initialArtistsStats,
+    staleTime: 1000 * 60 * 5,
   });
 
   return (
@@ -21,27 +34,28 @@ export default () => {
           Artists
         </h1>
       </div>
-      <div className="grid grid-cols-[repeat(4,max-content)] gap-x-6 gap-y-2">
-        {users?.map((user) => (
+      <div className="grid grid-cols-[repeat(4,max-content)] mt-10 gap-x-6 gap-y-2">
+        {artistsStats?.map((artist) => (
           <Link
-            href={`/profile/${user._id}`}
+            key={artist.id}
+            href={`/profile/${artist.id}`}
             className="contents hover:text-primary"
           >
-            <SmallAccountBadge key={user._id} address={user._id} />
+            <SmallAccountBadge key={artist.id} address={artist.id} />
             <div className="flex gap-2 items-center text-default">
-              <p>Traits: {user.traits}</p>
+              <p>Traits: {artist.traits}</p>
             </div>
             <div className="flex gap-2 items-center text-default">
               <TraitIcon className="w-6" type="heads" />
-              <p>{user.heads}</p>
+              <p>{artist.heads}</p>
             </div>
             <div className="flex gap-2 items-center text-default">
               <TraitIcon className="w-6" type="accessories" />
-              <p>{user.accessories}</p>
+              <p>{artist.accessories}</p>
             </div>
           </Link>
         ))}
       </div>
     </div>
   );
-};
+}) satisfies NextPage<{ artistsStats: UserStats[] }>;
