@@ -9,15 +9,18 @@ import loadingNoun from "public/loading-noun.gif";
 import { FC, HtmlHTMLAttributes, useEffect, useRef, useState } from "react";
 import { Noun } from "./Noun";
 
-export interface TraitShowcaseProps extends HtmlHTMLAttributes<HTMLDivElement> {
+export interface TraitTestingGroundsProps
+  extends HtmlHTMLAttributes<HTMLDivElement> {
   trait: Trait;
 }
 
 const NOUN_SIZE = 128;
 const NOUN_PADDING = 4;
+const SCROLL_CONTAINER_PADDING = NOUN_PADDING;
+const CARD_PADDING = 16;
 const CARD_SIZE = NOUN_SIZE + NOUN_PADDING * 2;
 
-export const TraitTestingGrounds: FC<TraitShowcaseProps> = ({
+export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
   trait,
   ...props
 }) => {
@@ -26,7 +29,11 @@ export const TraitTestingGrounds: FC<TraitShowcaseProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { width } = useSize(mainContainerRef);
   const [salt] = useState(Math.random());
-  const lanes = width ? Math.floor(width / CARD_SIZE) : 5;
+  const lanes = width
+    ? Math.floor(
+        (width - 2 * CARD_PADDING - 2 * SCROLL_CONTAINER_PADDING) / CARD_SIZE
+      )
+    : 5;
 
   const { getVirtualItems, getTotalSize, options, setOptions, measure } =
     useVirtualizer({
@@ -43,11 +50,23 @@ export const TraitTestingGrounds: FC<TraitShowcaseProps> = ({
 
   return (
     <div {...props} ref={mainContainerRef}>
-      <div className="bg-content1 px-4 py-5 w-fit mx-auto h-full">
-        <h2 className="pb-3 text-xl font-bold text-gray-500 text-center">
+      <div
+        className="bg-content1 flex flex-col w-fit py-5 mx-auto h-full"
+        style={{
+          paddingLeft: `${CARD_PADDING}px`,
+          paddingRight: `${CARD_PADDING}px`,
+        }}
+      >
+        <h2 className="py-3 text-xl font-bold text-gray-500 text-center">
           Testing grounds
         </h2>
-        <div ref={scrollContainerRef} className={"h-full overflow-auto w-fit"}>
+        <div
+          ref={scrollContainerRef}
+          className={"overflow-auto w-fit my-2 bg-gray-50 "}
+          style={{
+            padding: `${NOUN_PADDING}px`,
+          }}
+        >
           <div
             className="relative"
             style={{
@@ -69,7 +88,6 @@ export const TraitTestingGrounds: FC<TraitShowcaseProps> = ({
                       padding: `${NOUN_PADDING}px`,
                       transform: `translateY(${virtualItem.start}px)`,
                     }}
-                    className="bg-content1"
                   >
                     <img src={loadingNoun.src} className="bg-gray-200" />
                   </div>
@@ -87,7 +105,6 @@ export const TraitTestingGrounds: FC<TraitShowcaseProps> = ({
               return (
                 <Noun
                   key={virtualItem.key}
-                  className="bg-content1"
                   {...traits}
                   size={320}
                   style={{
@@ -103,7 +120,6 @@ export const TraitTestingGrounds: FC<TraitShowcaseProps> = ({
               );
             })}
           </div>
-          h
         </div>
       </div>
     </div>

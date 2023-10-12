@@ -14,12 +14,11 @@ import { FC, useState } from "react";
 import { LikeWidget } from "./LikeWidget";
 import { TraitIcon } from "./TraitIcon";
 
-export interface SmallTraitCardProps {
+export interface TraitPreviewCardProps {
   trait: Trait & { liked?: boolean };
 }
 
-
-export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
+export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
   const [seeThrough, setSeeThrough] = useState(false);
   const author = trait.address;
   const username = useUsername(author);
@@ -33,10 +32,12 @@ export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
             as={NextLink}
             href={`/UserTrait/${trait.id}`}
           >
-            <h4 className="font-bold pt-1 text-off-dark text-[16px]/4">{trait.name}</h4>
+            <h4 className="font-bold pt-1 text-off-dark text-[16px]/4">
+              {trait.name}
+            </h4>
           </Link>
           <small className="text-off-dark uppercase opacity-30 text-tiny font-semibold">
-             {formatTraitType(trait.type)} 
+            {formatTraitType(trait.type)}
           </small>
         </div>
 
@@ -48,21 +49,23 @@ export const SmallTraitCard: FC<SmallTraitCardProps> = ({ trait }) => {
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-[192px]">
-        <div className="w-[192px] h-[192px] bg-default-200" />
-        <img
-          alt="Trait preview"
-          className="absolute w-[192px] h-[192px]"
-          src={trait.trait}
-          style={{ imageRendering: "pixelated" }}
-        />
-        <img
-          alt="Trait preview"
-          className={`absolute w-[192px] h-[192px] ${
-            seeThrough ? "opacity-0" : ""
-          }`}
-          src={trait.nft}
-          style={{ imageRendering: "pixelated" }}
-        />
+        <Link color="foreground" as={NextLink} href={`/UserTrait/${trait.id}`}>
+          <div className="w-[192px] h-[192px] bg-default-200" />
+          <img
+            alt="Trait preview"
+            className="absolute w-[192px] h-[192px]"
+            src={trait.trait}
+            style={{ imageRendering: "pixelated" }}
+          />
+          <img
+            alt="Trait preview"
+            className={`absolute w-[192px] h-[192px] ${
+              seeThrough ? "opacity-0" : ""
+            }`}
+            src={trait.nft}
+            style={{ imageRendering: "pixelated" }}
+          />
+        </Link>
       </CardBody>
       <CardFooter className="p-0 pt-1  flex items-start justify-between  rounded-none">
         <Link

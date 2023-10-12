@@ -1,4 +1,5 @@
 const { nextui } = require("@nextui-org/react");
+const containerQueries = require("@tailwindcss/container-queries");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -38,5 +39,5 @@ module.exports = {
       },
     },
   },
-  plugins: [nextui()],
+  plugins: [nextui(), containerQueries],
 };

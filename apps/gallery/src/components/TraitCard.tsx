@@ -26,7 +26,7 @@ export const TraitCard: FC<TraitCardProps> = ({ trait }) => {
   const username = useUsername(author);
 
   return (
-    <Card className="p-4 xs:p-6 rounded-none shadow-none w-fit h-fit">
+    <Card className="p-4 xs:p-6 rounded-none shadow-none w-fit h-fit flex-shrink-0">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col  items-start ">
           <h4 className="font-bold text-2xl">{trait.name}</h4>
