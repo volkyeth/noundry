@@ -1,6 +1,6 @@
+import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import LoadingNoggles from "public/loading-noggles.svg";
 import NoggleIcon from "public/mono-noggles.svg";
-import { useMutation } from "wagmi";
 
 export interface LikeWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   traitId: string;
@@ -17,7 +17,7 @@ export const LikeWidget = ({
     data: currentlyLiked,
     isLoading: liking,
     mutate: toggleLike,
-  } = useMutation({
+  } = useSignedInMutation({
     mutationFn: (isLiked: boolean) =>
       fetch(`/api/like/${traitId}`, {
         method: isLiked ? "DELETE" : "PUT",
@@ -41,7 +41,7 @@ export const LikeWidget = ({
         <LoadingNoggles className="w-[32px]" />
       ) : (
         <NoggleIcon
-          onClick={() => liked !== undefined && toggleLike(liked)}
+          onClick={() => toggleLike(liked)}
           className={`w-[32px] cursor-pointer hover:${
             liked ? "text-default-200" : "text-primary"
           }`}
