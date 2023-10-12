@@ -4,7 +4,7 @@ import "@fontsource/vt323";
 import { inject } from "@vercel/analytics";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import { WagmiConfig, createConfig, mainnet } from "wagmi";
 import ckTheme from "./ckTheme.json";

@@ -17,8 +17,6 @@ export const useSignedInMutation = <
   const { openSIWE } = useModal();
   const mutation = useMutation(options);
 
-  console.log({ isSignedIn });
-
   return {
     ...mutation,
     mutate: isSignedIn ? mutation.mutate : () => openSIWE(),

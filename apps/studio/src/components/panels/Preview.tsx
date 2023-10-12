@@ -25,11 +25,11 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { FC, SVGProps, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { RiSave3Fill } from "react-icons/ri";
-import { useQuery } from "react-query";
 import { useNounState } from "../../model/Noun";
 import { useWorkspaceState } from "../../model/Workspace";
 import { checkerboardBg } from "../../utils/constants";
@@ -53,9 +53,9 @@ export const Preview: FC<PreviewProps> = ({}) => {
   } = useDisclosure();
   const [nounLoading, setNounLoading] = useBoolean(false);
   const nounIdInputRef = useRef<HTMLInputElement>(null);
-  const { data: auctionNounId } = useQuery(
-    "auctionNounId",
-    async () => {
+  const { data: auctionNounId } = useQuery({
+    queryKey: ["auctionNounId"],
+    queryFn: async () => {
       return fetch(
         "https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph",
         {
@@ -66,10 +66,9 @@ export const Preview: FC<PreviewProps> = ({}) => {
         .then((r) => r.json())
         .then((r) => parseInt(r!.data!.auctions[0]!.noun!.id));
     },
-    {
-      refetchInterval: 12_000,
-    }
-  );
+
+    refetchInterval: 12_000,
+  });
 
   useEffect(() => {
     if (!containerRef.current) {
