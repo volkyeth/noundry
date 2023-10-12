@@ -38,7 +38,7 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
   const { getVirtualItems, getTotalSize, options, setOptions, measure } =
     useVirtualizer({
       getScrollElement: () => scrollContainerRef.current,
-      count: 1_000,
+      count: 2_520, //magic number splits evenly on rows of up to 10 miniatures so there's no gaps in the botoom
       lanes,
       overscan: 50,
       estimateSize: () => CARD_SIZE,
