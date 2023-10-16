@@ -6,5 +6,5 @@ export const useUsername = (address: `0x${string}`) => {
   const { data: ensName } = useEnsName({ address });
   const { data: userInfo } = useUserInfo(address);
 
-  return userInfo?.userName || ensName || shortAddress(address);
+  return userInfo?.userName?.toLowerCase() || ensName || shortAddress(address);
 };

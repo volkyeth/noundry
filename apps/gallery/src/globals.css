@@ -5,6 +5,7 @@
 
 @layer base {
   body {
+    overflow-x: hidden;
     @apply bg-light;
   }
 

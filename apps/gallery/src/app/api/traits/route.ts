@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   const account = searchParams.get("account") ?? undefined;
   const page = searchParams.get("page") ?? undefined;
 
-  const PAGE_SIZE = 16;
+  const PAGE_SIZE = 24;
 
   const schemaValidation = traitsQuerySchema.safeParse({
     sortBy,

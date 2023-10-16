@@ -7,7 +7,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ConnectKitProvider, SIWEProvider, getDefaultConfig } from "connectkit";
 import { AppProps } from "next/app";
 import { WagmiConfig, createConfig, mainnet } from "wagmi";
-import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import "../globals.css";
 
@@ -36,7 +35,6 @@ export default function App({ Component, pageProps }: AppProps) {
               <div className="flex-grow overflow-scroll">
                 <Component {...pageProps} />
               </div>
-              <Footer />
             </NextUIProvider>
           </ConnectKitProvider>
         </SIWEProvider>

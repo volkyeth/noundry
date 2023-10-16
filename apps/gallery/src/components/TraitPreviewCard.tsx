@@ -27,11 +27,7 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
     <Card className="p-4 py-2 rounded-none shadow-none light">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
-          <Link
-            color="foreground"
-            as={NextLink}
-            href={`/UserTrait/${trait.id}`}
-          >
+          <Link color="foreground" as={NextLink} href={`/trait/${trait.id}`}>
             <h4 className="font-bold pt-1 text-off-dark text-[16px]/4">
               {trait.name}
             </h4>
@@ -49,7 +45,7 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-[192px]">
-        <Link color="foreground" as={NextLink} href={`/UserTrait/${trait.id}`}>
+        <Link color="foreground" as={NextLink} href={`/trait/${trait.id}`}>
           <div className="w-[192px] h-[192px] bg-default-200" />
           <img
             alt="Trait preview"

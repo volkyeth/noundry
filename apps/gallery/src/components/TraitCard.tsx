@@ -13,8 +13,8 @@ import NextLink from "next/link";
 
 import { FC, useState } from "react";
 import { LikeWidget } from "./LikeWidget";
-import { SmallAccountBadge } from "./SmallAccountBadge";
 import { TraitIcon } from "./TraitIcon";
+import { UserBadge } from "./UserBadge";
 
 export interface TraitCardProps {
   trait: Trait & { liked?: boolean };
@@ -71,7 +71,7 @@ export const TraitCard: FC<TraitCardProps> = ({ trait }) => {
             color="foreground"
             className="text-sm text-default-500"
           >
-            <SmallAccountBadge address={author} />
+            <UserBadge address={author} />
           </Link>
         </div>
         <LikeWidget

@@ -17,6 +17,8 @@ module.exports = {
         RobotoFlex: ["Roboto Flex", "sans-serif"],
       },
       colors: {
+        cool: "#d5d7e1",
+        warm: "#e1d7d5",
         primary: "#FF2165",
         black: "#27282D",
         white: "#ECEDEE",
@@ -36,6 +38,10 @@ module.exports = {
       },
       zIndex: {
         "-1": "-1",
+      },
+      boxShadow: {
+        sm: "0 0 0 2px #e5e7eb",
+        md: "0 0 0 4px #e5e7eb",
       },
     },
   },
