@@ -5,7 +5,7 @@ import React from "react";
 const About = () => {
   return (
     <>
-      <div className="container w-full mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
+      <div className="container w-full max-w-4xl mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
         <div className="flex items-center justify-center dsm:justify-between">
           {/* <Image
             src={bannerImage}
