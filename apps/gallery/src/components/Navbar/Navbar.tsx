@@ -140,7 +140,8 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
       <Link
         color="foreground"
         as={NextLink}
-        className="uppercase"
+        style={{ color: isActive ? "black" : undefined }}
+        className="uppercase  hover:text-primary"
         href={href}
         aria-current={isActive ? "page" : undefined}
       >
