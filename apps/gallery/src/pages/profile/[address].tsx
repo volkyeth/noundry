@@ -11,6 +11,7 @@ const Profile = (props) => {
   const {
     query: { address },
   } = useRouter();
+
   return (
     <>
       <div className="container  px-2 self-center my-12 mx-auto">

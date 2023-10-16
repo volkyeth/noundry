@@ -11,34 +11,28 @@ export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
 
 export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
   const { data, fetchNextPage, hasNextPage } = useTraits({ account });
+  console.log(data);
   const { ref: loaderRef } = useInView({
     onChange: (inView) => inView && hasNextPage && fetchNextPage(),
   });
 
   return (
     <div {...props}>
-      {data?.pages && (
-        <>
-          <div className="container grid grid-cols-[repeat(auto-fill,224px)] justify-center w-full gap-4 mt-6">
-            {data.pages.flatMap(
-              (page) =>
-                page.traits?.map((trait) => (
-                  <TraitPreviewCard key={`card-${trait.id}`} trait={trait} />
-                ))
-            )}
-          </div>
-          <div
-            ref={loaderRef}
-            className="mt-10 h-10 w-full flex justify-center"
-          >
-            {hasNextPage ? (
-              <LoadingNoggles className="w-[64px] text-default-300" />
-            ) : (
-              <NoggleIcon className="w-[64px] text-default-300" />
-            )}
-          </div>
-        </>
-      )}
+      <div className="container grid grid-cols-[repeat(auto-fill,224px)] justify-center w-full gap-4 mt-6">
+        {data?.pages.flatMap(
+          (page) =>
+            page?.traits.map((trait, i) => (
+              <TraitPreviewCard key={`card-${trait?.id ?? i}`} trait={trait} />
+            ))
+        )}
+      </div>
+      <div ref={loaderRef} className="mt-10 h-10 w-full flex justify-center">
+        {hasNextPage ? (
+          <LoadingNoggles className="w-[64px] text-default-300" />
+        ) : (
+          <NoggleIcon className="w-[64px] text-default-300" />
+        )}
+      </div>
     </div>
   );
 };

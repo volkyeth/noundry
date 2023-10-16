@@ -136,17 +136,19 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
   const isActive =
     currentPage.toLowerCase().split(/[?#]/)[0] === href.toLowerCase();
   return (
-    <NavbarItem isActive={isActive} {...props}>
-      <Link
-        color="foreground"
-        as={NextLink}
-        style={{ color: isActive ? "black" : undefined }}
-        className="uppercase  hover:text-primary"
-        href={href}
-        aria-current={isActive ? "page" : undefined}
-      >
-        {children}
-      </Link>
-    </NavbarItem>
+    <Dynamic>
+      <NavbarItem isActive={isActive} {...props}>
+        <Link
+          color="foreground"
+          as={NextLink}
+          style={{ color: isActive ? "black" : undefined }}
+          className="uppercase  hover:text-primary"
+          href={href}
+          aria-current={isActive ? "page" : undefined}
+        >
+          {children}
+        </Link>
+      </NavbarItem>
+    </Dynamic>
   );
 };
