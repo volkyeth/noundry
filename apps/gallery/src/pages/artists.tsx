@@ -32,24 +32,24 @@ export default function ArtistsPage({ artistsStats: initialArtistsStats }) {
       <h1 className="font-Pix text-lg xl:text-4xl sm:text-lg dsm:text-lg md:text-lg lg:text-2xl">
         Artists
       </h1>
-      <div className="grid w-fit grid-cols-[1fr_max-content] xs:grid-cols-[repeat(4,max-content)] mt-10 gap-x-6 gap-y-2 ">
+      <div className="grid w-fit grid-cols-[1fr_max-content] xs:grid-cols-[repeat(4,max-content)] mt-10 gap-x-6 gap-y-2 text-default">
         {artistsStats?.map((artist) => (
           <>
             <Link
               key={artist.id}
               href={`/profile/${artist.id}`}
-              className="hover:text-primary  xs:col-span-1 pr-4 "
+              className="text-black hover:text-primary  xs:col-span-1 pr-4 "
             >
               <UserBadge key={artist.id} address={artist.id} />
             </Link>
-            <div className="flex gap-2 items-center text-default ">
+            <div className="flex gap-2 justify-end items-center ">
               <p>{artist.traits} traits</p>
             </div>
-            <div className="flex gap-2 items-center text-default hidden xs:flex">
+            <div className="flex gap-2 items-center justify-end hidden xs:flex">
               <p>{artist.heads}</p>
               <TraitIcon className="w-6" type="heads" />
             </div>
-            <div className="flex gap-2 items-center text-default hidden xs:flex">
+            <div className="flex gap-2 items-center justify-end hidden xs:flex">
               <p>{artist.accessories}</p>
               <TraitIcon className="w-6" type="accessories" />
             </div>
