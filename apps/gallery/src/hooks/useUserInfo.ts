@@ -12,5 +12,5 @@ export const useUserInfo = (address?: `0x${string}`) =>
               userName: userName.toLowerCase(),
               ...rest,
             }))
-        : undefined,
+        : null,
   });

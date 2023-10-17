@@ -1,11 +1,4 @@
-export type TraitCategory = "heads" | "glasses" | "accessories" | "bodies";
-
-export type TraitType =
-  | "head"
-  | "glasses"
-  | "accessory"
-  | "body"
-  | "background";
+import { TraitCategory } from "noggles";
 
 export interface Trait {
   id: string;

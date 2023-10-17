@@ -1,6 +1,7 @@
 import { useModal, useSIWE } from "connectkit";
 import { FC, useState } from "react";
 import ModalComp from "./Modal/ModalComp";
+import { Button } from "@nextui-org/react";
 
 export interface UploadTraitButtonProps {
   traitsData: any;
@@ -10,12 +11,9 @@ export const UploadTraitButton: FC<UploadTraitButtonProps> = ({
   traitsData,
   ...props
 }) => {
-const { openSIWE } = useModal();
-const { isSignedIn } = useSIWE();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <>
+    <Button>
       <button
         {...props}
         onClick={() => {
@@ -29,6 +27,6 @@ const { isSignedIn } = useSIWE();
       {isModalOpen && (
         <ModalComp traitsData={traitsData} setIsModalOpen={setIsModalOpen} />
       )}
-    </>
+    </Butt>
   );
 };

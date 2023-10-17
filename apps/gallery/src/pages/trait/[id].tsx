@@ -32,7 +32,6 @@ const TraitPage: NextPage<{
 }> = ({ trait: initialTrait, requesterAddress }) => {
   const { data: siweCredentials } = useSIWE();
   const address = (siweCredentials as SIWESession)?.address ?? requesterAddress;
-  console.log({ siweCredentials, address, requesterAddress });
   const { data: trait } = useQuery({
     queryKey: ["trait", initialTrait.id, address],
     queryFn: () =>
