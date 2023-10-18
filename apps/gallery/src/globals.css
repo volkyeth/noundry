@@ -16,6 +16,20 @@
   }
 }
 
+@layer utilities {
+  .bg-checkerboard {
+    background-size: 6.25% 6.25%; /* 100% / 32 pixels */
+    background-image: repeating-conic-gradient(
+      var(--lt-color-gray-400) 0% 25%,
+      var(--lt-color-gray-200) 0% 50%
+    );
+  }
+}
+
+canvas {
+  image-rendering: pixelated;
+}
+
 .form-group input:checked + label:after {
   content: "";
   display: block;

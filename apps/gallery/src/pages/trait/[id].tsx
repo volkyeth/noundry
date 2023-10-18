@@ -3,6 +3,7 @@ import { getTrait } from "@/app/api/trait/[id]/route";
 import { TraitCard } from "@/components/TraitCard";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { Trait } from "@/types/trait";
+import { traitType } from "@/utils/misc/traitType";
 import Session from "@/utils/siwe/session";
 import { useQuery } from "@tanstack/react-query";
 import { SIWESession, useSIWE } from "connectkit";
@@ -47,7 +48,9 @@ const TraitPage: NextPage<{
       <div className="flex flex-col items-center justify-center  lg:flex-row gap-10 lg:gap-16">
         <TraitCard trait={trait!} />
         <TraitTestingGrounds
-          trait={trait!}
+          title="Testing Grounds"
+          traitType={traitType(trait)}
+          trait={trait.trait as `0x${string}`}
           className=" h-[484px] w-full max-w-xl "
         />
       </div>

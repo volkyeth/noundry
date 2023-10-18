@@ -45,5 +45,16 @@ module.exports = {
       },
     },
   },
-  plugins: [nextui(), containerQueries],
+  plugins: [
+    nextui({
+      layout: {
+        radius: {
+          small: "0px",
+          medium: "0px",
+          large: "0px",
+        },
+      },
+    }),
+    containerQueries,
+  ],
 };

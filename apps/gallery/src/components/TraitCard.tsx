@@ -43,7 +43,7 @@ export const TraitCard: FC<TraitCardProps> = ({ trait }) => {
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-fit">
-        <div className="relative w-[256px] h-[256px] xs:w-[320px] xs:h-[320px] bg-default-200">
+        <div className="relative w-[256px] h-[256px] xs:w-[320px] xs:h-[320px] bg-checkerboard">
           <img
             alt="Trait preview"
             className="absolute w-full h-full"

@@ -14,3 +14,5 @@ export const IMAGE_TRAIT_TYPES = [
   "accessory",
   "body",
 ] as TraitType[];
+
+export const EMPTY_ENCODED_TRAIT = "0x00000000";
