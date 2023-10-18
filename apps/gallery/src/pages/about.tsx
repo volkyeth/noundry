@@ -7,11 +7,6 @@ const About = () => {
     <>
       <div className="container w-full max-w-4xl mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
         <div className="flex items-center justify-center dsm:justify-between">
-          {/* <Image
-            src={bannerImage}
-            className="w-full h-auto select-none"
-            alt="Image"
-          /> */}
           <Banner className="text-black w-full h-auto select-none" />
         </div>
 
@@ -34,27 +29,6 @@ const About = () => {
               likes you receive from the community. Additionally, you can sort
               and search through traits.{" "}
             </p>
-
-            {/*}
-            <p>
-              The way this platform will sustain itself might depend on DAO
-              support, or in the case of successfull candidate proposals, the
-              proposer(s) can specify a lump sum going to the platform. We also
-              accept donations at nouns-gallery.eth.
-            </p>
-            
-            <p>
-              Community members can like each other traits and can sort through
-              traits by creation date, likes or artists names. A future step is
-              to bring token gated “likes” to the platform, so that for example
-              only noun owners can "⌐◨-◨" traits.
-            </p>
-            <p>
-              We have more features we would like to implement, like forking
-              traits or minting traits but for now this is it: a place to
-              showcase your nounish creations!
-            </p>
-            */}
           </div>
           <div className="mt-8 mb-16 bg-bright-light dark:bg-off-dark p-6 leading-24 ">
             <p className="py-2"> Future Features: </p>

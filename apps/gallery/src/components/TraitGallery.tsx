@@ -11,7 +11,6 @@ export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
 
 export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
   const { data, fetchNextPage, hasNextPage } = useTraits({ account });
-  console.log(data);
   const { ref: loaderRef } = useInView({
     onChange: (inView) => inView && hasNextPage && fetchNextPage(),
   });

@@ -1,0 +1,8 @@
+{
+	"devDependencies": {
+		"turbo": "^1.10.15"
+	},
+	"scripts": {
+		"build": "turbo build"
+	}
+}

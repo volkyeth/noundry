@@ -12,3 +12,8 @@ export {
   type OnchainArtwork,
   type Palette,
 } from "./types/artwork.js";
+
+export { IMAGE_TRAIT_TYPES, TRAIT_TYPES } from "./constants/traits.js";
+export { type TraitCategory, type TraitType } from "./types/traits.js";
+
+export { isTraitType } from "./utils/traits/isTraitType.js";

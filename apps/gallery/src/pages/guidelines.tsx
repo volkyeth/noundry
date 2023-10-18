@@ -271,26 +271,26 @@ const GuideLines = () => {
               <div className=" flex flex-wrap md:flex-col sm:flex-col dsm:flex-col ">
                 <Image
                   className="px-2 py-2"
-                  src="/ghostExample.png" // Relative path to the image in the 'public' directory
+                  src="/ghostExample.png"
                   alt="Ghost"
-                  width={250} // Set the width of the image
-                  height={250} // Set the height of the image
+                  width={250}
+                  height={250}
                   unoptimized
                 />
                 <Image
                   className="px-2 py-2"
-                  src="/pyramidExample.png" // Relative path to the image in the 'public' directory
+                  src="/pyramidExample.png"
                   alt="Ghost"
-                  width={250} // Set the width of the image
-                  height={250} // Set the height of the image
+                  width={250}
+                  height={250}
                   unoptimized
                 />
                 <Image
                   className="px-2 py-2"
-                  src="/sandwichExample.png" // Relative path to the image in the 'public' directory
+                  src="/sandwichExample.png"
                   alt="Ghost"
-                  width={250} // Set the width of the image
-                  height={250} // Set the height of the image
+                  width={250}
+                  height={250}
                   unoptimized
                 />
               </div>
@@ -343,10 +343,10 @@ const GuideLines = () => {
               <a href="https://studio.noundry.wtf/" target="_blank">
                 <Image
                   className="px-12 py-6"
-                  src="/noundry.jpg" // Relative path to the image in the 'public' directory
+                  src="/noundry.jpg"
                   alt="noundry studio"
-                  width={600} // Set the width of the image
-                  height={250} // Set the height of the image
+                  width={600}
+                  height={250}
                 />
               </a>
               <li className=" my-3">
