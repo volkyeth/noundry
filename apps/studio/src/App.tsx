@@ -25,8 +25,6 @@ const config = createConfig(
   })
 );
 
-console.log(ckTheme);
-
 const App = () => {
   inject({ debug: false });
   const queryClient = new QueryClient();

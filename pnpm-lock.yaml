@@ -68,6 +68,9 @@ importers:
       next-navigation:
         specifier: ^1.0.6
         version: 1.0.6
+      next-usequerystate:
+        specifier: ^1.8.4
+        version: 1.8.4(next@13.4.13)
       noggles:
         specifier: workspace:^
         version: link:../../packages/noggles
@@ -80,6 +83,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-dropzone:
+        specifier: ^14.2.2
+        version: 14.2.2(react@18.2.0)
       react-icons:
         specifier: ^4.11.0
         version: 4.11.0(react@18.2.0)
@@ -10556,6 +10562,10 @@ packages:
       yallist: 4.0.0
     dev: false
 
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
+
   /mkdirp@1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
@@ -10733,7 +10743,16 @@ packages:
       react: 16.14.0
     dev: false
 
-  /next@13.4.13(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0):
+  /next-usequerystate@1.8.4(next@13.4.13):
+    resolution: {integrity: sha512-V4xMh87cu950Zy1Jpw/H8GwWxAeAmqnLNJ8hAl5bdEWpyZV4UIKdkJePKMCUy1+h254EXGmY83BuCGJOASJRVg==}
+    peerDependencies:
+      next: ^13.4
+    dependencies:
+      mitt: 3.0.1
+      next: 13.4.13(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+    dev: false
+
+  /next@13.4.13(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-A3YVbVDNeXLhWsZ8Nf6IkxmNlmTNz0yVg186NJ97tGZqPDdPzTrHotJ+A1cuJm2XfuWPrKOUZILl5iBQkIf8Jw==}
     engines: {node: '>=16.8.0'}
     hasBin: true

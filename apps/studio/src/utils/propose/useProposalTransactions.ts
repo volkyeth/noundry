@@ -24,6 +24,11 @@ export const useProposalTransactions = ({
   return useMemo(() => {
     if (!estimatedProposalExecutionDelay || !artistAddress) return undefined;
 
+    const now = BigInt(Math.floor(Date.now() / 1000));
+    const oneWeek = 604_800n;
+    const publicSaleStart = now + estimatedProposalExecutionDelay;
+    const publicSaleEnd = publicSaleStart + oneWeek;
+
     const partCanvas = document.createElement("canvas");
     partCanvas.width = partBitmap.width;
     partCanvas.height = partBitmap.height;
@@ -34,7 +39,8 @@ export const useProposalTransactions = ({
       partName,
       artistAddress,
       droposalMediaUri,
-      estimatedProposalExecutionDelay
+      publicSaleStart,
+      publicSaleEnd
     );
 
     const addPartTransaction = getAddPartTransaction(partType, partCanvas);

@@ -14,11 +14,9 @@ export const getZoraEditionTransaction = (
   partName: string,
   artistAddress: `0x${string}`,
   droposalMediaUri: string,
-  estimatedExecutionDelay: bigint
+  publicSaleStart: bigint,
+  publicSaleEnd: bigint
 ): Transaction => {
-  const now = BigInt(Math.floor(Date.now() / 1000));
-  const oneWeek = 604_800n;
-
   const name = `Noundry edition: ${partName} ${partType}`;
   const symbol = `NOUNDRY`;
   const editionSize = maxUint64;
@@ -27,8 +25,6 @@ export const getZoraEditionTransaction = (
   const defaultAdmin = nounsDaoExecutorAddress;
   const publicSalePrice = 0n;
   const maxSalePurchasePerAddress = 0;
-  const publicSaleStart = now + estimatedExecutionDelay;
-  const publicSaleEnd = publicSaleStart + oneWeek;
   const presaleStart = 0n;
   const presaleEnd = 0n;
   const presaleMerkleRoot =

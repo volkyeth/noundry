@@ -1,10 +1,10 @@
-import { NounSeed } from "@/types/noun";
+import { NounSeed, NounTraits } from "@/types/noun";
 import { EncodedTrait, HexColor, OnchainArtwork } from "noggles";
 
 export const getTraitsFromSeed = (
   seed: NounSeed,
   onchainArtwork: OnchainArtwork
-) => {
+): NounTraits => {
   return {
     glasses: onchainArtwork.glasses[seed.glasses] as EncodedTrait,
     head: onchainArtwork.heads[seed.head] as EncodedTrait,

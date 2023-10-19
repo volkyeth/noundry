@@ -1,14 +1,10 @@
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
-import { Trait } from "@/types/trait";
-import { EncodedTrait, HexColor } from "noggles";
+import { NounTraits } from "@/types/noun";
 import { FC, HtmlHTMLAttributes, useEffect, useState } from "react";
 
-export interface NounProps extends HtmlHTMLAttributes<HTMLCanvasElement> {
-  glasses: EncodedTrait | Trait;
-  head: EncodedTrait | Trait;
-  accessory: EncodedTrait | Trait;
-  body: EncodedTrait | Trait;
-  background: HexColor;
+export interface NounProps
+  extends NounTraits,
+    HtmlHTMLAttributes<HTMLDivElement> {
   size: number;
 }
 
@@ -56,5 +52,14 @@ export const Noun: FC<NounProps> = ({
     size,
   ]);
 
-  return <canvas width={size} height={size} ref={setCanvas} {...props} />;
+  return (
+    <div {...props}>
+      <canvas
+        width={size}
+        height={size}
+        ref={setCanvas}
+        className={"bg-checkerboard w-full h-full"}
+      />
+    </div>
+  );
 };

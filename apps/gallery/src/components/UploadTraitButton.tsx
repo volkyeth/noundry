@@ -11,7 +11,6 @@ export const UploadTraitButton: FC<UploadTraitButtonProps> = ({
   traitsData,
   ...props
 }) => {
-
   return (
     <Button>
       <button
@@ -27,6 +26,6 @@ export const UploadTraitButton: FC<UploadTraitButtonProps> = ({
       {isModalOpen && (
         <ModalComp traitsData={traitsData} setIsModalOpen={setIsModalOpen} />
       )}
-    </Butt>
+    </Button>
   );
 };
