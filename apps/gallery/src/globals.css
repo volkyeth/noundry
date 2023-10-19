@@ -59,3 +59,20 @@
   text-align: center;
   background-color: black;
 }
+
+.profile-section-creators {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.profile-individual-section {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
