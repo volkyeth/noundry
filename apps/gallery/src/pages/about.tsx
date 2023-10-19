@@ -61,7 +61,7 @@ const About = () => {
 
           <p className="mb-2 text-md">
             {" "}
-            This project is funded by Nouns and <a
+            This project is funded by Nouns via <a
               href="https://nouns.wtf/vote/375"
               className=" hover:!text-primary underline"
               target="_blank"
