@@ -18,11 +18,12 @@
   h4,
   h5,
   h6 {
-    @apply font-Lora;
+    @apply font-Lora my-4;
   }
 
   h1 {
     @apply text-2xl font-semibold text-default-500  md:text-4xl;
+    @apply mb-8;
   }
 
   h2 {

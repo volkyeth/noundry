@@ -26,18 +26,24 @@ const Profile: NextPage<{ userInfo: UserInfo }> = ({ userInfo }) => {
     query: { address },
   } = useRouter();
 
+  console.log(userInfo);
+
   return (
     <>
-      <div className="container flex flex-col px-2 self-center my-12 mx-auto gap-16">
-        <div className="flex flex-col gap-2 items-start text-xl ">
-          <img
-            src={userInfo.profilePic}
-            className="w-24 h-24 border-8 box-content border-content1 bg-warm"
-          />
-          <h1 className="text-3xl font-Inter">
-            {userInfo.userName.toLowerCase()}
-          </h1>
-          <p>{userInfo.about}</p>
+      <div className="container flex flex-col px-8 self-center my-12 mx-auto gap-16">
+        <div className="flex flex-col gap-4 items-start text-xl ">
+          <div className="flex flex-col gap-2">
+            <img
+              src={userInfo.profilePic}
+              className="w-24 h-24 border-8 box-content border-content1 shrink-0 bg-warm"
+            />
+            <h1 className="text-xl  xs:text-3xl font-Inter mt-0">
+              {userInfo.userName.toLowerCase()}
+            </h1>
+          </div>
+          <p className="text-sm xs:text-medium max-w-2xl w-full whitespace-pre-line">
+            {userInfo.about}
+          </p>
         </div>
         <div>
           <h2 className="text-2xl text-default-400">User traits</h2>
