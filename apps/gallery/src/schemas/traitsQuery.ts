@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addressSchema, sortDirectionSchema, sortFieldSchema } from "./schemas";
+import { addressSchema, sortDirectionSchema, sortFieldSchema } from "./common";
 
 export const traitsQuerySchema = z.object({
   sortBy: z.optional(sortFieldSchema).default("createdAt"),

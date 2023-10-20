@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 import { TraitType } from "noggles";
 import { FC } from "react";
+import { twMerge } from "tailwind-merge";
 import Dynamic from "./Dynamic";
 import { Hoverable } from "./Hoverable";
 import { Noun } from "./Noun";
@@ -21,13 +22,15 @@ import { VirtualizedGallery } from "./VirtualizedGallery";
 export interface TraitPickerProps extends ButtonProps {
   traitType: TraitType;
   currentTraits: NounTraits;
-  onPick?: (newTraits: NounTraits) => void;
+  classNames?: { button?: string; icon?: string };
+  onPick?: (traitId: number) => void;
 }
 
 export const TraitPicker: FC<TraitPickerProps> = ({
   traitType,
   currentTraits,
   onPick,
+  classNames,
   ...props
 }) => {
   const { data: mainnetArtwork } = useMainnetArtwork();
@@ -39,21 +42,29 @@ export const TraitPicker: FC<TraitPickerProps> = ({
       <Button
         isIconOnly
         {...props}
+        className={classNames?.button}
         onClick={onOpen}
         isDisabled={!mainnetArtwork}
       >
-        <TraitIcon type={traitType} />
+        <TraitIcon
+          type={traitType}
+          className={twMerge("w-[16px]", classNames?.icon)}
+        />
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
-          <ModalBody className="px-2">
+          <ModalBody className="p-0">
             {traits && (
               <VirtualizedGallery
-                className="h-[600px] w-full"
+                className="h-[600px] w-full p-0"
                 itemCount={traits.length}
                 itemSize={128 + 2 * 4}
                 scrollContainerPadding={4}
-                title={`Choose the ${formatTraitType(traitType)}`}
+                header={
+                  <h2 className="self-center pb-2 font-bold">{`Pick the ${formatTraitType(
+                    traitType
+                  )}`}</h2>
+                }
               >
                 {(virtualItem) => (
                   <Hoverable key={virtualItem.key} isDisabled={!onPick}>
@@ -68,10 +79,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
                           }}
                           {...{ onMouseEnter, onMouseLeave }}
                           onClick={() => {
-                            onPick?.({
-                              ...currentTraits,
-                              [traitType]: traits[virtualItem.index],
-                            });
+                            onPick?.(virtualItem.index);
                             onClose();
                           }}
                         >

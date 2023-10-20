@@ -1,18 +1,9 @@
-import { UserSchema } from "@/db/schema/UserSchema";
-import { database } from "@/utils/database/db";
+import { addressSchema } from "@/schemas/common";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserInfo } from "./getUserInfo";
 
-export const GET = async (req: NextRequest, { params: { address } }) =>
-  NextResponse.json(
-    await database.collection<UserSchema>("users").findOne(
-      { _id: address },
-      {
-        projection: {
-          twitter: true,
-          userName: true,
-          about: true,
-          profilePic: true,
-        },
-      }
-    )
-  );
+export const GET = async (req: NextRequest, { params }) => {
+  const address = addressSchema.parse(params.address) as `0x${string}`;
+
+  return NextResponse.json(await getUserInfo(address));
+};

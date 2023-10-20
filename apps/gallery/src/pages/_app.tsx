@@ -1,13 +1,15 @@
 "use client";
 
 import { siweConfig } from "@/utils/siwe/siweConfig";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/lora";
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ConnectKitProvider, SIWEProvider, getDefaultConfig } from "connectkit";
 import { AppProps } from "next/app";
 import { WagmiConfig, createConfig, mainnet } from "wagmi";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/Navbar";
 import "../globals.css";
 
 const config = createConfig({

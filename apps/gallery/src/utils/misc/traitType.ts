@@ -1,4 +1,5 @@
-import { Trait, TraitType } from "@/types/trait";
+import { Trait } from "@/types/trait";
+import { TraitType } from "noggles";
 
 export const traitType = (trait: Trait): TraitType => {
   switch (trait.type) {

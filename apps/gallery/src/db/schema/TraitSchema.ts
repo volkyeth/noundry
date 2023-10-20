@@ -1,5 +1,5 @@
-import { TraitCategory } from "@/types/trait";
 import { ObjectId } from "mongodb";
+import { TraitCategory } from "noggles";
 
 export interface TraitSchema {
   _id: ObjectId;
@@ -8,11 +8,7 @@ export interface TraitSchema {
   type: TraitCategory;
   trait: string;
   address: `0x${string}`;
-  background: string;
-  body: string;
-  head: string;
-  accessory: string;
-  glasses: string;
   likedBy: `0x${string}`[];
   creationDate: number;
 }
+``;

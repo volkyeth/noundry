@@ -20,7 +20,7 @@ export const UserAvatar: FC<UserAvatarProps> = ({ address, ...props }) => {
     <Dynamic>
       <Avatar
         radius="none"
-        className="w-8 h-8 border-2 border-content1 box-content p-0 bg-warm"
+        className="w-8 h-8 border-2 border-content1 box-content p-0 bg-warm flex-shrink-0"
         src={avatar}
         {...props}
       />

@@ -4,6 +4,7 @@ import {
   SIWE_TTL,
 } from "@/utils/siwe/constants";
 import { sealData, unsealData } from "iron-session";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_OPTIONS = {
@@ -15,6 +16,12 @@ export type ISession = {
   nonce?: string;
   chainId?: number;
   address?: string;
+};
+
+export type AssertedSession = {
+  nonce: string;
+  chainId: number;
+  address: string;
 };
 
 class Session {
@@ -42,6 +49,18 @@ class Session {
     );
   }
 
+  static async fromCookieStore(
+    cookieStore: ReadonlyRequestCookies
+  ): Promise<Session> {
+    const sessionCookie = cookieStore.get(SIWE_COOKIE_NAME)?.value;
+
+    if (!sessionCookie) return new Session();
+
+    return new Session(
+      await unsealData<ISession>(sessionCookie, SESSION_OPTIONS)
+    );
+  }
+
   static async fromRequest(req: NextRequest): Promise<Session> {
     const sessionCookie = req.cookies.get(SIWE_COOKIE_NAME)?.value;
 
@@ -51,11 +70,13 @@ class Session {
     );
   }
 
-  static async assertSiwe(req: NextRequest): Promise<void> {
+  static async assertSiwe(req: NextRequest): Promise<AssertedSession> {
     const session = await this.fromRequest(req);
 
     if (!session.address || session.chainId !== 1 || !session.nonce)
       throw new Error("Missing SIWE session");
+
+    return session as AssertedSession;
   }
 
   clear(res: NextResponse): Promise<void> {
@@ -83,3 +104,10 @@ class Session {
 }
 
 export default Session;
+
+export const assertSiwe = (session: ISession): session is AssertedSession => {
+  if (!session.address || session.chainId !== 1 || !session.nonce)
+    throw new Error("Missing SIWE session");
+
+  return true;
+};

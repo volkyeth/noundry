@@ -18,7 +18,9 @@ export const UserBadge: FC<UserBadgeProps> = ({ address, ...props }) => {
     <Dynamic>
       <div className="flex flex-row items-center gap-2 " {...props}>
         <UserAvatar address={address} />
-        <p className="font-semibold">{username}</p>
+        <p className="font-bold text-secondary text-sm flex-shrink text-ellipsis whitespace-nowrap max-w-10 overflow-clip">
+          {username}
+        </p>
       </div>
     </Dynamic>
   );

@@ -1,10 +1,10 @@
 "use client";
-import { getArtistStats } from "@/app/api/artists/stats/route";
+import { getArtistStats } from "@/app/api/artists/stats/getArtistStats";
 import { TraitIcon } from "@/components/TraitIcon";
 import { UserBadge } from "@/components/UserBadge";
 import { UserStats } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps<{
@@ -16,7 +16,9 @@ export const getServerSideProps: GetServerSideProps<{
   };
 };
 
-export default function ArtistsPage({ artistsStats: initialArtistsStats }) {
+const ArtistsPage: NextPage<{ artistsStats: UserStats[] }> = ({
+  artistsStats: initialArtistsStats,
+}) => {
   const { data: artistsStats } = useQuery({
     queryKey: ["artistsStats"],
     queryFn: () =>
@@ -29,27 +31,34 @@ export default function ArtistsPage({ artistsStats: initialArtistsStats }) {
 
   return (
     <div className="container mx-auto py-10 flex flex-col items-center  gap-6  lg:px-10 md:px-5 sm:px-6  px-6">
-      <h1 className="font-Pix text-lg xl:text-4xl sm:text-lg dsm:text-lg md:text-lg lg:text-2xl">
-        Artists
-      </h1>
+      <h1>Artists</h1>
       <div className="grid w-fit grid-cols-[1fr_max-content] xs:grid-cols-[repeat(4,max-content)] mt-10 gap-x-6 gap-y-2 text-default">
         {artistsStats?.map((artist) => (
           <>
             <Link
-              key={artist.id}
-              href={`/profile/${artist.id}`}
+              key={`badge-${artist.address}`}
+              href={`/profile/${artist.address}`}
               className="text-black hover:text-primary  xs:col-span-1 pr-4 "
             >
-              <UserBadge key={artist.id} address={artist.id} />
+              <UserBadge address={artist.address} />
             </Link>
-            <div className="flex gap-2 justify-end items-center ">
+            <div
+              key={`trait-count-${artist.address}`}
+              className="flex gap-2 justify-end items-center "
+            >
               <p>{artist.traits} traits</p>
             </div>
-            <div className="flex gap-2 items-center justify-end hidden xs:flex">
+            <div
+              key={`head-count-${artist.address}`}
+              className="gap-2 items-center justify-end hidden xs:flex"
+            >
               <p>{artist.heads}</p>
               <TraitIcon className="w-6" type="heads" />
             </div>
-            <div className="flex gap-2 items-center justify-end hidden xs:flex">
+            <div
+              key={`accessory-count-${artist.address}`}
+              className="gap-2 items-center justify-end hidden xs:flex"
+            >
               <p>{artist.accessories}</p>
               <TraitIcon className="w-6" type="accessories" />
             </div>
@@ -58,4 +67,6 @@ export default function ArtistsPage({ artistsStats: initialArtistsStats }) {
       </div>
     </div>
   );
-}
+};
+
+export default ArtistsPage;

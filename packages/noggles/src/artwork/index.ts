@@ -1,1 +1,1 @@
-export { fetchMainnetArtwork } from "./onchain/fetchMainnetArtwork.js";
+export { fetchNounsArtwork as fetchMainnetArtwork } from "./onchain/fetchNounsArtwork.js";

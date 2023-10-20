@@ -1,10 +1,9 @@
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
-import { NounSeed } from "@/types/noun";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
-import { EncodedTrait, HexColor, TraitType } from "noggles";
+import { EncodedTrait, HexColor, NounSeed, TraitType } from "noggles";
 import loadingNoun from "public/loading-noun.gif";
-import { FC, HtmlHTMLAttributes, useState } from "react";
+import { FC, HtmlHTMLAttributes, ReactNode, useState } from "react";
 import { Hoverable } from "./Hoverable";
 import { Noun } from "./Noun";
 import { VirtualizedGallery } from "./VirtualizedGallery";
@@ -14,14 +13,16 @@ export interface TraitTestingGroundsProps
   traitType: TraitType;
   trait: EncodedTrait | ImageBitmap | HexColor;
   onNounClick?: (seed: NounSeed) => void;
-  title?: string;
+  header?: ReactNode;
+  footer?: ReactNode;
 }
 
 export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
   traitType,
   trait,
   onNounClick,
-  title,
+  header,
+  footer,
   ...props
 }) => {
   const { data: mainnetArtwork } = useMainnetArtwork();
@@ -34,7 +35,8 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
     <VirtualizedGallery
       itemSize={NOUN_SIZE + 2 * NOUN_PADDING}
       scrollContainerPadding={4}
-      title={title}
+      header={header}
+      footer={footer}
       {...props}
     >
       {(virtualItem) => {

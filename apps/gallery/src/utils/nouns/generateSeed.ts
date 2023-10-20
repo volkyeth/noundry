@@ -1,4 +1,4 @@
-import { NounSeed } from "@/types/noun";
+import { NounSeed } from "noggles";
 import { OnchainArtwork } from "noggles";
 import seedrandom from "seedrandom";
 

@@ -1,5 +1,5 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { TraitsQuery, traitsQuerySchema } from "@/queries/traitsQuery";
+import { TraitsQuery, traitsQuerySchema } from "@/schemas/traitsQuery";
 import { database } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
 import { NextRequest, NextResponse } from "next/server";
@@ -46,7 +46,11 @@ export async function GET(req: NextRequest) {
           $expr: { $in: ["$type", query.includeTypes] },
         },
       },
-      { $sort: { [sortField]: query.direction === "asc" ? 1 : -1 } },
+      {
+        $sort: {
+          [sortField ?? "creationDate"]: query.direction === "asc" ? 1 : -1,
+        },
+      },
       {
         $addFields: {
           likesCount: {

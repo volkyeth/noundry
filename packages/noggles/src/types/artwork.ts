@@ -38,7 +38,7 @@ export type BoundedColorIndexes = {
 export type EncodedCompressedTraits = [
   encodedCompressedArtwork: `0x${string}`,
   originalLength: bigint,
-  itemCount: number
+  itemCount: number,
 ];
 
 export type OnchainArtwork = {
@@ -48,4 +48,12 @@ export type OnchainArtwork = {
   bodies: EncodedTrait[];
   backgrounds: HexColor[];
   palettes: Palette[];
+};
+
+export type NounTraits = {
+  glasses: EncodedTrait;
+  head: EncodedTrait;
+  accessory: EncodedTrait;
+  body: EncodedTrait;
+  background: HexColor;
 };

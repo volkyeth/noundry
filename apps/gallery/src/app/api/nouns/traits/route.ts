@@ -1,7 +1,8 @@
 import { publicClient } from "@/app/publicClient";
 import { NextResponse } from "next/server";
-import { fetchMainnetArtwork } from "noggles";
+import { fetchNounsArtwork } from "noggles";
 
 export async function GET() {
-  return NextResponse.json(await fetchMainnetArtwork(publicClient));
+  // TODO cache for 15min
+  return NextResponse.json(await fetchNounsArtwork(publicClient));
 }

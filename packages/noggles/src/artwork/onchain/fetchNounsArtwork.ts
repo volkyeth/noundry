@@ -2,7 +2,7 @@ import { PublicClient } from "viem";
 import { nounsDescriptorContract } from "../../contracts/nounsDescriptor.js";
 import { EncodedTrait, HexColor, OnchainArtwork } from "../../types/artwork.js";
 
-export const fetchMainnetArtwork = async (
+export const fetchNounsArtwork = async (
   publicClient: PublicClient
 ): Promise<OnchainArtwork> => {
   const [
@@ -13,6 +13,7 @@ export const fetchMainnetArtwork = async (
     backgroundsCount,
   ] = await publicClient
     .multicall({
+      allowFailure: false,
       contracts: [
         {
           ...nounsDescriptorContract,
@@ -36,21 +37,23 @@ export const fetchMainnetArtwork = async (
         },
       ],
     })
-    .then((data) => data.map(({ result }) => Number(result)));
+    .then((data) => data.map((result) => Number(result)));
 
   const [glasses, heads, accessories, bodies, backgrounds, palettes] =
     await Promise.all([
       publicClient
         .multicall({
+          allowFailure: false,
           contracts: new Array(glassesCount).fill(null).map((_, index) => ({
             ...nounsDescriptorContract,
             functionName: "glasses",
             args: [index],
           })),
         })
-        .then((data) => data.map(({ result }, i) => result as EncodedTrait)),
+        .then((data) => data.map((result) => result as EncodedTrait)),
       publicClient
         .multicall({
+          allowFailure: false,
           batchSize: 100,
           contracts: new Array(headsCount).fill(null).map((_, index) => ({
             ...nounsDescriptorContract,
@@ -58,34 +61,37 @@ export const fetchMainnetArtwork = async (
             args: [index],
           })),
         })
-        .then((data) => data.map(({ result }) => result as EncodedTrait)),
+        .then((data) => data.map((result) => result as EncodedTrait)),
       publicClient
         .multicall({
+          allowFailure: false,
           contracts: new Array(accessoriesCount).fill(null).map((_, index) => ({
             ...nounsDescriptorContract,
             functionName: "accessories",
             args: [index],
           })),
         })
-        .then((data) => data.map(({ result }) => result as EncodedTrait)),
+        .then((data) => data.map((result) => result as EncodedTrait)),
       publicClient
         .multicall({
+          allowFailure: false,
           contracts: new Array(bodiesCount).fill(null).map((_, index) => ({
             ...nounsDescriptorContract,
             functionName: "bodies",
             args: [index],
           })),
         })
-        .then((data) => data.map(({ result }) => result as EncodedTrait)),
+        .then((data) => data.map((result) => result as EncodedTrait)),
       publicClient
         .multicall({
+          allowFailure: false,
           contracts: new Array(backgroundsCount).fill(null).map((_, index) => ({
             ...nounsDescriptorContract,
             functionName: "backgrounds",
             args: [index],
           })),
         })
-        .then((data) => data.map(({ result }) => `#${result}` as HexColor)),
+        .then((data) => data.map((result) => `#${result}` as HexColor)),
       publicClient
         .readContract({
           ...nounsDescriptorContract,

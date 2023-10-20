@@ -1,1 +1,1 @@
-export { fetchMainnetArtwork } from "./fetchMainnetArtwork.js";
+export { fetchNounsArtwork as fetchNounsArtwork } from "./fetchNounsArtwork.js";

@@ -1,6 +1,6 @@
 "use client";
 
-import { TraitsQuery, toQuerySting } from "@/queries/traitsQuery";
+import { TraitsQuery, toQuerySting } from "@/schemas/traitsQuery";
 import { Trait } from "@/types/trait";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSIWE } from "connectkit";
