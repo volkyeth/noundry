@@ -157,8 +157,9 @@ const Submit = () => {
   return (
     <Dynamic>
       <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
-        <h1>Submit {formatTraitType(traitType)}</h1>
-
+        <h1>Submit{formatTraitType(traitType)}</h1>
+        <p>This is where you can submit your trait as a candidate proposal to NounsDAO.
+         Make sure your trait is conform to the guidelines</p>
         {traitType === null && (
           <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
             {[...IMAGE_TRAIT_TYPES].map((traitType) => (
@@ -170,7 +171,7 @@ const Submit = () => {
                   type={traitType}
                   className="w-12 h-12 md:w-[72px] md:h-[72px]"
                 />
-                <p className="uppercase text-sm font-semibold ">
+                <p className="uppercase mt-4 text-sm font-semibold ">
                   {formatTraitType(traitType)}
                 </p>
               </button>

@@ -18,7 +18,7 @@
   h4,
   h5,
   h6 {
-    @apply font-Lora my-4;
+    @apply font-Inter my-4;
   }
 
   h1 {

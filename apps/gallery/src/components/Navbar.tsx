@@ -54,14 +54,15 @@ const Navbar = () => {
         <NavbarContent className="hidden sm:flex gap-6" justify="center">
           <NavbarLink href={"/"}>Traits</NavbarLink>
           <NavbarLink href={"/artists"}>Artists</NavbarLink>
-          <NavbarLink href={"/submit"} className="hidden xl:flex">
-            Submit Trait
-          </NavbarLink>
+
           <NavbarLink href={"/guidelines"} className="hidden xl:flex">
             Guidelines
           </NavbarLink>
           <NavbarLink href={"/about"} className="hidden xl:flex">
             About
+          </NavbarLink>
+          <NavbarLink href={"/submit"} className="hidden xl:flex">
+            Submit Trait
           </NavbarLink>
         </NavbarContent>
         <NavbarContent justify="end">

@@ -16,8 +16,8 @@ const About = () => {
         <div className="flex flex-col gap-4 text-lg">
           <div className="flex flex-col gap-4">
             <p className="text-xl my-2 ">
-              Submit 32x32 pixel images as transparent PNGs, style them using
-              existing NounsDAO assets, and share them with the community.{" "}
+              Upload your 32x32 pixel images as transparent PNGs, style them using
+              existing NounsDAO assets, and share them with the community!{" "}
             </p>
 
             <p className="text-xl my-2 ">
