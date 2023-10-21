@@ -14,12 +14,14 @@ module.exports = {
     extend: {
       fontFamily: {
         Pix: ["Pix", "sans-serif"],
-        RobotoFlex: ["Roboto Flex", "sans-serif"],
+        Inter: ["Inter Variable", "sans-serif"],
+        Lora: ["Lora Variable", "sans-serif"],
       },
       colors: {
         cool: "#d5d7e1",
         warm: "#e1d7d5",
         primary: "#FF2165",
+        secondary: "#54494B",
         black: "#27282D",
         white: "#ECEDEE",
         light: "#F5F5F5",

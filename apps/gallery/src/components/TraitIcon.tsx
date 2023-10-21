@@ -4,9 +4,9 @@ import BodyIcon from "@/assets/traitIcons/body.svg";
 import HeadIcon from "@/assets/traitIcons/head.svg";
 import NogglesIcon from "@/assets/traitIcons/noggles.svg";
 import { TraitCategory, TraitType } from "noggles";
-import { FC, PropsWithRef } from "react";
+import { FC, HtmlHTMLAttributes } from "react";
 
-export interface TraitIconProps extends PropsWithRef<typeof AccessoryIcon> {
+export interface TraitIconProps extends HtmlHTMLAttributes<SVGSVGElement> {
   type: TraitCategory | TraitType;
 }
 

@@ -1,85 +1,64 @@
-import { useUsername } from "@/hooks/useUsername";
-import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Link,
-} from "@nextui-org/react";
-import { formatDistanceToNow } from "date-fns";
-import NextLink from "next/link";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 
-import { FC, useState } from "react";
-import { LikeWidget } from "./LikeWidget";
+import { TraitCategory, TraitType } from "noggles";
+import { FC, ReactNode, useState } from "react";
 import { TraitIcon } from "./TraitIcon";
-import { UserBadge } from "./UserBadge";
 
 export interface TraitCardProps {
-  trait: Trait & { liked?: boolean };
+  name: ReactNode;
+  type: TraitType | TraitCategory;
+  image: ReactNode;
+  previewImage: ReactNode;
+  footer?: ReactNode;
 }
 
-export const TraitCard: FC<TraitCardProps> = ({ trait }) => {
+export const TraitCard: FC<TraitCardProps> = ({
+  name,
+  type,
+  image,
+  previewImage,
+  footer,
+}) => {
   const [seeThrough, setSeeThrough] = useState(false);
-  const author = trait.address;
-  const username = useUsername(author);
 
   return (
     <Card className="p-4 xs:p-6 rounded-none shadow-none w-fit h-fit flex-shrink-0">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
-        <div className="flex flex-col  items-start ">
-          <h4 className="font-bold text-2xl">{trait.name}</h4>
-          <small className="text-default-300 text-tiny uppercase font-bold">
-            {formatTraitType(trait.type)}
+        <div className="flex flex-col items-start ">
+          <h1 className="font-Inter text-secondary font-bold text-2xl">
+            {name}
+          </h1>
+          <small className="text-default-300 text-tiny xs:text-medium uppercase font-bold tracking-wider">
+            {formatTraitType(type)}
           </small>
         </div>
 
         <TraitIcon
           onMouseEnter={() => setSeeThrough(true)}
           onMouseLeave={() => setSeeThrough(false)}
-          type={trait.type}
-          className="w-[32px] text-default-300 absolute right-6 hover:text-default-200"
+          type={type}
+          className="w-[24px] xs:w-[32px] text-default-300 hover:text-default-200"
         />
       </CardHeader>
       <CardBody className="overflow-visible items-center p-0 w-fit">
-        <div className="relative w-[256px] h-[256px] xs:w-[320px] xs:h-[320px] bg-checkerboard">
-          <img
-            alt="Trait preview"
-            className="absolute w-full h-full"
-            src={trait.trait}
-            style={{ imageRendering: "pixelated" }}
-          />
-          <img
-            alt="Trait preview"
-            className={`absolute w-full h-full ${
-              seeThrough ? "opacity-0" : ""
-            }`}
-            src={trait.nft}
-            style={{ imageRendering: "pixelated" }}
-          />
+        <div className="grid  w-[256px]  h-[256px] xs:w-[320px] xs:h-[320px] bg-checkerboard">
+          <div className="flex row-start-1 row-end-1 col-start-1 col-end-1 pixelated">
+            {image}
+          </div>
+          <div
+            className="flex row-start-1 row-end-1 col-start-1 col-end-1 pixelated"
+            style={{ opacity: seeThrough ? 0 : undefined }}
+          >
+            {previewImage}
+          </div>
         </div>
       </CardBody>
-      <CardFooter className="p-0 pt-1  flex items-end justify-between  rounded-none">
-        <div className="flex flex-col gap-2">
-          <p className="text-sm  text-default-300">
-            {formatDistanceToNow(trait.creationDate, { addSuffix: true })} by
-          </p>
-          <Link
-            href={`/profile/${author}`}
-            as={NextLink}
-            color="foreground"
-            className="text-sm text-default-500"
-          >
-            <UserBadge address={author} />
-          </Link>
-        </div>
-        <LikeWidget
-          liked={trait.liked}
-          likesCount={trait.likesCount}
-          traitId={trait.id}
-        />
-      </CardFooter>
+      {footer && (
+        <CardFooter className="p-0 pt-1 flex items-end justify-between rounded-none">
+          {footer}
+        </CardFooter>
+      )}
     </Card>
   );
 };

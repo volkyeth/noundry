@@ -1,36 +1,33 @@
 import { useSize } from "@/hooks/useSize";
 import { VirtualItem, useVirtualizer } from "@tanstack/react-virtual";
-import {
-  HtmlHTMLAttributes,
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
-} from "react";
+import { FC, HtmlHTMLAttributes, ReactNode, useEffect, useRef } from "react";
 
-export interface VirtualizedGalleryProps<ItemType>
+export interface VirtualizedGalleryProps
   extends Omit<HtmlHTMLAttributes<HTMLDivElement>, "children"> {
   itemSize: number;
   itemCount?: number;
   scrollContainerPadding: number;
-  title?: string;
+  header?: ReactNode;
+  footer?: ReactNode;
   children: (virtualItem: VirtualItem) => ReactNode;
 }
 
-export const VirtualizedGallery = <ItemType,>({
+export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
   itemSize,
   itemCount = 2_520, //magic number splits evenly on rows of up to 10 miniatures so there's no gaps in the bottom
   scrollContainerPadding,
-  title,
+  header,
+  footer,
   children,
   ...props
-}: VirtualizedGalleryProps<ItemType>): ReactElement => {
+}) => {
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { width } = useSize(mainContainerRef);
-  const lanes = width
-    ? Math.floor((width - 2 * scrollContainerPadding) / itemSize)
-    : 5;
+  const lanes = Math.min(
+    width ? Math.floor((width - 2 * scrollContainerPadding) / itemSize) : 5,
+    itemCount
+  );
 
   const { getVirtualItems, getTotalSize, measure } = useVirtualizer({
     getScrollElement: () => scrollContainerRef.current,
@@ -46,15 +43,11 @@ export const VirtualizedGallery = <ItemType,>({
 
   return (
     <div {...props} ref={mainContainerRef}>
-      <div className="bg-content1 flex flex-col w-fit py-5 px-2 mx-auto h-full">
-        {title && (
-          <h2 className="py-3 text-xl font-bold text-gray-500 text-center">
-            {title}
-          </h2>
-        )}
+      <div className="bg-content1 flex flex-col w-fit py-5 px-4 mx-auto h-full">
+        {header}
         <div
           ref={scrollContainerRef}
-          className={"overflow-auto w-fit m-2 bg-gray-50 "}
+          className={"overflow-auto w-fit  bg-gray-50 "}
           style={{
             padding: `${scrollContainerPadding}px`,
           }}
@@ -85,6 +78,7 @@ export const VirtualizedGallery = <ItemType,>({
             })}
           </div>
         </div>
+        {footer}
       </div>
     </div>
   );

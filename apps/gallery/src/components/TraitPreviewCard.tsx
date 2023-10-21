@@ -32,9 +32,9 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
         <div className="flex flex-col items-start ">
           {trait ? (
             <Link color="foreground" as={NextLink} href={`/trait/${trait.id}`}>
-              <h4 className="font-bold pt-1 text-off-dark text-[16px]/4">
+              <p className="font-bold pt-1 text-secondary text-[16px]/4">
                 {trait.name}
-              </h4>
+              </p>
             </Link>
           ) : (
             <div className="h-[20px] flex items-end mb-[2px]">
@@ -42,7 +42,7 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
             </div>
           )}
           {trait ? (
-            <small className="text-off-dark uppercase opacity-30 text-tiny font-semibold">
+            <small className="text-secondary uppercase opacity-30 text-tiny font-bold tracking-wide">
               {formatTraitType(trait.type)}
             </small>
           ) : (
@@ -55,7 +55,7 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
             onMouseEnter={() => setSeeThrough(true)}
             onMouseLeave={() => setSeeThrough(false)}
             type={trait.type}
-            className="w-[20px] text-off-dark opacity-30  pt-1 absolute right-4 hover:opacity-10 "
+            className="w-[16px] text-off-dark opacity-30  pt-1  hover:opacity-10 "
           />
         ) : (
           <Skeleton className="w-[20px] h-[20px] mt-1" />
@@ -67,22 +67,20 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
           as={NextLink}
           href={trait ? `/trait/${trait.id}` : ""}
         >
-          <div className="w-[192px] h-[192px] bg-default-200" />
+          <div className="w-[192px] h-[192px] bg-checkerboard" />
           {trait && (
             <img
               alt="Trait preview"
-              className="absolute w-[192px] h-[192px]"
+              className="absolute w-[192px] h-[192px] pixelated"
               src={trait.trait}
-              style={{ imageRendering: "pixelated" }}
             />
           )}
           <img
             alt="Trait preview"
-            className={`absolute w-[192px] h-[192px] ${
+            className={`absolute w-[192px] h-[192px] pixelated ${
               seeThrough ? "opacity-0" : ""
-            }`}
+            } bg-default-200`}
             src={trait?.nft || loadingNoun.src}
-            style={{ imageRendering: "pixelated" }}
           />
         </Link>
       </CardBody>

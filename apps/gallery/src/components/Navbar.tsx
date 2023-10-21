@@ -16,9 +16,9 @@ import { IoCloseSharp } from "react-icons/io5";
 
 import { TfiMenu } from "react-icons/tfi";
 import { useAccount } from "wagmi";
-import { ConnectButton } from "../ConnectButton";
-import Dynamic from "../Dynamic";
-import { MiniConnectButton } from "../MiniConnectButton";
+import { ConnectButton } from "./ConnectButton";
+import Dynamic from "./Dynamic";
+import { MiniConnectButton } from "./MiniConnectButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,14 +36,14 @@ const Navbar = () => {
       isBlurred={false}
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="py-2"
+      className="md:py-2"
       maxWidth="full"
     >
       <div className="container flex items-center mx-auto">
         <NavbarContent>
           <NavbarBrand className="gap-2" as={NextLink} href={"/"}>
             <LogoImage className="h-10 w-10 md:h-16 md:w-16" />
-            <p className="text-xs md:text-medium   font-Pix">
+            <p className="text-xs md:text-medium uppercase font-Inter font-bold tracking-widest">
               Noundry
               <br />
               Gallery
@@ -54,6 +54,9 @@ const Navbar = () => {
         <NavbarContent className="hidden sm:flex gap-6" justify="center">
           <NavbarLink href={"/"}>Traits</NavbarLink>
           <NavbarLink href={"/artists"}>Artists</NavbarLink>
+          <NavbarLink href={"/submit"} className="hidden xl:flex">
+            Submit Trait
+          </NavbarLink>
           <NavbarLink href={"/guidelines"} className="hidden xl:flex">
             Guidelines
           </NavbarLink>
@@ -93,6 +96,7 @@ const Navbar = () => {
             <NavbarItem className="mb-6 self-center md:hidden">
               <ConnectButton />
             </NavbarItem>
+            <NavbarLink href={"/submit"}>Submit Trait</NavbarLink>
             {address && (
               <NavbarLink href={`/profile/${address}`} className="lg:hidden">
                 Profile

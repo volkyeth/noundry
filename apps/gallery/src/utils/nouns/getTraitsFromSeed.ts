@@ -1,5 +1,10 @@
-import { NounSeed, NounTraits } from "@/types/noun";
-import { EncodedTrait, HexColor, OnchainArtwork } from "noggles";
+import {
+  EncodedTrait,
+  HexColor,
+  NounSeed,
+  NounTraits,
+  OnchainArtwork,
+} from "noggles";
 
 export const getTraitsFromSeed = (
   seed: NounSeed,

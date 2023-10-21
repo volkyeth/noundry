@@ -1,9 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "../public/fonts.css";
+
+@font-face {
+  font-family: "Pix";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
 
 @layer base {
+  * {
+    @apply font-Inter;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-Lora my-4;
+  }
+
+  h1 {
+    @apply text-2xl font-semibold text-default-500  md:text-4xl;
+    @apply mb-8;
+  }
+
+  h2 {
+    @apply text-xl font-semibold text-default-400 md:text-2xl;
+  }
+
   body {
     overflow-x: hidden;
     @apply bg-light;
@@ -14,37 +40,24 @@
   #__next {
     min-height: 100dvh;
   }
+
+  canvas {
+    @apply pixelated;
+  }
 }
 
 @layer utilities {
   .bg-checkerboard {
-    background-size: 6.25% 6.25%; /* 100% / 32 pixels */
+    background-size: 3.125% 3.125%; /* 100% / 32 pixels */
     background-image: repeating-conic-gradient(
-      var(--lt-color-gray-400) 0% 25%,
-      var(--lt-color-gray-200) 0% 50%
+      var(--lt-color-gray-300) 0% 25%,
+      var(--lt-color-gray-100) 0% 50%
     );
   }
-}
 
-canvas {
-  image-rendering: pixelated;
-}
-
-.form-group input:checked + label:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 2px;
-  left: 5px;
-  width: 8px;
-  height: 15px;
-  border: solid #478558;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
-}
-
-*::-webkit-scrollbar {
-  display: none;
+  .pixelated {
+    image-rendering: pixelated;
+  }
 }
 
 /* Palette */

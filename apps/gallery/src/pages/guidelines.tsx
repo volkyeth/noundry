@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import React from "react";
 import ColorGrid from "../components/ColorGrid/ColorGrid";
 
 const GuideLines = () => {
@@ -250,11 +249,9 @@ const GuideLines = () => {
       <div className="container w-full max-w-4xl mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
         <div className="flex w-full justify-between items-center"></div>
         <div className="flex flex-col gap-4 text-lg my-5">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <div className="list-disc flex flex-col gap-2 pl-8">
-              <h1 className="font-Pix text-2xl dmd:text-xl mt-6">
-                Nounish Composition
-              </h1>
+              <h1>Nounish Composition</h1>
 
               <li className=" my-1">
                 Nouns are typically depicted 'head-on' or with a slight rotation
@@ -339,7 +336,7 @@ const GuideLines = () => {
                 </ul>
               </div>
 
-              <h1 className="font-Pix text-2xl dmd:text-xl my-4">Tools</h1>
+              <h1>Tools</h1>
               <a href="https://studio.noundry.wtf/" target="_blank">
                 <Image
                   className="px-12 py-6"
@@ -373,25 +370,21 @@ const GuideLines = () => {
 
           <div className="flex flex-col gap-4 my-3">
             <div className="list-disc flex flex-col gap-2 pl-8">
-              <h1 className="font-Pix text-2xl dmd:text-xl my-4">Social</h1>
-              <h1 className="font-Pix text-2xl dmd:text-xl my-3">
-                <a
-                  href="https://discord.com/channels/849745721544146955/931247256470953994/931248704512458823"
-                  target="_blank"
-                  className=" underline hover:text-primary font-Pix text-sm"
-                >
-                  Original Nouns Discord
-                </a>
-              </h1>
-              <h1 className="font-Pix text-2xl dmd:text-xl my-3">
-                <a
-                  href="https://discord.com/channels/1113645847872278603/1113646233614037022/1113914207776280636"
-                  target="_blank"
-                  className=" underline hover:text-primary font-Pix text-sm"
-                >
-                  Nouniversary Discord
-                </a>
-              </h1>
+              <h1>Social</h1>
+              <a
+                href="https://discord.com/channels/849745721544146955/931247256470953994/931248704512458823"
+                target="_blank"
+                className=" underline hover:text-primary  text-md"
+              >
+                Original Nouns Discord
+              </a>
+              <a
+                href="https://discord.com/channels/1113645847872278603/1113646233614037022/1113914207776280636"
+                target="_blank"
+                className=" underline hover:text-primary text-lg"
+              >
+                Nouniversary Discord
+              </a>
             </div>
           </div>
         </div>

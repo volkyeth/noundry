@@ -49,7 +49,11 @@ export const useNounState = create<NounState>()((set, get) => {
     loadSeed: async (seed: NounSeed) => {
       const state = get();
 
-      await Promise.all(Object.entries(seed).map(([part, partSeed]) => state[part as NounPartType].loadPart(partSeed)));
+      await Promise.all(
+        Object.entries(seed).map(([part, partSeed]) =>
+          state[part as NounPartType].loadPart(partSeed)
+        )
+      );
     },
     randomize: () => {
       const state = get();
@@ -87,7 +91,10 @@ export const drawNounCanvas = (state: NounState) => {
   }
 };
 
-export const drawNoun = (parts: NounPartMapping<HTMLCanvasElement>, targetCanvas: HTMLCanvasElement) => {
+export const drawNoun = (
+  parts: NounPartMapping<HTMLCanvasElement>,
+  targetCanvas: HTMLCanvasElement
+) => {
   clearCanvas(targetCanvas);
   for (const part of nounParts) {
     drawCanvas(parts[part], targetCanvas);
