@@ -157,9 +157,8 @@ const Submit = () => {
   return (
     <Dynamic>
       <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
-        <h1>Submit{formatTraitType(traitType)}</h1>
-        <p>This is where you can submit your trait as a candidate proposal to NounsDAO.
-         Make sure your trait is conform to the guidelines</p>
+        {/*<h1>Submit {formatTraitType(traitType)}</h1>*/}
+
         {traitType === null && (
           <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
             {[...IMAGE_TRAIT_TYPES].map((traitType) => (
@@ -265,13 +264,13 @@ const Submit = () => {
                       fullWidth={false}
                       classNames={{
                         input:
-                          "font-bold text-xl xs:text-2xl text-secondary placeholder:text-gray-200 placeholder:border-1 underline-offset-1  underline decoration-default-200",
+                          "font-bold text-xl xs:text-2xl text-secondary placeholder:text-gray-200 placeholder:border-1  decoration-default-200",
                         inputWrapper:
                           "!p-0 min-h-0 h-6 xs:h-7 w-52 xs:w-[252px] !border-none shadow-none after:hidden",
                       }}
                       isRequired
                       disableAnimation
-                      variant="underlined"
+                      
                       placeholder="Name goes here"
                     />
                   }

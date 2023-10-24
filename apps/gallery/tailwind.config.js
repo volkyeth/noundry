@@ -21,7 +21,7 @@ module.exports = {
         cool: "#d5d7e1",
         warm: "#e1d7d5",
         primary: "#FF2165",
-        secondary: "#54494B",
+        secondary: "#1f1d29",
         black: "#27282D",
         white: "#ECEDEE",
         light: "#F5F5F5",

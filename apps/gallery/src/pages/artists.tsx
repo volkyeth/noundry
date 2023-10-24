@@ -31,7 +31,7 @@ const ArtistsPage: NextPage<{ artistsStats: UserStats[] }> = ({
 
   return (
     <div className="container mx-auto py-10 flex flex-col items-center  gap-6  lg:px-10 md:px-5 sm:px-6  px-6">
-      <h1>Artists</h1>
+      {/*<h1>Artists</h1>*/}
       <div className="grid w-fit grid-cols-[1fr_max-content] xs:grid-cols-[repeat(4,max-content)] mt-10 gap-x-6 gap-y-2 text-default">
         {artistsStats?.map((artist) => (
           <>

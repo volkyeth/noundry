@@ -51,7 +51,7 @@ const TraitPage: NextPage<{
 
   return (
     <div className="container mx-auto py-4 lg:p-10">
-      <div className="flex flex-col items-center lg:items-start justify-center  lg:flex-row gap-10 lg:gap-16">
+      <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
         <TraitCard
           name={trait.name}
           type={trait.type}
@@ -59,8 +59,8 @@ const TraitPage: NextPage<{
           previewImage={<img alt="Trait preview" src={trait.nft} />}
           footer={
             <>
-              <div className="flex flex-col gap-2">
-                <p className="text-sm  text-default-300">
+              <div className="flex flex-col gap-2 text-medium">
+                <p className="text-sm  text-default-500">
                   {formatDistanceToNow(trait.creationDate, { addSuffix: true })}{" "}
                   by
                 </p>

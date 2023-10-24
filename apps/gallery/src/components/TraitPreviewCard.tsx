@@ -55,7 +55,7 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
             onMouseEnter={() => setSeeThrough(true)}
             onMouseLeave={() => setSeeThrough(false)}
             type={trait.type}
-            className="w-[16px] text-off-dark opacity-30  pt-1  hover:opacity-10 "
+            className="w-[16px] text-dark opacity-50  pt-1  hover:opacity-20 "
           />
         ) : (
           <Skeleton className="w-[20px] h-[20px] mt-1" />

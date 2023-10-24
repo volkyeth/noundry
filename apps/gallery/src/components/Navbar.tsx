@@ -10,9 +10,10 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import LogoImage from "public/EraserLogo.svg";
+import LogoImage from "public/FrameLogo.svg";
 import { FC, useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { UserAvatar } from "./UserAvatar";
 
 import { TfiMenu } from "react-icons/tfi";
 import { useAccount } from "wagmi";
@@ -61,14 +62,15 @@ const Navbar = () => {
           <NavbarLink href={"/about"} className="hidden xl:flex">
             About
           </NavbarLink>
-          <NavbarLink href={"/submit"} className="hidden xl:flex">
-            Submit Trait
-          </NavbarLink>
+
         </NavbarContent>
         <NavbarContent justify="end">
+        <NavbarLink href={"/submit"} className="hidden xl:flex font-bold border-2 !text-[#fff] border-black p-2 bg-primary">
+            Submit Trait
+        </NavbarLink>
           {address && (
-            <NavbarLink href={`/profile/${address}`} className="hidden lg:flex">
-              Profile
+            <NavbarLink href={`/profile/${address}`} className="hidden lg:flex ">
+              <UserAvatar address={address} />
             </NavbarLink>
           )}
           <NavbarItem className="hidden md:flex border-2">
@@ -97,7 +99,7 @@ const Navbar = () => {
             <NavbarItem className="mb-6 self-center md:hidden">
               <ConnectButton />
             </NavbarItem>
-            <NavbarLink href={"/submit"}>Submit Trait</NavbarLink>
+            <NavbarLink  href={"/submit"}>Submit Trait</NavbarLink>
             {address && (
               <NavbarLink href={`/profile/${address}`} className="lg:hidden">
                 Profile
@@ -113,11 +115,11 @@ const Navbar = () => {
             <NavbarLink href={"/about"}>About</NavbarLink>
 
             <div className="mt-20">
-              <p className="font-normal text-sm text-black dark:text-white ">
+              <p className="font-normal text-sm text-black">
                 Check out
               </p>
               <a href="https://studio.noundry.wtf/" target="_blank">
-                <p className="font-Pix text-black dark:text-white py-1 hover:!text-primary text-xs">
+                <p className="font-Pix text-black py-1 hover:!text-primary text-xs">
                   Noundry Studio
                 </p>
               </a>
@@ -147,7 +149,7 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
           color="foreground"
           as={NextLink}
           style={{ color: isActive ? "black" : undefined }}
-          className="uppercase  hover:text-primary"
+          className="uppercase "
           href={href}
           aria-current={isActive ? "page" : undefined}
         >
