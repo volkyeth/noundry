@@ -18,12 +18,11 @@
   h4,
   h5,
   h6 {
-    @apply font-Inter my-4;
+    @apply font-Inter;
   }
 
   h1 {
     @apply text-2xl font-semibold text-default-500  md:text-4xl;
-    @apply mb-8;
   }
 
   h2 {
@@ -101,5 +100,3 @@
   flex-direction: column;
   align-items: center;
 }
-
-

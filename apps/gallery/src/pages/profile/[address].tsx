@@ -26,8 +26,6 @@ const Profile: NextPage<{ userInfo: UserInfo }> = ({ userInfo }) => {
     query: { address },
   } = useRouter();
 
-  console.log(userInfo);
-
   return (
     <>
       <div className="container flex flex-col px-8 self-center my-12 mx-auto gap-16">

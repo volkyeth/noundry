@@ -3,7 +3,10 @@ import { Trait } from "@/types/trait";
 import { database } from "@/utils/database/db";
 import { ObjectId } from "mongodb";
 
-export const getTrait = async (id: string, requester?: `0x${string}`) => {
+export const getTrait = async (
+  id: string,
+  { requester }: { requester?: `0x${string}` }
+) => {
   const cursor = database.collection<TraitSchema>("nfts").aggregate(
     [
       {

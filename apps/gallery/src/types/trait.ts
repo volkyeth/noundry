@@ -1,11 +1,12 @@
 import { TraitCategory } from "noggles";
+import { PngDataUri } from "./image";
 
 export interface Trait {
   id: string;
-  nft: string;
+  nft: PngDataUri;
   name: string;
   type: TraitCategory;
-  trait: string;
+  trait: PngDataUri;
   address: `0x${string}`;
   background: string;
   body: string;

@@ -1,3 +1,5 @@
+"use client";
+
 import { formatTraitType } from "@/utils/traits/format";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 

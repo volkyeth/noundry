@@ -4,5 +4,5 @@ import { getTrait } from "./getTrait";
 
 export async function GET(req: NextRequest, { params: { id } }) {
   const session = await Session.fromRequest(req);
-  return NextResponse.json(await getTrait(id, session.address));
+  return NextResponse.json(await getTrait(id, { requester: session.address }));
 }
