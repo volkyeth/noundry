@@ -34,8 +34,8 @@ export const ConnectButton = () => {
         onClick={openProfile}
       >
         <Dynamic>
-          <div className="flex flex-row gap-8 p-[2px] pr-2 items-center m-2 ">
-           {/* <UserAvatar address={address} />*/}
+          <div className="flex flex-row gap-6 p-[2px] pr-6 items-center  ">
+            <UserAvatar address={address} />
             <p className="">{userInfo.userName}</p>
           </div>
         </Dynamic>
