@@ -252,6 +252,7 @@ const Submit = () => {
                 <TraitCard
                   name={
                     <Input
+                      variant="underlined"
                       autoFocus
                       value={traitName}
                       onChange={(e) =>
@@ -264,13 +265,12 @@ const Submit = () => {
                       fullWidth={false}
                       classNames={{
                         input:
-                          "font-bold text-xl xs:text-2xl text-secondary placeholder:text-gray-200 placeholder:border-1  decoration-default-200",
+                          "font-bold text-xl xs:text-2xl text-secondary placeholder:text-gray-200 placeholder:border-1 underline  decoration-default-200",
                         inputWrapper:
                           "!p-0 min-h-0 h-6 xs:h-7 w-52 xs:w-[252px] !border-none shadow-none after:hidden",
                       }}
                       isRequired
                       disableAnimation
-                      
                       placeholder="Name goes here"
                     />
                   }
@@ -330,7 +330,7 @@ const Submit = () => {
                     size="lg"
                     disableRipple
                     color="primary"
-                    className="text-[#fff]  font-bold flex-grow lg:w-48"
+                    className="text-[#fff]  font-bold flex-grow w-full"
                     onClick={() => submit()}
                     isLoading={isSubmitting}
                     isDisabled={traitName === ""}

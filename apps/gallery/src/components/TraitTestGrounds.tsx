@@ -1,4 +1,5 @@
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
+import { PngDataUri } from "@/types/image";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { EncodedTrait, HexColor, NounSeed, TraitType } from "noggles";
@@ -11,7 +12,7 @@ import { VirtualizedGallery } from "./VirtualizedGallery";
 export interface TraitTestingGroundsProps
   extends HtmlHTMLAttributes<HTMLDivElement> {
   traitType: TraitType;
-  trait: EncodedTrait | ImageBitmap | HexColor;
+  trait: EncodedTrait | ImageBitmap | HexColor | PngDataUri;
   onNounClick?: (seed: NounSeed) => void;
   header?: ReactNode;
   footer?: ReactNode;

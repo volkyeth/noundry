@@ -25,7 +25,9 @@ export const getServerSideProps: GetServerSideProps<{
   }
   const session = await Session.fromCookies(cookies);
 
-  const trait = (await getTrait(params.id as string, session.address)) as Trait;
+  const trait = (await getTrait(params.id as string, {
+    requester: session.address,
+  })) as Trait;
 
   return {
     props: { trait, requesterAddress: session.address ?? null },
@@ -84,7 +86,7 @@ const TraitPage: NextPage<{
 
         <TraitTestingGrounds
           traitType={traitType(trait)}
-          trait={trait.trait as `0x${string}`}
+          trait={trait.trait}
           className=" h-[85vh] w-full lg:max-w-xl "
         />
       </div>
