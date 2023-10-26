@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ConnectKitProvider, SIWEProvider, getDefaultConfig } from "connectkit";
 import { AppProps } from "next/app";
+import Head from "next/head";
 import { WagmiConfig, createConfig, mainnet } from "wagmi";
 import Navbar from "../components/Navbar";
 import "../globals.css";
@@ -33,6 +34,10 @@ export default function App({ Component, pageProps }: AppProps) {
             options={{ enforceSupportedChains: false }}
           >
             <NextUIProvider className="flex flex-col min-h-screen">
+              <Head>
+                <meta property="og:title" content="Noundry Gallery" />
+                <meta property="og:site_name" content="Noundry Gallery" />
+              </Head>
               <Navbar />
               <div className="flex-grow overflow-scroll">
                 <Component {...pageProps} />

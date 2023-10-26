@@ -46,6 +46,7 @@ const TraitPage: NextPage<{
   author: UserInfo;
   requesterAddress: `0x${string}` | null;
 }> = ({ trait: initialTrait, author, requesterAddress }) => {
+  console.log({ author });
   const { data: siweCredentials } = useSIWE();
   const address = (siweCredentials as SIWESession)?.address ?? requesterAddress;
   const { data: trait } = useQuery({
@@ -79,6 +80,7 @@ const TraitPage: NextPage<{
             author.userName
           }`}
         />
+        <meta property="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={`/api/trait/${trait.id}/og`} />
       </Head>
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">

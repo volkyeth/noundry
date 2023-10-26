@@ -40,7 +40,7 @@ export const getUserInfo = async (
     : undefined;
 
   const userName =
-    dbUser?.userName?.toLowerCase() ?? ensName ?? shortAddress(address);
+    dbUser?.userName?.toLowerCase() || ensName || shortAddress(address);
   const profilePic = dbUser?.profilePic ?? ensAvatar ?? "public/dummyImg.png";
 
   return { ...dbUser, userName, profilePic };

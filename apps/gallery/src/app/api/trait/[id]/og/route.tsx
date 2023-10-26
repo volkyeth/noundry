@@ -39,7 +39,7 @@ export async function GET(req: Request, { params: { id } }) {
         <div tw="flex flex-col flex-grow justify-between pr-20 pt-32  items-start h-full ">
           <div tw="flex flex-col text-4xl leading-8">
             <h1 tw="m-0 font-semibold">Let there be</h1>
-            <h1 tw="m-0 font-semibold">Noggles.</h1>
+            <h1 tw="m-0 font-semibold">Nouns.</h1>
           </div>
           <svg height={72} viewBox="0 0 700 180">
             <path fill="#fff" d="M10 10h200v160H10z" />
