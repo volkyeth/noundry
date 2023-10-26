@@ -62,7 +62,6 @@ const TraitPage: NextPage<{
   return (
     <div className="container mx-auto py-4 lg:p-10">
       <Head>
-        <title>{`${trait.name} ${formatTraitType(trait.type)}`}</title>
         <meta
           name="description"
           content={`${trait.name} ${formatTraitType(trait.type)}\nCreated by: ${
@@ -71,16 +70,11 @@ const TraitPage: NextPage<{
           key="desc"
         />
         <meta
-          property="og:title"
-          content={`${trait.name} ${formatTraitType(trait.type)}`}
-        />
-        <meta
           property="og:description"
           content={`${trait.name} ${formatTraitType(trait.type)}\nCreated by: ${
             author.userName
           }`}
         />
-        <meta property="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={`/api/trait/${trait.id}/og`} />
       </Head>
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">

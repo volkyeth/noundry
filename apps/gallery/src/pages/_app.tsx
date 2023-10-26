@@ -35,8 +35,11 @@ export default function App({ Component, pageProps }: AppProps) {
           >
             <NextUIProvider className="flex flex-col min-h-screen">
               <Head>
+                <title>Noundry Gallery</title>
                 <meta property="og:title" content="Noundry Gallery" />
                 <meta property="og:site_name" content="Noundry Gallery" />
+                <meta name="theme-color" content="#FF2165" />
+                <meta property="twitter:card" content="summary_large_image" />
               </Head>
               <Navbar />
               <div className="flex-grow overflow-scroll">
