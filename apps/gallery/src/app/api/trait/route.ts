@@ -1,5 +1,6 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { addTraitQuerySchema } from "@/schemas/addTraitQuery";
+import { PngDataUri } from "@/types/image";
 import { database } from "@/utils/database/db";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { traitCategory } from "@/utils/traits/categories";
@@ -25,10 +26,10 @@ export async function POST(req: Request) {
 
   await database.collection<TraitSchema>("nfts").insertOne({
     _id: id,
-    nft: previewImage,
+    nft: previewImage as PngDataUri,
     name: name,
     type: traitCategory(traitType as TraitType),
-    trait: traitImage,
+    trait: traitImage as PngDataUri,
     address: session.address as `0x${string}`,
     likedBy: [],
     creationDate: Date.now(),

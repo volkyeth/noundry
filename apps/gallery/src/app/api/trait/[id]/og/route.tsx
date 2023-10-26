@@ -35,7 +35,7 @@ export async function GET(req: Request, { params: { id } }) {
 
   return new ImageResponse(
     (
-      <div tw="flex flex-row w-full p-16 pr-32 gap-10 h-full items-center justify-between bg-[#f5f5f5]">
+      <div tw="flex flex-row w-full p-16 pr-32 h-full items-center justify-between bg-[#f5f5f5]">
         <div tw="flex flex-col flex-grow justify-between pr-20 pt-32  items-start h-full ">
           <div tw="flex flex-col text-4xl leading-8">
             <h1 tw="m-0 font-semibold">Let there be</h1>
