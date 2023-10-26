@@ -43,11 +43,11 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
 
   return (
     <div {...props} ref={mainContainerRef}>
-      <div className="bg-content1 flex flex-col w-fit py-5 px-4 mx-auto h-full">
+      <div className="bg-content1 flex flex-col w-fit py-5 px-4 mx-auto h-full shadow-md">
         {header}
         <div
           ref={scrollContainerRef}
-          className={"overflow-auto w-fit  bg-gray-50 "}
+          className={"overflow-auto w-fit  bg-gray-100 shadow-inset"}
           style={{
             padding: `${scrollContainerPadding}px`,
           }}

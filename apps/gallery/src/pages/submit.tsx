@@ -163,7 +163,7 @@ const Submit = () => {
           <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
             {[...IMAGE_TRAIT_TYPES].map((traitType) => (
               <button
-                className="w-full flex flex-col bg-content1 items-center justify-between p-4 hover:text-primary"
+                className="w-full flex flex-col bg-content1 items-center justify-between p-4 hover:text-primary shadow-sm xs:shadow-md"
                 onClick={() => setTraitType(traitType)}
               >
                 <TraitIcon
@@ -194,7 +194,7 @@ const Submit = () => {
               </Button>
               <div
                 {...getRootProps()}
-                className="bg-content1 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center"
+                className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
               >
                 <input {...getInputProps()} />
                 <p className="text-center ">
@@ -206,7 +206,7 @@ const Submit = () => {
                 </p>
                 <canvas
                   ref={setTraitCanvas}
-                  className="w-[128px] h-[128px] bg-checkerboard border-1  box-content"
+                  className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
                   style={{ display: !traitFile ? "none" : undefined }}
                   width={32}
                   height={32}

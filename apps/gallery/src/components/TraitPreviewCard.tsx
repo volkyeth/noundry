@@ -27,7 +27,7 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
   const username = useUsername(trait?.address);
 
   return (
-    <Card className="p-4 py-2 rounded-none shadow-none light">
+    <Card className="p-4 py-2 rounded-none light shadow-sm">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
           {trait ? (

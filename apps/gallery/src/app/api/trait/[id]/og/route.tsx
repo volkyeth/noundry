@@ -69,7 +69,10 @@ export async function GET(req: Request, { params: { id } }) {
             </g>
           </svg>
         </div>
-        <div tw="px-6 py-8 flex flex-col bg-white">
+        <div
+          tw="px-6 py-8 flex flex-col bg-white"
+          style={{ boxShadow: "0 4px #e5e7eb" }}
+        >
           <div tw="flex">
             <div tw="flex flex-col justify-between">
               <h1 tw="text-10 m-0">{trait.name}</h1>

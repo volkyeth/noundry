@@ -25,7 +25,7 @@ export const TraitCard: FC<TraitCardProps> = ({
   const [seeThrough, setSeeThrough] = useState(false);
 
   return (
-    <Card className="p-4 xs:p-6 rounded-none shadow-none w-fit h-fit flex-shrink-0">
+    <Card className="p-4 xs:p-6 rounded-none w-fit h-fit flex-shrink-0 shadow-md">
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
           <h1 className="font-Inter text-secondary font-bold text-2xl">

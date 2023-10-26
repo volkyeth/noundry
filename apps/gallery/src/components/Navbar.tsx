@@ -37,7 +37,7 @@ const Navbar = () => {
       isBlurred={false}
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="md:py-2"
+      className="md:py-2 shadow-sm"
       maxWidth="full"
     >
       <div className="container flex items-center mx-auto">
@@ -76,8 +76,8 @@ const Navbar = () => {
             />
           </Dynamic>
         </NavbarContent>
-        <NavbarMenu className="bg-dark bg-opacity-20 p-0 items-end">
-          <ul className="flex flex-col gap-4 p-8 border-t-4   w-64 bg-content2">
+        <NavbarMenu className="bg-dark bg-opacity-40 p-0 items-end">
+          <ul className="flex flex-col gap-4 p-8 w-64 bg-content2">
             <NavbarItem className="mb-6 self-center md:hidden">
               <ConnectButton />
             </NavbarItem>

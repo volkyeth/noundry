@@ -111,7 +111,7 @@ const TraitPage: NextPage<{
         <TraitTestingGrounds
           traitType={traitType(trait)}
           trait={trait.trait}
-          className=" h-[85vh] w-full lg:max-w-xl "
+          className=" h-[85vh] w-full lg:max-w-xl"
         />
       </div>
     </div>

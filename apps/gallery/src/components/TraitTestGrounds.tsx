@@ -42,7 +42,11 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
     >
       {(virtualItem) => {
         if (!mainnetArtwork) {
-          return <img src={loadingNoun.src} className="bg-gray-200" />;
+          return (
+            <div style={{ padding: `${NOUN_PADDING}px` }}>
+              <img src={loadingNoun.src} className="bg-gray-200 shadow-sm" />
+            </div>
+          );
         }
         const seed = generateSeed(mainnetArtwork, salt + virtualItem.index);
         const traits = {
@@ -63,6 +67,7 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
                   }}
                 >
                   <Noun
+                    className="shadow-sm"
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                     onClick={
