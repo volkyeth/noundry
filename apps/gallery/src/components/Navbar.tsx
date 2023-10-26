@@ -43,12 +43,7 @@ const Navbar = () => {
       <div className="container flex items-center mx-auto">
         <NavbarContent>
           <NavbarBrand className="gap-2" as={NextLink} href={"/"}>
-            <LogoImage className="h-10 w-10 md:h-16 md:w-16" />
-            <p className="text-xs md:text-medium uppercase font-Inter font-bold tracking-widest">
-              Noundry
-              <br />
-              Gallery
-            </p>
+            <LogoImage className="h-[36px] md:h-[54px]" />
           </NavbarBrand>
         </NavbarContent>
 
