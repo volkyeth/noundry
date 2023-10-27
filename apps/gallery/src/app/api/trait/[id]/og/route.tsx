@@ -39,7 +39,7 @@ export async function GET(req: Request, { params: { id } }) {
         <div tw="flex flex-col flex-grow justify-between pr-20 pt-24  items-start h-full ">
           <div tw="flex flex-col text-4xl leading-8">
             <h1 tw="m-0 font-semibold">Let there be</h1>
-            <h1 tw="m-0 font-semibold">Nouns.</h1>
+            <h1 tw="m-0 font-semibold text-[#ff2165]">Nouns</h1>
           </div>
           <svg height={108} viewBox="0 0 700 180">
             <path fill="#fff" d="M10 10h200v160H10z" />
@@ -71,7 +71,7 @@ export async function GET(req: Request, { params: { id } }) {
         </div>
         <div
           tw="px-6 py-8 flex flex-col bg-white"
-          style={{ boxShadow: "0 4px #e5e7eb" }}
+          style={{ boxShadow: "0 8px #e5e7eb" }}
         >
           <div tw="flex">
             <div tw="flex flex-col justify-between">
