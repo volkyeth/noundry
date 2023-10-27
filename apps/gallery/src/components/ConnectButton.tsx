@@ -27,10 +27,8 @@ export const ConnectButton = () => {
 
   return (
     <Dynamic>
-      <Button
-        radius="none"
-        className="h-fit p-0 w-fit bg-content1"
-        disableRipple
+      <button
+        className="h-fit p-0 w-fit bg-content1 border-0"
         onClick={openProfile}
       >
         <Dynamic>
@@ -39,7 +37,7 @@ export const ConnectButton = () => {
             <p className="">{userInfo.userName}</p>
           </div>
         </Dynamic>
-      </Button>
+      </button>
     </Dynamic>
   );
 };

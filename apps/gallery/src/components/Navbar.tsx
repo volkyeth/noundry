@@ -1,5 +1,4 @@
 import {
-  Button,
   Link,
   NavbarBrand,
   NavbarContent,
@@ -18,6 +17,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { TfiMenu } from "react-icons/tfi";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
+import Button from "./Button";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
 
@@ -160,15 +160,14 @@ const NavbarButton: FC<NavbarButtonProps> = ({
   return (
     <Dynamic>
       <NavbarItem isActive={isActive} {...props}>
-        <Button
-          as={NextLink}
-          color={isActive ? "secondary" : "primary"}
-          className={twMerge("uppercase font-bold tracking-wider", className)}
-          href={href}
-          aria-current={isActive ? "page" : undefined}
-        >
-          {children}
-        </Button>
+        <NextLink href={href}>
+          <Button
+            variant={isActive ? "secondary" : "primary"}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {children}
+          </Button>
+        </NextLink>
       </NavbarItem>
     </Dynamic>
   );

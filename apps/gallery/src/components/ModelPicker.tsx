@@ -1,8 +1,6 @@
 import NounIcon from "@/assets/traitIcons/nouns.svg";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import {
-  Button,
-  ButtonProps,
   Modal,
   ModalBody,
   ModalContent,
@@ -11,6 +9,7 @@ import {
 import { EncodedTrait, NounSeed, TraitType } from "noggles";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
+import Button, { ButtonProps } from "./Button";
 import Dynamic from "./Dynamic";
 import { TraitTestingGrounds } from "./TraitTestGrounds";
 
@@ -34,7 +33,6 @@ export const ModelPicker: FC<ModelPickerProps> = ({
   return (
     <Dynamic>
       <Button
-        isIconOnly
         {...props}
         className={classNames?.button}
         onClick={onOpen}

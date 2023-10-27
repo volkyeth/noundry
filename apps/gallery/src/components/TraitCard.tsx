@@ -1,7 +1,6 @@
 "use client";
 
 import { formatTraitType } from "@/utils/traits/format";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 
 import { TraitCategory, TraitType } from "noggles";
 import { FC, ReactNode, useState } from "react";
@@ -25,8 +24,8 @@ export const TraitCard: FC<TraitCardProps> = ({
   const [seeThrough, setSeeThrough] = useState(false);
 
   return (
-    <Card className="p-4 xs:p-6 rounded-none w-fit h-fit flex-shrink-0 shadow-md">
-      <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
+    <div className="p-4 xs:p-6 w-fit h-fit flex-shrink-0 shadow-md bg-content1">
+      <div className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
           <h1 className="font-Inter text-secondary font-bold text-2xl">
             {name}
@@ -42,8 +41,8 @@ export const TraitCard: FC<TraitCardProps> = ({
           type={type}
           className="w-[24px] xs:w-[32px] text-default-300 hover:text-default-200"
         />
-      </CardHeader>
-      <CardBody className="overflow-visible items-center p-0 w-fit">
+      </div>
+      <div className="overflow-visible items-center p-0 w-fit">
         <div className="grid  w-[256px]  h-[256px] xs:w-[320px] xs:h-[320px] bg-checkerboard">
           <div className="flex row-start-1 row-end-1 col-start-1 col-end-1 pixelated">
             {image}
@@ -55,12 +54,12 @@ export const TraitCard: FC<TraitCardProps> = ({
             {previewImage}
           </div>
         </div>
-      </CardBody>
+      </div>
       {footer && (
-        <CardFooter className="p-0 pt-1 flex items-end justify-between rounded-none">
+        <div className="p-0 pt-1 flex items-end justify-between rounded-none">
           {footer}
-        </CardFooter>
+        </div>
       )}
-    </Card>
+    </div>
   );
 };

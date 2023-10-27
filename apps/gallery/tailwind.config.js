@@ -1,5 +1,6 @@
 const { nextui } = require("@nextui-org/react");
 const containerQueries = require("@tailwindcss/container-queries");
+const colors = require("tailwindcss/colors");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -20,8 +21,30 @@ module.exports = {
       colors: {
         cool: "#d5d7e1",
         warm: "#e1d7d5",
-        primary: "#FF2165",
-        secondary: "#5D576B",
+        primary: {
+          DEFAULT: "#ff2165",
+          100: "#ffd3e0",
+          200: "#ffa6c1",
+          300: "#ff7aa3",
+          400: "#ff4d84",
+          500: "#ff2165",
+          600: "#cc1a51",
+          700: "#99143d",
+          800: "#660d28",
+          900: "#330714",
+        },
+        secondary: {
+          DEFAULT: "#5d576b",
+          100: "#dfdde1",
+          200: "#bebcc4",
+          300: "#9e9aa6",
+          400: "#7d7989",
+          500: "#5d576b",
+          600: "#4a4656",
+          700: "#383440",
+          800: "#25232b",
+          900: "#131115",
+        },
         black: "#27282D",
         white: "#ECEDEE",
         light: "#F5F5F5",

@@ -71,7 +71,7 @@ export async function GET(req: Request, { params: { id } }) {
         </div>
         <div
           tw="px-6 py-8 flex flex-col bg-white"
-          style={{ boxShadow: "0 8px #e5e7eb" }}
+          style={{ boxShadow: "-8px 8px #e5e7eb" }}
         >
           <div tw="flex">
             <div tw="flex flex-col justify-between">

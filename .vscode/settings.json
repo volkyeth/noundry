@@ -4,5 +4,13 @@
     "**/*.d.ts.map": true,
     "**/*.js.map": true,
     "packages/noggles/**/*.js": true
-  }
+  },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "classNames",
+    "tw",
+    "defaultClassName"
+  ]
 }

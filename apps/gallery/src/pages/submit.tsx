@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import Dynamic from "@/components/Dynamic";
 import { ModelPicker } from "@/components/ModelPicker";
 import { Noun } from "@/components/Noun";
@@ -13,7 +14,7 @@ import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { AddTraitQuery } from "@/schemas/addTraitQuery";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { formatTraitType } from "@/utils/traits/format";
-import { Button, Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
 import {
@@ -162,8 +163,10 @@ const Submit = () => {
         {traitType === null && (
           <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
             {[...IMAGE_TRAIT_TYPES].map((traitType) => (
-              <button
-                className="w-full flex flex-col bg-content1 items-center justify-between p-4 hover:text-primary shadow-sm xs:shadow-md"
+              <Button
+                key={`select-type-${traitType}`}
+                variant="secondary"
+                className="w-full flex flex-col items-center p-8"
                 onClick={() => setTraitType(traitType)}
               >
                 <TraitIcon
@@ -173,7 +176,7 @@ const Submit = () => {
                 <p className="uppercase mt-4 text-sm font-semibold ">
                   {formatTraitType(traitType)}
                 </p>
-              </button>
+              </Button>
             ))}
           </div>
         )}
@@ -182,9 +185,8 @@ const Submit = () => {
           <>
             <div className="w-full max-w-xl flex flex-col items-center justify-center gap-2 ">
               <Button
-                variant="light"
-                disableRipple
-                className="self-start font-bold  min-w-0 p-3 "
+                variant="ghost"
+                className="self-start px-2 py-1"
                 onClick={() => {
                   setTraitType(null);
                   setTraitFile(null);
@@ -213,11 +215,9 @@ const Submit = () => {
                 />
                 {traitFile && (
                   <Button
-                    size="lg"
-                    disableRipple
-                    color="primary"
-                    className="text-[#fff]  font-bold w-48"
-                    onClick={async () => {
+                    className="w-48"
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       const ctx = traitCanvas?.getContext("2d");
                       if (!ctx) return;
                       setTraitBitmap(
@@ -238,9 +238,8 @@ const Submit = () => {
             <div className="w-full flex flex-col gap-4 items-center justify-center ">
               <div className="flex flex-col gap-2">
                 <Button
-                  variant="light"
-                  disableRipple
-                  className="self-start font-bold  min-w-0 p-3 "
+                  variant="ghost"
+                  className="self-start px-2 py-1"
                   onClick={() => {
                     setTraitBitmap(null);
                     setTraitFile(null);
@@ -292,10 +291,9 @@ const Submit = () => {
                       </div>
                       <div className="w-full flex gap-2 justify-between">
                         <ModelPicker
-                          // variant="bordered"
-                          color="secondary"
+                          variant="secondary"
                           classNames={{
-                            button: "p-0 w-[40px] h-[40px] min-w-0",
+                            button: "px-2",
                             icon: "w-[24px] h-[24px] ",
                           }}
                           trait={traitBitmap}
@@ -306,9 +304,9 @@ const Submit = () => {
                           {TRAIT_TYPES.filter((type) => traitType !== type).map(
                             (type) => (
                               <TraitPicker
-                                color="secondary"
+                                variant="secondary"
                                 classNames={{
-                                  button: "p-0 w-[40px] h-[40px]  min-w-0",
+                                  button: "p-3",
                                   icon: "w-[16px] h-[16px] ",
                                 }}
                                 currentTraits={traits}
@@ -327,13 +325,9 @@ const Submit = () => {
                 />
                 {traitName !== "" && (
                   <Button
-                    size="lg"
-                    disableRipple
-                    color="primary"
-                    className="text-[#fff]  font-bold flex-grow w-full"
+                    className="flex-grow w-full"
                     onClick={() => submit()}
                     isLoading={isSubmitting}
-                    isDisabled={traitName === ""}
                   >
                     SUBMIT
                   </Button>

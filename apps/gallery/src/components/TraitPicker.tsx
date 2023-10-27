@@ -3,8 +3,6 @@ import { NounTraits } from "@/types/noun";
 import { traitCategory } from "@/utils/traits/categories";
 import { formatTraitType } from "@/utils/traits/format";
 import {
-  Button,
-  ButtonProps,
   Modal,
   ModalBody,
   ModalContent,
@@ -13,6 +11,7 @@ import {
 import { TraitType } from "noggles";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
+import Button, { ButtonProps } from "./Button";
 import Dynamic from "./Dynamic";
 import { Hoverable } from "./Hoverable";
 import { Noun } from "./Noun";
@@ -40,7 +39,6 @@ export const TraitPicker: FC<TraitPickerProps> = ({
   return (
     <Dynamic>
       <Button
-        isIconOnly
         {...props}
         className={classNames?.button}
         onClick={onOpen}
