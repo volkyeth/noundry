@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import LogoImage from "public/FrameLogo.svg";
+import LogoImage from "public/NoundryGalleryLogo.svg";
 import { FC, useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
