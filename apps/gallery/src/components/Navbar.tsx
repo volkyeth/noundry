@@ -37,7 +37,8 @@ const Navbar = () => {
       isBlurred={false}
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="md:py-2 shadow-sm"
+      className="shadow-sm md:py-2"
+      classNames={{ wrapper: "px-2 xs:px-4" }}
       maxWidth="full"
     >
       <div className="container flex items-center mx-auto">
