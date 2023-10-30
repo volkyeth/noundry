@@ -1,11 +1,14 @@
 import { useSize } from "@/hooks/useSize";
 import { VirtualItem, useVirtualizer } from "@tanstack/react-virtual";
 import { FC, HtmlHTMLAttributes, ReactNode, useEffect, useRef } from "react";
+import { Hoverable } from "./Hoverable";
 
 export interface VirtualizedGalleryProps
   extends Omit<HtmlHTMLAttributes<HTMLDivElement>, "children"> {
   itemSize: number;
   itemCount?: number;
+  itemPadding?: number;
+  hoverable?: boolean;
   scrollContainerPadding: number;
   header?: ReactNode;
   footer?: ReactNode;
@@ -15,6 +18,8 @@ export interface VirtualizedGalleryProps
 export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
   itemSize,
   itemCount = 2_520, //magic number splits evenly on rows of up to 10 miniatures so there's no gaps in the bottom
+  itemPadding = 4,
+  hoverable = false,
   scrollContainerPadding,
   header,
   footer,
@@ -24,8 +29,11 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { width } = useSize(mainContainerRef);
+  const paddedItemSize = itemSize + 2 * itemPadding;
   const lanes = Math.min(
-    width ? Math.floor((width - 2 * scrollContainerPadding) / itemSize) : 5,
+    width
+      ? Math.floor((width - 2 * scrollContainerPadding) / paddedItemSize)
+      : 5,
     itemCount
   );
 
@@ -61,19 +69,37 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
           >
             {getVirtualItems().map((virtualItem) => {
               return (
-                <div
-                  key={virtualItem.key}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    width: `${virtualItem.size}px`,
-                    left: `${virtualItem.lane * virtualItem.size}px`,
-                    height: `${virtualItem.size}px`,
-                    transform: `translateY(${virtualItem.start}px)`,
+                <Hoverable key={virtualItem.key} isDisabled={!hoverable}>
+                  {({ isHovered, onMouseEnter, onMouseLeave }) => {
+                    return (
+                      <div
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          padding: `${itemPadding}px`,
+                          width: `${virtualItem.size}px`,
+                          left: `${virtualItem.lane * virtualItem.size}px`,
+                          height: `${virtualItem.size}px`,
+                          transform: isHovered
+                            ? `translateY(${virtualItem.start + 2}px)`
+                            : `translateY(${virtualItem.start}px)`,
+                        }}
+                      >
+                        <div
+                          style={{
+                            boxShadow: isHovered
+                              ? "0 0px #bdbdbd"
+                              : "0 2px #bdbdbd",
+                          }}
+                        >
+                          {children(virtualItem)}
+                        </div>
+                      </div>
+                    );
                   }}
-                >
-                  {children(virtualItem)}
-                </div>
+                </Hoverable>
               );
             })}
           </div>

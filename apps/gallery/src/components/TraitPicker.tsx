@@ -13,7 +13,6 @@ import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import Button, { ButtonProps } from "./Button";
 import Dynamic from "./Dynamic";
-import { Hoverable } from "./Hoverable";
 import { Noun } from "./Noun";
 import { TraitIcon } from "./TraitIcon";
 import { VirtualizedGallery } from "./VirtualizedGallery";
@@ -54,6 +53,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
           <ModalBody className="p-0">
             {traits && (
               <VirtualizedGallery
+                hoverable={!!onPick}
                 className="h-[600px] w-full p-0"
                 itemCount={traits.length}
                 itemSize={128 + 2 * 4}
@@ -65,33 +65,17 @@ export const TraitPicker: FC<TraitPickerProps> = ({
                 }
               >
                 {(virtualItem) => (
-                  <Hoverable key={virtualItem.key} isDisabled={!onPick}>
-                    {({ isHovered, onMouseEnter, onMouseLeave }) => {
-                      return (
-                        <div
-                          style={{
-                            padding: "4px",
-                            backgroundColor: isHovered
-                              ? "lab(var(--nextui-primary))"
-                              : undefined,
-                          }}
-                          {...{ onMouseEnter, onMouseLeave }}
-                          onClick={() => {
-                            onPick?.(virtualItem.index);
-                            onClose();
-                          }}
-                        >
-                          <Noun
-                            size={128}
-                            {...{
-                              ...currentTraits,
-                              [traitType]: traits[virtualItem.index],
-                            }}
-                          />
-                        </div>
-                      );
+                  <Noun
+                    onClick={() => {
+                      onPick?.(virtualItem.index);
+                      onClose();
                     }}
-                  </Hoverable>
+                    size={128}
+                    {...{
+                      ...currentTraits,
+                      [traitType]: traits[virtualItem.index],
+                    }}
+                  />
                 )}
               </VirtualizedGallery>
             )}

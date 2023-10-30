@@ -5,7 +5,6 @@ import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { EncodedTrait, HexColor, NounSeed, TraitType } from "noggles";
 import loadingNoun from "public/loading-noun.gif";
 import { FC, HtmlHTMLAttributes, ReactNode, useState } from "react";
-import { Hoverable } from "./Hoverable";
 import { Noun } from "./Noun";
 import { VirtualizedGallery } from "./VirtualizedGallery";
 
@@ -36,6 +35,7 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
     <VirtualizedGallery
       itemSize={NOUN_SIZE + 2 * NOUN_PADDING}
       scrollContainerPadding={4}
+      hoverable={!!onNounClick}
       header={header}
       footer={footer}
       {...props}
@@ -43,9 +43,7 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
       {(virtualItem) => {
         if (!mainnetArtwork) {
           return (
-            <div style={{ padding: `${NOUN_PADDING}px` }}>
-              <img src={loadingNoun.src} className="bg-gray-200 shadow-sm" />
-            </div>
+            <img src={loadingNoun.src} className="bg-gray-200 shadow-sm" />
           );
         }
         const seed = generateSeed(mainnetArtwork, salt + virtualItem.index);
@@ -55,31 +53,11 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
         };
 
         return (
-          <Hoverable key={virtualItem.key} isDisabled={!onNounClick}>
-            {({ isHovered, onMouseEnter, onMouseLeave }) => {
-              return (
-                <div
-                  style={{
-                    padding: `${NOUN_PADDING}px`,
-                    backgroundColor: isHovered
-                      ? "lab(var(--nextui-primary))"
-                      : undefined,
-                  }}
-                >
-                  <Noun
-                    className="shadow-sm"
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    onClick={
-                      onNounClick ? () => onNounClick?.(seed) : undefined
-                    }
-                    {...traits}
-                    size={320}
-                  />
-                </div>
-              );
-            }}
-          </Hoverable>
+          <Noun
+            onClick={onNounClick ? () => onNounClick?.(seed) : undefined}
+            {...traits}
+            size={320}
+          />
         );
       }}
     </VirtualizedGallery>
