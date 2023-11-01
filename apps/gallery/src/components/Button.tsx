@@ -1,10 +1,11 @@
-import { ButtonHTMLAttributes, FC } from "react";
+import { ButtonHTMLAttributes, FC, ReactNode, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "white";
   isDisabled?: boolean;
   isLoading?: boolean;
+  loadingContent?: ReactNode;
 }
 
 const classNames = {
@@ -17,20 +18,38 @@ const classNames = {
     "shadow-none bg-black bg-opacity-0 hover:bg-opacity-5 hover:shadow-inset active:shadow-inset-md active:scale-y-95 active:bg-opacity-10 ",
 };
 
-export const Button: FC<ButtonProps> = ({
-  variant = "primary",
-  className,
-  isDisabled = false,
-  isLoading = false,
-  ...props
-}) => {
-  const buttonClasses = twMerge(
-    classNames.base,
-    classNames[variant],
-    className
-  );
+export const Button: FC<ButtonProps> = forwardRef<
+  HTMLButtonElement,
+  ButtonProps
+>(
+  (
+    {
+      variant = "primary",
+      className,
+      isDisabled = false,
+      isLoading = false,
+      children,
+      loadingContent = children,
+      ...props
+    },
+    ref
+  ) => {
+    const buttonClasses = twMerge(
+      classNames.base,
+      classNames[variant],
+      className
+    );
 
-  return <button disabled={isDisabled} className={buttonClasses} {...props} />;
-};
-
-export default Button;
+    return (
+      <button
+        ref={ref}
+        disabled={isDisabled}
+        className={buttonClasses}
+        {...props}
+      >
+        {isLoading ? loadingContent : children}
+        {/* @TODO: Add loading animation/style */}
+      </button>
+    );
+  }
+);

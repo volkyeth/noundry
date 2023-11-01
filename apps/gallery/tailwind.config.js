@@ -73,6 +73,7 @@ module.exports = {
         inset: "0 -2px #e5e7eb",
         "inset-md": "0 -4px #e5e7eb",
       },
+      // @TODO customize drop-shadow
     },
   },
   plugins: [

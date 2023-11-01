@@ -11,7 +11,7 @@ import {
 import { TraitType } from "noggles";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
-import Button, { ButtonProps } from "./Button";
+import { Button, ButtonProps } from "./Button";
 import Dynamic from "./Dynamic";
 import { Noun } from "./Noun";
 import { TraitIcon } from "./TraitIcon";

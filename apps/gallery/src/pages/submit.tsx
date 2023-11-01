@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 import Dynamic from "@/components/Dynamic";
 import { ModelPicker } from "@/components/ModelPicker";
 import { Noun } from "@/components/Noun";

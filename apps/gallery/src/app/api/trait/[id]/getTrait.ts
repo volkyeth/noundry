@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 export const getTrait = async (
   id: string,
-  { requester }: { requester?: `0x${string}` }
+  options?: { requester?: `0x${string}` }
 ) => {
   const cursor = database.collection<TraitSchema>("nfts").aggregate(
     [
@@ -28,11 +28,11 @@ export const getTrait = async (
           },
         },
       },
-      ...(requester
+      ...(options?.requester
         ? [
             {
               $addFields: {
-                liked: { $in: [requester.toLowerCase(), "$likedBy"] },
+                liked: { $in: [options.requester.toLowerCase(), "$likedBy"] },
               },
             },
           ]

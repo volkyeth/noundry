@@ -14,10 +14,10 @@ import LogoImage from "public/NoundryGalleryLogo.svg";
 import { FC, useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
+import { Button } from "@/components/Button";
 import { TfiMenu } from "react-icons/tfi";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
-import Button from "./Button";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
 
