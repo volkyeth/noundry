@@ -48,7 +48,7 @@ export const Button: FC<ButtonProps> = forwardRef<
         {...props}
       >
         {isLoading ? loadingContent : children}
-        {/* @TODO: Add loading animation/style */}
+        {/* TODO: Add loading animation/style */}
       </button>
     );
   }

@@ -49,8 +49,8 @@
   .bg-checkerboard {
     background-size: 3.125% 3.125%; /* 100% / 32 pixels */
     background-image: repeating-conic-gradient(
-      var(--lt-color-gray-300) 0% 25%,
-      var(--lt-color-gray-100) 0% 50%
+      theme(colors[gray].200) 0% 25%,
+      theme(colors[gray].50) 0% 50%
     );
   }
 

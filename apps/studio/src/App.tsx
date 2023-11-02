@@ -1,10 +1,10 @@
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import "@fontsource/press-start-2p";
 import "@fontsource/vt323";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { inject } from "@vercel/analytics";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import { WagmiConfig, createConfig, mainnet } from "wagmi";
 import ckTheme from "./ckTheme.json";
@@ -53,7 +53,7 @@ const App = () => {
   );
 };
 
-// @TODO Remove this. It's here to fix the color mode on local storage for people that opened the app before the color mode was (correctly) set to dark.
+// TODO Remove this. It's here to fix the color mode on local storage for people that opened the app before the color mode was (correctly) set to dark.
 const ColorModeFixer = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   useEffect(() => {

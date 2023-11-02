@@ -27,6 +27,7 @@ export const ConnectButton = () => {
 
   return (
     <Dynamic>
+      {/* TODO use the Button component, white variant */}
       <button
         className="h-fit p-0 w-fit bg-content1 border-0"
         onClick={openProfile}
