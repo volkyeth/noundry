@@ -119,7 +119,7 @@ const TraitPage: NextPage<{
                     by
                   </p>
                   <Link
-                    href={`/profile/${author}`}
+                    href={`/profile/${author.address}`}
                     as={NextLink}
                     color="foreground"
                     className="text-sm text-default-500"
