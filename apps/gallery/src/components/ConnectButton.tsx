@@ -1,7 +1,7 @@
 import { useUserInfo } from "@/hooks/useUserInfo";
-import { Button } from "@nextui-org/react";
 import { useModal } from "connectkit";
 import { useAccount } from "wagmi";
+import { Button } from "./Button";
 import Dynamic from "./Dynamic";
 import { UserAvatar } from "./UserAvatar";
 
@@ -10,35 +10,22 @@ export const ConnectButton = () => {
   const { openProfile } = useModal();
   const { data: userInfo } = useUserInfo(address);
 
-  if (!address || !userInfo) {
-    return (
-      <Dynamic>
-        <Button
-          radius="none"
-          disableRipple
-          className="h-[40px] px-10   bg-content1"
-          onClick={openProfile}
-        >
-          Connect
-        </Button>
-      </Dynamic>
-    );
-  }
-
   return (
     <Dynamic>
-      {/* TODO use the Button component, white variant */}
-      <button
-        className="h-fit p-0 w-fit bg-content1 border-0"
+      <Button
+        variant="white"
+        className="p-[2px] min-h-unit-10 min-w-unit-24"
         onClick={openProfile}
       >
-        <Dynamic>
-          <div className="flex flex-row gap-6 p-[2px] pr-6 items-center  ">
+        {userInfo && address ? (
+          <div className="flex flex-row gap-6  pr-6 items-center  ">
             <UserAvatar address={address} />
             <p className="">{userInfo.userName}</p>
           </div>
-        </Dynamic>
-      </button>
+        ) : (
+          "Connect"
+        )}
+      </Button>
     </Dynamic>
   );
 };

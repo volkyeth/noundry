@@ -59,7 +59,7 @@ const Navbar = () => {
             Submit Trait
           </NavbarButton>
 
-          <NavbarItem className="hidden md:flex border-2">
+          <NavbarItem className="hidden md:flex">
             <ConnectButton />
           </NavbarItem>
 

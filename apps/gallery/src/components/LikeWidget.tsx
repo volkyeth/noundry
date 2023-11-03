@@ -26,6 +26,7 @@ export const LikeWidget: FC<LikeWidgetProps> = ({
   });
 
   const liked = currentlyLiked === undefined ? initiallyLiked : currentlyLiked;
+
   const likesCount =
     currentlyLiked === undefined || currentlyLiked === initiallyLiked
       ? initialLikesCount
@@ -42,7 +43,7 @@ export const LikeWidget: FC<LikeWidgetProps> = ({
         <LoadingNoggles className="w-[32px]" />
       ) : (
         <BlinkingNoggles
-          onClick={() => liked !== undefined && toggleLike(liked)}
+          onClick={() => toggleLike(liked ?? false)}
           className={`w-[32px] cursor-pointer hover:${
             liked ? "text-default-200" : "text-primary"
           }`}

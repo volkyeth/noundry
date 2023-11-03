@@ -13,9 +13,9 @@ const classNames = {
   primary: "bg-primary text-[#fff]  active:bg-primary-600  ",
   secondary: "bg-secondary text-[#fff]  active:bg-secondary-600",
   white:
-    "bg-content1 text-secondary  active:text-primary active:bg-white active:h-[calc(100%_-_2px)]",
+    "bg-content1 border-[1px] border-b-0 text-secondary  active:shadow-inset-md  active:bg-slate-50 active:h-[calc(100%_-_2px)]",
   ghost:
-    "shadow-none bg-black bg-opacity-0 hover:bg-opacity-5 hover:shadow-inset active:shadow-inset-md active:scale-y-95 active:bg-opacity-10 ",
+    "shadow-none bg-black bg-opacity-0 hover:bg-opacity-5 hover:shadow-inset active:shadow-inset-md active::h-[calc(100%_-_2px)] active:bg-opacity-10 ",
 };
 
 export const Button: FC<ButtonProps> = forwardRef<
