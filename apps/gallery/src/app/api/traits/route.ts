@@ -1,3 +1,4 @@
+import { TRAITS_PAGE_SIZE } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { TraitsQuery, traitsQuerySchema } from "@/schemas/traitsQuery";
 import { database } from "@/utils/database/db";
@@ -15,8 +16,6 @@ export async function GET(req: NextRequest) {
   const includeTypes = searchParams.getAll("includeType");
   const account = searchParams.get("account") ?? undefined;
   const page = searchParams.get("page") ?? undefined;
-
-  const PAGE_SIZE = 24;
 
   const schemaValidation = traitsQuerySchema.safeParse({
     sortBy,
@@ -84,12 +83,16 @@ export async function GET(req: NextRequest) {
       {
         $addFields: {
           traits: {
-            $slice: ["$allTraits", PAGE_SIZE * (query.page - 1), PAGE_SIZE],
+            $slice: [
+              "$allTraits",
+              TRAITS_PAGE_SIZE * (query.page - 1),
+              TRAITS_PAGE_SIZE,
+            ],
           },
           pageNumber: query.page,
           traitCount: { $size: "$allTraits" },
           totalPages: {
-            $ceil: { $divide: [{ $size: "$allTraits" }, PAGE_SIZE] },
+            $ceil: { $divide: [{ $size: "$allTraits" }, TRAITS_PAGE_SIZE] },
           },
         },
       },

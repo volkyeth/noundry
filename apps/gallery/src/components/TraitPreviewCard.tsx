@@ -13,7 +13,7 @@ import {
 import NextLink from "next/link";
 import LoadingNoggles from "public/loading-noggles.svg";
 
-import { FC, useState } from "react";
+import { forwardRef, useState } from "react";
 import { LikeWidget } from "./LikeWidget";
 import { Skeleton } from "./Skeleton";
 import { TraitIcon } from "./TraitIcon";
@@ -22,12 +22,15 @@ export interface TraitPreviewCardProps {
   trait?: Trait & { liked?: boolean };
 }
 
-export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
+export const TraitPreviewCard = forwardRef<
+  HTMLDivElement,
+  TraitPreviewCardProps
+>(({ trait }, ref) => {
   const [seeThrough, setSeeThrough] = useState(false);
   const username = useUsername(trait?.address);
 
   return (
-    <Card className="p-4 py-2 rounded-none light shadow-sm">
+    <Card className="p-4 py-2 rounded-none light shadow-sm" ref={ref}>
       <CardHeader className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
           {trait ? (
@@ -114,4 +117,4 @@ export const TraitPreviewCard: FC<TraitPreviewCardProps> = ({ trait }) => {
       </CardFooter>
     </Card>
   );
-};
+});

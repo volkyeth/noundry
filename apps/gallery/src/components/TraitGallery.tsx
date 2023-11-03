@@ -1,3 +1,4 @@
+import { TRAITS_PAGE_SIZE } from "@/constants/config";
 import { useTraits } from "@/hooks/useTraits";
 import LoadingNoggles from "public/loading-noggles.svg";
 import { FC, HtmlHTMLAttributes } from "react";
@@ -10,23 +11,41 @@ export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
 }
 
 export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
-  const { data, fetchNextPage, hasNextPage } = useTraits({ account });
+  const { data, fetchNextPage, hasNextPage } = useTraits({
+    account,
+  });
+  // FIXME unreliable triggering. Switch for another solution
   const { ref: loaderRef } = useInView({
     onChange: (inView) => inView && hasNextPage && fetchNextPage(),
   });
 
+  const loadedTraits =
+    data?.pages?.reduce((count, page) => count + page.traits.length, 0) ?? 0;
+  const traitsRemaining =
+    (data?.pages?.[data.pages.length - 1].traitCount ?? TRAITS_PAGE_SIZE) -
+    loadedTraits;
+
   return (
     <div {...props}>
       <div className="container grid grid-cols-[repeat(auto-fill,224px)] justify-center w-full gap-4 mt-6">
-        {data?.pages.flatMap(
+        {[
+          ...(data?.pages ?? []),
+          {
+            traits: new Array(traitsRemaining).fill(undefined),
+          },
+        ].flatMap(
           (page) =>
             page?.traits.map((trait, i) => (
-              <TraitPreviewCard key={`card-${trait?.id ?? i}`} trait={trait} />
+              <TraitPreviewCard
+                ref={trait === undefined && i === 0 ? loaderRef : undefined}
+                key={`card-${trait?.id ?? i}`}
+                trait={trait}
+              />
             ))
         )}
       </div>
       <div
-        ref={loaderRef}
+        // ref={loaderRef}
         className="mt-10 h-10 w-full flex flex-col items-center gap-2"
       >
         {hasNextPage ? (

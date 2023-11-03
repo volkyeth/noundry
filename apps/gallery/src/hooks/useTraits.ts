@@ -35,16 +35,5 @@ export const useTraits = (query: Partial<TraitsQuery>) => {
       lastPage.pageNumber < lastPage.totalPages!
         ? lastPage.pageNumber + 1
         : undefined,
-    placeholderData: {
-      pages: [
-        {
-          pageNumber: 1,
-          traits: new Array(24).fill(undefined),
-          traitCount: undefined,
-          totalPages: undefined,
-        },
-      ],
-      pageParams: [1],
-    },
   });
 };
