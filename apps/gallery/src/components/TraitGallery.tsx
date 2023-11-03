@@ -1,8 +1,8 @@
 import { useTraits } from "@/hooks/useTraits";
 import LoadingNoggles from "public/loading-noggles.svg";
-import NoggleIcon from "public/mono-noggles.svg";
 import { FC, HtmlHTMLAttributes } from "react";
 import { useInView } from "react-intersection-observer";
+import { BlinkingNoggles } from "./BlinkingNoggles";
 import { TraitPreviewCard } from "./TraitPreviewCard";
 
 export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
@@ -25,11 +25,19 @@ export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
             ))
         )}
       </div>
-      <div ref={loaderRef} className="mt-10 h-10 w-full flex justify-center">
+      <div
+        ref={loaderRef}
+        className="mt-10 h-10 w-full flex flex-col items-center gap-2"
+      >
         {hasNextPage ? (
           <LoadingNoggles className="w-[64px] text-default-300" />
         ) : (
-          <NoggleIcon className="w-[64px] text-default-300" />
+          <BlinkingNoggles className="w-[64px] h-[24px] shrink-0 text-default-300" />
+        )}
+        {!hasNextPage && (
+          <p className="text-xl font-semibold text-default-300">
+            A Nouns thing
+          </p>
         )}
       </div>
     </div>

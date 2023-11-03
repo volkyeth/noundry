@@ -1,7 +1,7 @@
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import LoadingNoggles from "public/loading-noggles.svg";
-import NoggleIcon from "public/mono-noggles.svg";
 import { FC } from "react";
+import { BlinkingNoggles } from "./BlinkingNoggles";
 
 export interface LikeWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   traitId: string;
@@ -41,7 +41,7 @@ export const LikeWidget: FC<LikeWidgetProps> = ({
       {liking ? (
         <LoadingNoggles className="w-[32px]" />
       ) : (
-        <NoggleIcon
+        <BlinkingNoggles
           onClick={() => liked !== undefined && toggleLike(liked)}
           className={`w-[32px] cursor-pointer hover:${
             liked ? "text-default-200" : "text-primary"
