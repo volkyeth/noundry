@@ -48,11 +48,9 @@ const Navbar = () => {
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="hidden xl:flex gap-6" justify="center">
+        <NavbarContent className="hidden xl:flex gap-12" justify="center">
           <NavbarLink href={"/"}>Traits</NavbarLink>
           <NavbarLink href={"/artists"}>Artists</NavbarLink>
-          <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
-          <NavbarLink href={"/about"}>About</NavbarLink>
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarButton href={"/submit"} className="hidden xs:flex">
@@ -91,12 +89,8 @@ const Navbar = () => {
             <NavbarLink href={"/artists"} className="xl:hidden">
               Artists
             </NavbarLink>
-            <NavbarLink href={"/guidelines"} className="xl:hidden">
-              Guidelines
-            </NavbarLink>
-            <NavbarLink href={"/about"} className="xl:hidden">
-              About
-            </NavbarLink>
+            <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
+            <NavbarLink href={"/about"}>About</NavbarLink>
 
             <div className="mt-20">
               <p className="font-normal text-sm text-black">Check out</p>
