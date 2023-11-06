@@ -45,6 +45,7 @@ const Profile: NextPage<{ userInfo: UserInfo }> = ({ userInfo }) => {
         </div>
         <div>
           <h2 className="text-2xl text-default-400">User traits</h2>
+          {/* FIXME handle empty gallery */}
           <TraitGallery account={address as `0x${string}`} />
         </div>
       </div>

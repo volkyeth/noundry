@@ -63,10 +63,10 @@ const Navbar = () => {
 
           <Dynamic>
             <NavbarMenuToggle
-              className="w-fit h-fit"
+              className="w-fit h-fit text-off-dark"
               icon={(isOpen) =>
                 isOpen ? (
-                  <IoCloseSharp className="w-5 h-5" />
+                  <IoCloseSharp className="w-5 h-5 " />
                 ) : (
                   <TfiMenu className="w-5 h-5" />
                 )
@@ -93,9 +93,9 @@ const Navbar = () => {
             <NavbarLink href={"/about"}>About</NavbarLink>
 
             <div className="mt-20">
-              <p className="font-normal text-sm text-black">Check out</p>
+              <p className="font-normal text-sm text-off-dark">Check out</p>
               <a href="https://studio.noundry.wtf/" target="_blank">
-                <p className="font-Pix text-black py-1 hover:!text-primary text-xs">
+                <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
                   Noundry Studio
                 </p>
               </a>
