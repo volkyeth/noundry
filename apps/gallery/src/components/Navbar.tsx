@@ -126,7 +126,7 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
           as={NextLink}
           className={twMerge(
             "uppercase hover:text-secondary",
-            isActive ? "text-secondary font-semibold" : "text-gray-300"
+            isActive ? "text-secondary font-semibold" : "text-gray-400"
           )}
           href={href}
           aria-current={isActive ? "page" : undefined}
