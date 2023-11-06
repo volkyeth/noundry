@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <meta name="twitter:card" content="summary_large_image" />
               </Head>
               <Navbar />
-              <div className="flex-grow overflow-scroll">
+              <div className="flex-grow overflow-auto">
                 <Component {...pageProps} />
               </div>
             </NextUIProvider>
