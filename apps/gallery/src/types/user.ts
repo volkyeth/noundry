@@ -10,6 +10,7 @@ export interface UserStats {
 export interface UserInfo {
   address: `0x${string}`;
   twitter?: string;
+  farcaster?: string;
   userName: string;
   about?: string;
   profilePic?: string;

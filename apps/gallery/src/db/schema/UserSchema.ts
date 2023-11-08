@@ -1,3 +1,5 @@
+import { PngDataUri } from "@/types/image";
+
 export interface UserSchema {
   _id: `0x${string}`;
   twitter?: string;
@@ -9,5 +11,5 @@ export interface UserSchema {
   about: string;
   nfts: string[];
   likedNfts: string[];
-  profilePic: string;
+  profilePic: PngDataUri;
 }
