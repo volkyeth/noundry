@@ -17,6 +17,7 @@ import { formatTraitType } from "@/utils/traits/format";
 import { Input } from "@nextui-org/react";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
+import { GrReturn } from  "react-icons/gr"
 import {
   IMAGE_TRAIT_TYPES,
   NounSeed,
@@ -192,7 +193,7 @@ const Submit = () => {
                   setTraitFile(null);
                 }}
               >
-                ↩
+               <GrReturn className="text-2xl"/>
               </Button>
               <div
                 {...getRootProps()}
@@ -246,7 +247,7 @@ const Submit = () => {
                     setTraitName("");
                   }}
                 >
-                  ↩
+                  <GrReturn className="text-2xl"/>
                 </Button>
                 <TraitCard
                   name={
