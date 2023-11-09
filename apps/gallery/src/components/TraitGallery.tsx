@@ -1,7 +1,7 @@
 import { TRAITS_PAGE_SIZE } from "@/constants/config";
 import { useTraits } from "@/hooks/useTraits";
 import LoadingNoggles from "public/loading-noggles.svg";
-import { FC, HtmlHTMLAttributes } from "react";
+import { FC, HtmlHTMLAttributes, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { BlinkingNoggles } from "./BlinkingNoggles";
 import { TraitPreviewCard } from "./TraitPreviewCard";
@@ -11,13 +11,19 @@ export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
 }
 
 export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
-  const { data, fetchNextPage, hasNextPage } = useTraits({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useTraits({
     account,
   });
-  // FIXME unreliable triggering. Switch for another solution
-  const { ref: loaderRef } = useInView({
-    onChange: (inView) => inView && hasNextPage && fetchNextPage(),
+
+  const { ref: loaderRef, inView } = useInView({
+    rootMargin: "600px",
   });
+
+  useEffect(() => {
+    if (!inView || !hasNextPage || isFetchingNextPage) return;
+
+    fetchNextPage();
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const loadedTraits =
     data?.pages?.reduce((count, page) => count + page.traits.length, 0) ?? 0;
@@ -31,21 +37,21 @@ export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
         {[
           ...(data?.pages ?? []),
           {
-            traits: new Array(traitsRemaining).fill(undefined),
+            traits: new Array(
+              isFetchingNextPage
+                ? Math.min(traitsRemaining, TRAITS_PAGE_SIZE)
+                : 0
+            ).fill(undefined),
           },
         ].flatMap(
           (page) =>
             page?.traits.map((trait, i) => (
-              <TraitPreviewCard
-                ref={trait === undefined && i === 0 ? loaderRef : undefined}
-                key={`card-${trait?.id ?? i}`}
-                trait={trait}
-              />
+              <TraitPreviewCard key={`card-${trait?.id ?? i}`} trait={trait} />
             ))
         )}
       </div>
       <div
-        // ref={loaderRef}
+        ref={loaderRef}
         className="mt-10 h-10 w-full flex flex-col items-center gap-2"
       >
         {hasNextPage ? (
