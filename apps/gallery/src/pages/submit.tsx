@@ -12,12 +12,12 @@ import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { AddTraitQuery } from "@/schemas/addTraitQuery";
+import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { formatTraitType } from "@/utils/traits/format";
 import { Input } from "@nextui-org/react";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
-import { GrReturn } from  "react-icons/gr"
 import {
   IMAGE_TRAIT_TYPES,
   NounSeed,
@@ -28,6 +28,7 @@ import {
 } from "noggles";
 import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { GrReturn } from "react-icons/gr";
 
 const Submit = () => {
   const [traitType, setTraitType] = useQueryState<TraitType | null>("type", {
@@ -47,6 +48,10 @@ const Submit = () => {
     head: 0,
   });
   const { data: mainnetArtwork } = useMainnetArtwork();
+  useEffect(() => {
+    if (!mainnetArtwork) return;
+    setSeed(generateSeed(mainnetArtwork, Math.random()));
+  }, [mainnetArtwork]);
   const traits = useMemo<NounTraits>(() => {
     if (!mainnetArtwork || !traitBitmap || !traitType)
       return {
@@ -193,7 +198,7 @@ const Submit = () => {
                   setTraitFile(null);
                 }}
               >
-               <GrReturn className="text-2xl"/>
+                <GrReturn className="text-2xl" />
               </Button>
               <div
                 {...getRootProps()}
@@ -247,7 +252,7 @@ const Submit = () => {
                     setTraitName("");
                   }}
                 >
-                  <GrReturn className="text-2xl"/>
+                  <GrReturn className="text-2xl" />
                 </Button>
                 <TraitCard
                   name={
