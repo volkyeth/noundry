@@ -2,6 +2,7 @@ import { addressSchema } from "@/schemas/common";
 import { updateUserQuerySchema } from "@/schemas/updateUserQuery";
 import { database } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
+import { MongoServerError } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserInfo } from "./getUserInfo";
 
@@ -24,18 +25,31 @@ export const PUT = async (req: NextRequest, { params }) => {
     return NextResponse.json(updateUserQuery.error.issues, { status: 400 });
   }
 
-  const result = await database
-    .collection("users")
-    // @ts-expect-error
-    .replaceOne({ _id: address }, updateUserQuery.data, {
-      upsert: true,
-    });
+  try {
+    const result = await database
+      .collection("users")
+      // @ts-expect-error
+      .replaceOne({ _id: address }, updateUserQuery.data, {
+        upsert: true,
+      });
 
-  if (!result.upsertedId) {
-    return NextResponse.json(
-      { error: "Failed updating user info" },
-      { status: 500 }
-    );
+    if (!result.acknowledged) {
+      return NextResponse.json(
+        { error: "Failed updating user info" },
+        { status: 500 }
+      );
+    }
+  } catch (e) {
+    if (e instanceof MongoServerError && e.code === 11000) {
+      return NextResponse.json(
+        {
+          error: `Username ${updateUserQuery.data.userName} is already in use.`,
+        },
+        { status: 409 }
+      );
+    }
+
+    throw e;
   }
 
   return NextResponse.json({}, { status: 200 });

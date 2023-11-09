@@ -16,6 +16,7 @@ export const getUserInfo = async (
         {
           projection: {
             twitter: true,
+            farcaster: true,
             userName: true,
             about: true,
             profilePic: true,
@@ -29,6 +30,7 @@ export const getUserInfo = async (
               about: user?.about,
               profilePic: user?.profilePic,
               twitter: user?.twitter,
+              farcaster: user?.farcaster,
               userName: user?.userName,
             }
           : { address }

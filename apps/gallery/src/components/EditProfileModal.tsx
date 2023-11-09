@@ -11,7 +11,8 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { FC, useState } from "react";
+import { useRouter } from "next/router";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { RiPencilFill } from "react-icons/ri";
 import { useAccount } from "wagmi";
@@ -36,7 +37,47 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
 
   const { address } = useAccount();
 
-  const { getInputProps, isDragActive } = useDropzone({
+  const {
+    mutateAsync: updateUser,
+    isLoading,
+    reset: resetErrors,
+    data: result,
+  } = useSignedInMutation({
+    mutationFn: () =>
+      fetch(`/api/user/${address}/info`, {
+        method: "PUT",
+        body: JSON.stringify(
+          {
+            profilePic: profilePic || undefined,
+            userName: userName || undefined,
+            about: about || undefined,
+            farcaster: farcaster || undefined,
+            twitter: twitter || undefined,
+          },
+          null,
+          2
+        ),
+      }).then(async (r) => ({
+        status: r.status,
+        errorMessage: await r.json().then((j) => j?.error),
+        success: r.ok,
+      })),
+  });
+
+  const reset = useCallback(() => {
+    setProfilePic(currentUserInfo.profilePic);
+    setUserName(currentUserInfo.userName);
+    setTwitter(currentUserInfo.twitter);
+    setFarcaster(currentUserInfo.farcaster);
+    setAbout(currentUserInfo.about);
+    resetErrors();
+  }, [isOpen, currentUserInfo]);
+
+  useEffect(reset, [isOpen, currentUserInfo]);
+
+  const { reload } = useRouter();
+
+  const { getInputProps, getRootProps } = useDropzone({
     accept: { "image/png": [".png"] },
     maxFiles: 1,
     multiple: false,
@@ -58,24 +99,6 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
     },
   });
 
-  const { mutateAsync: updateUser, isLoading } = useSignedInMutation({
-    mutationFn: () =>
-      fetch(`/api/user/${address}/info`, {
-        method: "PUT",
-        body: JSON.stringify(
-          {
-            profilePic: profilePic || undefined,
-            userName: userName || undefined,
-            about: about || undefined,
-            farcaster: farcaster || undefined,
-            twitter: twitter || undefined,
-          },
-          null,
-          2
-        ),
-      }),
-  });
-
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
       <ModalContent>
@@ -87,17 +110,18 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
             <ModalBody className="flex flex-col gap-4">
               <div className="flex flex-col text-xs font-medium text-foreground-600">
                 <p>Profile picture</p>
-                <div className="flex items-end gap-2">
+                <div className="flex gap-2 items-end">
                   <img
                     src={profilePic ?? DEFAULT_PROFILE_PICTURE}
                     className="w-24 h-24  box-content border-content1 shrink-0 bg-warm"
                   />
-                  <div className="flex flex-col justify-between">
+                  <div className="flex gap-2">
                     <Button
                       variant="primary"
                       className="h-1/2"
-                      onClick={() => setProfilePic(undefined)}
+                      {...getRootProps()}
                     >
+                      <input {...getInputProps()} />
                       <RiPencilFill className="w-[24px] h-[24px]" />
                     </Button>
                     {profilePic && (
@@ -161,12 +185,26 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                 onChange={(e) => setFarcaster(e.target.value)}
                 className="w-full"
               />
+              {result?.errorMessage && (
+                <p className="text-red-500 text-sm">{result.errorMessage}</p>
+              )}
             </ModalBody>
             <ModalFooter>
               <Button variant="ghost" onClick={onClose}>
                 Cancel
               </Button>
-              <Button isLoading={isLoading} onClick={() => updateUser()}>
+              <Button
+                isLoading={isLoading}
+                loadingContent="Saving"
+                onClick={() =>
+                  updateUser().then((r) => {
+                    if (r.success) {
+                      onClose();
+                      reload();
+                    }
+                  })
+                }
+              >
                 Save
               </Button>
             </ModalFooter>

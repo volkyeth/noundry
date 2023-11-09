@@ -329,15 +329,15 @@ const Submit = () => {
                     </div>
                   }
                 />
-                {traitName !== "" && (
-                  <Button
-                    className="flex-grow w-full"
-                    onClick={() => submit()}
-                    isLoading={isSubmitting}
-                  >
-                    SUBMIT
-                  </Button>
-                )}
+                <Button
+                  className="flex-grow w-full"
+                  onClick={() => submit()}
+                  isDisabled={traitName === ""}
+                  isLoading={isSubmitting}
+                  loadingContent="Submitting"
+                >
+                  Submit
+                </Button>
               </div>
             </div>
           </>

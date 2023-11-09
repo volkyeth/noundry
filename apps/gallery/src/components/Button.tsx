@@ -9,7 +9,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const classNames = {
-  base: "font-semibold px-4 py-2 h-fit w-fit shadow-sm hover:translate-y-[1px] hover:shadow-xs active:shadow-inset active:translate-y-[2px]",
+  base: "font-semibold px-8 py-2 h-fit w-fit shadow-sm hover:translate-y-[1px] hover:shadow-xs active:shadow-inset active:translate-y-[2px]",
   primary: "bg-primary text-[#fff]  active:bg-primary-600  ",
   secondary: "bg-secondary text-[#fff]  active:bg-secondary-600",
   white:
@@ -37,7 +37,9 @@ export const Button: FC<ButtonProps> = forwardRef<
     const buttonClasses = twMerge(
       classNames.base,
       classNames[variant],
-      className
+      className,
+      isLoading ? "text-opacity-50 animate-pulse" : "",
+      isDisabled ? "opacity-50" : ""
     );
 
     return (
