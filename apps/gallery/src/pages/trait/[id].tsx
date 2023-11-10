@@ -14,6 +14,7 @@ import {
 import { TraitCard } from "@/components/TraitCard";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { UserBadge } from "@/components/UserBadge";
+import { SITE_URI } from "@/constants/config";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
@@ -96,7 +97,7 @@ const TraitPage: NextPage<{
         <meta
           key="og:image"
           name="og:image"
-          content={`/api/trait/${trait.id}/og`}
+          content={`${SITE_URI}/api/trait/${trait.id}/og`}
         />
       </Head>
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">

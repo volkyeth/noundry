@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_URI } from "@/constants/config";
 import { siweConfig } from "@/utils/siwe/siweConfig";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/lora";
@@ -51,7 +52,11 @@ export default function App({ Component, pageProps }: AppProps) {
                   content="Let there be Nouns."
                 />
 
-                <meta key="og:image" name="og:image" content={"/og.png"} />
+                <meta
+                  key="og:image"
+                  name="og:image"
+                  content={`${SITE_URI}/og.png`}
+                />
 
                 <meta name="og:site_name" content="Noundry Gallery" />
                 <meta name="theme-color" content="#FF2165" />
