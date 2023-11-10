@@ -194,6 +194,9 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                 Cancel
               </Button>
               <Button
+                isDisabled={
+                  usernameSchema.safeParse(userName).success === false
+                }
                 isLoading={isLoading}
                 loadingContent="Saving"
                 onClick={() =>
