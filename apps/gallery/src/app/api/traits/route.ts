@@ -37,69 +37,66 @@ export async function GET(req: NextRequest) {
 
   const sortField = getSortField(query.sortBy);
 
-  const cursor = database.collection<TraitSchema>("nfts").aggregate(
-    [
-      {
-        $match: {
-          ...(query.account ? { address: query.account } : {}),
-          $expr: { $in: ["$type", query.includeTypes] },
+  const cursor = database.collection<TraitSchema>("nfts").aggregate([
+    {
+      $match: {
+        ...(query.account ? { address: query.account } : {}),
+        $expr: { $in: ["$type", query.includeTypes] },
+      },
+    },
+    {
+      $sort: {
+        [sortField ?? "creationDate"]: query.direction === "asc" ? 1 : -1,
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $cond: {
+            if: { $isArray: "$likedBy" },
+            then: { $size: "$likedBy" },
+            else: 0,
+          },
+        },
+        id: {
+          $toString: "$_id",
         },
       },
-      {
-        $sort: {
-          [sortField ?? "creationDate"]: query.direction === "asc" ? 1 : -1,
-        },
-      },
-      {
-        $addFields: {
-          likesCount: {
-            $cond: {
-              if: { $isArray: "$likedBy" },
-              then: { $size: "$likedBy" },
-              else: 0,
+    },
+    ...(session.address
+      ? [
+          {
+            $addFields: {
+              liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
             },
           },
-          id: {
-            $toString: "$_id",
-          },
+        ]
+      : []),
+    { $project: { likedBy: 0, likers: 0, _id: 0 } },
+    {
+      $group: {
+        _id: null,
+        allTraits: { $push: "$$ROOT" },
+      },
+    },
+    {
+      $addFields: {
+        traits: {
+          $slice: [
+            "$allTraits",
+            TRAITS_PAGE_SIZE * (query.page - 1),
+            TRAITS_PAGE_SIZE,
+          ],
+        },
+        pageNumber: query.page,
+        traitCount: { $size: "$allTraits" },
+        totalPages: {
+          $ceil: { $divide: [{ $size: "$allTraits" }, TRAITS_PAGE_SIZE] },
         },
       },
-      ...(session.address
-        ? [
-            {
-              $addFields: {
-                liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
-              },
-            },
-          ]
-        : []),
-      { $project: { likedBy: 0, likers: 0, _id: 0 } },
-      {
-        $group: {
-          _id: null,
-          allTraits: { $push: "$$ROOT" },
-        },
-      },
-      {
-        $addFields: {
-          traits: {
-            $slice: [
-              "$allTraits",
-              TRAITS_PAGE_SIZE * (query.page - 1),
-              TRAITS_PAGE_SIZE,
-            ],
-          },
-          pageNumber: query.page,
-          traitCount: { $size: "$allTraits" },
-          totalPages: {
-            $ceil: { $divide: [{ $size: "$allTraits" }, TRAITS_PAGE_SIZE] },
-          },
-        },
-      },
-      { $project: { allTraits: 0, _id: 0 } },
-    ],
-    { collation: { locale: "en", strength: 2 } }
-  );
+    },
+    { $project: { allTraits: 0, _id: 0 } },
+  ]);
 
   return NextResponse.json(await cursor.next());
 }

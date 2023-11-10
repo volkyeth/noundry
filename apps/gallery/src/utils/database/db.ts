@@ -20,4 +20,4 @@ function main() {
 }
 
 export const client = main();
-export const database = client!.db("nouns-wall");
+export const database = client!.db("gallery");
