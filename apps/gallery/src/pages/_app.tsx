@@ -58,6 +58,12 @@ export default function App({ Component, pageProps }: AppProps) {
                   content={`${SITE_URI}/og.png`}
                 />
 
+                <meta
+                  key="twitter:image"
+                  name="twitter:image"
+                  content={`${SITE_URI}/og.png`}
+                />
+
                 <meta name="og:site_name" content="Noundry Gallery" />
                 <meta name="theme-color" content="#FF2165" />
                 <meta name="twitter:card" content="summary_large_image" />
