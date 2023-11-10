@@ -11,9 +11,10 @@ export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
 }
 
 export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useTraits({
-    account,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetched } =
+    useTraits({
+      account,
+    });
 
   const { ref: loaderRef, inView } = useInView({
     rootMargin: "600px",
@@ -38,7 +39,7 @@ export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
           ...(data?.pages ?? []),
           {
             traits: new Array(
-              isFetchingNextPage
+              isFetchingNextPage || !isFetched
                 ? Math.min(traitsRemaining, TRAITS_PAGE_SIZE)
                 : 0
             ).fill(undefined),
