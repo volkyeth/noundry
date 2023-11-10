@@ -6,6 +6,7 @@ import "@fontsource-variable/lora";
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/react";
 import { ConnectKitProvider, SIWEProvider, getDefaultConfig } from "connectkit";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -59,6 +60,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Navbar />
               <div className="flex-grow overflow-auto">
                 <Component {...pageProps} />
+                <Analytics />
               </div>
             </NextUIProvider>
           </ConnectKitProvider>

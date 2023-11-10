@@ -41,6 +41,9 @@ importers:
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.65
         version: 3.0.0-beta.65(react@18.2.0)
+      '@vercel/analytics':
+        specifier: ^0.1.6
+        version: 0.1.6(react@18.2.0)
       '@vercel/og':
         specifier: ^0.5.20
         version: 0.5.20
