@@ -46,6 +46,10 @@
 }
 
 @layer utilities {
+  .overlap {
+    grid-area: 1/1/1/1;
+  }
+
   .bg-checkerboard {
     background-size: 3.125% 3.125%; /* 100% / 32 pixels */
     background-image: repeating-conic-gradient(

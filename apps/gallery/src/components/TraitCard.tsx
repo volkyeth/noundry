@@ -43,12 +43,10 @@ export const TraitCard: FC<TraitCardProps> = ({
         />
       </div>
       <div className="overflow-visible items-center p-0 w-fit">
-        <div className="grid  w-[256px]  h-[256px] xs:w-[320px] xs:h-[320px] bg-checkerboard">
-          <div className="flex row-start-1 row-end-1 col-start-1 col-end-1 pixelated">
-            {image}
-          </div>
+        <div className="grid  w-[256px]  h-[256px] xs:w-[320px] xs:h-[320px]  bg-checkerboard">
+          <div className="flex overlap pixelated">{image}</div>
           <div
-            className="flex row-start-1 row-end-1 col-start-1 col-end-1 pixelated"
+            className="flex overlap pixelated"
             style={{ opacity: seeThrough ? 0 : undefined }}
           >
             {previewImage}

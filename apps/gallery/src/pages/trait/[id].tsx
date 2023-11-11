@@ -47,6 +47,11 @@ export const getServerSideProps: GetServerSideProps<{
 
   const author = await getUserInfo(trait.address);
 
+  //delete undefined props because they're not serializeable
+  Object.keys(author).forEach(
+    (key) => author[key] === undefined && delete author[key]
+  );
+
   return {
     props: { trait, author },
   };
@@ -111,8 +116,20 @@ const TraitPage: NextPage<{
           <TraitCard
             name={trait.name}
             type={trait.type}
-            image={<img alt="Trait preview" src={trait.trait} />}
-            previewImage={<img alt="Trait preview" src={trait.nft} />}
+            image={
+              <img
+                alt="Trait preview"
+                src={trait.trait}
+                className="w-full h-full"
+              />
+            }
+            previewImage={
+              <img
+                alt="Trait preview"
+                src={trait.nft}
+                className="w-full h-full"
+              />
+            }
             footer={
               <>
                 <div className="flex flex-col gap-2 text-medium">
