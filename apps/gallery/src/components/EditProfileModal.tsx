@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { RiPencilFill } from "react-icons/ri";
-import { useAccount } from "wagmi";
+import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
 import { Button } from "./Button";
 
 export interface EditProfileModalProps {
@@ -34,8 +34,17 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
   const [twitter, setTwitter] = useState(currentUserInfo.twitter);
   const [farcaster, setFarcaster] = useState(currentUserInfo.farcaster);
   const [about, setAbout] = useState(currentUserInfo.about);
+  const [isUSernameInvalid, setIsUsernameInvalid] = useState(false);
+
+  useEffect(() => {
+    setIsUsernameInvalid(
+      userName !== "" && usernameSchema.safeParse(userName).success === false
+    );
+  }, [userName]);
 
   const { address } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 
   const {
     mutateAsync: updateUser,
@@ -112,7 +121,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                 <p>Profile picture</p>
                 <div className="flex gap-2 items-end">
                   <img
-                    src={profilePic ?? DEFAULT_PROFILE_PICTURE}
+                    src={profilePic ?? ensAvatar ?? DEFAULT_PROFILE_PICTURE}
                     className="w-24 h-24  box-content border-content1 shrink-0 bg-warm"
                   />
                   <div className="flex gap-2">
@@ -149,7 +158,8 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                 variant="flat"
                 label="Username"
                 value={userName}
-                isInvalid={usernameSchema.safeParse(userName).success === false}
+                placeholder={ensName ?? undefined}
+                isInvalid={isUSernameInvalid}
                 description={"Can only include letters, numbers and dashes"}
                 onChange={(e) => setUserName(e.target.value)}
                 maxLength={15}
@@ -194,9 +204,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                 Cancel
               </Button>
               <Button
-                isDisabled={
-                  usernameSchema.safeParse(userName).success === false
-                }
+                isDisabled={isUSernameInvalid}
                 isLoading={isLoading}
                 loadingContent="Saving"
                 onClick={() =>
