@@ -103,7 +103,7 @@ const Navbar = () => {
               </a>
             </div>
 
-            <div className="flex gap-4 self-end">
+            <div className="flex gap-4">
               <a href={`https://warpcast.com/noundry`} target="_blank">
                 <FarcasterIcon />
               </a>
