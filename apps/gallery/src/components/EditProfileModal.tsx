@@ -30,7 +30,9 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
   currentUserInfo,
 }) => {
   const [profilePic, setProfilePic] = useState(currentUserInfo.profilePic);
-  const [userName, setUserName] = useState(currentUserInfo.userName);
+  const [userName, setUserName] = useState(
+    currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName
+  );
   const [twitter, setTwitter] = useState(currentUserInfo.twitter);
   const [farcaster, setFarcaster] = useState(currentUserInfo.farcaster);
   const [about, setAbout] = useState(currentUserInfo.about);
@@ -75,7 +77,9 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
 
   const reset = useCallback(() => {
     setProfilePic(currentUserInfo.profilePic);
-    setUserName(currentUserInfo.userName);
+    setUserName(
+      currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName
+    );
     setTwitter(currentUserInfo.twitter);
     setFarcaster(currentUserInfo.farcaster);
     setAbout(currentUserInfo.about);

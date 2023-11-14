@@ -4,15 +4,16 @@ import { TraitIcon } from "@/components/TraitIcon";
 import { UserBadge } from "@/components/UserBadge";
 import { UserStats } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
-import { GetServerSideProps, NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 
-export const getServerSideProps: GetServerSideProps<{
+export const getStaticProps: GetStaticProps<{
   artistsStats: UserStats[];
 }> = async () => {
   const artistsStats = await getArtistStats();
   return {
     props: { artistsStats: artistsStats as UserStats[] },
+    revalidate: 900,
   };
 };
 

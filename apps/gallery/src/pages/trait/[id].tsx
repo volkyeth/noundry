@@ -19,31 +19,28 @@ import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
-import Session from "@/utils/siwe/session";
 import { formatTraitType } from "@/utils/traits/format";
 import { Link } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
-import { GetServerSideProps, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 
-export const getServerSideProps: GetServerSideProps<{
+export const getStaticProps: GetStaticProps<{
   trait: Trait;
   author: UserInfo;
-}> = async ({ req: { cookies }, params }) => {
+}> = async ({ params }) => {
   if (!params?.id) {
     return {
       notFound: true,
+      revalidate: 60,
     };
   }
-  const session = await Session.fromCookies(cookies);
 
-  const trait = (await getTrait(params.id as string, {
-    requester: session.address,
-  })) as Trait;
+  const trait = (await getTrait(params.id as string)) as Trait;
 
   const author = await getUserInfo(trait.address);
 
@@ -54,7 +51,12 @@ export const getServerSideProps: GetServerSideProps<{
 
   return {
     props: { trait, author },
+    revalidate: 900,
   };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return { fallback: true, paths: [] };
 };
 
 const TraitPage: NextPage<{

@@ -86,6 +86,9 @@ importers:
       next-usequerystate:
         specifier: ^1.8.4
         version: 1.8.4(next@13.4.13)
+      nextjs-progressbar:
+        specifier: ^0.0.16
+        version: 0.0.16(next@13.4.13)(react@18.2.0)
       noggles:
         specifier: workspace:^
         version: link:../../packages/noggles
@@ -6905,6 +6908,10 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: false
 
+  /@types/nprogress@0.2.3:
+    resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
+    dev: false
+
   /@types/pako@2.0.0:
     resolution: {integrity: sha512-10+iaz93qR5WYxTo+PMifD5TSxiOtdRaxBf7INGGXMQgTCu8Z/7GYWYFUOS3q/G0nE5boj1r4FEB+WSy7s5gbA==}
 
@@ -11147,6 +11154,19 @@ packages:
       - babel-plugin-macros
     dev: false
 
+  /nextjs-progressbar@0.0.16(next@13.4.13)(react@18.2.0):
+    resolution: {integrity: sha512-GV0fD38EMD3vSDCmkq+tObmoup6QA91a6a9MxGuhJZuRk/9TNsrHGnIQQQ/sggkMkXuT4fBgF6jRjFwScDT3zA==}
+    peerDependencies:
+      next: '>= 6.0.0'
+      react: '>= 16.0.0'
+    dependencies:
+      '@types/nprogress': 0.2.3
+      next: 13.4.13(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+      nprogress: 0.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /nft.storage@7.1.1(node-fetch@3.3.2):
     resolution: {integrity: sha512-OHFeRiWLcGCWHX8Kx3yvSt7qGbHwEROl0kcN2xaHWBaR0ApYH5DnjlqczXSwP9WwBDtjhyDk4IHReXSwuZkB7Q==}
     dependencies:
@@ -11268,6 +11288,10 @@ packages:
       console-control-strings: 1.1.0
       gauge: 3.0.2
       set-blocking: 2.0.0
+    dev: false
+
+  /nprogress@0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
     dev: false
 
   /nth-check@2.1.1:

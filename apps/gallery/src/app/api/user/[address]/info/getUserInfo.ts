@@ -1,5 +1,4 @@
 import { publicClient } from "@/app/publicClient";
-import { DEFAULT_PROFILE_PICTURE } from "@/constants/config";
 import { UserSchema } from "@/db/schema/UserSchema";
 import { UserInfo } from "@/types/user";
 import { shortAddress } from "@/utils/address/format";
@@ -38,13 +37,8 @@ export const getUserInfo = async (
     publicClient.getEnsName({ address }),
   ]);
 
-  const ensAvatar = ensName
-    ? await publicClient.getEnsAvatar({ name: ensName })
-    : undefined;
-
   const userName =
     dbUser?.userName?.toLowerCase() || ensName || shortAddress(address);
-  const profilePic = dbUser?.profilePic ?? ensAvatar ?? DEFAULT_PROFILE_PICTURE;
 
-  return { ...dbUser, userName, profilePic };
+  return { ...dbUser, userName };
 };

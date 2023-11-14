@@ -1,6 +1,6 @@
+import { DEFAULT_PROFILE_PICTURE } from "@/constants/config";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { Avatar, AvatarProps } from "@nextui-org/react";
-import dummyImg from "public/dummyImg.png";
 import { FC } from "react";
 import { useEnsAvatar, useEnsName } from "wagmi";
 import Dynamic from "./Dynamic";
@@ -10,11 +10,17 @@ export interface UserAvatarProps extends AvatarProps {
 }
 
 export const UserAvatar: FC<UserAvatarProps> = ({ address, ...props }) => {
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName });
   const { data: userInfo } = useUserInfo(address);
+  const { data: ensName } = useEnsName({
+    address,
+    enabled: !userInfo?.profilePic,
+  });
+  const { data: ensAvatar } = useEnsAvatar({
+    name: ensName,
+    enabled: !userInfo?.profilePic,
+  });
 
-  const avatar = userInfo?.profilePic || ensAvatar || dummyImg.src;
+  const avatar = userInfo?.profilePic || ensAvatar || DEFAULT_PROFILE_PICTURE;
 
   return (
     <Dynamic>

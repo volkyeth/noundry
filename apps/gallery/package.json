@@ -27,6 +27,7 @@
     "next": "13.4.13",
     "next-navigation": "^1.0.6",
     "next-usequerystate": "^1.8.4",
+    "nextjs-progressbar": "^0.0.16",
     "noggles": "workspace:^",
     "react": "^18.2.0",
     "react-click-away-listener": "^2.2.3",
