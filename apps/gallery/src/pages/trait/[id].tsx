@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps<{
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { fallback: true, paths: [] };
+  return { fallback: "blocking", paths: [] };
 };
 
 const TraitPage: NextPage<{
@@ -70,7 +70,6 @@ const TraitPage: NextPage<{
       fetch(`/api/trait/${initialTrait.id}`).then(
         (r) => r.json() as Promise<Trait & { liked?: boolean }>
       ),
-
     initialData: initialTrait,
   });
 
