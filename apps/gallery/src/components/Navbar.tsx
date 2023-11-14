@@ -1,3 +1,4 @@
+import FarcasterIcon from "@/assets/icons/farcaster.svg";
 import {
   Link,
   NavbarBrand,
@@ -15,6 +16,7 @@ import { FC, useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
 import { Button } from "@/components/Button";
+import { FaDiscord, FaTwitter } from "react-icons/fa6";
 import { TfiMenu } from "react-icons/tfi";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
@@ -98,6 +100,18 @@ const Navbar = () => {
                 <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
                   Noundry Studio
                 </p>
+              </a>
+            </div>
+
+            <div className="flex gap-4 self-end">
+              <a href={`https://warpcast.com/noundry`} target="_blank">
+                <FarcasterIcon />
+              </a>
+              <a href={`https://twitter.com/noundry`} target="_blank">
+                <FaTwitter />
+              </a>
+              <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
+                <FaDiscord />
               </a>
             </div>
           </ul>
