@@ -125,7 +125,13 @@ const TraitIcon = ({ type }: { type: TraitCategory }) => {
       );
     case "glasses":
       return (
-        <svg width={48} height={48} viewBox="4 4 16 16" fill="#d4d4d9">
+        <svg
+          width={48}
+          height={48}
+          viewBox="4 4 16 16"
+          fill="#d4d4d9"
+          fillRule="evenodd"
+        >
           <path d="M13,11L13,9L7,9L7,11L4,11L4,14L5,14L5,12L7,12L7,15L13,15L13,12L14,12L14,15L20,15L20,9L14,9L14,11L13,11ZM15,10L15,14L17,14L17,10L15,10ZM8,10L8,14L10,14L10,10L8,10Z" />
         </svg>
       );
