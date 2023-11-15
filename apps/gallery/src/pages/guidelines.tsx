@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import ColorGrid from "../components/ColorGrid/ColorGrid";
+import { GrCircleAlert } from "react-icons/gr";
 
 const GuideLines = () => {
   const colors = [
@@ -257,15 +258,46 @@ const GuideLines = () => {
                 Nouns are typically depicted 'head-on' or with a slight rotation
                 to the right to match their 3/4 pose.
               </li>
+
+              <Image
+                  className="px-2 py-2"
+                  src="/noundry-guidelines-example.png"
+                  alt="example"
+                  width={250}
+                  height={250}
+                  unoptimized
+                />
+
               <li className=" my-1">
                 Generally designed flat with high contrasts and no outlines.{" "}
+              </li>
+
+              
+
+
+
+              <li className=" my-1">
+              <GrCircleAlert className="text-2xl inline-flex" /> Traits are layered in that order: Body, Accessory, Head, Glasses. <br></br>
+       
+
+              <Image
+                  className="py-2"
+                  src="/drawing-order-guidelines.png"
+                  alt="drawing order"
+                  width={640}
+                  height={418}
+                  unoptimized
+                />
+
+
+              Accessory traits will be layered over the Body, Head traits will be layered over both Accessory and Body, and Glasses will be layered over everything. <br></br>Ensure there is sufficient space below the Head for accessories. We recommend submitting monochrome Body traits to avoid clashes with accessories. If you wish to create a detailed Body trait, consider making it an accessory as it will cover the body underneath.
               </li>
 
               <li className="my-1">
                 Avoid too many colors per Noun. The average noun has 4-5 colors,
                 rarely more than 10.{" "}
               </li>
-              <div className=" flex flex-wrap md:flex-col sm:flex-col dsm:flex-col ">
+              <div className="flex flex-wrap md:flex-row sm:flex-row dsm:flex-col">
                 <Image
                   className="px-2 py-2"
                   src="/ghostExample.png"
@@ -277,7 +309,7 @@ const GuideLines = () => {
                 <Image
                   className="px-2 py-2"
                   src="/pyramidExample.png"
-                  alt="Ghost"
+                  alt="Pyramid"
                   width={250}
                   height={250}
                   unoptimized
@@ -285,7 +317,7 @@ const GuideLines = () => {
                 <Image
                   className="px-2 py-2"
                   src="/sandwichExample.png"
-                  alt="Ghost"
+                  alt="Sandwich"
                   width={250}
                   height={250}
                   unoptimized
@@ -296,11 +328,14 @@ const GuideLines = () => {
                 Maintain the head size within a circular crop for social media.
               </li>
 
-              <li className=" my-1">
-                Traits are layered in that order: bodies, accessories, heads,
-                glasses. Head traits will paint over accessories so make sure
-                there is decent clearance for accessories below the head.
-              </li>
+              <Image
+                  className="px-2 py-2"
+                  src="/headcrop-guidelines-640.png"
+                  alt="head crop"
+                  width={250}
+                  height={250}
+                  unoptimized
+                />
 
               <div className="bg-bright-light dark:bg-off-dark p-3 m-3">
                 <p className="lead m-4">
