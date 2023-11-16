@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import ColorGrid from "../components/ColorGrid/ColorGrid";
-import { GrCircleAlert } from "react-icons/gr";
+import { RiAlertLine } from "react-icons/ri";
 
 const GuideLines = () => {
   const colors = [
@@ -277,7 +277,7 @@ const GuideLines = () => {
 
 
               <li className=" my-1">
-              <GrCircleAlert className="text-2xl inline-flex" /> Traits are layered in that order: Body, Accessory, Head, Glasses. <br></br>
+              <RiAlertLine className=" text-3xl inline-flex -translate-y-1" /> Traits are layered in that order: Body, Accessory, Head, Glasses. <br></br>
        
 
               <Image
