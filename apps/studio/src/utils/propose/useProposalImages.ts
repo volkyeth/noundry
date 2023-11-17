@@ -147,7 +147,6 @@ export const generateMainImage = async (
   imageCanvas.height = PROPOSAL_MAIN_IMAGE_SIZE;
 
   for (const currentPart of nounParts) {
-    console.log(currentPart);
     switch (currentPart) {
       case staticPart:
         await drawCanvas(staticPartBitmap, imageCanvas);
