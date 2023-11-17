@@ -8,12 +8,18 @@ import { TraitPreviewCard } from "./TraitPreviewCard";
 
 export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
   account?: `0x${string}`;
+  includeTypes?: ("heads" | "glasses" | "accessories" | "bodies")[];
 }
 
-export const TraitGallery: FC<TraitGalleryProps> = ({ account, ...props }) => {
+export const TraitGallery: FC<TraitGalleryProps> = ({
+  account,
+  includeTypes,
+  ...props
+}) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetched } =
     useTraits({
       account,
+      includeTypes,
     });
 
   const { ref: loaderRef, inView } = useInView({

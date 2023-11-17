@@ -20,7 +20,7 @@ import { Button } from "./Button";
 
 export interface EditProfileModalProps {
   isOpen: boolean;
-  onOpenChange;
+  onOpenChange: () => void;
   currentUserInfo: UserInfo;
 }
 

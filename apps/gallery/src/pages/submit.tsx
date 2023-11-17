@@ -19,7 +19,6 @@ import { Input } from "@nextui-org/react";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
 import {
-  IMAGE_TRAIT_TYPES,
   NounSeed,
   NounTraits,
   TRAIT_TYPES,
@@ -28,7 +27,7 @@ import {
 } from "noggles";
 import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { GrReturn } from "react-icons/gr";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Submit = () => {
   const [traitType, setTraitType] = useQueryState<TraitType | null>("type", {
@@ -164,26 +163,28 @@ const Submit = () => {
   return (
     <Dynamic>
       <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
-        {/*<h1>Submit {formatTraitType(traitType)}</h1>*/}
+        <h1>Submit {formatTraitType(traitType) || "trait"}</h1>
 
         {traitType === null && (
           <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
-            {[...IMAGE_TRAIT_TYPES].map((traitType) => (
-              <Button
-                key={`select-type-${traitType}`}
-                variant="secondary"
-                className="w-full flex flex-col items-center p-8"
-                onClick={() => setTraitType(traitType)}
-              >
-                <TraitIcon
-                  type={traitType}
-                  className="w-12 h-12 md:w-[72px] md:h-[72px]"
-                />
-                <p className="uppercase mt-4 text-sm font-semibold ">
-                  {formatTraitType(traitType)}
-                </p>
-              </Button>
-            ))}
+            {["head", "accessory", "glasses", "body"].map(
+              (traitType: TraitType) => (
+                <Button
+                  key={`select-type-${traitType}`}
+                  variant="secondary"
+                  className="w-full h-fit flex flex-col items-center p-8"
+                  onClick={() => setTraitType(traitType)}
+                >
+                  <TraitIcon
+                    type={traitType}
+                    className="w-12 h-12 md:w-[72px] md:h-[72px]"
+                  />
+                  <p className="uppercase mt-4 text-sm font-semibold ">
+                    {formatTraitType(traitType)}
+                  </p>
+                </Button>
+              )
+            )}
           </div>
         )}
 
@@ -198,7 +199,7 @@ const Submit = () => {
                   setTraitFile(null);
                 }}
               >
-                <GrReturn className="text-2xl" />
+                <RiArrowGoBackFill className="text-2xl" />
               </Button>
               <div
                 {...getRootProps()}
@@ -252,7 +253,7 @@ const Submit = () => {
                     setTraitName("");
                   }}
                 >
-                  <GrReturn className="text-2xl" />
+                  <RiArrowGoBackFill className="text-2xl" />
                 </Button>
                 <TraitCard
                   name={
