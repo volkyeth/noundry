@@ -14,11 +14,15 @@ export const ConnectButton = () => {
     <Dynamic>
       <Button
         variant="white"
-        className="p-[2px] min-h-unit-10 min-w-unit-24"
+        className={`p-[2px] min-h-unit-10 min-w-unit-24 ${
+          userInfo && address
+            ? '' // Styles for the "Connected" state
+            : 'px-10 mx-1'  // Styles for the "Connect" state
+        }`}
         onClick={openProfile}
       >
         {userInfo && address ? (
-          <div className="flex flex-row gap-6  pr-6 items-center  ">
+          <div className="flex flex-row gap-6 pr-4 items-center">
             <UserAvatar address={address} />
             <p className="">{userInfo.userName}</p>
           </div>
@@ -28,4 +32,5 @@ export const ConnectButton = () => {
       </Button>
     </Dynamic>
   );
+  
 };
