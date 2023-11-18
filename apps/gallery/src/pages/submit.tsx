@@ -27,7 +27,8 @@ import {
 } from "noggles";
 import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { RiArrowGoBackFill } from "react-icons/ri";
+
+import { RiArrowLeftLine } from "react-icons/ri";
 
 const Submit = () => {
   const [traitType, setTraitType] = useQueryState<TraitType | null>("type", {
@@ -199,7 +200,9 @@ const Submit = () => {
                   setTraitFile(null);
                 }}
               >
-                <RiArrowGoBackFill className="text-2xl" />
+
+                <RiArrowLeftLine className="text-2xl"/>
+
               </Button>
               <div
                 {...getRootProps()}
@@ -211,7 +214,7 @@ const Submit = () => {
                     ? `Drop your ${formatedTraitType} here`
                     : traitFile
                     ? `Drop another ${formatedTraitType} here to replace, or click to select a file`
-                    : `Drop your ${formatedTraitType} here, or click to select a file`}
+                    : `Drop your ${formatedTraitType} as a transparent PNG, or click to select a file`}
                 </p>
                 <canvas
                   ref={setTraitCanvas}
@@ -253,7 +256,9 @@ const Submit = () => {
                     setTraitName("");
                   }}
                 >
-                  <RiArrowGoBackFill className="text-2xl" />
+
+                  <RiArrowLeftLine className="text-2xl"/>
+
                 </Button>
                 <TraitCard
                   name={
