@@ -77,7 +77,7 @@ const Profile: NextPage<{ userInfo: UserInfo }> = ({ userInfo }) => {
                       <Button
                         onClick={onOpen}
                         variant="primary"
-                        className="flex gap-1 text-sm p-2 py-1 items-center"
+                        className="flex gap-1 text-sm px-4 items-center"
                       >
                         Edit
                         <RiPencilFill className="" />
