@@ -8,31 +8,39 @@ import {
   NavbarMenu,
   NavbarMenuToggle,
   Navbar as NextUiNavbar,
+  useDisclosure,
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import LogoImage from "public/NoundryGalleryLogo.svg";
 import { FC, useEffect, useState } from "react";
-import { IoCloseSharp } from "react-icons/io5";
 
 import { Button } from "@/components/Button";
 import { FaDiscord, FaTwitter } from "react-icons/fa6";
-import { TfiMenu } from "react-icons/tfi";
+import {
+  RiCloseFill,
+  RiFilterLine,
+  RiMenuFill,
+  RiUpload2Fill,
+} from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
-import { UserAvatar } from "./UserAvatar";
+import { GalleryFilterModal } from "./GalleryFilterModal";
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { address } = useAccount();
-  const { events } = useRouter();
+  const { events, asPath: currentPage } = useRouter();
   useEffect(() => {
     const handler = () => setIsMenuOpen(false);
     events.on("routeChangeComplete", handler);
     return () => events.off("routeChangeComplete", handler);
   }, [events, setIsMenuOpen]);
+
+  const { isOpen, onOpenChange } = useDisclosure();
 
   return (
     <NextUiNavbar
@@ -55,9 +63,24 @@ const Navbar = () => {
           <NavbarLink href={"/"}>Traits</NavbarLink>
           <NavbarLink href={"/artists"}>Artists</NavbarLink>
         </NavbarContent>
-        <NavbarContent justify="end">
+        <NavbarContent justify="end" className="gap-2">
+          {currentPage.toLowerCase().split(/[?#]/)[0] === "/" && (
+            <NavbarItem>
+              <Button variant="white" className="p-2" onClick={onOpenChange}>
+                <RiFilterLine size={24} />
+              </Button>
+              <GalleryFilterModal isOpen={isOpen} onOpenChange={onOpenChange} />
+            </NavbarItem>
+          )}
           <NavbarButton href={"/submit"} className="hidden xs:flex">
-            Submit Trait
+            Submit
+          </NavbarButton>
+          <NavbarButton
+            href={"/submit"}
+            className="flex xs:hidden"
+            classNames={{ button: "p-2" }}
+          >
+            <RiUpload2Fill size={24} />
           </NavbarButton>
 
           <NavbarItem  className="flex flex-row gap-6 items-center">
@@ -77,13 +100,9 @@ const Navbar = () => {
 
           <Dynamic>
             <NavbarMenuToggle
-              className="w-fit h-fit text-off-dark"
+              className="w-fit h-fit p-2 text-off-dark"
               icon={(isOpen) =>
-                isOpen ? (
-                  <IoCloseSharp className="w-5 h-5 " />
-                ) : (
-                  <TfiMenu className="w-5 h-5" />
-                )
+                isOpen ? <RiCloseFill size={24} /> : <RiMenuFill size={24} />
               }
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             />
@@ -166,12 +185,15 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
 
 interface NavbarButtonProps extends NavbarItemProps {
   href: string;
+  classNames?: {
+    button?: string;
+  };
 }
 
 const NavbarButton: FC<NavbarButtonProps> = ({
   children,
   href,
-  className,
+  classNames,
   ...props
 }) => {
   const { asPath: currentPage } = useRouter();
@@ -185,6 +207,7 @@ const NavbarButton: FC<NavbarButtonProps> = ({
           <Button
             variant={isActive ? "secondary" : "primary"}
             aria-current={isActive ? "page" : undefined}
+            className={classNames?.button}
           >
             {children}
           </Button>

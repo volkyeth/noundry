@@ -35,7 +35,6 @@ export async function GET(req: Request, { params: { id } }) {
   const inter400 = await fetch(`${baseUri}/fonts/inter-400.ttf`).then((res) =>
     res.arrayBuffer()
   );
-  console.log(noundryGalleryLogo.src);
 
   return new ImageResponse(
     (
