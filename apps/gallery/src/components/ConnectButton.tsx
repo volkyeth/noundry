@@ -12,6 +12,8 @@ export const ConnectButton = () => {
 
   return (
     <Dynamic>
+
+      
       <Button
         variant="white"
         className={`p-[2px] min-h-unit-10 min-w-unit-24 ${
@@ -22,8 +24,8 @@ export const ConnectButton = () => {
         onClick={openProfile}
       >
         {userInfo && address ? (
-          <div className="flex flex-row gap-6 pr-4 items-center">
-            <UserAvatar address={address} />
+          <div className="flex flex-row gap-6 px-4 items-center">
+            {/*<UserAvatar address={address} />*/}
             <p className="">{userInfo.userName}</p>
           </div>
         ) : (

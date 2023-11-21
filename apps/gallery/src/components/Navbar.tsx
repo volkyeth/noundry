@@ -22,6 +22,7 @@ import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
+import { UserAvatar } from "./UserAvatar";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,9 +60,20 @@ const Navbar = () => {
             Submit Trait
           </NavbarButton>
 
+          <NavbarItem  className="flex flex-row gap-6 items-center">
+          <Button
+          variant="white" className="p-[0.1px] " >
+          <NavbarLink href={`/profile/${address}`} className=" translate-y-0.5">
+            <UserAvatar  address={address} />
+            </NavbarLink>
+            </Button>
+          </NavbarItem>
+
           <NavbarItem className="hidden md:flex">
             <ConnectButton />
           </NavbarItem>
+
+
 
           <Dynamic>
             <NavbarMenuToggle
