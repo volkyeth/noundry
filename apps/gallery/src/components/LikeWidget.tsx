@@ -36,7 +36,7 @@ export const LikeWidget: FC<LikeWidgetProps> = ({
 
   return (
     <div
-      className={`flex gap-1 ${liked ? "text-primary" : "text-default-300"}`}
+      className={`flex gap-1 ${liked ? "text-primary" : "text-secondary-200"}`}
       {...props}
     >
       {liking ? (

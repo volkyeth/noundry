@@ -22,11 +22,11 @@
   }
 
   h1 {
-    @apply text-2xl font-semibold text-default-500  md:text-4xl;
+    @apply text-2xl font-semibold text-secondary-700  md:text-4xl;
   }
 
   h2 {
-    @apply text-xl font-semibold text-default-400 md:text-2xl;
+    @apply text-xl font-semibold text-secondary-400 md:text-2xl;
   }
 
   body {
@@ -53,8 +53,8 @@
   .bg-checkerboard {
     background-size: 3.125% 3.125%; /* 100% / 32 pixels */
     background-image: repeating-conic-gradient(
-      theme(colors[gray].200) 0% 25%,
-      theme(colors[gray].50) 0% 50%
+    #ececec 0% 25%, /* Replace with your first custom gray color */
+    #ffffff 0% 50%  /* Replace with your second custom gray color */
     );
   }
 

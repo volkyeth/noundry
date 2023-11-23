@@ -134,7 +134,7 @@ const TraitPage: NextPage<{
             footer={
               <>
                 <div className="flex flex-col gap-2 text-medium">
-                  <p className="text-sm  text-default-500">
+                  <p className="text-sm  text-secondary-500">
                     {formatDistanceToNow(trait.creationDate, {
                       addSuffix: true,
                     })}{" "}

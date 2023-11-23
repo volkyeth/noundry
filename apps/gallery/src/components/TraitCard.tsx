@@ -27,10 +27,10 @@ export const TraitCard: FC<TraitCardProps> = ({
     <div className="p-4 xs:p-6 w-fit h-fit flex-shrink-0 shadow-md bg-content1">
       <div className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
-          <h1 className="font-Inter text-secondary font-bold text-2xl">
+          <h1 className="font-Inter  text-secondary-600  font-bold text-2xl">
             {name}
           </h1>
-          <small className="text-default-300 text-tiny xs:text-medium uppercase font-bold tracking-wider">
+          <small className="text-secondary-200 text-tiny xs:text-medium uppercase font-bold tracking-wider">
             {formatTraitType(type)}
           </small>
         </div>
@@ -39,7 +39,7 @@ export const TraitCard: FC<TraitCardProps> = ({
           onMouseEnter={() => setSeeThrough(true)}
           onMouseLeave={() => setSeeThrough(false)}
           type={type}
-          className="w-[24px] xs:w-[32px] text-default-300 hover:text-default-200"
+          className="w-[24px] xs:w-[32px]  text-secondary-200 hover:opacity-50"
         />
       </div>
       <div className="overflow-visible items-center p-0 w-fit">

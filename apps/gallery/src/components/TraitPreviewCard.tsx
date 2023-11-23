@@ -35,7 +35,7 @@ export const TraitPreviewCard = forwardRef<
         <div className="flex flex-col items-start ">
           {trait ? (
             <Link color="foreground" as={NextLink} href={`/trait/${trait.id}`}>
-              <p className="font-bold pt-1 text-secondary text-[16px]/4">
+              <p className="font-bold pt-1 text-secondary-600 text-[16px]/4">
                 {trait.name}
               </p>
             </Link>
@@ -45,7 +45,7 @@ export const TraitPreviewCard = forwardRef<
             </div>
           )}
           {trait ? (
-            <small className="text-secondary uppercase opacity-30 text-tiny font-bold tracking-wide">
+            <small className="text-secondary-200 uppercase mt-0.5 text-[0.70rem] font-bold tracking-wide">
               {formatTraitType(trait.type)}
             </small>
           ) : (
@@ -58,7 +58,7 @@ export const TraitPreviewCard = forwardRef<
             onMouseEnter={() => setSeeThrough(true)}
             onMouseLeave={() => setSeeThrough(false)}
             type={trait.type}
-            className="w-[16px] text-dark opacity-50  pt-1  hover:opacity-20 "
+            className="w-[16px] text-secondary-200 pt-1  hover:opacity-50 "
           />
         ) : (
           <Skeleton className="w-[20px] h-[20px] mt-1" />
@@ -87,13 +87,13 @@ export const TraitPreviewCard = forwardRef<
           />
         </Link>
       </CardBody>
-      <CardFooter className="p-0 pt-1  flex items-start justify-between  rounded-none">
+      <CardFooter className="p-0 pt-1 flex items-start justify-between rounded-none">
         {trait ? (
           <Link
             href={`/profile/${trait.address}`}
             as={NextLink}
             color="foreground"
-            className="text-sm font-medium text-off-dark"
+            className="text-sm font-medium text-secondary-600 hover:opacity-75 "
           >
             {username}
           </Link>

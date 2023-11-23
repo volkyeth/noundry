@@ -28,6 +28,7 @@ import { useAccount } from "wagmi";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
 import { GalleryFilterModal } from "./GalleryFilterModal";
+import { UserAvatar } from "./UserAvatar";    
 
 
 const Navbar = () => {
@@ -67,7 +68,7 @@ const Navbar = () => {
           {currentPage.toLowerCase().split(/[?#]/)[0] === "/" && (
             <NavbarItem>
               <Button variant="white" className="p-2" onClick={onOpenChange}>
-                <RiFilterLine size={24} />
+                <RiFilterLine size={22} />
               </Button>
               <GalleryFilterModal isOpen={isOpen} onOpenChange={onOpenChange} />
             </NavbarItem>
@@ -85,7 +86,7 @@ const Navbar = () => {
 
           <NavbarItem  className="flex flex-row gap-6 items-center">
           <Button
-          variant="white" className="p-[0.1px] " >
+          variant="white" className="p-[0.1px] px-[2px]" >
           <NavbarLink href={`/profile/${address}`} className=" translate-y-0.5">
             <UserAvatar  address={address} />
             </NavbarLink>
@@ -95,8 +96,6 @@ const Navbar = () => {
           <NavbarItem className="hidden md:flex">
             <ConnectButton />
           </NavbarItem>
-
-
 
           <Dynamic>
             <NavbarMenuToggle

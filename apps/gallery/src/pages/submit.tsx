@@ -164,16 +164,16 @@ const Submit = () => {
   return (
     <Dynamic>
       <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
-        <h1>Submit {formatTraitType(traitType) || "trait"}</h1>
+        <h1>Submit {formatTraitType(traitType).charAt(0).toUpperCase() + formatedTraitType.slice(1) || "trait"}</h1>
 
         {traitType === null && (
-          <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
+          <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2 items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
             {["head", "accessory", "glasses", "body"].map(
               (traitType: TraitType) => (
                 <Button
                   key={`select-type-${traitType}`}
                   variant="secondary"
-                  className="w-full h-fit flex flex-col items-center p-8"
+                  className="w-full h-fit flex flex-col items-center p-8 py-12 pt-16"
                   onClick={() => setTraitType(traitType)}
                 >
                   <TraitIcon
@@ -206,15 +206,22 @@ const Submit = () => {
               </Button>
               <div
                 {...getRootProps()}
-                className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
+                className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-between shadow-inset shadow-default-300"
               >
                 <input {...getInputProps()} />
-                <p className="text-center ">
+
+  <img
+    src="/Submit-explainer.png"
+    alt="Trait PNG image"
+  />
+                
+
+                <p className="text-center mt-auto">
                   {isDragActive
-                    ? `Drop your ${formatedTraitType} here`
+                    ? `Drop your ${formatedTraitType.charAt(0).toUpperCase() + formatedTraitType.slice(1)} here`
                     : traitFile
-                    ? `Drop another ${formatedTraitType} here to replace, or click to select a file`
-                    : `Drop your ${formatedTraitType} as a transparent PNG, or click to select a file`}
+                    ? `Drop another ${formatedTraitType.charAt(0).toUpperCase() + formatedTraitType.slice(1)} here to replace, or click to select a file`
+                    : `Drop your ${formatedTraitType.charAt(0).toUpperCase() + formatedTraitType.slice(1)} as a transparent PNG, or click to select a file`}
                 </p>
                 <canvas
                   ref={setTraitCanvas}
