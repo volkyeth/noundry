@@ -67,15 +67,16 @@ const Navbar = () => {
         <NavbarContent justify="end" className="gap-2">
           {currentPage.toLowerCase().split(/[?#]/)[0] === "/" && (
             <NavbarItem>
-              <Button variant="white" className="p-2" onClick={onOpenChange}>
+              <Button variant="white" className="p-2 mr-1 " onClick={onOpenChange}>
                 <RiFilterLine size={22} />
               </Button>
               <GalleryFilterModal isOpen={isOpen} onOpenChange={onOpenChange} />
             </NavbarItem>
           )}
-          <NavbarButton href={"/submit"} className="hidden xs:flex">
+          <NavbarButton href={"/submit"} className="hidden xs:flex mr-5">
             Submit
           </NavbarButton>
+
           <NavbarButton
             href={"/submit"}
             className="flex xs:hidden"
@@ -84,17 +85,17 @@ const Navbar = () => {
             <RiUpload2Fill size={24} />
           </NavbarButton>
 
+          <NavbarItem className="hidden md:flex">
+            <ConnectButton />
+          </NavbarItem>
+
           <NavbarItem  className="flex flex-row gap-6 items-center">
           <Button
-          variant="white" className="p-[0.1px] px-[2px]" >
+          variant="white" className="ml-1 p-[0.1px] px-[2px]" >
           <NavbarLink href={`/profile/${address}`} className=" translate-y-0.5">
             <UserAvatar  address={address} />
             </NavbarLink>
             </Button>
-          </NavbarItem>
-
-          <NavbarItem className="hidden md:flex">
-            <ConnectButton />
           </NavbarItem>
 
           <Dynamic>
