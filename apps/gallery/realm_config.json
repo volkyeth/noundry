@@ -1,9 +1,8 @@
 {
-    "app_id": "application-1-gbtun",
+    "app_id": "noundry-zzxyj",
     "config_version": 20210101,
-    "name": "Application-1",
+    "name": "Noundry",
     "location": "US-VA",
     "provider_region": "gcp-us-central1",
-    "deployment_model": "LOCAL",
-    "environment": "production"
+    "deployment_model": "LOCAL"
 }
