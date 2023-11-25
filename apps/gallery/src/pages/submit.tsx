@@ -188,7 +188,10 @@ const Submit = () => {
             )}
           </div>
         )}
+        
+        {traitType === null && (
         <div><p className=" font-medium">Check out the <a className=" underline hover:text-primary " href={"/guidelines"}> Guidelines </a> </p></div>
+        )}
 
         {traitType !== null && traitBitmap === null && (
           <>
