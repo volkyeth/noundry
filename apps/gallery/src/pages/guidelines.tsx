@@ -269,7 +269,7 @@ const GuideLines = () => {
                 />
 
               <li className=" my-1">
-                Generally designed flat with high contrasts and no outlines.{" "}
+              Designed with high contrasts and no outlines, often in a flat style.{" "}
               </li>
 
               
@@ -289,8 +289,9 @@ const GuideLines = () => {
                   unoptimized
                 />
 
-
+              <div className="ml-6">
               Accessory traits will be layered over the Body, Head traits will be layered over both Accessory and Body, and Glasses will be layered over everything. <br></br>Ensure there is sufficient space below the Head for accessories. We recommend submitting monochrome Body traits to avoid clashes with accessories. If you wish to create a detailed Body trait, consider making it an accessory as it will cover the body underneath.
+              </div>
               </li>
 
               <li className="my-1">
@@ -337,12 +338,12 @@ const GuideLines = () => {
                   unoptimized
                 />
 
-              <div className="bg-bright-light dark:bg-off-dark p-3 m-3">
+              <div className="bg-bright-light dark:bg-off-dark text-small  p-3 m-3 mb-8">
                 <p className="lead m-4">
                   <a
                     href="https://discord.com/channels/849745721544146955/931247256470953994/932159019592871987"
                     target="_blank"
-                    className=" underline hover:text-primary "
+                    className=" underline  hover:text-primary "
                   >
                     {" "}
                     From the nounders in last year noundry channel,
@@ -419,6 +420,14 @@ const GuideLines = () => {
                 className=" underline hover:text-primary text-lg"
               >
                 Nouniversary Discord
+              </a>
+
+              <a
+                href="https://discord.gg/jf7TfarjYG"
+                target="_blank"
+                className=" underline hover:text-primary text-lg"
+              >
+                Noundry Community Discord
               </a>
             </div>
           </div>

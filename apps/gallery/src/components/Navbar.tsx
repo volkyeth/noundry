@@ -125,7 +125,16 @@ const Navbar = () => {
             <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
             <NavbarLink href={"/about"}>About</NavbarLink>
 
-            <div className="mt-20">
+            <div className="mt-5">
+              <p className="font-normal text-sm text-off-dark">Check out</p>
+              <a href="https://nouns.wtf/" target="_blank">
+                <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
+                  Nouns.wtf
+                </p>
+              </a>
+            </div>
+
+            <div className="mt-2 mb-2">
               <p className="font-normal text-sm text-off-dark">Check out</p>
               <a href="https://studio.noundry.wtf/" target="_blank">
                 <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">

@@ -188,10 +188,11 @@ const Submit = () => {
             )}
           </div>
         )}
+        <div><p className=" font-medium">Check out the <a className=" underline hover:text-primary " href={"/guidelines"}> Guidelines </a> </p></div>
 
         {traitType !== null && traitBitmap === null && (
           <>
-            <div className="w-full max-w-xl flex flex-col items-center justify-center gap-2 ">
+            <div className="w-full max-w-xl flex flex-col items-center gap-2 ">
               <Button
                 variant="ghost"
                 className="self-start px-2 py-1"
@@ -206,23 +207,17 @@ const Submit = () => {
               </Button>
               <div
                 {...getRootProps()}
-                className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-between shadow-inset shadow-default-300"
+                className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
               >
                 <input {...getInputProps()} />
-
-  <img
-    src="/Submit-explainer.png"
-    alt="Trait PNG image"
-  />
-                
-
-                <p className="text-center mt-auto">
+                <p className="text-center">
                   {isDragActive
                     ? `Drop your ${formatedTraitType.charAt(0).toUpperCase() + formatedTraitType.slice(1)} here`
                     : traitFile
                     ? `Drop another ${formatedTraitType.charAt(0).toUpperCase() + formatedTraitType.slice(1)} here to replace, or click to select a file`
                     : `Drop your ${formatedTraitType.charAt(0).toUpperCase() + formatedTraitType.slice(1)} as a transparent PNG, or click to select a file`}
                 </p>
+
                 <canvas
                   ref={setTraitCanvas}
                   className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
@@ -356,6 +351,53 @@ const Submit = () => {
           </>
         )}
       </div>
+      {!traitFile && (
+      <div>         
+      {formatedTraitType === "head" && (
+        <div className="text-center text-small">
+          <p> Example: </p>
+          <img
+            src="/Submit-head.png"
+            alt="Trait PNG image"
+            className="mx-auto"
+          />
+        </div>
+      )}
+
+      {formatedTraitType === "accessory" && (
+        <div className="text-center text-small">
+        <p> Example: </p>
+        <img
+            src="/Submit-accessory.png"
+            alt="Trait PNG image"
+            className="mx-auto"
+          />
+        </div>
+      )}
+
+      {formatedTraitType === "noggles" && (
+        <div className="text-center text-small">
+        <p> Example: </p>
+        <img
+            src="/Submit-noggles.png"
+            alt="Trait PNG image"
+            className="mx-auto"
+          />
+        </div>
+      )}
+
+      {formatedTraitType === "body" && (
+        <div className="text-center text-small">
+        <p> Example: </p>
+        <img
+            src="/Submit-body.png"
+            alt="Trait PNG image"
+            className="mx-auto"
+          />
+        </div>
+      )}
+      </div>
+      )}
     </Dynamic>
   );
 };
