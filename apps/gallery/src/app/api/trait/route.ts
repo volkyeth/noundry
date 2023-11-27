@@ -1,4 +1,5 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
+import { inngest } from "@/inngest/client";
 import { addTraitQuerySchema } from "@/schemas/addTraitQuery";
 import { PngDataUri } from "@/types/image";
 import { database } from "@/utils/database/db";
@@ -33,6 +34,11 @@ export async function POST(req: Request) {
     address: session.address as `0x${string}`,
     likedBy: [],
     creationDate: Date.now(),
+  });
+
+  await inngest.send({
+    name: "trait/submitted",
+    data: { traitId: id.toString() },
   });
 
   return NextResponse.json({ id: id.toString() });

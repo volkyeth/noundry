@@ -21,6 +21,7 @@
     "connectkit-next-siwe": "^0.2.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.4",
+    "inngest": "^3.6.1",
     "iron-session": "^6.3.1",
     "moment": "^2.29.4",
     "mongodb": "^6.1.0",
@@ -44,6 +45,7 @@
     "zod": "^3.22.3"
   },
   "scripts": {
+    "dev:inngest": "inngest-cli dev",
     "dev": "next dev",
     "devBuild": "chmod u+r+x setup.sh && ./setup.sh && next build",
     "build": "next build",
@@ -55,6 +57,7 @@
     "@types/react": "^18.0.17",
     "@types/seedrandom": "^3.0.6",
     "autoprefixer": "^10.4.16",
+    "inngest-cli": "^0.21.1",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "tailwind-merge": "^1.14.0",
