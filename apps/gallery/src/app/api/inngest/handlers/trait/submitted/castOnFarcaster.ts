@@ -38,9 +38,7 @@ export const castOnFarcaster = inngest.createFunction(
       : (await getUserInfo(trait.address)).userName;
 
     const castBody = `New submission by ${author}:
-${trait.name} ${formatTraitType(trait.type)}
-
-(Yes, testing in prod ¯\\_(ツ)_/¯)`;
+${trait.name} ${formatTraitType(trait.type)}`;
 
     const options = {
       method: "POST",
