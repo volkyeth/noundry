@@ -1,4 +1,5 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
+import { inngest } from "@/inngest/client";
 import { database } from "@/utils/database/db";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { ObjectId } from "mongodb";
@@ -28,7 +29,13 @@ export async function DELETE(req: NextRequest, { params: { id } }) {
     .collection<TraitSchema>("nfts")
     .deleteOne({ _id: new ObjectId(id) });
 
-  if (result.deletedCount === 1) return NextResponse.json({}, { status: 200 });
+  if (result.deletedCount !== 1)
+    return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
 
-  return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
+  await inngest.send({
+    name: "trait/deleted",
+    data: { traitId: id },
+  });
+
+  return NextResponse.json({}, { status: 200 });
 }

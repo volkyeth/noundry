@@ -20,6 +20,8 @@
     "connectkit": "^1.5.3",
     "connectkit-next-siwe": "^0.2.0",
     "date-fns": "^2.30.0",
+    "detritus-client-rest": "^0.10.5",
+    "discord-api-types": "^0.37.65",
     "framer-motion": "^10.16.4",
     "inngest": "^3.6.1",
     "iron-session": "^6.3.1",

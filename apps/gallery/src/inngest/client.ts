@@ -6,8 +6,15 @@ type TraitSubmitted = {
   };
 };
 
+type TraitDeleted = {
+  data: {
+    traitId: string;
+  };
+};
+
 type Events = {
   "trait/submitted": TraitSubmitted;
+  "trait/deleted": TraitDeleted;
 };
 
 // Create a client to send and receive events
