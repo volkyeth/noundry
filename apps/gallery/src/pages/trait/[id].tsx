@@ -40,7 +40,14 @@ export const getStaticProps: GetStaticProps<{
     };
   }
 
-  const trait = (await getTrait(params.id as string)) as Trait;
+  const trait = await getTrait(params.id as string);
+
+  if (!trait) {
+    return {
+      notFound: true,
+      revalidate: 60,
+    };
+  }
 
   const author = await getUserInfo(trait.address);
 
