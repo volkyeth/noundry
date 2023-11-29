@@ -16,7 +16,7 @@ import LogoImage from "public/NoundryGalleryLogo.svg";
 import { FC, useEffect, useState } from "react";
 
 import { Button } from "@/components/Button";
-import { FaDiscord, FaTwitter } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa6";
 import {
   RiCloseFill,
   RiFilterLine,
@@ -131,6 +131,9 @@ const Navbar = () => {
               </a>
               <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
                 <FaDiscord />
+              </a>
+              <a href={`https://github.com/volkyeth/noundry`} target="_blank">
+                <FaGithub />
               </a>
             </div>
           </ul>
