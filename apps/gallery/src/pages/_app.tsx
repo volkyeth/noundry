@@ -39,17 +39,23 @@ export default function App({ Component, pageProps }: AppProps) {
             <NextUIProvider className="flex flex-col min-h-screen">
               <Head>
                 <title>Noundry Gallery</title>
+                <meta key="title" name="title" content="Noundry Gallery" />
+
                 <meta
-                  key="title"
-                  name="title"
-                  property="og:title"
+                  key="og:title"
+                  name="og:title"
                   content="Noundry Gallery"
                 />
 
                 <meta
                   key="description"
                   name="description"
-                  property="og:description"
+                  content="Let there be Nouns."
+                />
+
+                <meta
+                  key="og:description"
+                  name="og:description"
                   content="Let there be Nouns."
                 />
 

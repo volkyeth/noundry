@@ -97,13 +97,21 @@ const TraitPage: NextPage<{
         <meta
           key="title"
           name="title"
-          property="og:title"
+          content={`${trait.name} ${formatTraitType(trait.type)}`}
+        />
+        <meta
+          key="og:title"
+          name="og:title"
           content={`${trait.name} ${formatTraitType(trait.type)}`}
         />
         <meta
           key="description"
           name="description"
-          property="og:description"
+          content={`Created by: ${author.userName}`}
+        />
+        <meta
+          key="og:description"
+          name="og:description"
           content={`Created by: ${author.userName}`}
         />
 
