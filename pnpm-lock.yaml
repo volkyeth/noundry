@@ -131,6 +131,9 @@ importers:
       siwe:
         specifier: ^2.1.4
         version: 2.1.4(ethers@6.7.1)
+      twitter-api-v2:
+        specifier: ^1.15.2
+        version: 1.15.2
       viem:
         specifier: ^1.12.2
         version: 1.12.2(typescript@5.2.2)(zod@3.22.3)
@@ -13202,6 +13205,10 @@ packages:
       turbo-windows-64: 1.10.15
       turbo-windows-arm64: 1.10.15
     dev: true
+
+  /twitter-api-v2@1.15.2:
+    resolution: {integrity: sha512-iIGItwkUGsAGA6VNnULXL5dllVJ35IZQjLSTWvqSn4M7s19B6X1+pUB/ZDSJD+u6q6+FinNxy0dnDIEoCZ5x8w==}
+    dev: false
 
   /type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}

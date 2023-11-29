@@ -72,7 +72,6 @@ export const postOnDiscord = inngest.createFunction(
     );
 
     if (traitWasDeleted) {
-      // If no post was created, send a reminder email
       await step.run("delete discord message", async () => {
         if (!process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID)
           throw new Error("NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID not set");
