@@ -98,7 +98,10 @@ ${trait.name} ${formatTraitType(trait.type)}`;
             api_key: process.env.NEYNAR_API_KEY,
             "content-type": "application/json",
           },
-          body: JSON.stringify({ target_hash: castHash }),
+          body: JSON.stringify({
+            target_hash: castHash,
+            signer_uuid: process.env.NOUNDRY_NEYNAR_SIGNER_UUID,
+          }),
         };
 
         const response = await fetch(
@@ -107,7 +110,9 @@ ${trait.name} ${formatTraitType(trait.type)}`;
         );
 
         if (!response.ok) {
-          throw new Error(`Error deleting cast`);
+          throw new Error(`Error deleting cast`, {
+            cause: await response.json(),
+          });
         }
 
         return { event: traitWasDeleted, result: await response.json() };
