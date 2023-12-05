@@ -105,7 +105,14 @@ export async function GET(req: NextRequest) {
     { $project: { allTraits: 0, _id: 0 } },
   ]);
 
-  return NextResponse.json(await cursor.next());
+  return NextResponse.json(
+    (await cursor.next()) ?? {
+      traits: [],
+      pageNumber: query.page,
+      traitCount: 0,
+      totalPages: 0,
+    }
+  );
 }
 
 const getSortCriteria = (

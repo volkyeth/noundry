@@ -67,6 +67,11 @@ export const TraitGallery: FC<TraitGalleryProps> = ({
             ))
         )}
       </div>
+      {isFetched && !data?.pages?.[0]?.traits.length && (
+        <p className="py-24 text-center text-xl text-default-300">
+          {search ? `No results for "${search}"` : "Nothing here yet"}
+        </p>
+      )}
       <div
         ref={loaderRef}
         className="mt-10 h-10 w-full flex flex-col items-center gap-2"
