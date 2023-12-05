@@ -1,6 +1,6 @@
 "use client";
 
-import { TraitsQuery, toQuerySting } from "@/schemas/traitsQuery";
+import { TraitsQuery, toQueryString } from "@/schemas/traitsQuery";
 import { Trait } from "@/types/trait";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSIWE } from "connectkit";
@@ -17,7 +17,7 @@ export const useTraits = (query: Partial<TraitsQuery>) => {
   return useInfiniteQuery<Traits>({
     queryKey: ["traits", query, siweCredentials],
     queryFn: async ({ queryKey: [, query], pageParam = 1 }) => {
-      const queryString = toQuerySting({
+      const queryString = toQueryString({
         ...(query as object),
         page: pageParam,
       } as Partial<TraitsQuery>);

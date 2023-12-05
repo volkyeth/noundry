@@ -3,6 +3,7 @@ import { TraitSchema } from "@/db/schema/TraitSchema";
 import { TraitsQuery, traitsQuerySchema } from "@/schemas/traitsQuery";
 import { database } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
+import { SortDirection } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -11,21 +12,21 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
 
   const sortBy = searchParams.get("sortBy") ?? undefined;
-  const direction = searchParams.get("direction") ?? undefined;
   const search = searchParams.get("search") ?? undefined;
   const includeTypes = searchParams.getAll("includeType");
-  const account = searchParams.get("account") ?? undefined;
+  const creator = searchParams.get("creator") ?? undefined;
+  const likedBy = searchParams.get("likedBy") ?? undefined;
   const page = searchParams.get("page") ?? undefined;
 
   const schemaValidation = traitsQuerySchema.safeParse({
     sortBy,
-    direction,
     search,
     includeTypes:
       includeTypes.length === 0
         ? ["heads", "glasses", "accessories", "bodies"]
         : includeTypes,
-    account,
+    creator,
+    likedBy,
     page,
   });
 
@@ -35,18 +36,19 @@ export async function GET(req: NextRequest) {
 
   const query = schemaValidation.data;
 
-  const sortField = getSortField(query.sortBy);
+  const { sortField, sortDirection } = getSortCriteria(query.sortBy);
 
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {
       $match: {
-        ...(query.account ? { address: query.account } : {}),
+        ...(query.search
+          ? { name: { $regex: query.search, $options: "i" } }
+          : {}),
+        ...(query.creator ? { address: query.creator } : {}),
+        ...(query.likedBy
+          ? { $expr: { $in: ["$likedBy", query.likedBy] } }
+          : {}),
         $expr: { $in: ["$type", query.includeTypes] },
-      },
-    },
-    {
-      $sort: {
-        [sortField ?? "creationDate"]: query.direction === "asc" ? 1 : -1,
       },
     },
     {
@@ -61,6 +63,11 @@ export async function GET(req: NextRequest) {
         id: {
           $toString: "$_id",
         },
+      },
+    },
+    {
+      $sort: {
+        [sortField]: sortDirection,
       },
     },
     ...(session.address
@@ -101,13 +108,16 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(await cursor.next());
 }
 
-const getSortField = (sortBy: TraitsQuery["sortBy"]) => {
+const getSortCriteria = (
+  sortBy: TraitsQuery["sortBy"]
+): { sortField: string; sortDirection: SortDirection } => {
   switch (sortBy) {
-    case "name":
-      return "name";
-    case "likes":
-      return "likesCount";
-    case "createdAt":
-      return "creationDate";
+    case "mostLiked":
+      return { sortField: "likesCount", sortDirection: -1 };
+    case "oldest":
+      return { sortField: "creationDate", sortDirection: 1 };
+    case "newest":
+    default:
+      return { sortField: "creationDate", sortDirection: -1 };
   }
 };

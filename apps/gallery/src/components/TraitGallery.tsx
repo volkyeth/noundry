@@ -1,5 +1,6 @@
 import { TRAITS_PAGE_SIZE } from "@/constants/config";
 import { useTraits } from "@/hooks/useTraits";
+import { SortCriteria } from "@/types/sort";
 import LoadingNoggles from "public/loading-noggles.svg";
 import { FC, HtmlHTMLAttributes, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -7,19 +8,28 @@ import { BlinkingNoggles } from "./BlinkingNoggles";
 import { TraitPreviewCard } from "./TraitPreviewCard";
 
 export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
-  account?: `0x${string}`;
+  creator?: `0x${string}`;
+  likedBy?: `0x${string}`;
   includeTypes?: ("heads" | "glasses" | "accessories" | "bodies")[];
+  sortBy?: SortCriteria;
+  search?: string;
 }
 
 export const TraitGallery: FC<TraitGalleryProps> = ({
-  account,
+  creator,
+  likedBy,
   includeTypes,
+  sortBy,
+  search,
   ...props
 }) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetched } =
     useTraits({
-      account,
+      creator,
+      likedBy,
       includeTypes,
+      sortBy,
+      search,
     });
 
   const { ref: loaderRef, inView } = useInView({

@@ -1,4 +1,5 @@
-import { useIncludeTypesState } from "@/hooks/useIncludeTypesState";
+import { useIncludeTraitTypes } from "@/hooks/useIncludeTraitTypes";
+import { formatTraitType } from "@/utils/traits/format";
 import {
   Checkbox,
   CheckboxGroup,
@@ -8,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import { TraitType } from "noggles";
 import { FC, useState } from "react";
 import { Button } from "./Button";
 
@@ -20,7 +22,7 @@ export const GalleryFilterModal: FC<GalleryFilterModalProps> = ({
   isOpen,
   onOpenChange,
 }) => {
-  const [includeTypes, setIncludeTypes] = useIncludeTypesState();
+  const [includeTypes, setIncludeTypes] = useIncludeTraitTypes();
   const [updatedIncludeTypes, setUpdatedIncludeTypes] = useState<
     ("heads" | "glasses" | "accessories" | "bodies")[]
   >(includeTypes ?? ["heads", "glasses", "accessories", "bodies"]);
@@ -43,11 +45,13 @@ export const GalleryFilterModal: FC<GalleryFilterModalProps> = ({
                   includeTypes ?? ["heads", "glasses", "accessories", "bodies"]
                 }
               >
-                {["heads", "glasses", "accessories", "bodies"].map((type) => (
-                  <Checkbox disableAnimation key={type} value={type}>
-                    {type}
-                  </Checkbox>
-                ))}
+                {["heads", "glasses", "accessories", "bodies"].map(
+                  (type: TraitType) => (
+                    <Checkbox disableAnimation key={type} value={type}>
+                      {formatTraitType(type)}
+                    </Checkbox>
+                  )
+                )}
               </CheckboxGroup>
             </ModalBody>
             <ModalFooter>

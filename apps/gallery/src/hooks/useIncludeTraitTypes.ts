@@ -1,7 +1,7 @@
 import { useQueryState } from "next-usequerystate";
 import { useEffect } from "react";
 
-export const useIncludeTypesState = () => {
+export const useIncludeTraitTypes = () => {
   const includeTypesState = useQueryState<
     ("heads" | "glasses" | "accessories" | "bodies")[] | null
   >("includeTypes", {

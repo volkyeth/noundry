@@ -17,17 +17,11 @@ import { FC, useEffect, useState } from "react";
 
 import { Button } from "@/components/Button";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa6";
-import {
-  RiCloseFill,
-  RiFilterLine,
-  RiMenuFill,
-  RiUpload2Fill,
-} from "react-icons/ri";
+import { RiCloseFill, RiMenuFill, RiUpload2Fill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
-import { GalleryFilterModal } from "./GalleryFilterModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,8 +32,6 @@ const Navbar = () => {
     events.on("routeChangeComplete", handler);
     return () => events.off("routeChangeComplete", handler);
   }, [events, setIsMenuOpen]);
-
-  const { isOpen, onOpenChange } = useDisclosure();
 
   return (
     <NextUiNavbar
@@ -63,14 +55,6 @@ const Navbar = () => {
           <NavbarLink href={"/artists"}>Artists</NavbarLink>
         </NavbarContent>
         <NavbarContent justify="end" className="gap-2">
-          {currentPage.toLowerCase().split(/[?#]/)[0] === "/" && (
-            <NavbarItem>
-              <Button variant="white" className="p-2" onClick={onOpenChange}>
-                <RiFilterLine size={24} />
-              </Button>
-              <GalleryFilterModal isOpen={isOpen} onOpenChange={onOpenChange} />
-            </NavbarItem>
-          )}
           <NavbarButton href={"/submit"} className="hidden xs:flex">
             Submit
           </NavbarButton>

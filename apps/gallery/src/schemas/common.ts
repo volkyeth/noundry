@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-export const sortFieldSchema = z.enum(["name", "likes", "createdAt"]);
-export const sortDirectionSchema = z.enum(["asc", "desc"]);
+export const sortBySchema = z.enum(["mostLiked", "newest", "oldest"]);
 export const addressSchema = z.string().startsWith("0x").length(42);
 export const pngDataUrlSchema = z.string().startsWith("data:image/png;base64,");
 export const usernameSchema = z
