@@ -15,9 +15,18 @@ const About = () => {
         <div className="flex flex-col gap-4 text-lg">
           <div className="flex flex-col gap-4">
             <p className="text-xl my-2 ">
-              Upload your 32x32 pixel images as transparent PNGs, style them
-              using existing NounsDAO assets, and share them with the community!{" "}
+              Upload your images as transparent PNGs, style them
+              using existing {" "}
+              <a
+                href="https://nouns.wtf/playground"
+                className=" hover:!text-primary underline"
+                target="_blank"
+              >
+                nounsDAO
+              </a> assets, and share them with the community!{" "}
             </p>
+
+            
 
             <p className="text-xl my-2 ">
               No strings attached: you retain all rights to your art until you
@@ -29,32 +38,24 @@ const About = () => {
               >
                 candidate proposal
               </a>
-              {""}. If the candidate is sponsored, goes onchain and succeeds,
-              your artwork is added to NounsDAO collection, and becomes CC0.{" "}
-            </p>
-          </div>
-          <div className="mt-8 mb-2 bg-bright-light dark:bg-off-dark p-6 leading-24 ">
-            <p className="py-2"> Future Features: </p>
-            <li className="">
-              One-click process to submit candidate proposals to NounsDAO
-            </li>
-            <li className="">
-              Farcaster, Twitter and Discord bots letting the community know
-              about newly uploaded traits
-            </li>
-            <li className="">Comments under traits</li>
-            <li className="">
-              Integration with{" "}
+              {""}. 
+              </p>
+
+            <p className="text-xl my-2 ">
+              If the candidate is sponsored, goes onchain and succeeds,
+              your artwork is added to NounsDAO collection, and becomes {" "}
               <a
-                href="https://studio.noundry.wtf/"
+                href="https://creativecommons.org/public-domain/cc0/"
                 className=" hover:!text-primary underline"
                 target="_blank"
               >
-                Noundry Studio
-              </a>{" "}
-            </li>
+                CC0
+              </a>.{" "}
+            </p>
+
           </div>
 
+         { /*
           <div>
             <p className="mb-2 text-md">
               {" "}
@@ -70,13 +71,9 @@ const About = () => {
             </p>
           </div>
 
-          <div>
-            <p className="mb-2 text-md">
-              {" "}
-              Get in touch with us on Twitter or Discord if you want to share
-              some feedback or features requests.
-            </p>
-          </div>
+  */}
+
+
 
           <div className="profile-section-creators">
             <div className="profile-individual-section">
@@ -126,7 +123,17 @@ const About = () => {
                 </div>
               </div>
             </div>
+
           </div>
+
+          <div>
+            <p className="mb-2 text-md">
+              {" "}
+              Get in touch with us on Twitter or Discord if you want to share
+              some feedback or features requests.
+            </p>
+          </div>
+
         </div>
       </div>
     </>

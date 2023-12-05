@@ -51,7 +51,7 @@
   }
 
   .bg-checkerboard {
-    background-size: 3.125% 3.125%; /* 100% / 32 pixels */
+    background-size: 50% 50%; /* 100% / 32 pixels */
     background-image: repeating-conic-gradient(
     #ececec 0% 25%, /* Replace with your first custom gray color */
     #ffffff 0% 50%  /* Replace with your second custom gray color */

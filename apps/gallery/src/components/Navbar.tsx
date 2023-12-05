@@ -73,10 +73,9 @@ const Navbar = () => {
               <GalleryFilterModal isOpen={isOpen} onOpenChange={onOpenChange} />
             </NavbarItem>
           )}
-          <NavbarButton href={"/submit"} className="hidden xs:flex mr-5">
+          <NavbarButton href={"/submit"} className="hidden xs:flex">
             Submit
           </NavbarButton>
-
           <NavbarButton
             href={"/submit"}
             className="flex xs:hidden"
@@ -87,15 +86,6 @@ const Navbar = () => {
 
           <NavbarItem className="hidden md:flex">
             <ConnectButton />
-          </NavbarItem>
-
-          <NavbarItem  className="flex flex-row gap-6 items-center">
-          <Button
-          variant="white" className="ml-1 p-[0.1px] px-[2px]" >
-          <NavbarLink href={`/profile/${address}`} className=" translate-y-0.5">
-            <UserAvatar  address={address} />
-            </NavbarLink>
-            </Button>
           </NavbarItem>
 
           <Dynamic>
