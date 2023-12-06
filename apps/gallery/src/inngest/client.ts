@@ -12,9 +12,21 @@ type TraitDeleted = {
   };
 };
 
+type DbMigrate = {
+  data: {
+    migrationId: string;
+  };
+};
+
+type DbDump = {
+  data: {};
+};
+
 type Events = {
   "trait/submitted": TraitSubmitted;
   "trait/deleted": TraitDeleted;
+  "db/migrate": DbMigrate;
+  "db/dump": DbDump;
 };
 
 // Create a client to send and receive events

@@ -45,10 +45,15 @@ export async function GET(req: NextRequest) {
           ? { name: { $regex: query.search, $options: "i" } }
           : {}),
         ...(query.creator ? { address: query.creator } : {}),
-        ...(query.likedBy
-          ? { $expr: { $in: ["$likedBy", query.likedBy] } }
-          : {}),
-        $expr: { $in: ["$type", query.includeTypes] },
+
+        $expr: {
+          $and: [
+            { $in: ["$type", query.includeTypes] },
+            ...(query.likedBy
+              ? [{ $in: [query.likedBy.toLowerCase(), "$likedBy"] }]
+              : []),
+          ],
+        },
       },
     },
     {

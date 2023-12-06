@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import { SITE_URI } from "@/constants/config";
 import { siweConfig } from "@/utils/siwe/siweConfig";
 import "@fontsource-variable/inter";
@@ -85,6 +86,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
                 <Analytics />
               </div>
+              <Footer />
             </NextUIProvider>
           </ConnectKitProvider>
         </SIWEProvider>

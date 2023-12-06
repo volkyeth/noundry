@@ -40,7 +40,6 @@ export const GalleryQueryBar: FC<GalleryQueryBarProps> = ({ className }) => {
         size="lg"
         placeholder="Search"
         value={searchValue}
-        defaultValue={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
       <div className="flex justify-between gap-2 items-center">
