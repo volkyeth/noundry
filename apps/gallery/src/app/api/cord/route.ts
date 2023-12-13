@@ -1,11 +1,13 @@
 import { CORD_GROUP_ID } from "@/constants/cord";
 import Session from "@/utils/siwe/session";
 import { getClientAuthToken } from "@cord-sdk/server";
-import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { getCordUserToken } from "./getCordUserToken";
 
-export const GET = async (req: NextRequest) => {
-  const session = await Session.fromRequest(req);
+export const GET = async (req: Request) => {
+  const cookieStore = cookies();
+  const session = await Session.fromCookieStore(cookieStore);
 
   if (
     !process.env.CORD_APPLICATION_ID ||
