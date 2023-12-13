@@ -2,10 +2,12 @@ import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
 import JSZip from "jszip";
-import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest) => {
-  const session = await Session.assertSiwe(req);
+export const GET = async (req: Request) => {
+  const cookieStore = cookies();
+  const session = await Session.fromCookieStore(cookieStore);
 
   if (session.address !== "0x6a024f521f83906671e1a23a8B6c560be7e980F4") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

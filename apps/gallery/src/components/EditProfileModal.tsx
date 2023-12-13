@@ -29,7 +29,9 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
   onOpenChange,
   currentUserInfo,
 }) => {
-  const [profilePic, setProfilePic] = useState(currentUserInfo.profilePic);
+  const [profilePic, setProfilePic] = useState<string | undefined>(
+    currentUserInfo.profilePic
+  );
   const [userName, setUserName] = useState(
     currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName
   );
