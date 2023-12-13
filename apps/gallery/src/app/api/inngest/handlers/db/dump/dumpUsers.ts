@@ -1,5 +1,5 @@
 import { UserSchema } from "@/db/schema/UserSchema";
-import { inngest } from "@/inngest/client";
+import { inngest } from "@/utils/inngest/client";
 import { database } from "@/utils/database/db";
 
 export const dumpUsers = inngest.createFunction(

@@ -43,6 +43,71 @@
   canvas {
     @apply pixelated;
   }
+
+  button[data-cord-button="thread-options"] {
+    /* display: none !important; */
+  }
+
+  button[data-cord-button="send-message"] {
+    @apply !rounded-none;
+  }
+
+  body {
+    /* --cord-secondary-button-content-color: #fff;
+    --cord-secondary-button-background-color: theme(colors[secondary].500);
+    --cord-secondary-button-background-color--hover: theme(
+      colors[secondary].500
+    );
+    --cord-secondary-button-background-color--active: theme(
+      colors[secondary].600
+    ); */
+    --cord-color-notification: theme(colors[primary].500);
+    --cord-composer-border-radius: 0px;
+    --cord-border-radius-medium: 0px;
+    --cord-composer-border: 0px;
+    --cord-composer-border--focus: 0px;
+  }
+
+  button[data-cord-button="open-notification-list"] {
+    @apply font-semibold w-fit shadow-sm hover:!translate-y-[1px] hover:shadow-xs active:!shadow-inset active:!translate-y-[2px];
+    @apply shadow-none bg-black bg-opacity-0 hover:bg-opacity-5 hover:shadow-inset active:shadow-inset-md active:h-[calc(100%_-_2px)] active:bg-opacity-10;
+  }
+
+  cord-notification-list-launcher > div {
+    max-width: calc(100vw - 16px) !important;
+    /* box-shadow: none !important;
+    border: 0px !important; */
+    @apply !shadow-none  !top-[60px] md:!top-[80px] !min-h-0 !h-fit;
+  }
+
+  button[data-cord-button="open-notification-list"]:after {
+    @apply !rounded-full;
+    right: 12px;
+    top: 12px;
+  }
+
+  cord-thread {
+    @apply !border-none !rounded-none shadow-sm;
+  }
+
+  .cord-avatar-container {
+    @apply !rounded-none bg-warm;
+  }
+
+  .cord-scroll-container {
+    @apply bg-none;
+  }
+
+  .cord-menu .cord-separator,
+  .cord-menu .cord-menu-item[data-cord-menu-item="thread-resolve"],
+  .cord-menu .cord-menu-item[data-cord-menu-item="thread-subscribe"],
+  .cord-menu .cord-menu-item[data-cord-menu-item="thread-share-via-email"],
+  .cord-thread-seen-by-container,
+  .cord-message-block:has(.cord-action),
+  .noWalletConnected .cord-composer,
+  .noWalletConnected .cord-unread-message-indicator {
+    display: none !important;
+  }
 }
 
 @layer utilities {

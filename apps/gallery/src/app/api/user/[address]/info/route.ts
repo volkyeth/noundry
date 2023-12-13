@@ -1,6 +1,7 @@
 import { addressSchema } from "@/schemas/common";
 import { updateUserQuerySchema } from "@/schemas/updateUserQuery";
 import { database } from "@/utils/database/db";
+import { inngest } from "@/utils/inngest/client";
 import Session from "@/utils/siwe/session";
 import { MongoServerError } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,9 +15,9 @@ export const GET = async (req: NextRequest, { params }) => {
 
 export const PUT = async (req: NextRequest, { params }) => {
   const session = await Session.assertSiwe(req);
-  const address = addressSchema.parse(params.address) as `0x${string}`;
+  const address = addressSchema.parse(params.address);
 
-  if (session.address.toLowerCase() !== address.toLowerCase()) {
+  if (session.address !== address) {
     return NextResponse.json({ error: "Must be signed in" }, { status: 403 });
   }
 
@@ -39,6 +40,10 @@ export const PUT = async (req: NextRequest, { params }) => {
         { status: 500 }
       );
     }
+
+    inngest
+      .send({ name: "user/updated", data: { address: address } })
+      .catch(console.error);
   } catch (e) {
     if (e instanceof MongoServerError && e.code === 11000) {
       return NextResponse.json(

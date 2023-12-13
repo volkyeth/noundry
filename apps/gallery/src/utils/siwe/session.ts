@@ -6,6 +6,7 @@ import {
 import { sealData, unsealData } from "iron-session";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest, NextResponse } from "next/server";
+import { getAddress } from "viem";
 
 const SESSION_OPTIONS = {
   ttl: SIWE_TTL,
@@ -15,13 +16,13 @@ const SESSION_OPTIONS = {
 export type ISession = {
   nonce?: string;
   chainId?: number;
-  address?: string;
+  address?: `0x${string}`;
 };
 
 export type AssertedSession = {
   nonce: string;
   chainId: number;
-  address: string;
+  address: `0x${string}`;
 };
 
 class Session {
@@ -32,7 +33,7 @@ class Session {
   constructor(session?: ISession) {
     this.nonce = session?.nonce;
     this.chainId = session?.chainId;
-    this.address = session?.address as `0x${string}`;
+    this.address = session?.address ? getAddress(session.address) : undefined;
   }
 
   static async fromCookies(

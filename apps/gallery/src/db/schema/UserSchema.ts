@@ -1,16 +1,13 @@
-import { PngDataUri } from "@/types/image";
+import { ERC55Address } from "@/types/address";
+import { ImageUri, PngDataUri } from "@/types/image";
 
 export interface UserSchema {
-  _id: `0x${string}`;
+  _id: ERC55Address;
   twitter?: string;
   farcaster?: string;
   userName?: string;
-  headCount: number;
-  accessoryCount: number;
-  glassesCount: number;
-  likesCount: number;
-  about: string;
-  nfts: string[];
-  likedNfts: string[];
-  profilePic: PngDataUri;
+  about?: string;
+  profilePic?: PngDataUri;
+  ensAvatar?: ImageUri;
+  ensName?: string;
 }

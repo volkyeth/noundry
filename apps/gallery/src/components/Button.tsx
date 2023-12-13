@@ -16,7 +16,7 @@ const classNames = {
   white:
     "bg-content1 border-[1px] border-b-0 text-secondary  active:bg-zinc-100",
   ghost:
-    "shadow-none bg-black bg-opacity-0 hover:bg-opacity-5 hover:shadow-inset active:shadow-inset-md active::h-[calc(100%_-_2px)] active:bg-opacity-10 ",
+    "shadow-none bg-black bg-opacity-0 hover:bg-opacity-5 hover:shadow-inset active:shadow-inset-md active:h-[calc(100%_-_2px)] active:bg-opacity-10",
   md: "h-10 px-8 py-2",
 };
 

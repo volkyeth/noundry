@@ -1,7 +1,6 @@
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { shortAddress } from "@/utils/address/format";
 import { FC } from "react";
-import { useEnsName } from "wagmi";
 import Dynamic from "./Dynamic";
 import { UserAvatar } from "./UserAvatar";
 
@@ -10,9 +9,8 @@ export interface UserBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const UserBadge: FC<UserBadgeProps> = ({ address, ...props }) => {
-  const { data: ensName } = useEnsName({ address });
   const { data: userInfo } = useUserInfo(address);
-  const username = userInfo?.userName || ensName || shortAddress(address);
+  const username = userInfo?.userName || shortAddress(address);
 
   return (
     <Dynamic>

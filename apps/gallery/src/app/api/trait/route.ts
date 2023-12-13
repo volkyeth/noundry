@@ -1,8 +1,8 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { inngest } from "@/inngest/client";
 import { addTraitQuerySchema } from "@/schemas/addTraitQuery";
 import { PngDataUri } from "@/types/image";
 import { database } from "@/utils/database/db";
+import { inngest } from "@/utils/inngest/client";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { traitCategory } from "@/utils/traits/categories";
 import { ObjectId } from "mongodb";
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     name: name,
     type: traitCategory(traitType as TraitType),
     trait: traitImage as PngDataUri,
-    address: session.address as `0x${string}`,
+    address: session.address!,
     likedBy: [],
     creationDate: Date.now(),
   });

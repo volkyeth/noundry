@@ -1,6 +1,7 @@
 "use client";
 
 import Footer from "@/components/Footer";
+import { SiweCordProvider } from "@/components/SiweCordProvider";
 import { SITE_URI } from "@/constants/config";
 import { siweConfig } from "@/utils/siwe/siweConfig";
 import "@fontsource-variable/inter";
@@ -33,62 +34,64 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={config}>
         <SIWEProvider {...siweConfig}>
-          <ConnectKitProvider
-            mode={"light"}
-            options={{ enforceSupportedChains: false }}
-          >
-            <NextUIProvider className="flex flex-col min-h-screen">
-              <Head>
-                <title>Noundry Gallery</title>
-                <meta key="title" name="title" content="Noundry Gallery" />
+          <SiweCordProvider>
+            <ConnectKitProvider
+              mode={"light"}
+              options={{ enforceSupportedChains: false }}
+            >
+              <NextUIProvider className="flex flex-col min-h-screen">
+                <Head>
+                  <title>Noundry Gallery</title>
+                  <meta key="title" name="title" content="Noundry Gallery" />
 
-                <meta
-                  key="og:title"
-                  name="og:title"
-                  content="Noundry Gallery"
+                  <meta
+                    key="og:title"
+                    name="og:title"
+                    content="Noundry Gallery"
+                  />
+
+                  <meta
+                    key="description"
+                    name="description"
+                    content="Let there be Nouns."
+                  />
+
+                  <meta
+                    key="og:description"
+                    name="og:description"
+                    content="Let there be Nouns."
+                  />
+
+                  <meta
+                    key="og:image"
+                    name="og:image"
+                    content={`${SITE_URI}/og.png`}
+                  />
+
+                  <meta
+                    key="twitter:image"
+                    name="twitter:image"
+                    content={`${SITE_URI}/og.png`}
+                  />
+
+                  <meta name="og:site_name" content="Noundry Gallery" />
+                  <meta name="theme-color" content="#FF2165" />
+                  <meta name="twitter:card" content="summary_large_image" />
+                </Head>
+                <NextNProgress
+                  color="#FF2165"
+                  height={2}
+                  options={{ showSpinner: false }}
                 />
-
-                <meta
-                  key="description"
-                  name="description"
-                  content="Let there be Nouns."
-                />
-
-                <meta
-                  key="og:description"
-                  name="og:description"
-                  content="Let there be Nouns."
-                />
-
-                <meta
-                  key="og:image"
-                  name="og:image"
-                  content={`${SITE_URI}/og.png`}
-                />
-
-                <meta
-                  key="twitter:image"
-                  name="twitter:image"
-                  content={`${SITE_URI}/og.png`}
-                />
-
-                <meta name="og:site_name" content="Noundry Gallery" />
-                <meta name="theme-color" content="#FF2165" />
-                <meta name="twitter:card" content="summary_large_image" />
-              </Head>
-              <NextNProgress
-                color="#FF2165"
-                height={2}
-                options={{ showSpinner: false }}
-              />
-              <Navbar />
-              <div className="flex-grow overflow-auto">
-                <Component {...pageProps} />
-                <Analytics />
-              </div>
-              <Footer />
-            </NextUIProvider>
-          </ConnectKitProvider>
+                <Navbar />
+                <div className="flex-grow overflow-auto">
+                  <Component {...pageProps} />
+                  <Analytics />
+                </div>
+                <Footer />
+              </NextUIProvider>
+            </ConnectKitProvider>
+          </SiweCordProvider>
         </SIWEProvider>
       </WagmiConfig>
       <ReactQueryDevtools initialIsOpen={false} />

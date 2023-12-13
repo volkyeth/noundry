@@ -13,5 +13,5 @@ export interface UserInfo {
   farcaster?: string;
   userName: string;
   about?: string;
-  profilePic?: string;
+  profilePic: string;
 }

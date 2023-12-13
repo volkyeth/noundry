@@ -2,8 +2,8 @@ import { getFarcasterUser } from "@/app/api/farcaster/user/[address]/getFarcaste
 import { getUserInfo } from "@/app/api/user/[address]/info/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { inngest } from "@/inngest/client";
 import { database } from "@/utils/database/db";
+import { inngest } from "@/utils/inngest/client";
 import { formatTraitType } from "@/utils/traits/format";
 import { ObjectId } from "mongodb";
 

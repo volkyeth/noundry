@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/Popover";
 import { TraitCard } from "@/components/TraitCard";
+import { TraitComments } from "@/components/TraitComments";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { UserBadge } from "@/components/UserBadge";
 import { SITE_URI } from "@/constants/config";
@@ -217,6 +218,7 @@ const TraitPage: NextPage<{
               )}
             </Dynamic>
           </div>
+          <TraitComments trait={trait} />
         </div>
 
         <TraitTestingGrounds

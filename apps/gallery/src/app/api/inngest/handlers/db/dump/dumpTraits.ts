@@ -1,6 +1,6 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { inngest } from "@/inngest/client";
 import { database } from "@/utils/database/db";
+import { inngest } from "@/utils/inngest/client";
 
 export const dumpTraits = inngest.createFunction(
   { id: "dump-traits" },

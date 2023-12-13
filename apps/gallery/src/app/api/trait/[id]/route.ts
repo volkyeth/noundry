@@ -1,6 +1,6 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { inngest } from "@/inngest/client";
 import { database } from "@/utils/database/db";
+import { inngest } from "@/utils/inngest/client";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
