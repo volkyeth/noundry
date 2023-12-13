@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cord-sdk/react": "^1.27.2",
+    "@cord-sdk/server": "^1.27.2",
     "@fontsource-variable/inter": "^5.0.14",
     "@fontsource-variable/lora": "^5.0.9",
     "@nextui-org/react": "^2.1.13",
@@ -25,6 +27,7 @@
     "framer-motion": "^10.16.4",
     "inngest": "^3.6.1",
     "iron-session": "^6.3.1",
+    "jszip": "^3.10.1",
     "moment": "^2.29.4",
     "mongodb": "^6.1.0",
     "next": "13.4.13",
