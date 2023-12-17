@@ -284,12 +284,14 @@ const Submit = () => {
                   image={
                     <canvas
                       ref={setTraitCanvas}
-                      className="bg-checkerboard "
+                      className="bg-checkerboard w-full"
                       width={32}
                       height={32}
                     />
                   }
-                  previewImage={<Noun {...traits} size={32} />}
+                  previewImage={
+                    <Noun {...traits} size={32} className="w-full" />
+                  }
                   footer={
                     <div className="flex flex-col gap-0 pt-1 xs:p2-2 w-full  items-end justify-between">
                       <div className="w-full flex text-xs text-default font-bold justify-between tracking-widest">
