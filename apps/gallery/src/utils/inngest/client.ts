@@ -13,10 +13,8 @@ type TraitDeleted = {
   };
 };
 
-type DbMigrate = {
-  data: {
-    migrationId: string;
-  };
+type RunScript = {
+  data: {};
 };
 
 type DbDump = {
@@ -42,7 +40,7 @@ type UserUpdated = {
 type Events = {
   "trait/submitted": TraitSubmitted;
   "trait/deleted": TraitDeleted;
-  "db/migrate": DbMigrate;
+  "run-script": RunScript;
   "db/dump": DbDump;
   "cord/init": CordInit;
   "user/signed-in": UserSignedIn;

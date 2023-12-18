@@ -1,9 +1,8 @@
 import { inngest } from "@/utils/inngest/client";
 import { serve } from "inngest/next";
-import { initCordData } from "./handlers/cord/init/initCordData";
 import { dumpTraits } from "./handlers/db/dump/dumpTraits";
 import { dumpUsers } from "./handlers/db/dump/dumpUsers";
-import { migrateAddUsersEns } from "./handlers/db/migrate/addUsersEns";
+import { runScript } from "./handlers/runScript";
 import { castOnFarcaster } from "./handlers/trait/submitted/castOnFarcaster";
 import { postOnDiscord } from "./handlers/trait/submitted/postOnDiscord";
 import { postOnTwitter } from "./handlers/trait/submitted/postOnTwitter";
@@ -20,8 +19,7 @@ export const { GET, POST, PUT } = serve({
     postOnTwitter,
     dumpTraits,
     dumpUsers,
-    migrateAddUsersEns,
-    initCordData,
+    runScript,
     upsertUser,
     updateCordUser,
   ],
