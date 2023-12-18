@@ -1,3 +1,5 @@
+import { getCordServerToken } from "@/app/api/cord/getCordServerToken";
+import { getUserInfo } from "@/app/api/user/[address]/info/getUserInfo";
 import { publicClient } from "@/app/publicClient";
 import { UserSchema } from "@/db/schema/UserSchema";
 import { database } from "@/utils/database/db";
@@ -40,6 +42,30 @@ export const upsertUser = inngest.createFunction(
 
       if (!upsert.acknowledged) {
         throw new Error("Failed to update user's ens name and avatar");
+      }
+    });
+
+    await step.run("Update user on Cord", async () => {
+      const userInfo = await getUserInfo(event.data.address);
+      const cordToken = await getCordServerToken();
+      const response = await fetch(
+        `https://api.cord.com/v1/users/${userInfo.address}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${cordToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: userInfo.userName,
+            profilePictureURL: userInfo?.profilePic ?? undefined,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`Failed to update user on Cord`, await response.json());
+        throw new Error(`Failed to update user on Cord`);
       }
     });
   }
