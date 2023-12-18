@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
         ...(query.search
           ? { name: { $regex: query.search, $options: "i" } }
           : {}),
-        ...(query.creator ? { address: query.creator } : {}),
+        ...(query.creator ? { address: query.creator.toLowerCase() } : {}),
 
         $expr: {
           $and: [
