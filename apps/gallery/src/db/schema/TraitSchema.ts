@@ -1,4 +1,4 @@
-import { ERC55Address } from "@/types/address";
+import { LowercaseAddress } from "@/types/address";
 import { PngDataUri } from "@/types/image";
 import { ObjectId } from "mongodb";
 import { TraitCategory } from "noggles";
@@ -9,7 +9,7 @@ export interface TraitSchema {
   name: string;
   type: TraitCategory;
   trait: PngDataUri;
-  address: ERC55Address;
-  likedBy: `0x${string}`[];
+  address: LowercaseAddress;
+  likedBy: LowercaseAddress[];
   creationDate: number;
 }

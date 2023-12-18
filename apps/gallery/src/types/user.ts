@@ -1,5 +1,7 @@
+import { LowercaseAddress } from "./address";
+
 export interface UserStats {
-  address: `0x${string}`;
+  address: LowercaseAddress;
   traits: number;
   heads: number;
   accessories: number;
@@ -8,7 +10,7 @@ export interface UserStats {
 }
 
 export interface UserInfo {
-  address: `0x${string}`;
+  address: LowercaseAddress;
   twitter?: string;
   farcaster?: string;
   userName: string;

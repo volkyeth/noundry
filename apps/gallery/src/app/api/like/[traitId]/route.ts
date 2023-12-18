@@ -15,7 +15,7 @@ export async function PUT(req: NextRequest, { params: { traitId } }) {
     .collection<TraitSchema>("nfts")
     .updateOne(
       { _id: new ObjectId(traitId) },
-      { $addToSet: { likedBy: session.address.toLowerCase() } }
+      { $addToSet: { likedBy: session.address } }
     );
 
   return NextResponse.json({ success: true });
@@ -32,7 +32,7 @@ export async function DELETE(req: NextRequest, { params: { traitId } }) {
     .collection<TraitSchema>("nfts")
     .updateOne(
       { _id: new ObjectId(traitId) },
-      { $pull: { likedBy: session.address.toLowerCase() as `0x${string}` } }
+      { $pull: { likedBy: session.address } }
     );
 
   return NextResponse.json({ success: true });

@@ -9,7 +9,7 @@ export const GET = async (req: Request) => {
   const cookieStore = cookies();
   const session = await Session.fromCookieStore(cookieStore);
 
-  if (session.address !== "0x6a024f521f83906671e1a23a8B6c560be7e980F4") {
+  if (session.address !== "0x6a024f521f83906671e1a23a8b6c560be7e980f4") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

@@ -1,6 +1,5 @@
 import { CORD_GROUP_ID } from "@/constants/cord";
 import { getClientAuthToken } from "@cord-sdk/server";
-import { getAddress } from "viem";
 
 export const getCordUserToken = async (address: `0x${string}`) => {
   if (
@@ -14,7 +13,7 @@ export const getCordUserToken = async (address: `0x${string}`) => {
     process.env.CORD_APPLICATION_ID,
     process.env.CORD_APPLICATION_SECRET,
     {
-      user_id: getAddress(address),
+      user_id: address.toLowerCase(),
       group_id: CORD_GROUP_ID,
     }
   );

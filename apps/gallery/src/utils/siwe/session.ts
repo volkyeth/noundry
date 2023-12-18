@@ -1,3 +1,4 @@
+import { LowercaseAddress } from "@/types/address";
 import {
   SIWE_COOKIE_NAME,
   SIWE_SESSION_SECRET,
@@ -6,7 +7,6 @@ import {
 import { sealData, unsealData } from "iron-session";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest, NextResponse } from "next/server";
-import { getAddress } from "viem";
 
 const SESSION_OPTIONS = {
   ttl: SIWE_TTL,
@@ -22,18 +22,20 @@ export type ISession = {
 export type AssertedSession = {
   nonce: string;
   chainId: number;
-  address: `0x${string}`;
+  address: LowercaseAddress;
 };
 
 class Session {
   nonce?: string;
   chainId?: number;
-  address?: `0x${string}`;
+  address?: LowercaseAddress;
 
   constructor(session?: ISession) {
     this.nonce = session?.nonce;
     this.chainId = session?.chainId;
-    this.address = session?.address ? getAddress(session.address) : undefined;
+    this.address = session?.address
+      ? (session.address.toLowerCase() as LowercaseAddress)
+      : undefined;
   }
 
   static async fromCookies(
@@ -89,7 +91,11 @@ class Session {
   }
 
   toJSON(): ISession {
-    return { nonce: this.nonce, address: this.address, chainId: this.chainId };
+    return {
+      nonce: this.nonce,
+      address: this.address?.toLowerCase() as LowercaseAddress,
+      chainId: this.chainId,
+    };
   }
 
   async persist(res: NextResponse): Promise<void> {

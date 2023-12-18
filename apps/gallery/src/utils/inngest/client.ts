@@ -1,4 +1,4 @@
-import { ERC55Address } from "@/types/address";
+import { LowercaseAddress } from "@/types/address";
 import { EventSchemas, Inngest } from "inngest";
 
 type TraitSubmitted = {
@@ -29,13 +29,13 @@ type CordInit = {
 
 type UserSignedIn = {
   data: {
-    address: ERC55Address;
+    address: LowercaseAddress;
   };
 };
 
 type UserUpdated = {
   data: {
-    address: ERC55Address;
+    address: LowercaseAddress;
   };
 };
 

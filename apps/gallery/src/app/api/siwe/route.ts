@@ -1,9 +1,9 @@
+import { LowercaseAddress } from "@/types/address";
 import { inngest } from "@/utils/inngest/client";
 import { tap } from "@/utils/misc/tap";
 import Session from "@/utils/siwe/session";
 import { NextRequest, NextResponse } from "next/server";
 import { SiweErrorType, SiweMessage, generateNonce } from "siwe";
-import { getAddress } from "viem";
 
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const session = await Session.fromRequest(req);
@@ -35,14 +35,14 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    session.address = fields.address.toLowerCase() as Lowercase<`0x${string}`>;
+    session.address = fields.address.toLowerCase() as LowercaseAddress;
     session.chainId = fields.chainId;
 
     await inngest
       .send({
         name: "user/signed-in",
         data: {
-          address: getAddress(session.address),
+          address: session.address,
         },
       })
       .catch(console.error);
