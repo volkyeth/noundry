@@ -129,7 +129,7 @@ const TraitPage: NextPage<{
         />
       </Head>
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-min">
           <TraitCard
             name={trait.name}
             type={trait.type}
