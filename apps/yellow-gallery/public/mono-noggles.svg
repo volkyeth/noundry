@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" fill="currentColor">
+    <style>
+        #pupils {
+            transform-origin: center;
+        }
+    </style>
+    <path id="frame" fill-rule="evenodd"
+        d="M100,30L100,60L160,60L160,0L100,0L100,20L90,20L90,0L30,0L30,20L0,20L0,50L10,50L10,30L30,30L30,60L90,60L90,30L100,30ZM80,10L40,10L40,50L80,50L80,10ZM150,10L110,10L110,50L150,50L150,10Z" />
+    <path id="pupils" d="M60,10L60,50L80,50L80,10L60,10ZM130,10L130,50L150,50L150,10L130,10Z" />
+</svg>

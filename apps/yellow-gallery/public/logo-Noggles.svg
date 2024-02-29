@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px"
+	 height="100px" viewBox="0 0 200 100" enable-background="new 0 0 200 100" xml:space="preserve">
+
+<g id="Noggles" fill="#FF2165">
+	<polygon points="105.137,54.25 105.137,81.604 159.845,81.604 159.845,26.896 105.137,26.896 105.137,45.132 
+		96.02,45.132 96.02,26.896 41.312,26.896 41.312,45.132 13.958,45.132 13.958,72.485 23.076,72.485 23.076,54.25 41.312,54.25 
+		41.312,81.604 96.02,81.604 96.02,54.25 	"/>
+
+	<rect x="114.255" y="36.014" width="36.472" height="36.472"/>
+	<rect x="50.43" y="36.014" width="36.472" height="36.472"/>
+</g>
+
+<g id="Pupils">
+	<rect x="132.491" y="36.014" fill="#000000" width="18.236" height="36.472"/>
+	<rect x="68.666" y="36.014" fill="#000000" width="18.236" height="36.472"/>
+</g>
+
+<g id="Cornea">
+	<rect x="50.43" y="36.014" fill="#FFFFFF" width="18.236" height="36.472"/>
+	<rect x="114.255" y="36.014" fill="#FFFFFF" width="18.236" height="36.472"/>
+</g>
+
+</svg>
+
+
