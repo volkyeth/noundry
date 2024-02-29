@@ -320,6 +320,178 @@ importers:
         specifier: ^0.34.4
         version: 0.34.4
 
+  apps/yellow-gallery:
+    dependencies:
+      '@cord-sdk/react':
+        specifier: ^1.27.2
+        version: 1.27.2(@types/react@18.0.17)(i18next@23.7.8)(react-dom@18.2.0)(react@18.2.0)
+      '@cord-sdk/server':
+        specifier: ^1.27.2
+        version: 1.27.2
+      '@fontsource-variable/inter':
+        specifier: ^5.0.14
+        version: 5.0.14
+      '@fontsource-variable/lora':
+        specifier: ^5.0.9
+        version: 5.0.9
+      '@nextui-org/react':
+        specifier: ^2.1.13
+        version: 2.1.13(@types/react@18.0.17)(framer-motion@10.16.4)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.3)
+      '@nextui-org/theme':
+        specifier: ^2.1.9
+        version: 2.1.9(tailwindcss@3.3.3)
+      '@radix-ui/react-popover':
+        specifier: ^1.0.7
+        version: 1.0.7(@types/react@18.0.17)(react-dom@18.2.0)(react@18.2.0)
+      '@tailwindcss/container-queries':
+        specifier: ^0.1.1
+        version: 0.1.1(tailwindcss@3.3.3)
+      '@tanstack/react-query':
+        specifier: ^4.36.1
+        version: 4.36.1(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^4.36.1
+        version: 4.36.1(@tanstack/react-query@4.36.1)(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-virtual':
+        specifier: 3.0.0-beta.65
+        version: 3.0.0-beta.65(react@18.2.0)
+      '@vercel/analytics':
+        specifier: ^0.1.6
+        version: 0.1.6(react@18.2.0)
+      '@vercel/og':
+        specifier: ^0.5.20
+        version: 0.5.20
+      '@wagmi/core':
+        specifier: ^1.4.3
+        version: 1.4.3(@types/react@18.0.17)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3)
+      axios:
+        specifier: ^1.5.0
+        version: 1.5.0
+      canvas:
+        specifier: ^2.11.2
+        version: 2.11.2
+      connectkit:
+        specifier: ^1.5.3
+        version: 1.5.3(@babel/core@7.22.20)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(viem@1.12.2)(wagmi@1.4.2)
+      connectkit-next-siwe:
+        specifier: ^0.2.0
+        version: 0.2.0(connectkit@1.5.3)(next@13.4.13)(react-dom@18.2.0)(react@18.2.0)(siwe@2.1.4)
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
+      detritus-client-rest:
+        specifier: ^0.10.5
+        version: 0.10.5
+      discord-api-types:
+        specifier: ^0.37.65
+        version: 0.37.65
+      framer-motion:
+        specifier: ^10.16.4
+        version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
+      inngest:
+        specifier: ^3.6.1
+        version: 3.6.1(typescript@5.2.2)
+      iron-session:
+        specifier: ^6.3.1
+        version: 6.3.1(next@13.4.13)
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      mongodb:
+        specifier: ^6.1.0
+        version: 6.1.0
+      next:
+        specifier: 13.4.13
+        version: 13.4.13(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+      next-navigation:
+        specifier: ^1.0.6
+        version: 1.0.6
+      next-usequerystate:
+        specifier: ^1.8.4
+        version: 1.8.4(next@13.4.13)
+      nextjs-progressbar:
+        specifier: ^0.0.16
+        version: 0.0.16(next@13.4.13)(react@18.2.0)
+      noggles:
+        specifier: workspace:^
+        version: link:../../packages/noggles
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-click-away-listener:
+        specifier: ^2.2.3
+        version: 2.2.3(react-dom@18.2.0)(react@18.2.0)
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-dropzone:
+        specifier: ^14.2.2
+        version: 14.2.2(react@18.2.0)
+      react-icons:
+        specifier: ^4.11.0
+        version: 4.11.0(react@18.2.0)
+      react-intersection-observer:
+        specifier: ^9.5.2
+        version: 9.5.2(react@18.2.0)
+      remeda:
+        specifier: ^1.27.1
+        version: 1.27.1
+      seedrandom:
+        specifier: ^3.0.5
+        version: 3.0.5
+      sharp:
+        specifier: ^0.32.6
+        version: 0.32.6
+      siwe:
+        specifier: ^2.1.4
+        version: 2.1.4(ethers@6.7.1)
+      twitter-api-v2:
+        specifier: ^1.15.2
+        version: 1.15.2
+      viem:
+        specifier: ^1.12.2
+        version: 1.12.2(typescript@5.2.2)(zod@3.22.3)
+      wagmi:
+        specifier: ^1.4.2
+        version: 1.4.2(@types/react@18.0.17)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@1.12.2)(zod@3.22.3)
+      zod:
+        specifier: ^3.22.3
+        version: 3.22.3
+    devDependencies:
+      '@svgr/webpack':
+        specifier: ^8.1.0
+        version: 8.1.0(typescript@5.2.2)
+      '@types/react':
+        specifier: ^18.0.17
+        version: 18.0.17
+      '@types/seedrandom':
+        specifier: ^3.0.6
+        version: 3.0.6
+      autoprefixer:
+        specifier: ^10.4.16
+        version: 10.4.16(postcss@8.4.31)
+      inngest-cli:
+        specifier: ^0.21.1
+        version: 0.21.1
+      postcss:
+        specifier: ^8.4.31
+        version: 8.4.31
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
+      tailwind-merge:
+        specifier: ^1.14.0
+        version: 1.14.0
+      tailwindcss:
+        specifier: 3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   packages/noggles:
     dependencies:
       colord:
@@ -489,13 +661,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.22.15
-      '@babel/types': 7.22.19
+      '@babel/types': 7.23.0
 
   /@babel/helper-hoist-variables@7.22.5:
     resolution: {integrity: sha512-wGjk9QZVzvknA6yKIUURb8zY3grXCcOZt+/7Wcy8O2uctxhplmUPkOdlgoNhmdVee2c92JXbf1xpMtVNbfoxRw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.22.19
+      '@babel/types': 7.23.0
 
   /@babel/helper-member-expression-to-functions@7.23.0:
     resolution: {integrity: sha512-6gfrPwh7OuT6gZyJZvd6WbTfrqAo7vm4xCzAXOusKqq/vWdKXphTpj5klHKNmRUU6/QRGlBsyU9mAIPaWHlqJA==}
@@ -1557,7 +1729,7 @@ packages:
       '@babel/plugin-transform-unicode-regex': 7.22.5(@babel/core@7.22.20)
       '@babel/plugin-transform-unicode-sets-regex': 7.22.5(@babel/core@7.22.20)
       '@babel/preset-modules': 0.1.6-no-external-plugins(@babel/core@7.22.20)
-      '@babel/types': 7.22.19
+      '@babel/types': 7.23.0
       babel-plugin-polyfill-corejs2: 0.4.5(@babel/core@7.22.20)
       babel-plugin-polyfill-corejs3: 0.8.4(@babel/core@7.22.20)
       babel-plugin-polyfill-regenerator: 0.5.2(@babel/core@7.22.20)
@@ -1643,7 +1815,7 @@ packages:
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.22.16
-      '@babel/types': 7.22.19
+      '@babel/types': 7.23.0
       debug: 4.3.4(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
@@ -1664,7 +1836,6 @@ packages:
       '@babel/helper-string-parser': 7.22.5
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
-    dev: true
 
   /@chakra-ui/accordion@2.0.11(@chakra-ui/system@2.2.7)(framer-motion@6.0.0)(react@18.2.0):
     resolution: {integrity: sha512-KTMli2m/piZROhtY9zynfW7h49dkpS4n8Ny3uBcVFCtRg7zUOklMyUKX8I7KqAPAUROPiwT/5kE9hui3XpksQg==}
@@ -5123,7 +5294,7 @@ packages:
       '@types/react-dom':
         optional: true
     dependencies:
-      '@babel/runtime': 7.22.15
+      '@babel/runtime': 7.23.5
       '@radix-ui/primitive': 1.0.1
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.0.17)(react@18.2.0)
       '@radix-ui/react-context': 1.0.1(@types/react@18.0.17)(react@18.2.0)
@@ -6197,7 +6368,7 @@ packages:
   /@solana/web3.js@1.78.5:
     resolution: {integrity: sha512-2ZHsDNqkKdglJQrIvJ3p2DmgS3cGnary3VJyqt9C1SPrpAtLYzcElr3xyXJOznyQTU/8AMw+GoF11lFoKbicKg==}
     dependencies:
-      '@babel/runtime': 7.22.15
+      '@babel/runtime': 7.23.5
       '@noble/curves': 1.2.0
       '@noble/hashes': 1.3.2
       '@solana/buffer-layout': 4.0.1
@@ -8715,7 +8886,7 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
     dependencies:
-      '@babel/runtime': 7.22.15
+      '@babel/runtime': 7.23.5
     dev: false
 
   /debounce@1.2.1:
@@ -12169,7 +12340,7 @@ packages:
     peerDependencies:
       react: ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.22.15
+      '@babel/runtime': 7.23.5
       react: 18.2.0
     dev: false
 
@@ -12418,7 +12589,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.22.15
+      '@babel/runtime': 7.23.5
       react: 18.2.0
       use-composed-ref: 1.3.0(react@18.2.0)
       use-latest: 1.2.1(@types/react@18.0.17)(react@18.2.0)
@@ -12671,7 +12842,7 @@ packages:
   /rpc-websockets@7.6.0:
     resolution: {integrity: sha512-Jgcs8q6t8Go98dEulww1x7RysgTkzpCMelVxZW4hvuyFtOGpeUz9prpr2KjUa/usqxgFCd9Tu3+yhHEP9GVmiQ==}
     dependencies:
-      '@babel/runtime': 7.22.15
+      '@babel/runtime': 7.23.5
       eventemitter3: 4.0.7
       uuid: 8.3.2
       ws: 8.14.2(bufferutil@4.0.7)(utf-8-validate@5.0.10)
@@ -13901,7 +14072,7 @@ packages:
     dependencies:
       '@types/node': 18.7.13
       esbuild: 0.15.18
-      postcss: 8.4.27
+      postcss: 8.4.31
       resolve: 1.22.6
       rollup: 2.79.1
     optionalDependencies:
