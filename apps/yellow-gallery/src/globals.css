@@ -7,6 +7,11 @@
   src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Pally";
+  src: url("/fonts/Pally-variable.ttf") format("truetype");
+}
+
 @layer base {
   * {
     @apply font-Inter;
@@ -18,7 +23,7 @@
   h4,
   h5,
   h6 {
-    @apply font-Inter;
+    @apply font-Pally;
   }
 
   h1 {

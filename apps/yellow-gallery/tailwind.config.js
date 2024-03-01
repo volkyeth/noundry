@@ -15,6 +15,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Pix: ["Pix", "sans-serif"],
+        Pally: ["Pally", "sans-serif"],
         Inter: ["Inter Variable", "sans-serif"],
         Lora: ["Lora Variable", "sans-serif"],
       },
