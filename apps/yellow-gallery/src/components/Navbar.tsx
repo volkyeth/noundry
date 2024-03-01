@@ -48,7 +48,7 @@ const Navbar = () => {
       >
         <div className="w-full flex items-center ">
           <NavbarContent>
-            <NavbarBrand className="gap-2" as={NextLink} href={"/"}>
+            <NavbarBrand className="gap-2 grow-0" as={NextLink} href={"/"}>
               <LogoImage className="h-[36px] md:h-[54px]" />
             </NavbarBrand>
           </NavbarContent>
@@ -165,8 +165,8 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
           color="foreground"
           as={NextLink}
           className={twMerge(
-            "uppercase hover:text-secondary",
-            isActive ? "text-secondary font-semibold" : "text-secondary-300"
+            "uppercase hover:text-secondary hover:text-opacity-100",
+            isActive ? "text-secondary font-semibold" : "text-opacity-60"
           )}
           href={href}
           aria-current={isActive ? "page" : undefined}
