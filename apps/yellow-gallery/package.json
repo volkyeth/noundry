@@ -2,6 +2,9 @@
   "name": "@noundry/yellow-gallery",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@cord-sdk/react": "^1.27.2",
     "@cord-sdk/server": "^1.27.2",
@@ -18,7 +21,6 @@
     "@vercel/og": "^0.5.20",
     "@wagmi/core": "^1.4.3",
     "axios": "^1.5.0",
-    "canvas": "^2.11.2",
     "connectkit": "^1.5.3",
     "connectkit-next-siwe": "^0.2.0",
     "date-fns": "^2.30.0",

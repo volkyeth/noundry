@@ -367,9 +367,6 @@ importers:
       axios:
         specifier: ^1.5.0
         version: 1.5.0
-      canvas:
-        specifier: ^2.11.2
-        version: 2.11.2
       connectkit:
         specifier: ^1.5.3
         version: 1.5.3(@babel/core@7.22.20)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(viem@1.12.2)(wagmi@1.4.2)
