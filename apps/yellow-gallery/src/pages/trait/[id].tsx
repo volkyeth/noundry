@@ -128,7 +128,7 @@ const TraitPage: NextPage<{
           content={`${SITE_URI}/api/trait/${trait.id}/og`}
         />
       </Head>
-      <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
+      <div className="relative flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
         <div className="flex flex-col gap-2 w-min">
           <TraitCard
             name={trait.name}

@@ -42,7 +42,7 @@ export async function GET(req: Request, { params: { id } }) {
         <div tw="flex flex-col flex-grow justify-between pr-20 pt-24  items-start h-full ">
           <div tw="flex flex-col text-4xl leading-8">
             <h1 tw="m-0 font-semibold">Let there be</h1>
-            <h1 tw="m-0 font-semibold text-[#ff2165]">Nouns</h1>
+            <h1 tw="m-0 font-semibold text-[#FBCB07]">Nouns</h1>
           </div>
           <img
             src={`${baseUri}${noundryGalleryLogo.src}`}

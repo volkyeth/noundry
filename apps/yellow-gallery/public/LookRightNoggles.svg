@@ -3,7 +3,7 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px"
 	 height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
 	 
-<g id="Eyes" fill="#FF2165">
+<g id="Eyes" fill="#FBCB07">
 	<rect x="39.708" y="18.849" width="6.153" height="12.301"> <animate
 		attributeName="x"
 		values="39.708; 39.708; 39.708; 39.708; 39.708; 39.708; 39.708;  31.708; 31.708; 31.708; 31.708; 39.708; 39.708; 39.708; 39.708; 39.708; 39.708; 39.708; 39.708;"
@@ -21,7 +21,7 @@
 		</rect>
 </g>
 
-<g id="Frames" fill="#FF2165">
+<g id="Frames" fill="#FBCB07">
 	<path  d="M27.942,22.058h2.941v-5.883h17.649v17.649H30.883V25h-2.941v8.824H10.292V25H4.41v5.883H1.468V25v-2.942
 		h8.824v-5.883h17.649V22.058z M13.234,30.883H25V19.117H13.234V30.883z M33.825,30.883H45.59V19.117H33.825V30.883z"/>
 </g>

@@ -36,100 +36,102 @@ const Navbar = () => {
   }, [events, setIsMenuOpen]);
 
   return (
-    <NextUiNavbar
-      disableAnimation
-      isBlurred={false}
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen}
-      className="shadow-sm md:py-2"
-      classNames={{ wrapper: "px-2 xs:px-4" }}
-      maxWidth="full"
-    >
-      <div className="container flex items-center mx-auto">
-        <NavbarContent>
-          <NavbarBrand className="gap-2" as={NextLink} href={"/"}>
-            <LogoImage className="h-[36px] md:h-[54px]" />
-          </NavbarBrand>
-        </NavbarContent>
+    <div className="w-full flex flex-col">
+      <NextUiNavbar
+        disableAnimation
+        isBlurred={false}
+        isMenuOpen={isMenuOpen}
+        onMenuOpenChange={setIsMenuOpen}
+        className="md:py-2 bg-brand-yellow"
+        classNames={{ wrapper: "px-2 xs:px-4" }}
+        maxWidth="full"
+      >
+        <div className="container flex items-center mx-auto">
+          <NavbarContent>
+            <NavbarBrand className="gap-2" as={NextLink} href={"/"}>
+              <LogoImage className="h-[36px] md:h-[54px]" />
+            </NavbarBrand>
+          </NavbarContent>
 
-        <NavbarContent className="hidden xl:flex gap-12" justify="center">
-          <NavbarLink href={"/"}>Traits</NavbarLink>
-          <NavbarLink href={"/artists"}>Artists</NavbarLink>
-        </NavbarContent>
-        <NavbarContent justify="end" className="gap-2">
-          <NavbarButton href={"/submit"} className="hidden xs:flex">
-            Submit
-          </NavbarButton>
-          <NavbarButton
-            href={"/submit"}
-            className="flex xs:hidden"
-            classNames={{ button: "p-2" }}
-          >
-            <RiUpload2Fill size={24} />
-          </NavbarButton>
+          <NavbarContent className="hidden xl:flex gap-12" justify="center">
+            <NavbarLink href={"/"}>Traits</NavbarLink>
+            <NavbarLink href={"/artists"}>Artists</NavbarLink>
+          </NavbarContent>
+          <NavbarContent justify="end" className="gap-2">
+            <NavbarButton href={"/submit"} className="hidden xs:flex">
+              Submit
+            </NavbarButton>
+            <NavbarButton
+              href={"/submit"}
+              className="flex xs:hidden"
+              classNames={{ button: "p-2" }}
+            >
+              <RiUpload2Fill size={24} />
+            </NavbarButton>
 
-          <NavbarItem className="hidden md:flex">
-            <ConnectButton />
-          </NavbarItem>
-          <Dynamic>
-            {isSignedIn && (
-              <NotificationListLauncher iconUrl="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  width='28' height='28' viewBox='0 0 24 24'%3E%3Cpath d='M5 18H19V11.0314C19 7.14806 15.866 4 12 4C8.13401 4 5 7.14806 5 11.0314V18ZM12 2C16.9706 2 21 6.04348 21 11.0314V20H3V11.0314C3 6.04348 7.02944 2 12 2ZM9.5 21H14.5C14.5 22.3807 13.3807 23.5 12 23.5C10.6193 23.5 9.5 22.3807 9.5 21Z'%3E%3C/path%3E%3C/svg%3E" />
-            )}
-          </Dynamic>
-          <Dynamic>
-            <NavbarMenuToggle
-              className="w-fit h-fit p-2 text-off-dark"
-              icon={(isOpen) =>
-                isOpen ? <RiCloseFill size={24} /> : <RiMenuFill size={24} />
-              }
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            />
-          </Dynamic>
-        </NavbarContent>
-        <NavbarMenu className="bg-dark bg-opacity-40 p-0 items-end">
-          <ul className="flex flex-col gap-4 p-8 w-64 bg-content2">
-            <NavbarItem className="mb-6 self-center md:hidden">
+            <NavbarItem className="hidden md:flex">
               <ConnectButton />
             </NavbarItem>
-            {address && (
-              <NavbarLink href={`/profile/${address}`}>Profile</NavbarLink>
-            )}
-            <NavbarLink href={"/"} className="xl:hidden">
-              Traits
-            </NavbarLink>
-            <NavbarLink href={"/artists"} className="xl:hidden">
-              Artists
-            </NavbarLink>
-            <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
-            <NavbarLink href={"/about"}>About</NavbarLink>
+            <Dynamic>
+              {isSignedIn && (
+                <NotificationListLauncher iconUrl="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  width='28' height='28' viewBox='0 0 24 24'%3E%3Cpath d='M5 18H19V11.0314C19 7.14806 15.866 4 12 4C8.13401 4 5 7.14806 5 11.0314V18ZM12 2C16.9706 2 21 6.04348 21 11.0314V20H3V11.0314C3 6.04348 7.02944 2 12 2ZM9.5 21H14.5C14.5 22.3807 13.3807 23.5 12 23.5C10.6193 23.5 9.5 22.3807 9.5 21Z'%3E%3C/path%3E%3C/svg%3E" />
+              )}
+            </Dynamic>
+            <Dynamic>
+              <NavbarMenuToggle
+                className="w-fit h-fit p-2 text-off-light"
+                icon={(isOpen) =>
+                  isOpen ? <RiCloseFill size={24} /> : <RiMenuFill size={24} />
+                }
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              />
+            </Dynamic>
+          </NavbarContent>
+          <NavbarMenu className="bg-dark bg-opacity-40 p-0 items-end">
+            <ul className="flex flex-col gap-4 p-8 w-64 bg-content2">
+              <NavbarItem className="mb-6 self-center md:hidden">
+                <ConnectButton />
+              </NavbarItem>
+              {address && (
+                <NavbarLink href={`/profile/${address}`}>Profile</NavbarLink>
+              )}
+              <NavbarLink href={"/"} className="xl:hidden">
+                Traits
+              </NavbarLink>
+              <NavbarLink href={"/artists"} className="xl:hidden">
+                Artists
+              </NavbarLink>
+              <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
+              <NavbarLink href={"/about"}>About</NavbarLink>
 
-            <div className="mt-20">
-              <p className="font-normal text-sm text-off-dark">Check out</p>
-              <a href="https://studio.noundry.wtf/" target="_blank">
-                <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
-                  Noundry Studio
-                </p>
-              </a>
-            </div>
+              <div className="mt-20">
+                <p className="font-normal text-sm text-off-dark">Check out</p>
+                <a href="https://studio.noundry.wtf/" target="_blank">
+                  <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
+                    Noundry Studio
+                  </p>
+                </a>
+              </div>
 
-            <div className="flex gap-4">
-              <a href={`https://warpcast.com/noundry`} target="_blank">
-                <FarcasterIcon />
-              </a>
-              <a href={`https://twitter.com/noundry`} target="_blank">
-                <FaTwitter />
-              </a>
-              <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
-                <FaDiscord />
-              </a>
-              <a href={`https://github.com/volkyeth/noundry`} target="_blank">
-                <FaGithub />
-              </a>
-            </div>
-          </ul>
-        </NavbarMenu>
-      </div>
-    </NextUiNavbar>
+              <div className="flex gap-4">
+                <a href={`https://warpcast.com/noundry`} target="_blank">
+                  <FarcasterIcon />
+                </a>
+                <a href={`https://twitter.com/noundry`} target="_blank">
+                  <FaTwitter />
+                </a>
+                <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
+                  <FaDiscord />
+                </a>
+                <a href={`https://github.com/volkyeth/noundry`} target="_blank">
+                  <FaGithub />
+                </a>
+              </div>
+            </ul>
+          </NavbarMenu>
+        </div>
+      </NextUiNavbar>
+    </div>
   );
 };
 
@@ -152,7 +154,7 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
           as={NextLink}
           className={twMerge(
             "uppercase hover:text-secondary",
-            isActive ? "text-secondary font-semibold" : "text-gray-400"
+            isActive ? "text-secondary font-semibold" : "text-secondary-300"
           )}
           href={href}
           aria-current={isActive ? "page" : undefined}
