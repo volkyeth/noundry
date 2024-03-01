@@ -49,7 +49,7 @@ type Events = {
 
 // Create a client to send and receive events
 export const inngest = new Inngest({
-  id: "noundry-gallery",
+  id: "yellow-gallery",
   schemas: new EventSchemas().fromRecord<Events>(),
   baseUrl: process.env.INNGEST_URL,
 });
