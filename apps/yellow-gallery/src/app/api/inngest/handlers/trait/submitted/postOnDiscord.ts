@@ -57,7 +57,7 @@ export const postOnDiscord = inngest.createFunction(
               name: author,
               url: `${SITE_URI}/profile/${trait.address}`,
             },
-            provider: { name: "Noundry Gallery", url: SITE_URI },
+            provider: { name: "Yellow Gallery", url: SITE_URI },
             color: 0xff2165,
           },
         }

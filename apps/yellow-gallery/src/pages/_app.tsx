@@ -22,7 +22,7 @@ const config = createConfig({
   ...getDefaultConfig({
     alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!,
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID!,
-    appName: "Noundry Gallery",
+    appName: "Yellow Gallery",
     chains: [mainnet],
   }),
 });
@@ -41,13 +41,13 @@ export default function App({ Component, pageProps }: AppProps) {
             >
               <NextUIProvider className="flex flex-col min-h-screen">
                 <Head>
-                  <title>Noundry Gallery</title>
-                  <meta key="title" name="title" content="Noundry Gallery" />
+                  <title>Yellow Gallery</title>
+                  <meta key="title" name="title" content="Yellow Gallery" />
 
                   <meta
                     key="og:title"
                     name="og:title"
-                    content="Noundry Gallery"
+                    content="Yellow Gallery"
                   />
 
                   <meta
@@ -74,7 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     content={`${SITE_URI}/og.png`}
                   />
 
-                  <meta name="og:site_name" content="Noundry Gallery" />
+                  <meta name="og:site_name" content="Yellow Gallery" />
                   <meta name="theme-color" content="#FF2165" />
                   <meta name="twitter:card" content="summary_large_image" />
                 </Head>
