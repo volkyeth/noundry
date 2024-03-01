@@ -10,7 +10,7 @@ const Footer = () => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
         preserveAspectRatio="none"
-        className="h-24 w-full"
+        className="h-16 md:h-24 w-full"
       >
         <path
           fill="#FBCB07"
@@ -25,9 +25,7 @@ const Footer = () => {
           <BlinkingNoggles className="w-[64px] h-[24px] shrink-0 " />
         )}
 
-        <p className="text-xl font-semibold ">
-          By the Community, for the community
-        </p>
+        <p className="text-xl font-semibold ">Yellow & Based</p>
       </div>
     </div>
   );

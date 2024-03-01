@@ -42,11 +42,11 @@ const Navbar = () => {
         isBlurred={false}
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
-        className="md:py-2 bg-brand-yellow"
+        className="md:py-2 bg-brand-yellow -mb-3 md:-mb-6"
         classNames={{ wrapper: "px-2 xs:px-4" }}
         maxWidth="full"
       >
-        <div className="container flex items-center mx-auto">
+        <div className="w-full flex items-center ">
           <NavbarContent>
             <NavbarBrand className="gap-2" as={NextLink} href={"/"}>
               <LogoImage className="h-[36px] md:h-[54px]" />
@@ -79,7 +79,7 @@ const Navbar = () => {
             </Dynamic>
             <Dynamic>
               <NavbarMenuToggle
-                className="w-fit h-fit p-2 text-off-light"
+                className="w-fit h-fit p-2 "
                 icon={(isOpen) =>
                   isOpen ? <RiCloseFill size={24} /> : <RiMenuFill size={24} />
                 }
@@ -87,8 +87,8 @@ const Navbar = () => {
               />
             </Dynamic>
           </NavbarContent>
-          <NavbarMenu className="bg-dark bg-opacity-40 p-0 items-end">
-            <ul className="flex flex-col gap-4 p-8 w-64 bg-content2">
+          <NavbarMenu className="bg-brand-yellow bg-opacity-40 px-2 py-0 md:py-4 items-end">
+            <ul className="flex flex-col gap-4 p-8 w-64 bg-content2 rounded-md">
               <NavbarItem className="mb-6 self-center md:hidden">
                 <ConnectButton />
               </NavbarItem>
@@ -131,6 +131,18 @@ const Navbar = () => {
           </NavbarMenu>
         </div>
       </NextUiNavbar>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+        className="w-full h-10 md:h-16 "
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#FBCB07"
+          fill-opacity="1"
+          d="M0,192L40,202.7C80,213,160,235,240,229.3C320,224,400,192,480,165.3C560,139,640,117,720,144C800,171,880,245,960,250.7C1040,256,1120,192,1200,165.3C1280,139,1360,149,1400,154.7L1440,160L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"
+        ></path>
+      </svg>
     </div>
   );
 };
