@@ -11,7 +11,6 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import LogoImage from "public/NoundryGalleryLogo.svg";
 import { FC, useEffect, useState } from "react";
 
 import { Button } from "@/components/Button";
@@ -21,6 +20,7 @@ import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa6";
 import { RiCloseFill, RiMenuFill, RiUpload2Fill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
+import { BlinkingNoggles } from "./BlinkingNoggles";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
 
@@ -49,7 +49,11 @@ const Navbar = () => {
         <div className="w-full flex items-center ">
           <NavbarContent>
             <NavbarBrand className="gap-2 grow-0" as={NextLink} href={"/"}>
-              <LogoImage className="h-[36px] md:h-[54px]" />
+              <BlinkingNoggles
+                inverted
+                className="h-[16px] md:h-[32px] fill-white md:mr-2"
+              />{" "}
+              <h1 className="font-Pally text-white">Yellow Noundry</h1>
             </NavbarBrand>
           </NavbarContent>
 
@@ -139,7 +143,6 @@ const Navbar = () => {
       >
         <path
           fill="#FBCB07"
-          fill-opacity="1"
           d="M0,192L40,202.7C80,213,160,235,240,229.3C320,224,400,192,480,165.3C560,139,640,117,720,144C800,171,880,245,960,250.7C1040,256,1120,192,1200,165.3C1280,139,1360,149,1400,154.7L1440,160L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"
         ></path>
       </svg>

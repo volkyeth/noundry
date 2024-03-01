@@ -6,12 +6,11 @@
     </style>
 
     <defs>
-        <mask id="pupilsMask">
+        <mask id="invertedPupilsMask">
             <rect width="160" height="60" fill="white" />
-
-            <path id="pupils" fill="black" d="M40,10L40,50L60,50L60,10L60,10ZM110,10L110,50L130,50L130,10L110,10Z" />
+            <path id="pupils" fill="black" d="M60,10L60,50L80,50L80,10L60,10ZM130,10L130,50L150,50L150,10L130,10Z" />
         </mask>
     </defs>
-    <path id="frame" fill-rule="evenodd" mask="url(#pupilsMask)"
+    <path id="frame" fill-rule="evenodd" mask="url(#invertedPupilsMask)"
         d="M100,30L100,60L160,60L160,0L100,0L100,20L90,20L90,0L30,0L30,20L0,20L0,50L10,50L10,30L30,30L30,60L90,60L90,30L100,30" />
 </svg>

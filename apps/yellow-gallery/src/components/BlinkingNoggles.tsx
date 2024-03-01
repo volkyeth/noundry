@@ -1,7 +1,15 @@
+import InvertedNoggleIcon from "public/mono-noggles-inverted.svg";
 import NoggleIcon from "public/mono-noggles.svg";
 import { FC, SVGAttributes, useEffect, useRef } from "react";
 
-export const BlinkingNoggles: FC<SVGAttributes<SVGSVGElement>> = (props) => {
+export interface BlinkingNogglesProps extends SVGAttributes<SVGSVGElement> {
+  inverted?: boolean;
+}
+
+export const BlinkingNoggles: FC<BlinkingNogglesProps> = ({
+  inverted = false,
+  ...props
+}) => {
   const svgRef = useRef<SVGSVGElement>();
   useEffect(() => {
     const controller = new AbortController();
@@ -26,5 +34,7 @@ export const BlinkingNoggles: FC<SVGAttributes<SVGSVGElement>> = (props) => {
 
     return () => controller.abort();
   }, []);
-  return <NoggleIcon ref={svgRef} {...props} />;
+
+  const Icon = inverted ? InvertedNoggleIcon : NoggleIcon;
+  return <Icon ref={svgRef} {...props} />;
 };
