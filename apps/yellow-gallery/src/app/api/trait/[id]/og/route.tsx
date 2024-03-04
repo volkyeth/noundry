@@ -44,11 +44,12 @@ export async function GET(req: Request, { params: { id } }) {
       <div tw="flex flex-row w-full p-16 pr-30  h-full items-center justify-between bg-[#FBCB07]">
         <div tw="flex flex-col flex-grow justify-between pr-20 pt-24  items-start h-full ">
           <div
-            tw="flex flex-col font-bold text-2xl leading-8"
+            tw="flex flex-col font-bold text-xl leading-5"
             style={{ fontFamily: '"Pally"' }}
           >
-            <h1 tw="m-0 font-semibold text-white">For the community</h1>
+            <h1 tw="m-0 font-semibold text-white">Based & Yellow Nouns</h1>
             <h1 tw="m-0 font-semibold text-white">By the community</h1>
+            <h1 tw="m-0 font-semibold text-white">For the community</h1>
           </div>
           <div tw="flex items-center">
             <svg

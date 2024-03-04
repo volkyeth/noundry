@@ -34,9 +34,12 @@ export async function GET(req: Request) {
             Yellow Noundry
           </h2>
         </div>
-        <h1 tw="absolute bottom-28 font-semibold text-white">
-          For the community. By the community.
-        </h1>
+        <div tw="absolute bottom-16 font-semibold text-white flex flex-col items-center justify-center text-lg leading-none ">
+          <h1 tw="absolute bottom-20 m-0">Based & Yellow Nouns</h1>
+          <h1 tw="absolute bottom-8 m-0">
+            By the community. For the community.
+          </h1>
+        </div>
       </div>
     ),
     {
