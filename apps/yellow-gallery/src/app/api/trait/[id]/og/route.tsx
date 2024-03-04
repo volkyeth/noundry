@@ -5,7 +5,6 @@ import { ImageResponse } from "@vercel/og";
 import { NextResponse } from "next/server";
 import { TraitCategory } from "noggles";
 //@ts-ignore
-import noundryGalleryLogo from "public/NoundryGalleryLogo.svg?url";
 
 export const runtime = "edge";
 
@@ -13,6 +12,10 @@ export async function GET(req: Request, { params: { id } }) {
   const baseUri = `${
     process.env.NODE_ENV === "production" ? "https" : "http"
   }://${req.headers.get("host")}`;
+
+  const fontData = await fetch(`${baseUri}/fonts/Pally-Medium.ttf`).then((r) =>
+    r.arrayBuffer()
+  );
 
   const trait = (await fetch(`${baseUri}/api/trait/${id}/upscaled`).then((r) =>
     r.json()
@@ -38,17 +41,34 @@ export async function GET(req: Request, { params: { id } }) {
 
   return new ImageResponse(
     (
-      <div tw="flex flex-row w-full p-16 pr-30  h-full items-center justify-between bg-[#f5f5f5]">
+      <div tw="flex flex-row w-full p-16 pr-30  h-full items-center justify-between bg-[#FBCB07]">
         <div tw="flex flex-col flex-grow justify-between pr-20 pt-24  items-start h-full ">
-          <div tw="flex flex-col text-4xl leading-8">
-            <h1 tw="m-0 font-semibold">Let there be</h1>
-            <h1 tw="m-0 font-semibold text-[#FBCB07]">Nouns</h1>
+          <div
+            tw="flex flex-col font-bold text-2xl leading-8"
+            style={{ fontFamily: '"Pally"' }}
+          >
+            <h1 tw="m-0 font-semibold text-white">For the community</h1>
+            <h1 tw="m-0 font-semibold text-white">By the community</h1>
           </div>
-          <img
-            src={`${baseUri}${noundryGalleryLogo.src}`}
-            width={420}
-            height={108}
-          />
+          <div tw="flex items-center">
+            <svg
+              width={144}
+              height={54}
+              viewBox="4 9 16 6"
+              fill="white"
+              fillRule="evenodd"
+            >
+              <path d="M13,11L13,9L7,9L7,11L4,11L4,14L5,14L5,12L7,12L7,15L13,15L13,12L14,12L14,15L20,15L20,9L14,9L14,11L13,11ZM17,10L17,14L19,14L19,10L17,10ZM10,10L10,14L12,14L12,10L12,10Z" />
+            </svg>
+            <h2
+              tw="text-white font-bold text-6xl ml-4 leading-none"
+              style={{
+                fontFamily: '"Pally"',
+              }}
+            >
+              Yellow Noundry
+            </h2>
+          </div>
         </div>
         <div
           tw="px-6 py-8 flex flex-col bg-white"
@@ -91,6 +111,11 @@ export async function GET(req: Request, { params: { id } }) {
           name: "Inter",
           weight: 400,
           data: inter400,
+        },
+        {
+          name: "Pally",
+          weight: 400,
+          data: fontData,
         },
       ],
     }

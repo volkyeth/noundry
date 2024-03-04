@@ -53,25 +53,25 @@ export default function App({ Component, pageProps }: AppProps) {
                   <meta
                     key="description"
                     name="description"
-                    content="Let there be Nouns."
+                    content="For the community. By the community."
                   />
 
                   <meta
                     key="og:description"
                     name="og:description"
-                    content="Let there be Nouns."
+                    content="For the community. By the community."
                   />
 
                   <meta
                     key="og:image"
                     name="og:image"
-                    content={`${SITE_URI}/og.png`}
+                    content={`${SITE_URI}/api/og`}
                   />
 
                   <meta
                     key="twitter:image"
                     name="twitter:image"
-                    content={`${SITE_URI}/og.png`}
+                    content={`${SITE_URI}/api/og`}
                   />
 
                   <meta name="og:site_name" content="Yellow Noundry" />
