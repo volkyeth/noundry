@@ -24,8 +24,8 @@ export const GalleryFilterModal: FC<GalleryFilterModalProps> = ({
 }) => {
   const [includeTypes, setIncludeTypes] = useIncludeTraitTypes();
   const [updatedIncludeTypes, setUpdatedIncludeTypes] = useState<
-    ("heads" | "glasses" | "accessories" | "bodies")[]
-  >(includeTypes ?? ["heads", "glasses", "accessories", "bodies"]);
+    ("heads" | "accessories")[]
+  >(includeTypes ?? ["heads", "accessories"]);
 
   return (
     <Modal disableAnimation isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -45,13 +45,11 @@ export const GalleryFilterModal: FC<GalleryFilterModalProps> = ({
                   includeTypes ?? ["heads", "glasses", "accessories", "bodies"]
                 }
               >
-                {["heads", "glasses", "accessories", "bodies"].map(
-                  (type: TraitType) => (
-                    <Checkbox disableAnimation key={type} value={type}>
-                      {formatTraitType(type)}
-                    </Checkbox>
-                  )
-                )}
+                {["heads", "accessories"].map((type: TraitType) => (
+                  <Checkbox disableAnimation key={type} value={type}>
+                    {formatTraitType(type)}
+                  </Checkbox>
+                ))}
               </CheckboxGroup>
             </ModalBody>
             <ModalFooter>

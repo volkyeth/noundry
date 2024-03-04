@@ -167,24 +167,22 @@ const Submit = () => {
 
         {traitType === null && (
           <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
-            {["head", "accessory", "glasses", "body"].map(
-              (traitType: TraitType) => (
-                <Button
-                  key={`select-type-${traitType}`}
-                  variant="secondary"
-                  className="w-full h-fit flex flex-col items-center p-8"
-                  onClick={() => setTraitType(traitType)}
-                >
-                  <TraitIcon
-                    type={traitType}
-                    className="w-12 h-12 md:w-[72px] md:h-[72px]"
-                  />
-                  <p className="uppercase mt-4 text-sm font-semibold ">
-                    {formatTraitType(traitType)}
-                  </p>
-                </Button>
-              )
-            )}
+            {["head", "accessory"].map((traitType: TraitType) => (
+              <Button
+                key={`select-type-${traitType}`}
+                variant="secondary"
+                className="w-full h-fit flex flex-col items-center p-8"
+                onClick={() => setTraitType(traitType)}
+              >
+                <TraitIcon
+                  type={traitType}
+                  className="w-12 h-12 md:w-[72px] md:h-[72px]"
+                />
+                <p className="uppercase mt-4 text-sm font-semibold ">
+                  {formatTraitType(traitType)}
+                </p>
+              </Button>
+            ))}
           </div>
         )}
 

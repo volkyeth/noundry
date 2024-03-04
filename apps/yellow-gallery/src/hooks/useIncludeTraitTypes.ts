@@ -2,18 +2,18 @@ import { useQueryState } from "next-usequerystate";
 import { useEffect } from "react";
 
 export const useIncludeTraitTypes = () => {
-  const includeTypesState = useQueryState<
-    ("heads" | "glasses" | "accessories" | "bodies")[] | null
-  >("includeTypes", {
-    defaultValue: null,
-    parse: (v) =>
-      v
-        .split(",")
-        .filter((v) =>
-          ["heads", "glasses", "accessories", "bodies"].includes(v)
-        ) as ("heads" | "glasses" | "accessories" | "bodies")[],
-    serialize: (v) => (v ? (v.length === 4 ? "" : v.join(",")) : ""),
-  });
+  const includeTypesState = useQueryState<("heads" | "accessories")[] | null>(
+    "includeTypes",
+    {
+      defaultValue: null,
+      parse: (v) =>
+        v.split(",").filter((v) => ["heads", "accessories"].includes(v)) as (
+          | "heads"
+          | "accessories"
+        )[],
+      serialize: (v) => (v ? (v.length === 4 ? "" : v.join(",")) : ""),
+    }
+  );
 
   const [includeTypes, setIncludeTypes] = includeTypesState;
 
