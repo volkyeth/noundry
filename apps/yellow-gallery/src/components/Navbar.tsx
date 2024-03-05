@@ -53,7 +53,10 @@ const Navbar = () => {
                 inverted
                 className="h-[16px] md:h-[32px] fill-white md:mr-2"
               />{" "}
-              <h1 className="font-Pally text-white">Yellow Noundry</h1>
+              <div className="flex flex-col sm:flex-row sm:gap-3 gap-0 font-Pally text-white">
+                <h1 className="text-white leading-none">Yellow</h1>
+                <h1 className="text-white leading-none">Noundry</h1>
+              </div>
             </NavbarBrand>
           </NavbarContent>
 
