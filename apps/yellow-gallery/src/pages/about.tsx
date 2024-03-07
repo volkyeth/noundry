@@ -1,135 +1,64 @@
 "use client";
-import FarcasterIcon from "@/assets/icons/farcaster.svg";
-import Image from "next/image";
-import Banner from "public/pixel-heart.svg";
-import { FaTwitter } from "react-icons/fa6";
+
+import { Link } from "@nextui-org/react";
 
 const About = () => {
   return (
-    <>
-      <div className="container w-full max-w-4xl mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
-        <div className="flex items-center justify-center dsm:justify-between">
-          <Banner className="text-black w-full h-auto select-none" />
-        </div>
+    <div className="container w-full max-w-4xl text-md sm:text-xl mx-auto p-8 sm:py-20 gap-10 flex flex-col justify-center items-center">
+      <h1>About</h1>
+      <p>
+        The Yellow Collective is an onchain club on the BASE Ethereum L2
+        network, designed to support and empower artists and creatives onchain.
+      </p>
 
-        <div className="flex flex-col gap-4 text-lg">
-          <div className="flex flex-col gap-4">
-            <p className="text-xl my-2 ">
-              Upload your 32x32 pixel images as transparent PNGs, style them
-              using existing NounsDAO assets, and share them with the community!{" "}
-            </p>
+      <p>
+        One Collective Noun will be auctioned off at{" "}
+        <Link
+          href="https://yellowcollective.xyz"
+          isExternal
+          className="text-md sm:text-xl"
+        >
+          YellowCollective.xyz
+        </Link>{" "}
+        every day, forever. Auction proceeds are used to host art contests and
+        pay commissions to creatives in our communities, in collaboration with
+        The Noun Square Onchain Media Collective.
+      </p>
 
-            <p className="text-xl my-2 ">
-              No strings attached: you retain all rights to your art until you
-              choose to submit it to the DAO through a{" "}
-              <a
-                href="https://nouns.wtf/vote#candidates"
-                className=" hover:!text-primary underline"
-                target="_blank"
-              >
-                candidate proposal
-              </a>
-              {""}. If the candidate is sponsored, goes onchain and succeeds,
-              your artwork is added to NounsDAO collection, and becomes CC0.{" "}
-            </p>
-          </div>
-          <div className="mt-8 mb-2 bg-bright-light dark:bg-off-dark p-6 leading-24 ">
-            <p className="py-2"> Future Features: </p>
-            <li className="">
-              One-click process to submit candidate proposals to NounsDAO
-            </li>
-            <li className="">
-              Farcaster, Twitter and Discord bots letting the community know
-              about newly uploaded traits
-            </li>
-            <li className="">Comments under traits</li>
-            <li className="">
-              Integration with{" "}
-              <a
-                href="https://studio.noundry.wtf/"
-                className=" hover:!text-primary underline"
-                target="_blank"
-              >
-                Noundry Studio
-              </a>{" "}
-            </li>
-          </div>
+      <p>
+        Collective Nouns are made in the image of the original Nouns DAO, except
+        that all of the Head Traits are drawn by community members. The
+        inaugural 55 heads in the collection were winners of a pre-launch art
+        contest.{" "}
+      </p>
 
-          <div>
-            <p className="mb-2 text-md">
-              {" "}
-              This project is funded by Nouns via{" "}
-              <a
-                href="https://nouns.wtf/vote/375"
-                className=" hover:!text-primary underline"
-                target="_blank"
-              >
-                proposal #375
-              </a>
-              {""}.
-            </p>
-          </div>
+      <p>
+        Now the time has come to add more traits, something we plan to do
+        several times per year to keep the collection fresh and
+        community-created. Submit your traits here on yellow.noundry to enter
+        our contest and your head could be one of the next 50 heads added to our
+        collection! The following prizes are up for grabs:
+      </p>
 
-          <div>
-            <p className="mb-2 text-md">
-              {" "}
-              Get in touch with us on Twitter or Discord if you want to share
-              some feedback or features requests.
-            </p>
-          </div>
-
-          <div className="profile-section-creators">
-            <div className="profile-individual-section">
-              <Image
-                className="px-2 py-2"
-                src="/coralPFP.png"
-                alt="coral"
-                width={250}
-                height={250}
-                unoptimized
-              />
-              <div className="inline-flex">
-                <p className="mx-2">Coralorca</p>
-                <div className="px-2 pt-1">
-                  <a href="https://twitter.com/coralorca" target="_blank">
-                    <FaTwitter />
-                  </a>
-                </div>
-                <div className="px-2 pt-1">
-                  <a href="https://warpcast.com/coralorca" target="_blank">
-                    <FarcasterIcon />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="profile-individual-section">
-              <Image
-                className="px-2 py-2"
-                src="/volkyPFP.png"
-                alt="volky"
-                width={250}
-                height={250}
-                unoptimized
-              />
-              <div className="inline-flex">
-                <p className="mx-2">Volky.eth</p>
-                <div className="px-2 pt-1">
-                  <a href="https://twitter.com/volkyeth" target="_blank">
-                    <FaTwitter />
-                  </a>
-                </div>
-                <div className="px-2 pt-1">
-                  <a href="https://warpcast.com/volky" target="_blank">
-                    <FarcasterIcon />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+      <ul className="list-disc list-inside space-y-2">
+        <li>
+          1st: One Collective Noun Token from our Prize Vault + $500 USDC on
+          BASE + Your Head will be included in Collective Nouns!
+        </li>{" "}
+        <li>
+          2nd-5th: $250 USDC on BASE + Head will be included in Collective
+          Nouns!
+        </li>{" "}
+        <li>
+          {" "}
+          6th-10th: $50 USDC + Head will be included in Collective Nouns!
+        </li>{" "}
+        <li>
+          11th-50th: 1 Pair of Nouns Vision Noggles (~0.15 ETH Value) + Head
+          will be included in Collective Nouns!
+        </li>
+      </ul>
+    </div>
   );
 };
 
