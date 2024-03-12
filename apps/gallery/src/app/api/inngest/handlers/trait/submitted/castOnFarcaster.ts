@@ -53,6 +53,7 @@ ${trait.name} ${formatTraitType(trait.type)}`;
           signer_uuid: process.env.NOUNDRY_NEYNAR_SIGNER_UUID,
           text: castBody,
           embeds: [{ url: `${SITE_URI}/trait/${traitId}` }],
+          channel_id: "noundry",
         }),
       };
 
