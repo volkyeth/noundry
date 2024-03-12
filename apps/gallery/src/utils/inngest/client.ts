@@ -51,5 +51,4 @@ type Events = {
 export const inngest = new Inngest({
   id: "noundry-gallery",
   schemas: new EventSchemas().fromRecord<Events>(),
-  baseUrl: process.env.INNGEST_URL,
 });
