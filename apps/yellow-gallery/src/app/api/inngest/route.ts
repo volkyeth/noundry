@@ -5,13 +5,14 @@ import { dumpUsers } from "./handlers/db/dump/dumpUsers";
 import { runScript } from "./handlers/runScript";
 import { upsertUser } from "./handlers/user/signedIn/upsertUser";
 import { updateCordUser } from "./handlers/user/updated/updateCordUser";
+import { castOnFarcaster } from "./handlers/trait/submitted/castOnFarcaster";
 
 export const maxDuration = 300;
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [
-    // castOnFarcaster,
+    castOnFarcaster,
     // postOnDiscord,
     // postOnTwitter,
     dumpTraits,
