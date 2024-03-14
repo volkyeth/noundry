@@ -79,8 +79,8 @@ export default function App({ Component, pageProps }: AppProps) {
                   <meta name="twitter:card" content="summary_large_image" />
                 </Head>
                 <NextNProgress
-                  color="#FBCB07"
-                  height={2}
+                  color="#0786fb"
+                  height={3}
                   options={{ showSpinner: false }}
                 />
                 <Navbar />
