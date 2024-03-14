@@ -14,6 +14,7 @@ import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { AddTraitQuery } from "@/schemas/addTraitQuery";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
+import { traitCategory } from "@/utils/traits/categories";
 import { formatTraitType } from "@/utils/traits/format";
 import { Input } from "@nextui-org/react";
 import { useQueryState } from "next-usequerystate";
@@ -238,7 +239,7 @@ const Submit = () => {
           </>
         )}
 
-        {traitType !== null && traitBitmap !== null && (
+        {traitType !== null && traitBitmap !== null && mainnetArtwork && (
           <>
             <div className="w-full flex flex-col gap-4 items-center justify-center ">
               <div className="flex flex-col gap-2">
@@ -308,23 +309,25 @@ const Submit = () => {
                           onPick={setSeed}
                         />
                         <div className="flex gap-[2px] items-center">
-                          {TRAIT_TYPES.filter((type) => traitType !== type).map(
-                            (type) => (
-                              <TraitPicker
-                                variant="secondary"
-                                classNames={{
-                                  button: "p-3",
-                                  icon: "w-[16px] h-[16px] ",
-                                }}
-                                currentTraits={traits}
-                                key={`${type}-picker`}
-                                traitType={type}
-                                onPick={(traitIndex) =>
-                                  setSeed({ ...seed, [type]: traitIndex })
-                                }
-                              />
-                            )
-                          )}
+                          {TRAIT_TYPES.filter(
+                            (type) =>
+                              traitType !== type &&
+                              mainnetArtwork[traitCategory(type)].length > 1
+                          ).map((type) => (
+                            <TraitPicker
+                              variant="secondary"
+                              classNames={{
+                                button: "p-3",
+                                icon: "w-[16px] h-[16px] ",
+                              }}
+                              currentTraits={traits}
+                              key={`${type}-picker`}
+                              traitType={type}
+                              onPick={(traitIndex) =>
+                                setSeed({ ...seed, [type]: traitIndex })
+                              }
+                            />
+                          ))}
                         </div>
                       </div>
                     </div>
