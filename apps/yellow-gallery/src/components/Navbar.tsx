@@ -16,7 +16,7 @@ import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { NotificationListLauncher } from "@cord-sdk/react";
 import { useSIWE } from "connectkit";
-import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa6";
+import { FaGithub, FaTwitter } from "react-icons/fa6";
 import { RiCloseFill, RiMenuFill, RiUpload2Fill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
@@ -111,8 +111,14 @@ const Navbar = () => {
               <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
               <NavbarLink href={"/about"}>About</NavbarLink>
 
-              <div className="mt-20">
-                <p className="font-normal text-sm text-off-dark">Check out</p>
+              <div className="flex flex-col mt-20 gap-3">
+                <p className="text-xs text-off-dark">Check out:</p>
+
+                <a href="https://www.yellowcollective.xyz/" target="_blank">
+                  <p className="font-Pally text-off-dark py-1 hover:!text-primary text-xl font-medium leading-3">
+                    Yellow Collective
+                  </p>
+                </a>
                 <a href="https://studio.noundry.wtf/" target="_blank">
                   <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
                     Noundry Studio
@@ -121,15 +127,15 @@ const Navbar = () => {
               </div>
 
               <div className="flex gap-4">
-                <a href={`https://warpcast.com/noundry`} target="_blank">
+                <a href={`https://warpcast.com/yellownoundry`} target="_blank">
                   <FarcasterIcon />
                 </a>
-                <a href={`https://twitter.com/noundry`} target="_blank">
+                <a href={`https://twitter.com/yellownoundry`} target="_blank">
                   <FaTwitter />
                 </a>
-                <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
+                {/* <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
                   <FaDiscord />
-                </a>
+                </a> */}
                 <a href={`https://github.com/volkyeth/noundry`} target="_blank">
                   <FaGithub />
                 </a>
