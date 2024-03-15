@@ -1,5 +1,6 @@
 "use client";
 
+import { BraveDisclaimer } from "@/components/BraveDisclaimer";
 import { Button } from "@/components/Button";
 import Dynamic from "@/components/Dynamic";
 import { ModelPicker } from "@/components/ModelPicker";
@@ -161,157 +162,162 @@ const Submit = () => {
   }, [traitFile, traitCanvas]);
 
   return (
-    <Dynamic>
-      <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
-        <h1>Submit {formatTraitType(traitType) || "trait"}</h1>
+    <>
+      <BraveDisclaimer />
+      <Dynamic>
+        <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
+          <h1>Submit {formatTraitType(traitType) || "trait"}</h1>
 
-        {traitType === null && (
-          <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
-            {["head", "accessory", "glasses", "body"].map(
-              (traitType: TraitType) => (
-                <Button
-                  key={`select-type-${traitType}`}
-                  variant="secondary"
-                  className="w-full h-fit flex flex-col items-center p-8"
-                  onClick={() => setTraitType(traitType)}
-                >
-                  <TraitIcon
-                    type={traitType}
-                    className="w-12 h-12 md:w-[72px] md:h-[72px]"
-                  />
-                  <p className="uppercase mt-4 text-sm font-semibold ">
-                    {formatTraitType(traitType)}
-                  </p>
-                </Button>
-              )
-            )}
-          </div>
-        )}
-
-        {traitType !== null && traitBitmap === null && (
-          <>
-            <div className="w-full max-w-xl flex flex-col items-center justify-center gap-2 ">
-              <Button
-                variant="ghost"
-                className="self-start px-2 py-1"
-                onClick={() => {
-                  setTraitType(null);
-                  setTraitFile(null);
-                }}
-              >
-                <RiArrowGoBackFill className="text-2xl" />
-              </Button>
-              <div
-                {...getRootProps()}
-                className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
-              >
-                <input {...getInputProps()} />
-                <p className="text-center ">
-                  {isDragActive
-                    ? `Drop your ${formatedTraitType} here`
-                    : traitFile
-                    ? `Drop another ${formatedTraitType} here to replace, or click to select a file`
-                    : `Drop your ${formatedTraitType} here, or click to select a file`}
-                </p>
-                <canvas
-                  ref={setTraitCanvas}
-                  className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
-                  style={{ display: !traitFile ? "none" : undefined }}
-                  width={32}
-                  height={32}
-                />
-                {traitFile && (
+          {traitType === null && (
+            <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
+              {["head", "accessory", "glasses", "body"].map(
+                (traitType: TraitType) => (
                   <Button
-                    className="w-48"
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      const ctx = traitCanvas?.getContext("2d");
-                      if (!ctx) return;
-                      setTraitBitmap(
-                        await createImageBitmap(ctx.getImageData(0, 0, 32, 32))
-                      );
-                    }}
+                    key={`select-type-${traitType}`}
+                    variant="secondary"
+                    className="w-full h-fit flex flex-col items-center p-8"
+                    onClick={() => setTraitType(traitType)}
                   >
-                    NEXT
+                    <TraitIcon
+                      type={traitType}
+                      className="w-12 h-12 md:w-[72px] md:h-[72px]"
+                    />
+                    <p className="uppercase mt-4 text-sm font-semibold ">
+                      {formatTraitType(traitType)}
+                    </p>
                   </Button>
-                )}
-              </div>
+                )
+              )}
             </div>
-          </>
-        )}
+          )}
 
-        {traitType !== null && traitBitmap !== null && (
-          <>
-            <div className="w-full flex flex-col gap-4 items-center justify-center ">
-              <div className="flex flex-col gap-2">
+          {traitType !== null && traitBitmap === null && (
+            <>
+              <div className="w-full max-w-xl flex flex-col items-center justify-center gap-2 ">
                 <Button
                   variant="ghost"
                   className="self-start px-2 py-1"
                   onClick={() => {
-                    setTraitBitmap(null);
+                    setTraitType(null);
                     setTraitFile(null);
-                    setTraitName("");
                   }}
                 >
                   <RiArrowGoBackFill className="text-2xl" />
                 </Button>
-                <TraitCard
-                  name={
-                    <Input
-                      variant="underlined"
-                      autoFocus
-                      value={traitName}
-                      onChange={(e) =>
-                        setTraitName(
-                          e.target.value.charAt(0).toUpperCase() +
-                            e.target.value.slice(1)
-                        )
-                      }
-                      maxLength={MAX_TRAIT_NAME_LENGTH}
-                      fullWidth={false}
-                      classNames={{
-                        input:
-                          "font-bold text-xl xs:text-2xl text-secondary placeholder:text-gray-200 placeholder:border-1 underline  decoration-default-200",
-                        inputWrapper:
-                          "!p-0 min-h-0 h-6 xs:h-7 w-52 xs:w-[252px] !border-none shadow-none after:hidden",
+                <div
+                  {...getRootProps()}
+                  className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
+                >
+                  <input {...getInputProps()} />
+                  <p className="text-center ">
+                    {isDragActive
+                      ? `Drop your ${formatedTraitType} here`
+                      : traitFile
+                      ? `Drop another ${formatedTraitType} here to replace, or click to select a file`
+                      : `Drop your ${formatedTraitType} here, or click to select a file`}
+                  </p>
+                  <canvas
+                    ref={setTraitCanvas}
+                    className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
+                    style={{ display: !traitFile ? "none" : undefined }}
+                    width={32}
+                    height={32}
+                  />
+                  {traitFile && (
+                    <Button
+                      className="w-48"
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        const ctx = traitCanvas?.getContext("2d");
+                        if (!ctx) return;
+                        setTraitBitmap(
+                          await createImageBitmap(
+                            ctx.getImageData(0, 0, 32, 32)
+                          )
+                        );
                       }}
-                      isRequired
-                      disableAnimation
-                      placeholder="Name goes here"
-                    />
-                  }
-                  type={traitType}
-                  image={
-                    <canvas
-                      ref={setTraitCanvas}
-                      className="bg-checkerboard w-full"
-                      width={32}
-                      height={32}
-                    />
-                  }
-                  previewImage={
-                    <Noun {...traits} size={32} className="w-full" />
-                  }
-                  footer={
-                    <div className="flex flex-col gap-0 pt-1 xs:p2-2 w-full  items-end justify-between">
-                      <div className="w-full flex text-xs text-default font-bold justify-between tracking-widest">
-                        <p>PICK</p>
-                        <p>CUSTOMIZE</p>
-                      </div>
-                      <div className="w-full flex gap-2 justify-between">
-                        <ModelPicker
-                          variant="secondary"
-                          classNames={{
-                            button: "px-2",
-                            icon: "w-[24px] h-[24px] ",
-                          }}
-                          trait={traitBitmap}
-                          traitType={traitType}
-                          onPick={setSeed}
-                        />
-                        <div className="flex gap-[2px] items-center">
-                          {TRAIT_TYPES.filter((type) => traitType !== type).map(
-                            (type) => (
+                    >
+                      NEXT
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          {traitType !== null && traitBitmap !== null && (
+            <>
+              <div className="w-full flex flex-col gap-4 items-center justify-center ">
+                <div className="flex flex-col gap-2">
+                  <Button
+                    variant="ghost"
+                    className="self-start px-2 py-1"
+                    onClick={() => {
+                      setTraitBitmap(null);
+                      setTraitFile(null);
+                      setTraitName("");
+                    }}
+                  >
+                    <RiArrowGoBackFill className="text-2xl" />
+                  </Button>
+                  <TraitCard
+                    name={
+                      <Input
+                        variant="underlined"
+                        autoFocus
+                        value={traitName}
+                        onChange={(e) =>
+                          setTraitName(
+                            e.target.value.charAt(0).toUpperCase() +
+                              e.target.value.slice(1)
+                          )
+                        }
+                        maxLength={MAX_TRAIT_NAME_LENGTH}
+                        fullWidth={false}
+                        classNames={{
+                          input:
+                            "font-bold text-xl xs:text-2xl text-secondary placeholder:text-gray-200 placeholder:border-1 underline  decoration-default-200",
+                          inputWrapper:
+                            "!p-0 min-h-0 h-6 xs:h-7 w-52 xs:w-[252px] !border-none shadow-none after:hidden",
+                        }}
+                        isRequired
+                        disableAnimation
+                        placeholder="Name goes here"
+                      />
+                    }
+                    type={traitType}
+                    image={
+                      <canvas
+                        ref={setTraitCanvas}
+                        className="bg-checkerboard w-full"
+                        width={32}
+                        height={32}
+                      />
+                    }
+                    previewImage={
+                      <Noun {...traits} size={32} className="w-full" />
+                    }
+                    footer={
+                      <div className="flex flex-col gap-0 pt-1 xs:p2-2 w-full  items-end justify-between">
+                        <div className="w-full flex text-xs text-default font-bold justify-between tracking-widest">
+                          <p>PICK</p>
+                          <p>CUSTOMIZE</p>
+                        </div>
+                        <div className="w-full flex gap-2 justify-between">
+                          <ModelPicker
+                            variant="secondary"
+                            classNames={{
+                              button: "px-2",
+                              icon: "w-[24px] h-[24px] ",
+                            }}
+                            trait={traitBitmap}
+                            traitType={traitType}
+                            onPick={setSeed}
+                          />
+                          <div className="flex gap-[2px] items-center">
+                            {TRAIT_TYPES.filter(
+                              (type) => traitType !== type
+                            ).map((type) => (
                               <TraitPicker
                                 variant="secondary"
                                 classNames={{
@@ -325,28 +331,28 @@ const Submit = () => {
                                   setSeed({ ...seed, [type]: traitIndex })
                                 }
                               />
-                            )
-                          )}
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  }
-                />
-                <Button
-                  className="flex-grow w-full"
-                  onClick={() => submit()}
-                  isDisabled={traitName === ""}
-                  isLoading={isSubmitting}
-                  loadingContent="Submitting"
-                >
-                  Submit
-                </Button>
+                    }
+                  />
+                  <Button
+                    className="flex-grow w-full"
+                    onClick={() => submit()}
+                    isDisabled={traitName === ""}
+                    isLoading={isSubmitting}
+                    loadingContent="Submitting"
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
-            </div>
-          </>
-        )}
-      </div>
-    </Dynamic>
+            </>
+          )}
+        </div>
+      </Dynamic>
+    </>
   );
 };
 
