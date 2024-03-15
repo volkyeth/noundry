@@ -16,7 +16,7 @@ import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { NotificationListLauncher } from "@cord-sdk/react";
 import { useSIWE } from "connectkit";
-import { FaGithub, FaTwitter } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa6";
 import { RiCloseFill, RiMenuFill, RiUpload2Fill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
@@ -133,9 +133,9 @@ const Navbar = () => {
                 <a href={`https://twitter.com/yellownoundry`} target="_blank">
                   <FaTwitter />
                 </a>
-                {/* <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
+                <a href={`https://discord.gg/gXBzfJHChu`} target="_blank">
                   <FaDiscord />
-                </a> */}
+                </a>
                 <a href={`https://github.com/volkyeth/noundry`} target="_blank">
                   <FaGithub />
                 </a>
