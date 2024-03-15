@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 
 export const BraveDisclaimer = () => {
-  const hasBraveGlitch = true || useDetectBraveGlitch();
+  const hasBraveGlitch = useDetectBraveGlitch();
   return (
     <Modal isOpen={hasBraveGlitch} hideCloseButton>
       <ModalContent>
