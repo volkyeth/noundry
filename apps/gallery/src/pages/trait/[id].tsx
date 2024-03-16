@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/Popover";
 import { TraitCard } from "@/components/TraitCard";
+import { TraitComments } from "@/components/TraitComments";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { UserBadge } from "@/components/UserBadge";
 import { SITE_URI } from "@/constants/config";
@@ -40,7 +41,14 @@ export const getStaticProps: GetStaticProps<{
     };
   }
 
-  const trait = (await getTrait(params.id as string)) as Trait;
+  const trait = await getTrait(params.id as string);
+
+  if (!trait) {
+    return {
+      notFound: true,
+      revalidate: 60,
+    };
+  }
 
   const author = await getUserInfo(trait.address);
 
@@ -90,13 +98,21 @@ const TraitPage: NextPage<{
         <meta
           key="title"
           name="title"
-          property="og:title"
+          content={`${trait.name} ${formatTraitType(trait.type)}`}
+        />
+        <meta
+          key="og:title"
+          name="og:title"
           content={`${trait.name} ${formatTraitType(trait.type)}`}
         />
         <meta
           key="description"
           name="description"
-          property="og:description"
+          content={`Created by: ${author.userName}`}
+        />
+        <meta
+          key="og:description"
+          name="og:description"
           content={`Created by: ${author.userName}`}
         />
 
@@ -113,7 +129,7 @@ const TraitPage: NextPage<{
         />
       </Head>
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-min">
           <TraitCard
             name={trait.name}
             type={trait.type}
@@ -202,6 +218,7 @@ const TraitPage: NextPage<{
               )}
             </Dynamic>
           </div>
+          <TraitComments trait={trait} />
         </div>
 
         <TraitTestingGrounds
