@@ -252,32 +252,29 @@ const GuideLines = () => {
         <div className="flex flex-col gap-4 text-lg my-5">
           <div className="flex flex-col gap-2">
             <div className="list-disc flex flex-col gap-2 pl-8">
-              <h1>Nounish Composition</h1>
+              <h1>Guidelines</h1>
+
 
               <li className=" my-1">
-                Nouns are typically depicted 'head-on' or with a slight rotation
-                to the right to match their 3/4 pose.
+              Traits should be submitted as partially transparent PNGs. Ensure only the artwork is visible, as it will be automatically combined with the original Nouns traits.
               </li>
 
               <Image
                   className="px-2 py-2"
                   src="/noundry-guidelines-example.png"
                   alt="example"
-                  width={250}
+                  width={500}
                   height={250}
                   unoptimized
                 />
 
-              <li className=" my-1">
-                Generally designed flat with high contrasts and no outlines.{" "}
+
+                <li className=" my-1">
+                Nouns are typically depicted 'head-on' or with a slight rotation to the right to match their 3/4 pose.
               </li>
 
-              
-
-
-
               <li className=" my-1">
-              <RiAlertLine className=" text-3xl inline-flex -translate-y-1" /> Traits are layered in that order: Body, Accessory, Head, Glasses. <br></br>
+              <RiAlertLine className=" text-3xl inline-flex -translate-y-1" /> Traits are layered in that order: Body -> Accessory -> Head -> Glasses. <br></br>
        
 
               <Image
@@ -289,12 +286,15 @@ const GuideLines = () => {
                   unoptimized
                 />
 
-
-              Accessory traits will be layered over the Body, Head traits will be layered over both Accessory and Body, and Glasses will be layered over everything. <br></br>Ensure there is sufficient space below the Head for accessories. We recommend submitting monochrome Body traits to avoid clashes with accessories. If you wish to create a detailed Body trait, consider making it an accessory as it will cover the body underneath.
+              <p className=" text-sm ">
+              Accessory traits will be layered over the Body, Head traits will be layered over both Accessory and Body, and Glasses will be layered over everything. 
+              <br></br>Ensure there is sufficient space below the Head for accessories. 
+              <br></br>We recommend submitting monochrome Body traits to avoid clashes with accessories. If you wish to create a detailed Body trait, consider making it an accessory as it will cover the body underneath.
+              </p>
               </li>
 
               <li className="my-1">
-                Avoid too many colors per Noun. The average noun has 4-5 colors,
+                Avoid too many colors. The average noun has 4-5 colors,
                 rarely more than 10.{" "}
               </li>
               <div className="flex flex-wrap md:flex-row sm:flex-row dsm:flex-col">
@@ -325,6 +325,10 @@ const GuideLines = () => {
               </div>
 
               <li className=" my-1">
+                Generally designed flat with high contrasts and no outlines.{" "}
+              </li>
+
+              <li className=" my-1">
                 Maintain the head size within a circular crop for social media.
               </li>
 
@@ -338,7 +342,7 @@ const GuideLines = () => {
                 />
 
               <div className="bg-bright-light dark:bg-off-dark p-3 m-3">
-                <p className="lead m-4">
+                <p className="lead m-4 text-sm ">
                   <a
                     href="https://discord.com/channels/849745721544146955/931247256470953994/932159019592871987"
                     target="_blank"
@@ -349,7 +353,7 @@ const GuideLines = () => {
                   </a>{" "}
                   avoid:
                 </p>
-                <ul className="list-disc flex flex-col gap-1 pl-8 italic mb-2">
+                <ul className="list-disc flex flex-col gap-1 pl-8 italic mb-2 text-sm ">
                   <p>- Brand references</p>
                   <p>
                     - Obvious weapons (bomb made the cut because it's cartoon
