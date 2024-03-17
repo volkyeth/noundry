@@ -21,7 +21,7 @@ export const BraveDisclaimer = () => {
           </ModalHeader>
           <ModalBody>
             <p>
-              Brave browser has anti-figerprinting features that interfere with
+              Brave browser has anti-fingerprinting features that interfere with
               some Noundry Gallery functionality. To submit or propose traits on
               Brave you have to disable the Shields for this site.
             </p>
