@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import ColorGrid from "../components/ColorGrid/ColorGrid";
 import { RiAlertLine } from "react-icons/ri";
+import ColorGrid from "../components/ColorGrid/ColorGrid";
 
 const GuideLines = () => {
   const colors = [
@@ -254,30 +254,33 @@ const GuideLines = () => {
             <div className="list-disc flex flex-col gap-2 pl-8">
               <h1>Guidelines</h1>
 
-
               <li className=" my-1">
-              Traits should be submitted as partially transparent PNGs. Ensure only the artwork is visible, as it will be automatically combined with the original Nouns traits.
+                Traits should be submitted as partially transparent PNGs. Ensure
+                only the artwork is visible, as it will be automatically
+                combined with the original Nouns traits.
               </li>
 
               <Image
-                  className="px-2 py-2"
-                  src="/noundry-guidelines-example.png"
-                  alt="example"
-                  width={500}
-                  height={250}
-                  unoptimized
-                />
+                className="px-2 py-2"
+                src="/noundry-guidelines-example.png"
+                alt="example"
+                width={500}
+                height={250}
+                unoptimized
+              />
 
-
-                <li className=" my-1">
-                Nouns are typically depicted 'head-on' or with a slight rotation to the right to match their 3/4 pose.
+              <li className=" my-1">
+                Nouns are typically depicted 'head-on' or with a slight rotation
+                to the right to match their 3/4 pose.
               </li>
 
               <li className=" my-1">
-              <RiAlertLine className=" text-3xl inline-flex -translate-y-1" /> Traits are layered in that order: Body -> Accessory -> Head -> Glasses. <br></br>
-       
-
-              <Image
+                <RiAlertLine className=" text-3xl inline-flex -translate-y-1" />{" "}
+                {
+                  "Traits are layered in that order: Body -> Accessory -> Head -> Glasses."
+                }
+                <br></br>
+                <Image
                   className="py-2"
                   src="/drawing-order-guidelines.png"
                   alt="drawing order"
@@ -285,17 +288,22 @@ const GuideLines = () => {
                   height={418}
                   unoptimized
                 />
-
-              <p className=" text-sm ">
-              Accessory traits will be layered over the Body, Head traits will be layered over both Accessory and Body, and Glasses will be layered over everything. 
-              <br></br>Ensure there is sufficient space below the Head for accessories. 
-              <br></br>We recommend submitting monochrome Body traits to avoid clashes with accessories. If you wish to create a detailed Body trait, consider making it an accessory as it will cover the body underneath.
-              </p>
+                <p className=" text-sm ">
+                  Accessory traits will be layered over the Body, Head traits
+                  will be layered over both Accessory and Body, and Glasses will
+                  be layered over everything.
+                  <br></br>Ensure there is sufficient space below the Head for
+                  accessories.
+                  <br></br>We recommend submitting monochrome Body traits to
+                  avoid clashes with accessories. If you wish to create a
+                  detailed Body trait, consider making it an accessory as it
+                  will cover the body underneath.
+                </p>
               </li>
 
               <li className="my-1">
-                Avoid too many colors. The average noun has 4-5 colors,
-                rarely more than 10.{" "}
+                Avoid too many colors. The average noun has 4-5 colors, rarely
+                more than 10.{" "}
               </li>
               <div className="flex flex-wrap md:flex-row sm:flex-row dsm:flex-col">
                 <Image
@@ -333,13 +341,13 @@ const GuideLines = () => {
               </li>
 
               <Image
-                  className="px-2 py-2"
-                  src="/headcrop-guidelines-640.png"
-                  alt="head crop"
-                  width={250}
-                  height={250}
-                  unoptimized
-                />
+                className="px-2 py-2"
+                src="/headcrop-guidelines-640.png"
+                alt="head crop"
+                width={250}
+                height={250}
+                unoptimized
+              />
 
               <div className="bg-bright-light dark:bg-off-dark p-3 m-3">
                 <p className="lead m-4 text-sm ">
