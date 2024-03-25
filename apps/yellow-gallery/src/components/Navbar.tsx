@@ -63,6 +63,7 @@ const Navbar = () => {
           <NavbarContent className="hidden xl:flex gap-12" justify="center">
             <NavbarLink href={"/"}>Traits</NavbarLink>
             <NavbarLink href={"/artists"}>Artists</NavbarLink>
+            <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
           </NavbarContent>
           <NavbarContent justify="end" className="gap-2">
             <NavbarButton href={"/submit"} className="hidden xs:flex">
@@ -108,7 +109,9 @@ const Navbar = () => {
               <NavbarLink href={"/artists"} className="xl:hidden">
                 Artists
               </NavbarLink>
-              <NavbarLink href={"/guidelines"}>Guidelines</NavbarLink>
+              <NavbarLink href={"/guidelines"} className="xl:hidden">
+                Guidelines
+              </NavbarLink>
               <NavbarLink href={"/about"}>About</NavbarLink>
 
               <div className="flex flex-col mt-20 gap-3">
