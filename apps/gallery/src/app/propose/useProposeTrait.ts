@@ -5,12 +5,14 @@ import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import { nounsDaoDataAbi, nounsDaoDataAddress } from "@/contracts/nounsDaoData";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { Trait } from "@/types/trait";
+import { formatTraitType } from "@/utils/traits/format";
 import { TraitCategory, TraitType } from "noggles";
 import {
   nounsDescriptorAbi,
   nounsDescriptorContractAddress,
 } from "noggles/src/contracts/nounsDescriptor";
 import { useMemo } from "react";
+import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, getFunctionSignature } from "viem";
 import { compressAndEncodeTrait } from "./artworkEncoding";
 import { useTraitColorIndexes } from "./useTraitColorIndexes";
@@ -30,7 +32,10 @@ export const useProposeTrait = ({
   createCandidateCost,
   isNouner,
 }: UseProposePartArgs) => {
-  const slug = trait.name;
+  const slug = useMemo(
+    () => slugify(`${trait.name} ${formatTraitType(trait.type)}`.toLowerCase()),
+    [trait]
+  );
   const proposalIdToUpdate = 0n;
   const { data: mainnetArtwork } = useMainnetArtwork();
   const palette = useMemo(
