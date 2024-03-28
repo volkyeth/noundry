@@ -1,11 +1,16 @@
 import { Text, VStack } from "@chakra-ui/react";
-import { Header } from "../layout/Header";
 import { PartImporter } from "../PartImporter";
 
 export const PaletteFixer = () => {
   return (
-    <VStack bgColor="gray.900" color="gray.100" h="100vh" minW="100vw" spacing={10}>
-      <Header />
+    <VStack
+      bgColor="gray.900"
+      color="gray.100"
+      h="100vh"
+      minW="100vw"
+      spacing={10}
+      py={6}
+    >
       <Text as="h1" fontSize={24}>
         Palette Fixer
       </Text>
