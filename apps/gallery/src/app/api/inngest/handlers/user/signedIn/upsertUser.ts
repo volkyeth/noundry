@@ -1,5 +1,5 @@
+import { getUserInfo } from "@/app/actions/getUserInfo";
 import { getCordServerToken } from "@/app/api/cord/getCordServerToken";
-import { getUserInfo } from "@/app/api/user/[address]/info/getUserInfo";
 import { publicClient } from "@/app/publicClient";
 import { CORD_GROUP_ID } from "@/constants/cord";
 import { UserSchema } from "@/db/schema/UserSchema";

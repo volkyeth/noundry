@@ -5,7 +5,7 @@ import { ImageResponse } from "@vercel/og";
 import { NextResponse } from "next/server";
 import { TraitCategory } from "noggles";
 //@ts-ignore
-import noundryGalleryLogo from "public/NoundryGalleryLogo.svg?url";
+import noundryGalleryLogo from "@/assets/NoundryGalleryLogo.svg?url";
 
 export const runtime = "edge";
 

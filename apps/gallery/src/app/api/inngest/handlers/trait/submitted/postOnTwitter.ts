@@ -1,4 +1,4 @@
-import { getUserInfo } from "@/app/api/user/[address]/info/getUserInfo";
+import { getUserInfo } from "@/app/actions/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";

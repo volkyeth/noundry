@@ -1,5 +1,5 @@
+import { getUserInfo } from "@/app/actions/getUserInfo";
 import { getCordServerToken } from "@/app/api/cord/getCordServerToken";
-import { getUserInfo } from "@/app/api/user/[address]/info/getUserInfo";
 import { UserSchema } from "@/db/schema/UserSchema";
 import { database } from "@/utils/database/db";
 import { inngest } from "@/utils/inngest/client";

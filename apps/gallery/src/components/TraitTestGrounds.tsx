@@ -1,9 +1,9 @@
+import loadingNoun from "@/assets/loading-noun.gif";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { PngDataUri } from "@/types/image";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { EncodedTrait, HexColor, NounSeed, TraitType } from "noggles";
-import loadingNoun from "public/loading-noun.gif";
 import { FC, HtmlHTMLAttributes, ReactNode, useState } from "react";
 import { Noun } from "./Noun";
 import { VirtualizedGallery } from "./VirtualizedGallery";

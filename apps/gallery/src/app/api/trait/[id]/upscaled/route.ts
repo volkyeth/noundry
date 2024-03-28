@@ -1,7 +1,7 @@
 import { resizePng } from "@/utils/image/resize";
 import Session from "@/utils/siwe/session";
 import { NextRequest, NextResponse } from "next/server";
-import { getTrait } from "../getTrait";
+import { getTrait } from "../../../../actions/getTrait";
 
 export async function GET(req: NextRequest, { params: { id } }) {
   const session = await Session.fromRequest(req);

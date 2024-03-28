@@ -1,8 +1,9 @@
+import loadingNoun from "@/assets/loading-noun.gif";
 import { useUsername } from "@/hooks/useUsername";
 import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
-import loadingNoun from "public/loading-noun.gif";
 
+import LoadingNoggles from "@/assets/loading-noggles.svg";
 import {
   Card,
   CardBody,
@@ -11,7 +12,6 @@ import {
   Link,
 } from "@nextui-org/react";
 import NextLink from "next/link";
-import LoadingNoggles from "public/loading-noggles.svg";
 
 import { forwardRef, useState } from "react";
 import { LikeWidget } from "./LikeWidget";
@@ -118,3 +118,5 @@ export const TraitPreviewCard = forwardRef<
     </Card>
   );
 });
+
+TraitPreviewCard.displayName = "TraitPreviewCard";

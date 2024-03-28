@@ -1,7 +1,7 @@
 "use client";
 import FarcasterIcon from "@/assets/icons/farcaster.svg";
+import Banner from "@/assets/pixel-heart.svg";
 import Image from "next/image";
-import Banner from "public/pixel-heart.svg";
 import { FaTwitter } from "react-icons/fa6";
 
 const About = () => {

@@ -5,7 +5,7 @@ import { inngest } from "@/utils/inngest/client";
 import Session from "@/utils/siwe/session";
 import { MongoServerError } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
-import { getUserInfo } from "./getUserInfo";
+import { getUserInfo } from "../../../../actions/getUserInfo";
 
 export const GET = async (req: NextRequest, { params }) => {
   const address = addressSchema.parse(params.address) as `0x${string}`;

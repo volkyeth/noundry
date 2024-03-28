@@ -11,7 +11,7 @@ export const dumpTraits = inngest.createFunction(
     await step.run(
       "Dump all traits",
       async () =>
-        await database.collection<TraitSchema>("nfts").find().toArray()
+        (await database.collection)<TraitSchema>("nfts").find().toArray()
     );
   }
 );

@@ -1,3 +1,5 @@
+"use server";
+
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { Trait } from "@/types/trait";
 import { database } from "@/utils/database/db";

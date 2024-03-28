@@ -1,5 +1,5 @@
+import LoadingNoggles from "@/assets/loading-noggles.svg";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
-import LoadingNoggles from "public/loading-noggles.svg";
 import { FC } from "react";
 import { BlinkingNoggles } from "./BlinkingNoggles";
 

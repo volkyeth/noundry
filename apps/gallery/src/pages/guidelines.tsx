@@ -270,8 +270,8 @@ const GuideLines = () => {
               />
 
               <li className=" my-1">
-                Nouns are typically depicted 'head-on' or with a slight rotation
-                to the right to match their 3/4 pose.
+                Nouns are typically depicted &apos;head-on&apos; or with a
+                slight rotation to the right to match their 3/4 pose.
               </li>
 
               <li className=" my-1">
@@ -364,11 +364,11 @@ const GuideLines = () => {
                 <ul className="list-disc flex flex-col gap-1 pl-8 italic mb-2 text-sm ">
                   <p>- Brand references</p>
                   <p>
-                    - Obvious weapons (bomb made the cut because it's cartoon
-                    violence)
+                    - Obvious weapons (bomb made the cut because it&apos;s
+                    cartoon violence)
                   </p>
                   <p>
-                    - Skin on the body (yellow thumbs up made it in as it's
+                    - Skin on the body (yellow thumbs up made it in as it&apos;s
                     generic recognizable iconography)
                   </p>
                   <p>
@@ -376,9 +376,9 @@ const GuideLines = () => {
                     in a costume (there was a clown for example)
                   </p>
                   <p>
-                    - Professions/hobbies as body accessories - we didn't want
-                    to imply nouns have jobs or are specifically sports fans,
-                    etc
+                    - Professions/hobbies as body accessories - we didn&apos;t
+                    want to imply nouns have jobs or are specifically sports
+                    fans, etc
                   </p>
                 </ul>
               </div>

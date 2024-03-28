@@ -1,13 +1,4 @@
-if (
-  process.env.LD_LIBRARY_PATH == null ||
-  !process.env.LD_LIBRARY_PATH.includes(
-    `${process.env.PWD}/node_modules/canvas/build/Release:`
-  )
-) {
-  process.env.LD_LIBRARY_PATH = `${
-    process.env.PWD
-  }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ""}`;
-}
+// @ts-check
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -28,8 +19,8 @@ const nextConfig = {
       // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
-        resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
         use: [
           {
             loader: "@svgr/webpack",

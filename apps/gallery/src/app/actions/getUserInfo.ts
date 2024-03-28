@@ -1,3 +1,5 @@
+"use server";
+
 import { DEFAULT_PROFILE_PICTURE } from "@/constants/config";
 import { UserSchema } from "@/db/schema/UserSchema";
 import { LowercaseAddress } from "@/types/address";

@@ -10,7 +10,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const classNames = {
-  base: "font-semibold w-fit shadow-sm hover:translate-y-[1px] hover:shadow-xs active:shadow-inset active:translate-y-[2px]",
+  base: "font-semibold w-fit shadow-sm hover:translate-y-[1px] hover:shadow-xs active:shadow-inset active:translate-y-[2px] disabled:opacity-50",
   primary: "bg-primary text-[#fff]  active:bg-primary-600  ",
   secondary: "bg-secondary text-[#fff]  active:bg-secondary-600",
   white:
@@ -42,8 +42,7 @@ export const Button: FC<ButtonProps> = forwardRef<
       classNames[variant],
       classNames[size],
       className,
-      isLoading ? "text-opacity-50 animate-pulse" : "",
-      isDisabled ? "opacity-50" : ""
+      isLoading ? "text-opacity-50 animate-pulse" : ""
     );
 
     return (
@@ -59,3 +58,5 @@ export const Button: FC<ButtonProps> = forwardRef<
     );
   }
 );
+
+Button.displayName = "Button";

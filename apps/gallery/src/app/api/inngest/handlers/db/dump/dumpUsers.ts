@@ -11,7 +11,7 @@ export const dumpUsers = inngest.createFunction(
     await step.run(
       "Dump all users",
       async () =>
-        await database.collection<UserSchema>("users").find().toArray()
+        (await database.collection)<UserSchema>("users").find().toArray()
     );
   }
 );

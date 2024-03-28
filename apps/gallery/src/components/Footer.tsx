@@ -1,5 +1,5 @@
+import LoadingNoggles from "@/assets/loading-noggles.svg";
 import { useIsFetching } from "@tanstack/react-query";
-import LoadingNoggles from "public/loading-noggles.svg";
 import { BlinkingNoggles } from "./BlinkingNoggles";
 
 const Footer = () => {

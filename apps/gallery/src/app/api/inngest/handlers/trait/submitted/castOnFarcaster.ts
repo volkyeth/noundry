@@ -1,5 +1,5 @@
+import { getUserInfo } from "@/app/actions/getUserInfo";
 import { getFarcasterUser } from "@/app/api/farcaster/user/[address]/getFarcasterUser";
-import { getUserInfo } from "@/app/api/user/[address]/info/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";

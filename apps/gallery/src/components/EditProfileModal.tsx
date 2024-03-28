@@ -11,7 +11,7 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { RiPencilFill } from "react-icons/ri";
@@ -90,7 +90,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
 
   useEffect(reset, [isOpen, currentUserInfo]);
 
-  const { reload } = useRouter();
+  const { refresh } = useRouter();
 
   const { getInputProps, getRootProps } = useDropzone({
     accept: { "image/png": [".png"] },
@@ -217,7 +217,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                   updateUser().then((r) => {
                     if (r.success) {
                       onClose();
-                      reload();
+                      refresh();
                     }
                   })
                 }

@@ -28,24 +28,23 @@ export const TraitComments: FC<TraitCommentsProps> = ({ trait }) => {
         collapsed={false}
         threadOptions={{ additional_subscribers_on_create: [trait.address] }}
         location={{ page: "trait", id: trait.id }}
-        children={
-          isWalletConnected || hasMessages ? undefined : (
-            <div className="flex justify-center !p-4">
-              <Link
-                color="secondary"
-                onClick={() => openSIWE()}
-                className="mx-auto cursor-pointer"
-              >
-                Sign in to comment
-              </Link>
-            </div>
-          )
-        }
         className={twMerge(
           "max-h-96",
           isWalletConnected ? undefined : "noWalletConnected"
         )}
-      />
+      >
+        {isWalletConnected || hasMessages ? undefined : (
+          <div className="flex justify-center !p-4">
+            <Link
+              color="secondary"
+              onClick={() => openSIWE()}
+              className="mx-auto cursor-pointer"
+            >
+              Sign in to comment
+            </Link>
+          </div>
+        )}
+      </Thread>
       {!isWalletConnected && hasMessages && (
         <div className="bg-de flex justify-center !p-4">
           <Link

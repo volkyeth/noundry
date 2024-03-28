@@ -30,7 +30,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/index.tsx",
-    "src/app/api/toggleLike/route.js"
+    "src/app/api/toggleLike/route.js",
+    "vitest.config.js"
   ],
   "exclude": ["node_modules"]
 }

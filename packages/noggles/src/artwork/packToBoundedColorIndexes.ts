@@ -1,4 +1,4 @@
-import { TRANSPARENT } from "../constants/artwork.js";
+import { TRANSPARENT_INDEX } from "../constants/artwork.js";
 import { BoundedColorIndexes, ColorIndex } from "../types/artwork.js";
 
 export const packToBoundedColorIndexes = (
@@ -14,7 +14,7 @@ export const packToBoundedColorIndexes = (
   for (const [i, colorIndex] of colorIndexes.entries()) {
     const row = Math.floor(i / width);
     const col = i % width;
-    const isTransparent = colorIndex === TRANSPARENT;
+    const isTransparent = colorIndex === TRANSPARENT_INDEX;
     rows[row].push(colorIndex);
     if (!isTransparent) {
       top = Math.min(top, row);

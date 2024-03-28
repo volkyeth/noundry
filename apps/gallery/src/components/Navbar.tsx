@@ -1,3 +1,6 @@
+"use client";
+
+import LogoImage from "@/assets/NoundryGalleryLogo.svg";
 import FarcasterIcon from "@/assets/icons/farcaster.svg";
 import {
   Link,
@@ -10,8 +13,7 @@ import {
   Navbar as NextUiNavbar,
 } from "@nextui-org/react";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
-import LogoImage from "public/NoundryGalleryLogo.svg";
+import { usePathname } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 
 import { Button } from "@/components/Button";
@@ -28,12 +30,10 @@ const Navbar = () => {
   const { isSignedIn } = useSIWE();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { address } = useAccount();
-  const { events, asPath: currentPage } = useRouter();
+  const currentPage = usePathname() ?? "/";
   useEffect(() => {
-    const handler = () => setIsMenuOpen(false);
-    events.on("routeChangeComplete", handler);
-    return () => events.off("routeChangeComplete", handler);
-  }, [events, setIsMenuOpen]);
+    setIsMenuOpen(false);
+  }, [currentPage, setIsMenuOpen]);
 
   return (
     <NextUiNavbar
@@ -140,7 +140,7 @@ interface NavbarLinkProps extends NavbarItemProps {
 }
 
 const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
-  const { asPath: currentPage } = useRouter();
+  const currentPage = usePathname() ?? "/";
 
   const isActive =
     currentPage.toLowerCase().split(/[?#]/)[0] === href.toLowerCase();
@@ -177,7 +177,7 @@ const NavbarButton: FC<NavbarButtonProps> = ({
   classNames,
   ...props
 }) => {
-  const { asPath: currentPage } = useRouter();
+  const currentPage = usePathname() ?? "/";
 
   const isActive =
     currentPage.toLowerCase().split(/[?#]/)[0] === href.toLowerCase();

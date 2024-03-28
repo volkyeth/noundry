@@ -1,11 +1,23 @@
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { NounTraits } from "@/types/noun";
-import { FC, HtmlHTMLAttributes, useEffect, useState } from "react";
+import {
+  FC,
+  HtmlHTMLAttributes,
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
+import { twMerge } from "tailwind-merge";
 
 export interface NounProps
   extends NounTraits,
     HtmlHTMLAttributes<HTMLDivElement> {
+  margin?: number;
   size: number;
+  circleCrop?: boolean;
+  withCheckerboardBg?: boolean;
+  canvasRef?: Ref<HTMLCanvasElement | null>;
 }
 
 export const Noun: FC<NounProps> = ({
@@ -15,13 +27,24 @@ export const Noun: FC<NounProps> = ({
   body,
   background,
   size,
+  circleCrop = false,
+  margin = 0,
+  canvasRef,
+  withCheckerboardBg = true,
+  className,
   ...props
 }) => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
+  const [ready, setReady] = useState(false);
   const glassesBitmap = useTraitBitmap(glasses);
   const headBitmap = useTraitBitmap(head);
   const accessoryBitmap = useTraitBitmap(accessory);
   const bodyBitmap = useTraitBitmap(body);
+  useImperativeHandle(
+    canvasRef,
+    () => (ready ? (canvas as HTMLCanvasElement) : null),
+    [canvas, ready]
+  );
 
   useEffect(() => {
     if (
@@ -33,32 +56,47 @@ export const Noun: FC<NounProps> = ({
     )
       return;
 
+    canvas.width = size + margin * 2;
+    canvas.height = size + margin * 2;
+
     const ctx = canvas.getContext("2d")!;
     ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, size, size);
+    ctx.clearRect(margin, margin, size, size);
     ctx.fillStyle = background;
-    ctx.fillRect(0, 0, size, size);
-    ctx.drawImage(bodyBitmap, 0, 0, size, size);
-    ctx.drawImage(accessoryBitmap, 0, 0, size, size);
-    ctx.drawImage(headBitmap, 0, 0, size, size);
-    ctx.drawImage(glassesBitmap, 0, 0, size, size);
+    ctx.fillRect(margin, margin, size, size);
+    ctx.drawImage(bodyBitmap, margin, margin, size, size);
+    ctx.drawImage(accessoryBitmap, margin, margin, size, size);
+    ctx.drawImage(headBitmap, margin, margin, size, size);
+    ctx.drawImage(glassesBitmap, margin, margin, size, size);
+    if (circleCrop) {
+      ctx.globalCompositeOperation = "destination-in";
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, canvas.height / 2, size / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+    setReady(true);
   }, [
+    margin,
     canvas,
     glassesBitmap,
     headBitmap,
     accessoryBitmap,
     bodyBitmap,
+    circleCrop,
     background,
     size,
   ]);
 
   return (
-    <div {...props}>
+    <div className={twMerge("w-fit h-fit", className)} {...props}>
       <canvas
-        width={size}
-        height={size}
         ref={setCanvas}
-        className={"bg-checkerboard w-full h-full"}
+        className={twMerge(
+          withCheckerboardBg ? "bg-checkerboard" : "",
+          "w-full h-full"
+        )}
       />
     </div>
   );

@@ -19,6 +19,8 @@ export {
   IMAGE_TRAIT_TYPES,
   TRAIT_TYPES,
 } from "./constants/traits.js";
+
+export { TRANSPARENT_HEX, TRANSPARENT_INDEX } from "./constants/artwork.js";
 export { type NounTraits } from "./types/artwork.js";
 export { type NounSeed } from "./types/seed.js";
 export { type TraitCategory, type TraitType } from "./types/traits.js";
