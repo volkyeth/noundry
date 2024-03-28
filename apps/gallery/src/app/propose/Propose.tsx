@@ -370,7 +370,7 @@ export const Propose = ({ trait, author }) => {
                   You are the creator of the trait.
                 </ChecklistItem>
                 <ChecklistItem
-                  isValid={paletteIndex !== null}
+                  isValid={paletteIndex !== undefined}
                   warningContent={
                     <>
                       Oh, it uses some colors that do not belong to the Nouns
@@ -383,6 +383,13 @@ export const Propose = ({ trait, author }) => {
                         Noundry Studio
                       </Link>{" "}
                       or your favorite editor and resubmitting.
+                      <br />
+                      <span className="text-xs">
+                        (If this is unexpected, and you submitted the trait via
+                        Brave browser, the browser anti-fingerprinting feature
+                        might have messed with your artwork. Reach out with the
+                        original artwork and we&apos;ll sort it out)
+                      </span>
                     </>
                   }
                 >
@@ -392,16 +399,8 @@ export const Propose = ({ trait, author }) => {
                   isValid={canSubmitProposalCandidate}
                   warningContent={
                     <>
-                      Oh, it uses some colors that do not belong to the Nouns
-                      palette. Try fixing that on{" "}
-                      <Link
-                        href="https://studio.noundry.wtf/palette"
-                        color="danger"
-                        className="underline text-sm"
-                      >
-                        Noundry Studio
-                      </Link>{" "}
-                      or your favorite editor and resubmitting.
+                      Oh, looks like you don&apos;t have enough funds to pay for
+                      creating a proposal candidate.
                     </>
                   }
                 >
