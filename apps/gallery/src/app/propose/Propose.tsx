@@ -537,10 +537,8 @@ export const Propose = ({ trait, author }) => {
 
           {proposalSuccessful && (
             <p>
-              Proposal candidate submitted! Check
-              <Link href="https://nouns.wtf/vote#candidates">
-                nouns.wtf
-              </Link> or{" "}
+              Proposal candidate submitted! Check{" "}
+              <Link href="https://nouns.wtf/vote#candidates">nouns.wtf</Link> or{" "}
               <Link href="https://www.nouns.camp/?tab=candidates">
                 nouns.camp
               </Link>{" "}
