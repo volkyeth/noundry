@@ -1,8 +1,0 @@
-{
-    "app_id": "noundry-zzxyj",
-    "config_version": 20210101,
-    "name": "Noundry",
-    "location": "US-VA",
-    "provider_region": "gcp-us-central1",
-    "deployment_model": "LOCAL"
-}
