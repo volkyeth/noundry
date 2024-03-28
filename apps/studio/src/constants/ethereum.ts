@@ -1,1 +1,0 @@
-export const AVERAGE_MAINNET_BLOCK_TIME = 12.1;

@@ -3,27 +3,13 @@ import "@fontsource/press-start-2p";
 import "@fontsource/vt323";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { inject } from "@vercel/analytics";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { WagmiConfig, createConfig, mainnet } from "wagmi";
-import ckTheme from "./ckTheme.json";
 import { BraveDisclaimer } from "./components/BraveDisclaimer";
 import { MainLayout } from "./components/layout/MainLayout";
 import { Editor } from "./components/pages/Editor";
 import { PaletteFixer } from "./components/pages/PaletteFixer";
-import { Propose } from "./components/pages/Propose";
 import theme from "./theme";
-
-const config = createConfig(
-  getDefaultConfig({
-    alchemyId: import.meta.env.VITE_ALCHEMY_API_KEY,
-    walletConnectProjectId: import.meta.env.VITE_WALLETCONNECT_ID,
-    appName: "Noundry Studio",
-    appUrl: "https://studio.noundry.wtf",
-    chains: [mainnet],
-  })
-);
 
 const App = () => {
   inject({ debug: false });
@@ -33,21 +19,12 @@ const App = () => {
       <ColorModeFixer />
       <BraveDisclaimer />
       <QueryClientProvider client={queryClient}>
-        <WagmiConfig config={config}>
-          <ConnectKitProvider
-            customTheme={ckTheme}
-            options={{ enforceSupportedChains: false }}
-          >
-            <MainLayout>
-              <Routes>
-                <Route path="/" element={<Editor />} />
-                <Route path="palette" element={<PaletteFixer />} />
-                <Route path="propose" element={<Propose />} />
-                <Route path="propose/:partType" element={<Propose />} />
-              </Routes>
-            </MainLayout>
-          </ConnectKitProvider>
-        </WagmiConfig>
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<Editor />} />
+            <Route path="palette" element={<PaletteFixer />} />
+          </Routes>
+        </MainLayout>
       </QueryClientProvider>
     </ChakraProvider>
   );
