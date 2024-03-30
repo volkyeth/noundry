@@ -14,16 +14,13 @@ import { TraitCard } from "@/components/TraitCard";
 import { TraitComments } from "@/components/TraitComments";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { UserBadge } from "@/components/UserBadge";
-import { SITE_URI } from "@/constants/config";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
-import { formatTraitType } from "@/utils/traits/format";
 import { Link } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
-import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
@@ -61,40 +58,6 @@ export const TraitSection: FC<TraitSectionProps> = ({
 
   return (
     <div className="container mx-auto py-4 lg:p-10">
-      <Head>
-        <meta
-          key="title"
-          name="title"
-          content={`${trait.name} ${formatTraitType(trait.type)}`}
-        />
-        <meta
-          key="og:title"
-          name="og:title"
-          content={`${trait.name} ${formatTraitType(trait.type)}`}
-        />
-        <meta
-          key="description"
-          name="description"
-          content={`Created by: ${author.userName}`}
-        />
-        <meta
-          key="og:description"
-          name="og:description"
-          content={`Created by: ${author.userName}`}
-        />
-
-        <meta
-          key="og:image"
-          name="og:image"
-          content={`${SITE_URI}/api/trait/${trait.id}/og`}
-        />
-
-        <meta
-          key="twitter:image"
-          name="twitter:image"
-          content={`${SITE_URI}/api/trait/${trait.id}/og`}
-        />
-      </Head>
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
         <div className="flex flex-col gap-2 w-min">
           <TraitCard
