@@ -4,7 +4,7 @@ import { SITE_URI } from "@/constants/config";
 import { formatTraitType } from "@/utils/traits/format";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { TraitSection } from "../Trait";
+import { TraitSection } from "../TraitSection";
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const trait = await getTrait(params.id);

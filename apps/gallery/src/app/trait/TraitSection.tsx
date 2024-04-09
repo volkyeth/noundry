@@ -64,6 +64,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
             name={trait.name}
             type={trait.type}
             image={
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 alt="Trait preview"
                 src={trait.trait}
@@ -71,6 +72,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
               />
             }
             previewImage={
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 alt="Trait preview"
                 src={trait.nft}
