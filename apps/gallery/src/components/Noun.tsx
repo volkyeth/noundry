@@ -11,7 +11,8 @@ import {
 import { twMerge } from "tailwind-merge";
 
 export interface NounProps
-  extends NounTraits,
+  extends Partial<Omit<NounTraits, "background">>,
+    Pick<NounTraits, "background">,
     HtmlHTMLAttributes<HTMLDivElement> {
   margin?: number;
   size: number;
@@ -47,14 +48,7 @@ export const Noun: FC<NounProps> = ({
   );
 
   useEffect(() => {
-    if (
-      !canvas ||
-      !glassesBitmap ||
-      !headBitmap ||
-      !accessoryBitmap ||
-      !bodyBitmap
-    )
-      return;
+    if (!canvas) return;
 
     canvas.width = size + margin * 2;
     canvas.height = size + margin * 2;
@@ -64,10 +58,11 @@ export const Noun: FC<NounProps> = ({
     ctx.clearRect(margin, margin, size, size);
     ctx.fillStyle = background;
     ctx.fillRect(margin, margin, size, size);
-    ctx.drawImage(bodyBitmap, margin, margin, size, size);
-    ctx.drawImage(accessoryBitmap, margin, margin, size, size);
-    ctx.drawImage(headBitmap, margin, margin, size, size);
-    ctx.drawImage(glassesBitmap, margin, margin, size, size);
+    bodyBitmap && ctx.drawImage(bodyBitmap, margin, margin, size, size);
+    accessoryBitmap &&
+      ctx.drawImage(accessoryBitmap, margin, margin, size, size);
+    headBitmap && ctx.drawImage(headBitmap, margin, margin, size, size);
+    glassesBitmap && ctx.drawImage(glassesBitmap, margin, margin, size, size);
     if (circleCrop) {
       ctx.globalCompositeOperation = "destination-in";
       ctx.beginPath();

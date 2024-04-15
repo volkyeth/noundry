@@ -1,6 +1,6 @@
-import { useSize } from "@/hooks/useSize";
 import { VirtualItem, useVirtualizer } from "@tanstack/react-virtual";
 import { FC, HtmlHTMLAttributes, ReactNode, useEffect, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 import { Hoverable } from "./Hoverable";
 
 export interface VirtualizedGalleryProps
@@ -10,8 +10,14 @@ export interface VirtualizedGalleryProps
   itemPadding?: number;
   hoverable?: boolean;
   scrollContainerPadding: number;
+  initialScrollOffset?: number;
   header?: ReactNode;
   footer?: ReactNode;
+  lanes?: number;
+  classNames?: {
+    card: string;
+  };
+
   children: (virtualItem: VirtualItem) => ReactNode;
 }
 
@@ -22,90 +28,101 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
   hoverable = false,
   scrollContainerPadding,
   header,
+  lanes = 3,
+  initialScrollOffset = 0,
+  classNames,
+  className,
   footer,
   children,
   ...props
 }) => {
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { width } = useSize(mainContainerRef);
-  const paddedItemSize = itemSize + 2 * itemPadding;
-  const lanes = Math.min(
-    width
-      ? Math.floor((width - 2 * scrollContainerPadding) / paddedItemSize)
-      : 5,
-    itemCount
-  );
 
-  const { getVirtualItems, getTotalSize, measure } = useVirtualizer({
-    getScrollElement: () => scrollContainerRef.current,
-    count: itemCount,
-    lanes,
-    overscan: 50,
-    estimateSize: () => itemSize,
-  });
+  const { getVirtualItems, getTotalSize, measure, isScrolling } =
+    useVirtualizer({
+      getScrollElement: () => scrollContainerRef.current,
+      horizontal: true,
+      count: itemCount,
+      initialOffset:
+        (itemSize + itemPadding * 2) * (itemCount / lanes / 2) +
+        initialScrollOffset,
+      lanes,
+      overscan: 16,
+      estimateSize: () => itemSize,
+    });
 
   useEffect(() => {
     measure();
   }, [measure, lanes]);
 
   return (
-    <div {...props} ref={mainContainerRef}>
-      <div className="bg-content1 flex flex-col w-fit py-5 px-4 mx-auto h-full shadow-md">
-        {header}
+    <div
+      ref={mainContainerRef}
+      {...props}
+      className={twMerge(
+        "bg-content1 flex flex-col w-full py-5 px-4 mx-auto h-fit shadow-md overflow-auto",
+        className,
+        classNames?.card
+      )}
+    >
+      {header}
+
+      <div
+        ref={scrollContainerRef}
+        className={
+          "overflow-auto w-full scrollbar-hide shadow-inset bg-gray-100"
+        }
+        style={{
+          padding: `${scrollContainerPadding}px`,
+        }}
+      >
         <div
-          ref={scrollContainerRef}
-          className={"overflow-auto w-fit  bg-gray-100 shadow-inset"}
+          className="relative"
           style={{
-            padding: `${scrollContainerPadding}px`,
+            width: `${getTotalSize()}px`,
+            height: `${itemSize * lanes}px`,
           }}
         >
-          <div
-            className="relative"
-            style={{
-              height: `${getTotalSize()}px`,
-              width: `${itemSize * lanes}px`,
-            }}
-          >
-            {getVirtualItems().map((virtualItem) => {
-              return (
-                <Hoverable key={virtualItem.key} isDisabled={!hoverable}>
-                  {({ isHovered, onMouseEnter, onMouseLeave }) => {
-                    return (
+          {getVirtualItems().map((virtualItem) => {
+            return (
+              <Hoverable key={virtualItem.key} isDisabled={!hoverable}>
+                {({ isHovered, onMouseEnter, onMouseLeave }) => {
+                  return (
+                    <div
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        padding: `${itemPadding}px`,
+                        width: `${virtualItem.size}px`,
+                        top: `${virtualItem.lane * virtualItem.size}px`,
+                        height: `${virtualItem.size}px`,
+                        transform: isHovered
+                          ? `translateX(${virtualItem.start + 2}px)`
+                          : `translateX(${virtualItem.start}px)`,
+                      }}
+                    >
                       <div
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
                         style={{
-                          position: "absolute",
-                          top: 0,
-                          padding: `${itemPadding}px`,
-                          width: `${virtualItem.size}px`,
-                          left: `${virtualItem.lane * virtualItem.size}px`,
-                          height: `${virtualItem.size}px`,
-                          transform: isHovered
-                            ? `translateY(${virtualItem.start + 2}px)`
-                            : `translateY(${virtualItem.start}px)`,
+                          boxShadow: isHovered
+                            ? "0 0px #bdbdbd"
+                            : "0 2px #bdbdbd",
                         }}
                       >
-                        <div
-                          style={{
-                            boxShadow: isHovered
-                              ? "0 0px #bdbdbd"
-                              : "0 2px #bdbdbd",
-                          }}
-                        >
-                          {children(virtualItem)}
-                        </div>
+                        {children(virtualItem)}
                       </div>
-                    );
-                  }}
-                </Hoverable>
-              );
-            })}
-          </div>
+                    </div>
+                  );
+                }}
+              </Hoverable>
+            );
+          })}
         </div>
-        {footer}
       </div>
+
+      {footer}
     </div>
   );
 };

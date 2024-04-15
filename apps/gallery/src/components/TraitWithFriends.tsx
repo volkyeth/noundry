@@ -1,35 +1,35 @@
 import loadingNoun from "@/assets/loading-noun.gif";
+import NounIcon from "@/assets/traitIcons/noun.svg";
+import { Button } from "@/components/Button";
+import { TraitIcon } from "@/components/TraitIcon";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { PngDataUri } from "@/types/image";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
+import { useDisclosure } from "@nextui-org/react";
 import { EncodedTrait, HexColor, NounSeed, TraitType } from "noggles";
 import { FC, HtmlHTMLAttributes, ReactNode, useState } from "react";
 import { Noun } from "./Noun";
 import { VirtualizedGallery } from "./VirtualizedGallery";
 
-export interface TraitTestingGroundsProps
+export interface TraitWithFriendsProps
   extends HtmlHTMLAttributes<HTMLDivElement> {
   traitType: TraitType;
   trait: EncodedTrait | ImageBitmap | HexColor | PngDataUri;
   onNounClick?: (seed: NounSeed) => void;
   header?: ReactNode;
-  footer?: ReactNode;
-  classNames?: {
-    card: string;
-  };
 }
 
-export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
+export const TraitWithFriends: FC<TraitWithFriendsProps> = ({
   traitType,
   trait,
   onNounClick,
   header,
-  footer,
-  classNames,
   ...props
 }) => {
   const { data: mainnetArtwork } = useMainnetArtwork();
+  const { isOpen: showFullNoun, onOpenChange: toggleShowFullNoun } =
+    useDisclosure({ defaultOpen: true });
   const [salt] = useState(Math.random());
 
   const NOUN_SIZE = 128;
@@ -41,9 +41,21 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
       scrollContainerPadding={4}
       hoverable={!!onNounClick}
       lanes={2}
-      classNames={classNames}
       header={header}
-      footer={footer}
+      footer={
+        <Button
+          variant="ghost"
+          size="sm"
+          className="self-end mt-1 -mb-2 p-1"
+          onClick={toggleShowFullNoun}
+        >
+          {showFullNoun ? (
+            <NounIcon className={"h-4 text-secondary"} />
+          ) : (
+            <TraitIcon type={traitType} className={"h-4 text-secondary"} />
+          )}
+        </Button>
+      }
       {...props}
     >
       {(virtualItem) => {
@@ -61,17 +73,30 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
           ...generateSeed(mainnetArtwork, salt + virtualItem.index),
           background: virtualItem.index % mainnetArtwork.backgrounds.length,
         };
-        const traits = {
+        const fullNounTraits = {
           ...getTraitsFromSeed(seed, mainnetArtwork),
-          [traitType]: trait,
+          ...(virtualItem.index % 4 === 0 ? { [traitType]: trait } : {}),
         };
 
+        const traits = showFullNoun
+          ? fullNounTraits
+          : {
+              background: fullNounTraits.background,
+              [traitType]: fullNounTraits[traitType],
+            };
+
         return (
-          <Noun
-            onClick={onNounClick ? () => onNounClick?.(seed) : undefined}
-            {...traits}
-            size={320}
-          />
+          <div className="grid">
+            <Noun
+              onClick={onNounClick ? () => onNounClick?.(seed) : undefined}
+              {...traits}
+              className={"overlap"}
+              size={320}
+            />
+            {virtualItem.index % 4 === 0 && (
+              <div className="overlap pointer-events-none border-2 border-secondary-500 w-full h-full" />
+            )}
+          </div>
         );
       }}
     </VirtualizedGallery>

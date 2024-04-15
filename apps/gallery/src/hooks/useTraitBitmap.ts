@@ -4,7 +4,7 @@ import { EncodedTrait, colormap, decodeTrait } from "noggles";
 import { useMainnetArtwork } from "./useMainnetArtwork";
 
 export const useTraitBitmap = (
-  trait: PngDataUri | EncodedTrait | ImageBitmap
+  trait?: PngDataUri | EncodedTrait | ImageBitmap
 ) => {
   const { data: onchainArtwork } = useMainnetArtwork();
   const isEncodedTrait = typeof trait === "string" && trait.startsWith("0x");
@@ -44,8 +44,10 @@ export const useTraitBitmap = (
     },
     staleTime: Infinity,
     cacheTime: Infinity,
-    enabled: isDataUri || (isEncodedTrait && !!onchainArtwork),
+    enabled: (trait && isDataUri) || (isEncodedTrait && !!onchainArtwork),
   });
+
+  if (trait === undefined) return undefined;
 
   return isTraitBitmap ? trait : imageBitmap ?? undefined;
 };

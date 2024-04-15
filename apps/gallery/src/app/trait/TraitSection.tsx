@@ -13,6 +13,7 @@ import {
 import { TraitCard } from "@/components/TraitCard";
 import { TraitComments } from "@/components/TraitComments";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
+import { TraitWithFriends } from "@/components/TraitWithFriends";
 import { UserBadge } from "@/components/UserBadge";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
@@ -58,7 +59,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
 
   return (
     <div className="container mx-auto py-4 lg:p-10">
-      <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16">
+      <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16 p-4">
         <div className="flex flex-col gap-2 w-min">
           <TraitCard
             name={trait.name}
@@ -163,11 +164,20 @@ export const TraitSection: FC<TraitSectionProps> = ({
           <TraitComments trait={trait} />
         </div>
 
-        <TraitTestingGrounds
-          traitType={traitType(trait)}
-          trait={trait.trait}
-          className=" h-[85vh] w-full lg:max-w-xl"
-        />
+        <div className="flex w-full flex-col gap-4 max-w-xl">
+          <TraitTestingGrounds
+            traitType={traitType(trait)}
+            trait={trait.trait}
+            className="relative h-fit w-full"
+            classNames={{ card: "pb-10" }}
+          />
+
+          <TraitWithFriends
+            traitType={traitType(trait)}
+            trait={trait.trait}
+            className="relative h-fit w-full"
+          />
+        </div>
       </div>
     </div>
   );
