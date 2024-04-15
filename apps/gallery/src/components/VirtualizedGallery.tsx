@@ -71,8 +71,13 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
       <div
         ref={scrollContainerRef}
         className={
-          "overflow-auto w-full scrollbar-hide shadow-inset bg-gray-100"
+          "overflow-auto w-full scrollbar-hide overscroll-contain shadow-inset bg-gray-100"
         }
+        onWheel={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          scrollContainerRef.current!.scrollLeft += e.deltaY;
+        }}
         style={{
           padding: `${scrollContainerPadding}px`,
         }}
