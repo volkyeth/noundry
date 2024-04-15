@@ -19,12 +19,16 @@ import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
+import { formatTraitType } from "@/utils/traits/format";
 import { Link } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
+import Download from "pixelarticons/svg/download.svg";
+import Trash from "pixelarticons/svg/trash.svg";
 import { FC } from "react";
+import slugify from "slugify";
 import { useAccount } from "wagmi";
 
 export interface TraitSectionProps {
@@ -109,7 +113,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
           <div className="flex w-full gap-2 justify-end">
             <Dynamic>
               {isCreator && (
-                <>
+                <div className="flex justify-between w-full">
                   <NextLink href={`/propose/${trait.id}`}>
                     <Button
                       variant="ghost"
@@ -118,46 +122,53 @@ export const TraitSection: FC<TraitSectionProps> = ({
                       Propose
                     </Button>
                   </NextLink>
-                  <Popover>
-                    <PopoverTrigger asChild>
+                  <div className="flex">
+                    <Link
+                      download={slugify(
+                        `${trait.name}-${formatTraitType(trait.type)}.png`
+                      )}
+                      href={trait.trait}
+                    >
                       <Button
                         variant="ghost"
                         className="h-fit p-2 text-default hover:text-black"
                       >
-                        <svg
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={24}
-                          viewBox="0 0 24 24"
+                        <Download className="w-6" />
+                      </Button>
+                    </Link>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="h-fit p-2 text-default hover:text-black"
                         >
-                          <path
-                            d="M16 2v4h6v2h-2v14H4V8H2V6h6V2h8zm-2 2h-4v2h4V4zm0 4H6v12h12V8h-4zm-5 2h2v8H9v-8zm6 0h-2v8h2v-8z"
-                            fill="currentColor"
-                          />{" "}
-                        </svg>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      collisionPadding={10}
-                      className="flex p-4 bg-content1 gap-4 shadow-sm drop-shadow-md z-50"
-                    >
-                      <PopoverArrow className="fill-content1 w-6 h-2" />
-                      <Button
-                        isLoading={isDeleting}
-                        loadingContent={"Deleting"}
-                        className="bg-danger-500"
-                        onClick={() => {
-                          deleteTrait().then(() => push(`/profile/${address}`));
-                        }}
+                          <Trash className="w-6" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        collisionPadding={10}
+                        className="flex p-4 bg-content1 gap-4 shadow-sm drop-shadow-md z-50"
                       >
-                        Delete
-                      </Button>
-                      <PopoverClose asChild>
-                        <Button variant="ghost">Cancel</Button>
-                      </PopoverClose>
-                    </PopoverContent>
-                  </Popover>
-                </>
+                        <PopoverArrow className="fill-content1 w-6 h-2" />
+                        <Button
+                          isLoading={isDeleting}
+                          loadingContent={"Deleting"}
+                          className="bg-danger-500"
+                          onClick={() => {
+                            deleteTrait().then(() =>
+                              push(`/profile/${address}`)
+                            );
+                          }}
+                        >
+                          Delete
+                        </Button>
+                        <PopoverClose asChild>
+                          <Button variant="ghost">Cancel</Button>
+                        </PopoverClose>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
               )}
             </Dynamic>
           </div>
