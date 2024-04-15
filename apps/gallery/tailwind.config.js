@@ -57,6 +57,8 @@ module.exports = {
       },
       screens: {
         xs: { min: "475px" },
+        "non-touchscreen": { raw: "(pointer: fine)" },
+        touchscreen: { raw: "(pointer: coarse)" },
       },
       transformOrigin: {
         0: "0%",
