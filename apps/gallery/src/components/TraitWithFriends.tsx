@@ -93,9 +93,6 @@ export const TraitWithFriends: FC<TraitWithFriendsProps> = ({
               className={"overlap"}
               size={320}
             />
-            {virtualItem.index % 4 === 0 && (
-              <div className="overlap pointer-events-none border-2 border-secondary-500 w-full h-full" />
-            )}
           </div>
         );
       }}
