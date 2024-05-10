@@ -109,7 +109,6 @@ export const createNounPart = (
     },
     // Redraws the Noun and pushes current canvas content to history
     commit: async () => {
-      drawNounCanvas(get());
       await getBlob(canvas).then(async (blob) => {
         const partState = get()[part];
 
@@ -135,7 +134,7 @@ export const createNounPart = (
             blob: () => blob,
           };
         });
-      });
+      }).then(() => drawNounCanvas(get()));
     },
     undo: async () => {
       const state = get()[part];
