@@ -5,6 +5,7 @@ import { clearCanvas } from "../utils/canvas/clearCanvas";
 import { drawCanvas } from "../utils/canvas/drawCanvas";
 import { nounParts } from "../utils/constants";
 import { NounPartState, createNounPart } from "./NounPart";
+import { useWorkspaceState } from "./Workspace";
 
 export type NounState = {
   activePart: NounPartType | null;
@@ -82,11 +83,14 @@ export const drawNounCanvas = (state: NounState) => {
   if (!state.canvas) {
     return;
   }
+  const workingCanvas = useWorkspaceState.getState().canvas!;
   clearCanvas(state.canvas);
   for (const part of nounParts) {
     if (!state[part].visible) {
       continue;
     }
+
+    state.activePart === part ? drawCanvas(workingCanvas, state.canvas) :
     drawCanvas(state[part].canvas, state.canvas);
   }
 };

@@ -10,7 +10,7 @@ import { MouseButton, MouseEventType } from "../../utils/constants";
 import { getCanvasPoint } from "../../utils/geometry/getCanvasPoint";
 import { useClipboardState } from "../Clipboard";
 import { useCursor } from "../Cursor";
-import { useNounState } from "../Noun";
+import { drawNounCanvas, useNounState } from "../Noun";
 import { NounPartState } from "../NounPart";
 import { useSelection } from "../Selection";
 import { WorkspaceMode, useWorkspaceState } from "../Workspace";
@@ -161,14 +161,6 @@ export const PlacingMode: WorkspaceMode = {
     },
     { commands: ["?"], callback: () => useCheatSheetState.getState().toggle(), description: "Open cheat sheet" },
   ],
-
-  // Mousetrap.bind("enter", () => {
-  //   if (!canvas || !placing) {
-  //     return;
-  //   }
-
-  //   place(canvas);
-  // });
 };
 
 const renderWorkspaceCanvas = () => {
@@ -196,6 +188,7 @@ const renderWorkspaceCanvas = () => {
   }
 
   drawCanvas(placingCanvas, workspaceCanvas, placeOffset.x, placeOffset.y);
+  drawNounCanvas(useNounState.getState());
 };
 
 const commitPlacing = () => {
@@ -218,6 +211,7 @@ const endPlacing = () => {
   const { resetPlacing } = usePlacingState.getState();
   useWorkspaceState.getState().changeMode(EditMode);
   resetPlacing();
+  drawNounCanvas(useNounState.getState());
 };
 
 const handleLeftMouseDown = (point: Point, workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
@@ -240,35 +234,3 @@ const handleLeftMouseUp = (point: Point, workingCanvas: HTMLCanvasElement, partS
 const handleMouseMove = (point: Point, workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
   renderWorkspaceCanvas();
 };
-
-// const applyTool = (points: Point[], workingCanvas: HTMLCanvasElement, partState: NounPartState) => {
-//   const tool = useToolboxState.getState().tool;
-//   const { placingCanvas, placing, placeOffset } = useClipboardState.getState();
-//   replaceCanvas(partState.canvas, workingCanvas);
-//   tool.apply(points, workingCanvas, partState);
-//   if (placing) {
-//     drawCanvas(placingCanvas, workingCanvas, placeOffset.x, placeOffset.y);
-//   }
-// };
-
-// const apply = (action: (ctx: CanvasRenderingContext2D) => void) => {
-//   const nounState = useNounState.getState();
-//   if (!nounState.activePart) return;
-
-//   const { canvas } = useWorkspaceState.getState();
-//   if (!canvas) return;
-
-//   const activePartState = nounState[nounState.activePart];
-//   const ctx = canvas.getContext("2d")!;
-//   action(ctx);
-//   replaceCanvas(canvas, activePartState.canvas);
-//   activePartState.commit();
-// };
-
-// const { placing, offsetPlacing } = useClipboardState.getState();
-// if (placing) {
-//   const xOffset = points[points.length - 1].x - points[points.length - 2]?.x ?? points[points.length - 1].x;
-//   const yOffset = points[points.length - 1].y - points[points.length - 2]?.y ?? points[points.length - 1].y;
-//   offsetPlacing(xOffset, yOffset);
-//   return;
-// }
