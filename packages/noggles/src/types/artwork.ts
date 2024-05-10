@@ -35,11 +35,13 @@ export type BoundedColorIndexes = {
   boundedColorIndexes: ColorIndex[];
 };
 
-export type EncodedCompressedTraits = [
-  encodedCompressedArtwork: `0x${string}`,
-  originalLength: bigint,
-  itemCount: number,
-];
+export type DeflatedTraitsData = `0x${string}`;
+
+export type DeflatedTraits = {
+  data: DeflatedTraitsData;
+  originalLength: bigint;
+  traitCount: number;
+};
 
 export type OnchainArtwork = {
   glasses: EncodedTrait[];
