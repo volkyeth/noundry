@@ -180,6 +180,7 @@ const Submit = () => {
                   >
                     <TraitIcon
                       type={traitType}
+                      negative
                       className="w-12 h-12 md:w-[72px] md:h-[72px]"
                     />
                     <p className="uppercase mt-4 text-sm font-semibold ">

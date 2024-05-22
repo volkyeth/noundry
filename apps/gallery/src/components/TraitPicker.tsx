@@ -45,6 +45,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
       >
         <TraitIcon
           type={traitType}
+          negative
           className={twMerge("w-[16px]", classNames?.icon)}
         />
       </Button>

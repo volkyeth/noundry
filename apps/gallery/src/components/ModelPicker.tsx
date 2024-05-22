@@ -1,4 +1,4 @@
-import NounIcon from "@/assets/traitIcons/nouns.svg";
+import { NounsIcon } from "@/components/NounsIcon";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import {
   Modal,
@@ -38,7 +38,7 @@ export const ModelPicker: FC<ModelPickerProps> = ({
         onClick={onOpen}
         isDisabled={!mainnetArtwork}
       >
-        <NounIcon className={twMerge("w-[32px]", classNames?.icon)} />
+        <NounsIcon negative className={twMerge("w-[32px]", classNames?.icon)} />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
