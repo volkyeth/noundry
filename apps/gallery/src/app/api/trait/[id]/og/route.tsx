@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { formatTraitType } from "@/utils/traits/format";
@@ -6,21 +8,22 @@ import { NextResponse } from "next/server";
 import { TraitCategory } from "noggles";
 //@ts-ignore
 import noundryGalleryLogo from "@/assets/NoundryGalleryLogo.svg?url";
-
-export const runtime = "edge";
+import { resizePng } from "@/utils/image/resize";
 
 export async function GET(req: Request, { params: { id } }) {
   const baseUri = `${
     process.env.NODE_ENV === "production" ? "https" : "http"
   }://${req.headers.get("host")}`;
 
-  const trait = (await fetch(`${baseUri}/api/trait/${id}/upscaled`).then((r) =>
+  const trait = (await fetch(`${baseUri}/api/trait/${id}`).then((r) =>
     r.json()
   )) as Trait;
 
   if (!trait) {
     return NextResponse.json("Not found", { status: 404 });
   }
+
+  const upscaledNounImage = await resizePng(trait.nft, 384, 384);
 
   const authorInfo = (await fetch(
     `${baseUri}/api/user/${trait.address}/info`
@@ -65,7 +68,7 @@ export async function GET(req: Request, { params: { id } }) {
               <TraitIcon type={trait.type} />
             </div>
           </div>
-          <img tw="mt-2 w-[384px] h-[384px] " src={trait.nft} />
+          <img tw="mt-2 w-[384px] h-[384px] " src={upscaledNounImage} />
           <div tw="flex self-end items-center mt-6">
             <p tw="m-0  text-3xl font-semibold leading-6">
               {authorInfo.userName}
