@@ -21,6 +21,9 @@ export interface generateProposalContentProps {
   proposalImages: ProposalImagesUris;
   wordsFromArtist: string;
   amountPaletteColors: number;
+  artContributionAgreementSigner?: `0x${string}`;
+  artContributionAgreementMessage: string;
+  artContributionAgreementSignature?: `0x${string}`;
 }
 
 export const generateProposalContent = ({
@@ -28,6 +31,9 @@ export const generateProposalContent = ({
   proposalImages,
   wordsFromArtist,
   amountPaletteColors,
+  artContributionAgreementSigner,
+  artContributionAgreementMessage,
+  artContributionAgreementSignature,
 }: generateProposalContentProps) => {
   return `
 # 🎨 Noundry: Add ${trait.name} ${capitalize(formatTraitType(trait.type))}
@@ -71,5 +77,24 @@ ${proposalImages.galleryImages
 
 ${wordsFromArtist}`
   }
+
+  ## Nouns Art Contribution Agreement
+
+  **Signer**:
+  \`\`\`
+  ${artContributionAgreementSigner ?? "connect your wallet"}
+  \`\`\`
+
+  **Message**:
+  \`\`\`
+  ${artContributionAgreementMessage}
+  \`\`\`
+
+  **Signature**:
+  \`\`\`
+  ${artContributionAgreementSignature ?? "pending signature"}
+  \`\`\`
+
+  You can verify the signature using [Etherscan](https://etherscan.io/verifiedSignatures) or any other [EIP-191](https://eips.ethereum.org/EIPS/eip-191) verification tool
 `;
 };

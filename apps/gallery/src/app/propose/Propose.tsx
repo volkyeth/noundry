@@ -23,12 +23,14 @@ import { usePaletteIndex } from "@/hooks/usePaletteIndex";
 import { useResizedImage } from "@/hooks/useResizedCanvas";
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { useTraitColors } from "@/hooks/useTraitColors";
+import { useUserInfo } from "@/hooks/useUserInfo";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
-import { Link, Textarea } from "@nextui-org/react";
+import { formatTraitType } from "@/utils/traits/format";
+import { Divider, Link, Textarea } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import NextLink from "next/link";
@@ -37,7 +39,12 @@ import InfoBox from "pixelarticons/svg/info-box.svg";
 import { useMemo, useState } from "react";
 import { useDebounceCallback, useLocalStorage } from "usehooks-ts";
 import { formatEther } from "viem";
-import { useAccount, useBalance, useWaitForTransaction } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useSignMessage,
+  useWaitForTransaction,
+} from "wagmi";
 import { uploadPropImages } from "../actions/uploadPropImages";
 import { ChecklistItem } from "./ChecklistItem";
 import { TraitOnCheckerboard } from "./TraitOnCheckerboard";
@@ -68,6 +75,23 @@ export const Propose = ({ trait, author }) => {
   );
   const [previewNounCanvas, setPreviewNounCanvas] =
     useState<HTMLCanvasElement | null>(null);
+
+  const { data: userInfo } = useUserInfo(address);
+
+  const artContributionAgreementMessage = `I, ${
+    userInfo?.nameOrPseudonym ?? userInfo?.userName
+  }, hereby waive all copyright and related or neighboring rights together with all associated claims and causes of action with respect to this work to the extent possible under the law.
+I have read and understand the terms and intended legal effect of the Nouns Art Contribution Agreement, available at https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk, and hereby voluntarily elect to apply it to this contribution.
+
+Contribution name: ${trait.name} ${formatTraitType(trait.type)}
+Contribution specification: ${trait.trait}`;
+
+  const {
+    data: artContributionAgreementSignature,
+    signMessage: signArtContributionAgreement,
+  } = useSignMessage({
+    message: artContributionAgreementMessage,
+  });
 
   const previewNounBitmap = useImageBitmap(trait.nft);
 
@@ -225,12 +249,15 @@ export const Propose = ({ trait, author }) => {
         ),
       },
       amountPaletteColors: traitColorsWithoutTransparent?.length ?? 0,
+      artContributionAgreementMessage,
+      artContributionAgreementSignature,
+      artContributionAgreementSigner: address,
     });
   }, [
-    uploadedImages,
-    wordsFromAuthor,
-    trait,
     previewImagesReady,
+    trait,
+    wordsFromAuthor,
+    uploadedImages,
     previewNounCanvas,
     circleCropLgCanvas,
     circleCropMdCanvas,
@@ -238,7 +265,10 @@ export const Propose = ({ trait, author }) => {
     standaloneCanvas,
     paletteCanvas,
     galleryCanvases,
-    traitColorsWithoutTransparent,
+    traitColorsWithoutTransparent?.length,
+    artContributionAgreementMessage,
+    artContributionAgreementSignature,
+    address,
   ]);
 
   const {
@@ -329,7 +359,7 @@ export const Propose = ({ trait, author }) => {
             It will help Nouners ensure that your trait integrates seamlessly
             with the original collection. The proposal candidate will also
             include a transaction that adds your trait to the Nouns Descriptor,
-            officially making it part of the on-chain collection.
+            officially making it part of the onchain collection.
           </p>
 
           <p className="border-2 p-6 gap-4">
@@ -341,7 +371,7 @@ export const Propose = ({ trait, author }) => {
             proposing gibberish pixels to the DAO.
           </p>
 
-          <h2>Prerequisites</h2>
+          <h2 id="prerequisites">Prerequisites</h2>
           <div className="bg-content1 max-w-2xl flex flex-col p-10 gap-4 px-7 w-full shadow-md">
             <p>First, let&apos;s make sure everything is good to go</p>
 
@@ -353,6 +383,7 @@ export const Propose = ({ trait, author }) => {
                   <Link
                     href={"/guidelines"}
                     as={NextLink}
+                    target="_blank"
                     className="text-blue-500"
                     color="foreground"
                     underline="always"
@@ -362,7 +393,7 @@ export const Propose = ({ trait, author }) => {
                   !
                 </li>
                 <ChecklistItem
-                  isValid={isCreator}
+                  isTicked={isCreator}
                   warningContent={
                     "Oops! You must be the creator to propose it to the DAO"
                   }
@@ -370,12 +401,13 @@ export const Propose = ({ trait, author }) => {
                   You are the creator of the trait.
                 </ChecklistItem>
                 <ChecklistItem
-                  isValid={paletteIndex !== undefined}
+                  isTicked={paletteIndex !== undefined}
                   warningContent={
                     <>
                       Oh, it uses some colors that do not belong to the Nouns
                       palette. Try fixing that on{" "}
                       <Link
+                        target="_blank"
                         href="https://studio.noundry.wtf/palette"
                         color="danger"
                         className="underline text-sm"
@@ -396,7 +428,7 @@ export const Propose = ({ trait, author }) => {
                   The trait conforms to the Nouns palette
                 </ChecklistItem>
                 <ChecklistItem
-                  isValid={canSubmitProposalCandidate}
+                  isTicked={canSubmitProposalCandidate}
                   warningContent={
                     <>
                       Oh, looks like you don&apos;t have enough funds to pay for
@@ -412,6 +444,52 @@ export const Propose = ({ trait, author }) => {
                   )}{" "}
                   ETH to create a Proposal Candidate
                 </ChecklistItem>
+                {prerequisitesMet && (
+                  <>
+                    <Divider className="!my-12" />
+                    <ChecklistItem
+                      isUserTickable
+                      id="agreement"
+                      isTicked={artContributionAgreementSignature !== undefined}
+                      onClick={() => signArtContributionAgreement()}
+                      tickableContent={
+                        <div className="flex flex-col gap-4">
+                          <p className="text-sm text-foreground">
+                            You&apos;ll be prompted to sign the following
+                            statement releasing your artwork under the{" "}
+                            <strong>CC0 license</strong> and agreeing to the
+                            Nouns Art Contribution Agreement, which will then be
+                            included in the proposal:
+                          </p>
+                          <Dynamic>
+                            <pre className="text-xs p-2 border text-foreground/75 break-words whitespace-pre-wrap">
+                              {artContributionAgreementMessage}
+                            </pre>
+                          </Dynamic>
+                          <Button
+                            className="w-full"
+                            onClick={() => signArtContributionAgreement()}
+                          >
+                            Sign Nouns Art Contribution Agreement
+                          </Button>
+                        </div>
+                      }
+                    >
+                      You&apos;ve signed the{" "}
+                      <Link
+                        href={
+                          "https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk"
+                        }
+                        className="text-blue-500"
+                        color="foreground"
+                        target="_blank"
+                        underline="always"
+                      >
+                        Nouns Art Contribution Agreement
+                      </Link>
+                    </ChecklistItem>
+                  </>
+                )}
               </ul>
               {!address && <ConnectButton />}
             </Dynamic>
@@ -493,16 +571,46 @@ export const Propose = ({ trait, author }) => {
               </p>
             </div>
           )}
-          <p>
-            If everything seems about right, let&apos;s get ready to submit!
-          </p>
+          {prerequisitesMet && artContributionAgreementSignature && (
+            <p>
+              If everything seems about right, let&apos;s get ready to submit!
+            </p>
+          )}
+          {!prerequisitesMet && (
+            <p>
+              You don&apos;t meet the{" "}
+              <Link
+                underline="always"
+                href="#prerequisites"
+                className="text-red-500"
+              >
+                prerequisites.
+              </Link>
+            </p>
+          )}
+          {prerequisitesMet && !artContributionAgreementSignature && (
+            <p>
+              You must sign the{" "}
+              <Link
+                underline="always"
+                href="#agreement"
+                className="text-red-500"
+              >
+                Art Contribution Agreement
+              </Link>{" "}
+              to proceed.
+            </p>
+          )}
           <Button
             onClick={() => {
               uploadImages();
             }}
             isLoading={isUploading}
             disabled={
-              !prerequisitesMet || !previewImagesReady || imagesUploaded
+              !prerequisitesMet ||
+              !artContributionAgreementSignature ||
+              !previewImagesReady ||
+              imagesUploaded
             }
             loadingContent="Uploading images..."
           >

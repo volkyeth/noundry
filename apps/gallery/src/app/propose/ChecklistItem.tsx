@@ -5,28 +5,42 @@ import { FC } from "react";
 
 export interface ChecklistItemProps
   extends React.HTMLAttributes<HTMLLIElement> {
-  isValid?: boolean;
+  isTicked?: boolean;
+  isUserTickable?: boolean;
+  tickableContent?: React.ReactNode;
   warningContent?: React.ReactNode;
 }
 
 export const ChecklistItem: FC<ChecklistItemProps> = ({
-  isValid,
+  isTicked,
+  isUserTickable,
+  tickableContent,
   children,
   warningContent,
+  onClick,
+  ...props
 }) => {
   return (
-    <li>
+    <li {...props}>
       <p>
-        {isValid === undefined ? (
+        {isTicked === undefined ? (
           <EmptyBox className="align-bottom inline h-7 w-7 text-gray-500" />
-        ) : isValid ? (
+        ) : isTicked ? (
           <Checkbox className="align-bottom inline h-7 w-7 text-green-500" />
+        ) : isUserTickable ? (
+          <EmptyBox
+            onClick={onClick}
+            className="cursor-pointer align-bottom inline h-7 w-7 text-foreground"
+          />
         ) : (
           <WarningBox className="align-bottom inline h-7 w-7 text-red-500" />
         )}{" "}
         {children}
       </p>
-      {isValid === false && (
+      {isUserTickable && isTicked === false && tickableContent && (
+        <div className=" p-3 mt-1">{tickableContent}</div>
+      )}
+      {!isUserTickable && isTicked === false && (
         <div className="border-1 p-3 mt-1 border-red-200 text-center">
           <p className="text-red-500 text-sm inline">{warningContent}</p>
         </div>

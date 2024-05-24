@@ -16,6 +16,10 @@
   text-align: left;
 }
 
+.markdown strong {
+  font-weight: 700;
+}
+
 .markdown h1,
 .markdown h2,
 .markdown h3,
@@ -96,4 +100,16 @@
 
 .markdown a:visited {
   color: var(--chakra-colors-red-700);
+}
+
+.markdown code {
+  @apply px-2 bg-cool/30;
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.markdown pre > code {
+  @apply px-4 py-2;
 }
