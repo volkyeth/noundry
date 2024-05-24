@@ -14,6 +14,7 @@ export interface UserInfo {
   twitter?: string;
   farcaster?: string;
   userName: string;
+  nameOrPseudonym?: string;
   about?: string;
   profilePic: string;
 }
