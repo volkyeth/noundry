@@ -39,71 +39,68 @@ export const fetchNounsArtwork = async (
     })
     .then((data) => data.map((result) => Number(result)));
 
-  const [glasses, heads, accessories, bodies, backgrounds, palettes] =
-    await Promise.all([
-      publicClient
-        .multicall({
-          allowFailure: false,
-          contracts: new Array(glassesCount).fill(null).map((_, index) => ({
-            ...nounsDescriptorContract,
-            functionName: "glasses",
-            args: [index],
-          })),
-        })
-        .then((data) => data.map((result) => result as EncodedTrait)),
-      publicClient
-        .multicall({
-          allowFailure: false,
-          batchSize: 100,
-          contracts: new Array(headsCount).fill(null).map((_, index) => ({
-            ...nounsDescriptorContract,
-            functionName: "heads",
-            args: [index],
-          })),
-        })
-        .then((data) => data.map((result) => result as EncodedTrait)),
-      publicClient
-        .multicall({
-          allowFailure: false,
-          contracts: new Array(accessoriesCount).fill(null).map((_, index) => ({
-            ...nounsDescriptorContract,
-            functionName: "accessories",
-            args: [index],
-          })),
-        })
-        .then((data) => data.map((result) => result as EncodedTrait)),
-      publicClient
-        .multicall({
-          allowFailure: false,
-          contracts: new Array(bodiesCount).fill(null).map((_, index) => ({
-            ...nounsDescriptorContract,
-            functionName: "bodies",
-            args: [index],
-          })),
-        })
-        .then((data) => data.map((result) => result as EncodedTrait)),
-      publicClient
-        .multicall({
-          allowFailure: false,
-          contracts: new Array(backgroundsCount).fill(null).map((_, index) => ({
-            ...nounsDescriptorContract,
-            functionName: "backgrounds",
-            args: [index],
-          })),
-        })
-        .then((data) => data.map((result) => `#${result}` as HexColor)),
-      publicClient
-        .readContract({
-          ...nounsDescriptorContract,
-          functionName: "palettes",
-          args: [0],
-        })
-        .then((data) => [
-          data
-            .slice(2)
-            .match(/.{1,6}/g)!
-            .map((hex, i) => (i === 0 ? "#00000000" : (`#${hex}` as HexColor))),
-        ]),
+  const glasses = await publicClient
+    .multicall({
+      allowFailure: false,
+      contracts: new Array(glassesCount).fill(null).map((_, index) => ({
+        ...nounsDescriptorContract,
+        functionName: "glasses",
+        args: [index],
+      })),
+    })
+    .then((data) => data.map((result) => result as EncodedTrait));
+  const heads = await publicClient
+    .multicall({
+      allowFailure: false,
+      batchSize: 100,
+      contracts: new Array(headsCount).fill(null).map((_, index) => ({
+        ...nounsDescriptorContract,
+        functionName: "heads",
+        args: [index],
+      })),
+    })
+    .then((data) => data.map((result) => result as EncodedTrait));
+  const accessories = await publicClient
+    .multicall({
+      allowFailure: false,
+      contracts: new Array(accessoriesCount).fill(null).map((_, index) => ({
+        ...nounsDescriptorContract,
+        functionName: "accessories",
+        args: [index],
+      })),
+    })
+    .then((data) => data.map((result) => result as EncodedTrait));
+  const bodies = await publicClient
+    .multicall({
+      allowFailure: false,
+      contracts: new Array(bodiesCount).fill(null).map((_, index) => ({
+        ...nounsDescriptorContract,
+        functionName: "bodies",
+        args: [index],
+      })),
+    })
+    .then((data) => data.map((result) => result as EncodedTrait));
+  const backgrounds = await publicClient
+    .multicall({
+      allowFailure: false,
+      contracts: new Array(backgroundsCount).fill(null).map((_, index) => ({
+        ...nounsDescriptorContract,
+        functionName: "backgrounds",
+        args: [index],
+      })),
+    })
+    .then((data) => data.map((result) => `#${result}` as HexColor));
+  const palettes = await publicClient
+    .readContract({
+      ...nounsDescriptorContract,
+      functionName: "palettes",
+      args: [0],
+    })
+    .then((data) => [
+      data
+        .slice(2)
+        .match(/.{1,6}/g)!
+        .map((hex, i) => (i === 0 ? "#00000000" : (`#${hex}` as HexColor))),
     ]);
 
   return { accessories, bodies, backgrounds, glasses, heads, palettes };
