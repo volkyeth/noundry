@@ -1,5 +1,5 @@
 export const nounsDescriptorContractAddress =
-  "0x25fF2FdE7df1A433E09749C952f7e09aD3C27951" as `0x${string}`;
+  "0x33A9c445fb4FB21f2c030A6b2d3e2F12D017BFAC" as `0x${string}`;
 
 export const nounsDescriptorAbi = [
   {
