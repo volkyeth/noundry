@@ -15,28 +15,28 @@ export const uploadPropImages = async (
 
   const ipfsImagesCid = await nftStorageClient.storeDirectory([
     await toFile(images.circleCropLg, circleCropLgFilename),
-    await toFile(images.circleCropMd, circleCropMdFilename),
-    await toFile(images.circleCropSm, circleCropSmFilename),
+    // await toFile(images.circleCropMd, circleCropMdFilename),
+    // await toFile(images.circleCropSm, circleCropSmFilename),
     await toFile(images.standalone, standaloneFilename),
     await toFile(images.palette, paletteFilename),
     await toFile(images.previewNoun, previewNounFilename),
-    ...(await Promise.all(
-      images.galleryImages.map((uri, i) => toFile(uri, galleryImageFilename(i)))
-    )),
+    // ...(await Promise.all(
+    //   images.galleryImages.map((uri, i) => toFile(uri, galleryImageFilename(i)))
+    // )),
   ]);
 
   const folderUri = `https://${ipfsImagesCid}.ipfs.nftstorage.link`;
 
   return {
     circleCropLg: `${folderUri}/${circleCropLgFilename}`,
-    circleCropMd: `${folderUri}/${circleCropMdFilename}`,
-    circleCropSm: `${folderUri}/${circleCropSmFilename}`,
+    // circleCropMd: `${folderUri}/${circleCropMdFilename}`,
+    // circleCropSm: `${folderUri}/${circleCropSmFilename}`,
     standalone: `${folderUri}/${standaloneFilename}`,
     palette: `${folderUri}/${paletteFilename}`,
     previewNoun: `${folderUri}/${previewNounFilename}`,
-    galleryImages: images.galleryImages.map(
-      (_, i) => `${folderUri}/${galleryImageFilename(i)}`
-    ),
+    // galleryImages: images.galleryImages.map(
+    //   (_, i) => `${folderUri}/${galleryImageFilename(i)}`
+    // ),
   };
 };
 

@@ -5,11 +5,11 @@ import { formatTraitType } from "../../utils/traits/format";
 export interface ProposalImages<T> {
   previewNoun: T;
   circleCropLg: T;
-  circleCropMd: T;
-  circleCropSm: T;
+  // circleCropMd: T;
+  // circleCropSm: T;
   standalone: T;
   palette: T;
-  galleryImages: T[];
+  // galleryImages: T[];
 }
 
 export type ProposalImagesUris = ProposalImages<string>;
@@ -55,21 +55,12 @@ Circle crop
 
 ![Circle crop](${proposalImages.circleCropLg})
 
-![Circle crop](${proposalImages.circleCropMd})
-
-![Circle crop](${proposalImages.circleCropSm})
-
 Palette: ${amountPaletteColors} colors
 ![new part](${proposalImages.palette})
 
 ## Playground testing
 
-Here are some auto-generated combinations of the new part with existing Nouns parts:
-
-${proposalImages.galleryImages
-  .map((imageUri, i) => `![Preview ${i + 1}](${imageUri})`)
-  .join("")}
-  [see more previews](https://gallery.noundry.wtf/trait/${trait.id})
+[Click here](https://gallery.noundry.wtf/trait/${trait.id}) to see auto-generated combinations of the new part with existing Nouns parts.
 
   ${
     wordsFromArtist &&
