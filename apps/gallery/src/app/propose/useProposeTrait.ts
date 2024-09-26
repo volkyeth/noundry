@@ -33,7 +33,7 @@ export const useProposeTrait = ({
   isNouner,
 }: UseProposePartArgs) => {
   const slug = useMemo(
-    () => slugify(`${trait.name} ${formatTraitType(trait.type)}`.toLowerCase()),
+    () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0,10)}`.toLowerCase()),
     [trait]
   );
   const proposalIdToUpdate = 0n;
