@@ -10,6 +10,7 @@ import { Button } from "@/components/Button";
 import { ConnectButton } from "@/components/ConnectButton";
 import Dynamic from "@/components/Dynamic";
 import { LikeWidget } from "@/components/LikeWidget";
+import { Noun } from "@/components/Noun";
 import { ProposalPreview } from "@/components/ProposalPreview";
 import { TraitCard } from "@/components/TraitCard";
 import { UserBadge } from "@/components/UserBadge";
@@ -44,6 +45,7 @@ import {
   useSignMessage,
   useWaitForTransaction,
 } from "wagmi";
+import { uploadPropImages } from "../actions/uploadPropImages";
 import { ChecklistItem } from "./ChecklistItem";
 import { TraitOnCheckerboard } from "./TraitOnCheckerboard";
 import { TraitPalette } from "./TraitPalette";
@@ -61,6 +63,10 @@ export const Propose = ({ trait, author }) => {
   const { data: mainnetArtwork } = useMainnetArtwork();
   const traitBitmap = useTraitBitmap(trait.trait) ?? null;
   const [circleCropLgCanvas, setCircleCropLgCanvas] =
+    useState<HTMLCanvasElement | null>(null);
+  const [circleCropMdCanvas, setCircleCropMdCanvas] =
+    useState<HTMLCanvasElement | null>(null);
+  const [circleCropSmCanvas, setCircleCropSmCanvas] =
     useState<HTMLCanvasElement | null>(null);
   const [standaloneCanvas, setStandaloneCanvas] =
     useState<HTMLCanvasElement | null>(null);
@@ -112,7 +118,7 @@ Contribution specification: ${trait.trait}`;
   useResizedImage({
     input: previewNounBitmap,
     canvas: previewNounCanvas,
-    size: 128,
+    size: 256,
   });
   useResizedImage({
     input: previewNounBitmap,
@@ -120,16 +126,28 @@ Contribution specification: ${trait.trait}`;
     size: 128,
     circleCrop: true,
   });
+  useResizedImage({
+    input: previewNounBitmap,
+    canvas: circleCropMdCanvas,
+    size: 96,
+    circleCrop: true,
+  });
+  useResizedImage({
+    input: previewNounBitmap,
+    canvas: circleCropSmCanvas,
+    size: 64,
+    circleCrop: true,
+  });
 
-  // const [galleryCanvases, setGalleryCanvases] = useState<
-  //   Map<number, HTMLCanvasElement>
-  // >(new Map());
-  // const setGalleryCanvas = (index: number, canvas: HTMLCanvasElement | null) =>
-  //   setGalleryCanvases((draft) => {
-  //     canvas ? draft.set(index, canvas) : draft.delete(index);
+  const [galleryCanvases, setGalleryCanvases] = useState<
+    Map<number, HTMLCanvasElement>
+  >(new Map());
+  const setGalleryCanvas = (index: number, canvas: HTMLCanvasElement | null) =>
+    setGalleryCanvases((draft) => {
+      canvas ? draft.set(index, canvas) : draft.delete(index);
 
-  //     return draft;
-  //   });
+      return draft;
+    });
   const isCreator =
     address && trait.address.toLowerCase() === address.toLowerCase();
 
@@ -164,9 +182,12 @@ Contribution specification: ${trait.trait}`;
   const previewImagesReady =
     mainnetArtwork &&
     circleCropLgCanvas &&
+    circleCropMdCanvas &&
+    circleCropSmCanvas &&
     standaloneCanvas &&
     previewNounCanvas &&
-    paletteCanvas
+    paletteCanvas &&
+    galleryCanvases.size === AMOUNT_PROPOSAL_PREVIEWS;
 
   const previewTraits: NounTraits | undefined = useMemo(() => {
     if (!mainnetArtwork || !traitBitmap) return undefined;
@@ -196,12 +217,17 @@ Contribution specification: ${trait.trait}`;
 
       const propImages: ProposalImagesUris = {
         circleCropLg: circleCropLgCanvas.toDataURL("image/png"),
+        circleCropMd: circleCropMdCanvas.toDataURL("image/png"),
+        circleCropSm: circleCropSmCanvas.toDataURL("image/png"),
         standalone: standaloneCanvas.toDataURL("image/png"),
         palette: paletteCanvas.toDataURL("image/png"),
         previewNoun: previewNounCanvas.toDataURL("image/png"),
+        galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
+          canvas.toDataURL("image/png")
+        ),
       };
 
-      return propImages;
+      return await uploadPropImages(propImages);
     },
   });
 
@@ -214,8 +240,13 @@ Contribution specification: ${trait.trait}`;
       proposalImages: uploadedImages ?? {
         previewNoun: previewNounCanvas.toDataURL("image/png"),
         circleCropLg: circleCropLgCanvas.toDataURL("image/png"),
+        circleCropMd: circleCropMdCanvas.toDataURL("image/png"),
+        circleCropSm: circleCropSmCanvas.toDataURL("image/png"),
         standalone: standaloneCanvas.toDataURL("image/png"),
         palette: paletteCanvas.toDataURL("image/png"),
+        galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
+          canvas.toDataURL("image/png")
+        ),
       },
       amountPaletteColors: traitColorsWithoutTransparent?.length ?? 0,
       artContributionAgreementMessage,
@@ -229,8 +260,11 @@ Contribution specification: ${trait.trait}`;
     uploadedImages,
     previewNounCanvas,
     circleCropLgCanvas,
+    circleCropMdCanvas,
+    circleCropSmCanvas,
     standaloneCanvas,
     paletteCanvas,
+    galleryCanvases,
     traitColorsWithoutTransparent?.length,
     artContributionAgreementMessage,
     artContributionAgreementSignature,
@@ -468,10 +502,12 @@ Contribution specification: ${trait.trait}`;
               <div className="hidden">
                 <canvas ref={setPreviewNounCanvas} />
                 <canvas ref={setCircleCropLgCanvas} />
+                <canvas ref={setCircleCropMdCanvas} />
+                <canvas ref={setCircleCropSmCanvas} />
 
                 <TraitOnCheckerboard
                   ref={setStandaloneCanvas}
-                  size={128}
+                  size={256}
                   trait={traitBitmap}
                 />
 
@@ -481,7 +517,7 @@ Contribution specification: ${trait.trait}`;
                   className="w-fit h-fit "
                 />
 
-                {/* {previewNounsTraits &&
+                {previewNounsTraits &&
                   previewNounsTraits.map((traits, i) => {
                     return (
                       <Noun
@@ -493,7 +529,7 @@ Contribution specification: ${trait.trait}`;
                         size={96}
                       />
                     );
-                  })} */}
+                  })}
               </div>
             )}
 
