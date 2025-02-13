@@ -21,10 +21,6 @@ type DbDump = {
   data: {};
 };
 
-type CordInit = {
-  data: {};
-};
-
 type UserSignedIn = {
   data: {
     address: LowercaseAddress;
@@ -42,7 +38,6 @@ type Events = {
   "trait/deleted": TraitDeleted;
   "run-script": RunScript;
   "db/dump": DbDump;
-  "cord/init": CordInit;
   "user/signed-in": UserSignedIn;
   "user/updated": UserUpdated;
 };

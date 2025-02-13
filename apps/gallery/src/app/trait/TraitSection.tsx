@@ -11,7 +11,6 @@ import {
   PopoverTrigger,
 } from "@/components/Popover";
 import { TraitCard } from "@/components/TraitCard";
-import { TraitComments } from "@/components/TraitComments";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { TraitWithFriends } from "@/components/TraitWithFriends";
 import { UserBadge } from "@/components/UserBadge";
@@ -172,7 +171,6 @@ export const TraitSection: FC<TraitSectionProps> = ({
               )}
             </Dynamic>
           </div>
-          <TraitComments trait={trait} />
         </div>
 
         <div className="flex w-full flex-col gap-4 max-w-xl">

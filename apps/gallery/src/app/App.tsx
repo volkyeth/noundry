@@ -1,7 +1,6 @@
 "use client";
 
 import Footer from "@/components/Footer";
-import { SiweCordProvider } from "@/components/SiweCordProvider";
 import { siweConfig } from "@/utils/siwe/siweConfig";
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -29,7 +28,6 @@ export const App = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={config}>
         <SIWEProvider {...siweConfig}>
-          <SiweCordProvider>
             <ConnectKitProvider
               mode={"light"}
               options={{ enforceSupportedChains: false }}
@@ -48,7 +46,6 @@ export const App = ({ children }: { children: ReactNode }) => {
                 <Footer />
               </NextUIProvider>
             </ConnectKitProvider>
-          </SiweCordProvider>
         </SIWEProvider>
       </WagmiConfig>
       <ReactQueryDevtools initialIsOpen={false} />

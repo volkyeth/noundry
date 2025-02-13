@@ -1,7 +1,6 @@
 "use client";
 
 import Footer from "@/components/Footer";
-import { SiweCordProvider } from "@/components/SiweCordProvider";
 import { SITE_URI } from "@/constants/config";
 import { siweConfig } from "@/utils/siwe/siweConfig";
 import "@fontsource-variable/inter";
@@ -34,7 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={config}>
         <SIWEProvider {...siweConfig}>
-          <SiweCordProvider>
             <ConnectKitProvider
               mode={"light"}
               options={{ enforceSupportedChains: false }}
@@ -91,7 +89,6 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Footer />
               </NextUIProvider>
             </ConnectKitProvider>
-          </SiweCordProvider>
         </SIWEProvider>
       </WagmiConfig>
       <ReactQueryDevtools initialIsOpen={false} />

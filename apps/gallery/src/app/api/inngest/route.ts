@@ -7,8 +7,6 @@ import { castOnFarcaster } from "./handlers/trait/submitted/castOnFarcaster";
 import { postOnDiscord } from "./handlers/trait/submitted/postOnDiscord";
 import { postOnTwitter } from "./handlers/trait/submitted/postOnTwitter";
 import { upsertUser } from "./handlers/user/signedIn/upsertUser";
-import { updateCordUser } from "./handlers/user/updated/updateCordUser";
-
 export const maxDuration = 300;
 
 export const { GET, POST, PUT } = serve({
@@ -21,6 +19,5 @@ export const { GET, POST, PUT } = serve({
     dumpUsers,
     runScript,
     upsertUser,
-    updateCordUser,
   ],
 });
