@@ -1,6 +1,6 @@
+import { cn } from "@nextui-org/react";
 import { VirtualItem, useVirtualizer } from "@tanstack/react-virtual";
 import { FC, HtmlHTMLAttributes, ReactNode, useEffect, useRef } from "react";
-import { twMerge } from "tailwind-merge";
 import { Hoverable } from "./Hoverable";
 
 export interface VirtualizedGalleryProps
@@ -17,6 +17,7 @@ export interface VirtualizedGalleryProps
   classNames?: {
     card: string;
   };
+  direction?: "horizontal" | "vertical";
 
   children: (virtualItem: VirtualItem) => ReactNode;
 }
@@ -34,15 +35,18 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
   className,
   footer,
   children,
+  direction = "horizontal",
   ...props
 }) => {
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  const isHorizontal = direction === "horizontal";
+
   const { getVirtualItems, getTotalSize, measure, isScrolling } =
     useVirtualizer({
       getScrollElement: () => scrollContainerRef.current,
-      horizontal: true,
+      horizontal: isHorizontal,
       count: itemCount,
       initialOffset:
         (itemSize + itemPadding * 2) * (itemCount / lanes / 2) +
@@ -60,8 +64,9 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
     <div
       ref={mainContainerRef}
       {...props}
-      className={twMerge(
-        "bg-content1 flex flex-col w-full py-5 px-4 mx-auto h-fit shadow-md overflow-auto",
+      className={cn(
+        "bg-content1 flex flex-col  py-5 px-4 mx-auto shadow-md overflow-auto",
+        isHorizontal ? "w-full h-fit" : "h-full w-fit",
         className,
         classNames?.card
       )}
@@ -71,11 +76,16 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
       <div
         ref={scrollContainerRef}
         className={
-          "overflow-auto w-full scrollbar-hide non-touchscreen:overscroll-contain shadow-inset bg-gray-100"
+          cn("overflow-auto scrollbar-hide non-touchscreen:overscroll-contain shadow-inset bg-gray-100 overscroll-contain",
+          isHorizontal ? "w-full" : "h-full")
         }
         onWheel={(e) => {
           e.stopPropagation();
-          scrollContainerRef.current!.scrollLeft += e.deltaY;
+          if (isHorizontal) {
+            scrollContainerRef.current!.scrollLeft += e.deltaY;
+          } else {
+            scrollContainerRef.current!.scrollTop += e.deltaY;
+          }
         }}
         style={{
           padding: `${scrollContainerPadding}px`,
@@ -84,8 +94,8 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
         <div
           className="relative"
           style={{
-            width: `${getTotalSize()}px`,
-            height: `${itemSize * lanes}px`,
+            width: isHorizontal ? `${getTotalSize()}px` : `${itemSize * lanes}px`,
+            height: isHorizontal ? `${itemSize * lanes}px` : `${getTotalSize()}px`,
           }}
         >
           {getVirtualItems().map((virtualItem) => {
@@ -98,14 +108,24 @@ export const VirtualizedGallery: FC<VirtualizedGalleryProps> = ({
                       onMouseLeave={onMouseLeave}
                       style={{
                         position: "absolute",
-                        left: 0,
                         padding: `${itemPadding}px`,
                         width: `${virtualItem.size}px`,
-                        top: `${virtualItem.lane * virtualItem.size}px`,
                         height: `${virtualItem.size}px`,
-                        transform: isHovered
-                          ? `translateX(${virtualItem.start + 2}px)`
-                          : `translateX(${virtualItem.start}px)`,
+                        ...(isHorizontal
+                          ? {
+                              left: 0,
+                              top: `${virtualItem.lane * virtualItem.size}px`,
+                              transform: isHovered
+                                ? `translateX(${virtualItem.start + 2}px)`
+                                : `translateX(${virtualItem.start}px)`,
+                            }
+                          : {
+                              top: 0,
+                              left: `${virtualItem.lane * virtualItem.size}px`,
+                              transform: isHovered
+                                ? `translateY(${virtualItem.start + 2}px)`
+                                : `translateY(${virtualItem.start}px)`,
+                            }),
                       }}
                     >
                       <div

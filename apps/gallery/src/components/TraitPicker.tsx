@@ -11,6 +11,7 @@ import {
 import { TraitType } from "noggles";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
+import { useMediaQuery } from "usehooks-ts";
 import { Button, ButtonProps } from "./Button";
 import Dynamic from "./Dynamic";
 import { Noun } from "./Noun";
@@ -34,6 +35,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
   const { data: mainnetArtwork } = useMainnetArtwork();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const traits = mainnetArtwork?.[traitCategory(traitType)];
+  const lanes = useMediaQuery("(max-width: 768px)") ? 2 : 3;
 
   return (
     <Dynamic>
@@ -50,14 +52,16 @@ export const TraitPicker: FC<TraitPickerProps> = ({
         />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
-        <ModalContent>
+        <ModalContent className="w-fit">
           <ModalBody className="p-0">
             {traits && (
               <VirtualizedGallery
+                direction="vertical"
                 hoverable={!!onPick}
-                className="h-[600px] w-full p-0"
+                className="max-h-[80vh] w-full p-0"
                 itemCount={traits.length}
                 itemSize={128 + 2 * 4}
+                lanes={lanes}
                 scrollContainerPadding={4}
                 header={
                   <h2 className="self-center pb-2 font-bold">{`Pick the ${formatTraitType(

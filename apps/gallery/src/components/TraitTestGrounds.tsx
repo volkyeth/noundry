@@ -18,6 +18,8 @@ export interface TraitTestingGroundsProps
   classNames?: {
     card: string;
   };
+  direction?: "horizontal" | "vertical";
+  lanes?: number;
 }
 
 export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
@@ -27,6 +29,8 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
   header,
   footer,
   classNames,
+  direction = "horizontal",
+  lanes = 3,
   ...props
 }) => {
   const { data: mainnetArtwork } = useMainnetArtwork();
@@ -40,10 +44,11 @@ export const TraitTestingGrounds: FC<TraitTestingGroundsProps> = ({
       itemSize={NOUN_SIZE + 2 * NOUN_PADDING}
       scrollContainerPadding={4}
       hoverable={!!onNounClick}
-      lanes={2}
+      lanes={lanes}
       classNames={classNames}
       header={header}
       footer={footer}
+      direction={direction}
       {...props}
     >
       {(virtualItem) => {

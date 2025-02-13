@@ -181,6 +181,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
             trait={trait.trait}
             className="relative h-fit w-full"
             classNames={{ card: "pb-10" }}
+            lanes={2}
           />
 
           <TraitWithFriends
