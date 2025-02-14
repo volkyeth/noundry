@@ -2,7 +2,6 @@ import { publicClient } from "@/publicClient";
 import { NextResponse } from "next/server";
 import { fetchNounsArtwork } from "noggles";
 
-export const runtime = 'edge';
 export const revalidate = 900;
 
 export async function GET() {
