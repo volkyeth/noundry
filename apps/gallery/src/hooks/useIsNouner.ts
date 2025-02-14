@@ -7,7 +7,6 @@ export const useIsNouner = (address?: `0x${string}`) => {
     abi: nounsTokenAbi,
     address: nounsTokenAddress,
     functionName: "getPriorVotes",
-    enabled: !!address && !!blockNumber,
     args: [address!, (blockNumber ?? 0n) - 1n],
   });
 

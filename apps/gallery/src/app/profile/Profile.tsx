@@ -11,7 +11,7 @@ import { useDisclosure } from "@nextui-org/react";
 import { FC } from "react";
 import { FaTwitter } from "react-icons/fa6";
 import { RiPencilFill } from "react-icons/ri";
-import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
+import { useAccount } from "wagmi";
 
 export interface ProfileProps {
   userInfo: UserInfo;
@@ -19,15 +19,6 @@ export interface ProfileProps {
 
 const Profile: FC<ProfileProps> = ({ userInfo }) => {
   const { address } = useAccount();
-  const { data: ensName } = useEnsName({
-    address: userInfo.address,
-    enabled: !userInfo.profilePic,
-  });
-  const { data: ensAvatar } = useEnsAvatar({
-    name: ensName,
-    enabled: !userInfo.profilePic,
-  });
-
   const isOwner = address?.toLowerCase() === userInfo.address?.toLowerCase();
 
   const { isOpen, onOpenChange, onOpen } = useDisclosure();

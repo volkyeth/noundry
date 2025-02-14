@@ -54,7 +54,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
 
   const { push } = useRouter();
 
-  const { isLoading: isDeleting, mutateAsync: deleteTrait } =
+  const { isPending: isDeleting, mutateAsync: deleteTrait } =
     useSignedInMutation({
       mutationFn: () =>
         fetch(`/api/trait/${initialTrait.id}`, { method: "DELETE" }),

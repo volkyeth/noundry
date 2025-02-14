@@ -31,6 +31,7 @@ export const useTraits = (query: Partial<TraitsQuery>) => {
           }>
       );
     },
+    initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.pageNumber < lastPage.totalPages!
         ? lastPage.pageNumber + 1

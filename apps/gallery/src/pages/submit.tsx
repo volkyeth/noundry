@@ -74,7 +74,7 @@ const Submit = () => {
   const headBitmap = useTraitBitmap(traits.head);
 
   const { push } = useRouter();
-  const { mutate: submit, isLoading: isSubmitting } = useSignedInMutation({
+  const { mutate: submit, isPending: isSubmitting } = useSignedInMutation({
     mutationFn: () => {
       if (
         !traitBitmap ||

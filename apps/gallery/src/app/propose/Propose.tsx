@@ -39,17 +39,20 @@ import InfoBox from "pixelarticons/svg/info-box.svg";
 import { useMemo, useState } from "react";
 import { useDebounceCallback, useLocalStorage } from "usehooks-ts";
 import { formatEther } from "viem";
+import { mainnet } from "viem/chains";
 import {
   useAccount,
   useBalance,
   useSignMessage,
-  useWaitForTransaction,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+  useWriteContract,
 } from "wagmi";
 import { uploadPropImages } from "../actions/uploadPropImages";
 import { ChecklistItem } from "./ChecklistItem";
 import { TraitOnCheckerboard } from "./TraitOnCheckerboard";
 import { TraitPalette } from "./TraitPalette";
-import { useProposeTrait } from "./useProposeTrait";
+import { useProposeTraitSimulation } from "./useProposeTrait";
 
 export interface ProposeProps {
   trait: Trait;
@@ -89,11 +92,13 @@ Contribution specification: ${trait.trait}`;
   const {
     data: artContributionAgreementSignature,
     signMessage: signArtContributionAgreement,
-  } = useSignMessage({
-    message: artContributionAgreementMessage,
-  });
+  } = useSignMessage();
 
   const previewNounBitmap = useImageBitmap(trait.nft);
+
+  const { chainId } = useAccount();
+  const isMainnet = chainId === mainnet.id;
+  const { switchChain } = useSwitchChain();
 
   const previewNounsTraits = useMemo(
     () =>
@@ -207,7 +212,7 @@ Contribution specification: ${trait.trait}`;
   }, [trait, traitBitmap, mainnetArtwork]);
 
   const {
-    isLoading: isUploading,
+    isPending: isUploading,
     mutate: uploadImages,
     isSuccess: imagesUploaded,
     data: uploadedImages,
@@ -271,20 +276,19 @@ Contribution specification: ${trait.trait}`;
     address,
   ]);
 
-  const {
-    writeAsync: propose,
-    isLoading: isProposing,
-    data: proposeTx,
-  } = useProposeTrait({
-    createCandidateCost,
-    isNouner,
-    description: proposalContent,
-    trait,
-    paletteIndex,
-  });
+  const { isPending: isProposing, data: simulation } =
+    useProposeTraitSimulation({
+      createCandidateCost,
+      isNouner,
+      description: proposalContent,
+      trait,
+      paletteIndex,
+    });
+
+  const { writeContractAsync: propose, data: proposeTx } = useWriteContract();
 
   const { isSuccess: proposalSuccessful, isError: proposalFailed } =
-    useWaitForTransaction(proposeTx);
+    useWaitForTransactionReceipt({ hash: proposeTx });
 
   return (
     <>
@@ -451,7 +455,11 @@ Contribution specification: ${trait.trait}`;
                       isUserTickable
                       id="agreement"
                       isTicked={artContributionAgreementSignature !== undefined}
-                      onClick={() => signArtContributionAgreement()}
+                      onClick={() =>
+                        signArtContributionAgreement({
+                          message: artContributionAgreementMessage,
+                        })
+                      }
                       tickableContent={
                         <div className="flex flex-col gap-4">
                           <p className="text-sm text-foreground">
@@ -468,7 +476,11 @@ Contribution specification: ${trait.trait}`;
                           </Dynamic>
                           <Button
                             className="w-full"
-                            onClick={() => signArtContributionAgreement()}
+                            onClick={() =>
+                              signArtContributionAgreement({
+                                message: artContributionAgreementMessage,
+                              })
+                            }
                           >
                             Sign Nouns Art Contribution Agreement
                           </Button>
@@ -623,10 +635,19 @@ Contribution specification: ${trait.trait}`;
               <Button
                 loadingContent="Submitting"
                 isLoading={isProposing}
-                disabled={isProposing || !propose || !!proposeTx}
-                onClick={() => propose?.()}
+                disabled={
+                  isProposing ||
+                  !propose ||
+                  !!proposeTx ||
+                  !Boolean(simulation?.request)
+                }
+                onClick={() =>
+                  isMainnet
+                    ? propose(simulation!.request)
+                    : switchChain({ chainId: mainnet.id })
+                }
               >
-                Submit
+                {isMainnet ? "Submit" : "Switch to Mainnet"}
               </Button>
             </>
           )}

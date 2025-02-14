@@ -16,7 +16,7 @@ export const LikeWidget: FC<LikeWidgetProps> = ({
 }) => {
   const {
     data: currentlyLiked,
-    isLoading: liking,
+    isPending: liking,
     mutate: toggleLike,
   } = useSignedInMutation({
     mutationFn: (isLiked: boolean) =>

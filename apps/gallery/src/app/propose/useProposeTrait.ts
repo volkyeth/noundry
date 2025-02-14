@@ -1,6 +1,6 @@
 "use client";
 
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useSimulateContract } from "wagmi";
 
 import { nounsDaoDataAbi, nounsDaoDataAddress } from "@/contracts/nounsDaoData";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
@@ -25,7 +25,7 @@ export interface UseProposePartArgs {
   paletteIndex?: number;
 }
 
-export const useProposeTrait = ({
+export const useProposeTraitSimulation = ({
   description,
   trait,
   paletteIndex,
@@ -33,7 +33,7 @@ export const useProposeTrait = ({
   isNouner,
 }: UseProposePartArgs) => {
   const slug = useMemo(
-    () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0,10)}`.toLowerCase()),
+    () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
     [trait]
   );
   const proposalIdToUpdate = 0n;
@@ -77,7 +77,14 @@ export const useProposeTrait = ({
 
   const values = [0n];
 
-  const { config } = usePrepareContractWrite({
+  const simulationEnabled = description !== undefined &&
+    compressedEncodedArtwork !== undefined &&
+    paletteIndex !== undefined &&
+    createCandidateCost !== undefined &&
+    isNouner !== undefined &&
+    palette !== undefined
+
+  return useSimulateContract({
     abi: nounsDaoDataAbi,
     address: nounsDaoDataAddress,
     functionName: "createProposalCandidate",
@@ -91,16 +98,16 @@ export const useProposeTrait = ({
       proposalIdToUpdate,
     ],
     value,
-    enabled:
-      description !== undefined &&
-      compressedEncodedArtwork !== undefined &&
-      paletteIndex !== undefined &&
-      createCandidateCost !== undefined &&
-      isNouner !== undefined &&
-      palette !== undefined,
+    query: {
+      enabled:
+        description !== undefined &&
+        compressedEncodedArtwork !== undefined &&
+        paletteIndex !== undefined &&
+        createCandidateCost !== undefined &&
+        isNouner !== undefined &&
+        palette !== undefined,
+    }
   });
-
-  return useContractWrite(config);
 };
 
 const getAddPartCallFunc = (traitType: TraitType | TraitCategory) => {

@@ -43,7 +43,7 @@ export const useTraitBitmap = (
       return null;
     },
     staleTime: Infinity,
-    cacheTime: Infinity,
+    gcTime: Infinity,
     enabled: (trait && isDataUri) || (isEncodedTrait && !!onchainArtwork),
   });
 

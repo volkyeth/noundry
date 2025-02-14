@@ -48,11 +48,11 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
 
   const { address } = useAccount();
   const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName ?? undefined });
 
   const {
     mutateAsync: updateUser,
-    isLoading,
+    isPending: isLoading,
     reset: resetErrors,
     data: result,
   } = useSignedInMutation({
