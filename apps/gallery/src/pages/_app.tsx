@@ -10,9 +10,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Analytics } from "@vercel/analytics/react";
 import { ConnectKitProvider, getDefaultConfig, SIWEProvider } from "connectkit";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import NextNProgress from "nextjs-progressbar";
 import { createConfig, http, WagmiProvider } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import Navbar from "../components/Navbar";
@@ -82,9 +82,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 <meta name="theme-color" content="#FF2165" />
                 <meta name="twitter:card" content="summary_large_image" />
               </Head>
-              <NextNProgress
+              <ProgressBar
                 color="#FF2165"
-                height={2}
+                height={"2px"}
                 options={{ showSpinner: false }}
               />
               <Navbar />

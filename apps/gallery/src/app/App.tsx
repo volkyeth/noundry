@@ -7,11 +7,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Analytics } from "@vercel/analytics/react";
 import { ConnectKitProvider, SIWEProvider, getDefaultConfig } from "connectkit";
-import NextNProgress from "nextjs-progressbar";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { ReactNode } from "react";
+import { mainnet } from "viem/chains";
 import { WagmiConfig, createConfig, http } from "wagmi";
 import Navbar from "../components/Navbar";
-import { mainnet } from "viem/chains";
 
 export const App = ({ children }: { children: ReactNode }) => {
   const config = createConfig(
@@ -38,9 +38,9 @@ export const App = ({ children }: { children: ReactNode }) => {
             options={{ enforceSupportedChains: false }}
           >
             <NextUIProvider className="flex flex-col min-h-screen">
-              <NextNProgress
+              <ProgressBar
                 color="#FF2165"
-                height={2}
+                height={"2px"}
                 options={{ showSpinner: false }}
               />
               <Navbar />

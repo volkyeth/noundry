@@ -95,10 +95,10 @@ importers:
         version: 2.9.3
       connectkit:
         specifier: ^1.8.2
-        version: 1.8.2(@babel/core@7.24.0)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3))
+        version: 1.8.2(@babel/core@7.22.20)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3))
       connectkit-next-siwe:
         specifier: ^0.3.0
-        version: 0.3.0(connectkit@1.8.2(@babel/core@7.24.0)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)))(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))
+        version: 0.3.0(connectkit@1.8.2(@babel/core@7.22.20)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)))(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -116,7 +116,7 @@ importers:
         version: 3.16.0(encoding@0.1.13)(typescript@5.2.2)
       iron-session:
         specifier: ^6.3.1
-        version: 6.3.1(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
+        version: 6.3.1(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
       jszip:
         specifier: ^3.10.1
         version: 3.10.1
@@ -131,13 +131,13 @@ importers:
         version: 5.0.9
       next:
         specifier: 14.1.3
-        version: 14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next-nprogress-bar:
+        specifier: ^2.4.5
+        version: 2.4.5
       next-usequerystate:
         specifier: ^1.8.4
-        version: 1.8.4(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
-      nextjs-progressbar:
-        specifier: ^0.0.16
-        version: 0.0.16(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+        version: 1.8.4(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
       noggles:
         specifier: workspace:^
         version: link:../../packages/noggles
@@ -219,7 +219,7 @@ importers:
         version: 3.0.6
       '@vitejs/plugin-react':
         specifier: ^2.0.1
-        version: 2.0.1(vite@3.2.10(@types/node@20.17.19))
+        version: 2.0.1(vite@3.2.10(@types/node@18.17.18))
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.31)
@@ -4251,9 +4251,6 @@ packages:
   '@types/node@20.17.19':
     resolution: {integrity: sha512-LEwC7o1ifqg/6r2gn9Dns0f1rhK+fPFDoMiceTJ6kWmVk6bgXBI/9IOWfVan4WiAavK9pIVWdX0/e3J+eEUh5A==}
 
-  '@types/nprogress@0.2.3':
-    resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
-
   '@types/pako@2.0.0':
     resolution: {integrity: sha512-10+iaz93qR5WYxTo+PMifD5TSxiOtdRaxBf7INGGXMQgTCu8Z/7GYWYFUOS3q/G0nE5boj1r4FEB+WSy7s5gbA==}
 
@@ -7112,6 +7109,9 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
+  next-nprogress-bar@2.4.5:
+    resolution: {integrity: sha512-VkPMp+Cnazu0jpABVFVRTnUxGwFblHVxmBiJoVj4xl5tRw+K6jKqP0GNxACeB1ub0RfxKsVGlZ0HNqkwYjJK+Q==}
+
   next-usequerystate@1.8.4:
     resolution: {integrity: sha512-V4xMh87cu950Zy1Jpw/H8GwWxAeAmqnLNJ8hAl5bdEWpyZV4UIKdkJePKMCUy1+h254EXGmY83BuCGJOASJRVg==}
     peerDependencies:
@@ -7152,12 +7152,6 @@ packages:
         optional: true
       sass:
         optional: true
-
-  nextjs-progressbar@0.0.16:
-    resolution: {integrity: sha512-GV0fD38EMD3vSDCmkq+tObmoup6QA91a6a9MxGuhJZuRk/9TNsrHGnIQQQ/sggkMkXuT4fBgF6jRjFwScDT3zA==}
-    peerDependencies:
-      next: '>= 6.0.0'
-      react: '>= 16.0.0'
 
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
@@ -7217,8 +7211,8 @@ packages:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
 
-  nprogress@0.2.0:
-    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
+  nprogress-v2@1.0.4:
+    resolution: {integrity: sha512-HPhTEgqsQMFXXuaftvu6bevqEXvcQ/hogvkAswlcNyS9eRGjvo7wZY1O4H3aZS4Uq8oWSO6sL3dOj6Oq/ZJN5A==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -14824,8 +14818,6 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/nprogress@0.2.3': {}
-
   '@types/pako@2.0.0': {}
 
   '@types/parse-json@4.0.0': {}
@@ -15032,7 +15024,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitejs/plugin-react@2.0.1(vite@3.2.10(@types/node@20.17.19))':
+  '@vitejs/plugin-react@2.0.1(vite@3.2.10(@types/node@18.17.18))':
     dependencies:
       '@babel/core': 7.22.20
       '@babel/plugin-transform-react-jsx': 7.22.15(@babel/core@7.22.20)
@@ -15041,7 +15033,7 @@ snapshots:
       '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.22.20)
       magic-string: 0.26.7
       react-refresh: 0.14.0
-      vite: 3.2.10(@types/node@20.17.19)
+      vite: 3.2.10(@types/node@18.17.18)
     transitivePeerDependencies:
       - supports-color
 
@@ -15783,14 +15775,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-plugin-styled-components@2.1.4(@babel/core@7.24.0)(styled-components@5.3.11(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)):
+  babel-plugin-styled-components@2.1.4(@babel/core@7.22.20)(styled-components@5.3.11(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)):
     dependencies:
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-module-imports': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.24.0)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.20)
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.11(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)
+      styled-components: 5.3.11(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)
     transitivePeerDependencies:
       - '@babel/core'
 
@@ -16026,11 +16018,11 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  connectkit-next-siwe@0.3.0(connectkit@1.8.2(@babel/core@7.24.0)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)))(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3)):
+  connectkit-next-siwe@0.3.0(connectkit@1.8.2(@babel/core@7.22.20)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)))(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3)):
     dependencies:
-      connectkit: 1.8.2(@babel/core@7.24.0)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3))
-      iron-session: 6.3.1(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
-      next: 14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      connectkit: 1.8.2(@babel/core@7.22.20)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3))
+      iron-session: 6.3.1(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
+      next: 14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       viem: 2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3)
@@ -16038,7 +16030,7 @@ snapshots:
       - express
       - koa
 
-  connectkit@1.8.2(@babel/core@7.24.0)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)):
+  connectkit@1.8.2(@babel/core@7.22.20)(@tanstack/react-query@5.66.0(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(wagmi@2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)):
     dependencies:
       '@tanstack/react-query': 5.66.0(react@18.2.0)
       buffer: 6.0.3
@@ -16050,7 +16042,7 @@ snapshots:
       react-transition-state: 1.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-use-measure: 2.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       resize-observer-polyfill: 1.5.1
-      styled-components: 5.3.11(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)
+      styled-components: 5.3.11(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0)
       viem: 2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3)
       wagmi: 2.14.11(@tanstack/query-core@5.66.0)(@tanstack/react-query@5.66.0(react@18.2.0))(@types/react@18.0.17)(bufferutil@4.0.8)(encoding@0.1.13)(immer@10.0.4)(react@18.2.0)(typescript@5.2.2)(utf-8-validate@5.0.10)(viem@2.23.2(bufferutil@4.0.8)(typescript@5.2.2)(utf-8-validate@5.0.10)(zod@3.22.3))(zod@3.22.3)
     transitivePeerDependencies:
@@ -17902,7 +17894,7 @@ snapshots:
 
   iobuffer@5.3.2: {}
 
-  iron-session@6.3.1(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)):
+  iron-session@6.3.1(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)):
     dependencies:
       '@peculiar/webcrypto': 1.4.3
       '@types/cookie': 0.5.2
@@ -17912,7 +17904,7 @@ snapshots:
       cookie: 0.5.0
       iron-webcrypto: 0.2.8
     optionalDependencies:
-      next: 14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next: 14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
 
   iron-webcrypto@0.2.8:
     dependencies:
@@ -18657,12 +18649,16 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next-usequerystate@1.8.4(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)):
+  next-nprogress-bar@2.4.5:
+    dependencies:
+      nprogress-v2: 1.0.4
+
+  next-usequerystate@1.8.4(next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)):
     dependencies:
       mitt: 3.0.1
-      next: 14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next: 14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
 
-  next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  next@14.1.3(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@next/env': 14.1.3
       '@swc/helpers': 0.5.2
@@ -18672,7 +18668,7 @@ snapshots:
       postcss: 8.4.31
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      styled-jsx: 5.1.1(@babel/core@7.24.0)(react@18.2.0)
+      styled-jsx: 5.1.1(@babel/core@7.22.20)(react@18.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.1.3
       '@next/swc-darwin-x64': 14.1.3
@@ -18711,14 +18707,6 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-
-  nextjs-progressbar@0.0.16(next@14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
-    dependencies:
-      '@types/nprogress': 0.2.3
-      next: 14.1.3(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      nprogress: 0.2.0
-      prop-types: 15.8.1
-      react: 18.2.0
 
   no-case@3.0.4:
     dependencies:
@@ -18761,7 +18749,7 @@ snapshots:
 
   normalize-range@0.1.2: {}
 
-  nprogress@0.2.0: {}
+  nprogress-v2@1.0.4: {}
 
   nth-check@2.1.1:
     dependencies:
@@ -19931,14 +19919,14 @@ snapshots:
       hey-listen: 1.0.8
       tslib: 2.6.2
 
-  styled-components@5.3.11(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0):
+  styled-components@5.3.11(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0):
     dependencies:
       '@babel/helper-module-imports': 7.22.15
       '@babel/traverse': 7.24.0(supports-color@5.5.0)
       '@emotion/is-prop-valid': 1.2.1
       '@emotion/stylis': 0.8.5
       '@emotion/unitless': 0.7.5
-      babel-plugin-styled-components: 2.1.4(@babel/core@7.24.0)(styled-components@5.3.11(@babel/core@7.24.0)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0))
+      babel-plugin-styled-components: 2.1.4(@babel/core@7.22.20)(styled-components@5.3.11(@babel/core@7.22.20)(react-dom@18.2.0(react@18.2.0))(react-is@18.3.1)(react@18.2.0))
       css-to-react-native: 3.2.0
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
@@ -19949,12 +19937,12 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
 
-  styled-jsx@5.1.1(@babel/core@7.24.0)(react@18.2.0):
+  styled-jsx@5.1.1(@babel/core@7.22.20)(react@18.2.0):
     dependencies:
       client-only: 0.0.1
       react: 18.2.0
     optionalDependencies:
-      '@babel/core': 7.24.0
+      '@babel/core': 7.22.20
 
   styled-jsx@5.1.6(react@19.0.0):
     dependencies:
@@ -20559,16 +20547,6 @@ snapshots:
       rollup: 2.79.1
     optionalDependencies:
       '@types/node': 18.17.18
-      fsevents: 2.3.3
-
-  vite@3.2.10(@types/node@20.17.19):
-    dependencies:
-      esbuild: 0.15.18
-      postcss: 8.4.38
-      resolve: 1.22.8
-      rollup: 2.79.1
-    optionalDependencies:
-      '@types/node': 20.17.19
       fsevents: 2.3.3
 
   vitest@0.34.4(jsdom@24.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)):
