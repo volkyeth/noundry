@@ -11,7 +11,7 @@ export const packToBoundedColorIndexes = (
   let bottom = 0;
   let left = width - 1;
   const rows: number[][] = new Array(height).fill(null).map(() => []);
-  for (const [i, colorIndex] of colorIndexes.entries()) {
+  colorIndexes.forEach((colorIndex, i) => {
     const row = Math.floor(i / width);
     const col = i % width;
     const isTransparent = colorIndex === TRANSPARENT_INDEX;
@@ -22,7 +22,7 @@ export const packToBoundedColorIndexes = (
       bottom = Math.max(bottom, row);
       left = Math.min(left, col);
     }
-  }
+  });
   const boundedColorIndexes = rows
     .slice(top, bottom + 1)
     .flatMap((row) => row.slice(left, right + 1));
