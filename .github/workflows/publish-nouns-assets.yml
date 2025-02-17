@@ -1,0 +1,53 @@
+name: Publish @noundry/nouns-assets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/nouns-assets/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # This step ensures we don't publish if the version hasn't changed
+      - name: Check version change
+        id: check
+        working-directory: packages/nouns-assets
+        run: |
+          PUBLISHED_VERSION=$(npm view @noundry/nouns-assets version 2>/dev/null || echo "0.0.0")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if [ "$PUBLISHED_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "Version changed from $PUBLISHED_VERSION to $PACKAGE_VERSION"
+            echo "version_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version unchanged"
+            echo "version_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build package
+        if: steps.check.outputs.version_changed == 'true'
+        working-directory: packages/nouns-assets
+        run: pnpm build
+
+      - name: Publish package
+        if: steps.check.outputs.version_changed == 'true'
+        working-directory: packages/nouns-assets
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}} 
