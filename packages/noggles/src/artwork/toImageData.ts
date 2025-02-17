@@ -5,10 +5,10 @@ export const toImageData = (artData: NounsArtData, traitNames: TraitNames) => ({
     bgcolors: artData.backgrounds.map(color => color.slice(1)),
     palette: artData.palettes[0].map((color, i) => i === 0 ? "" : color.slice(1)),
     images: {
-        bodies: artData.bodies.map((data, i) => ({ data, filename: `body-${toFilename(traitNames.bodies[i] ?? `${i}`)}` })),
-        accessories: artData.accessories.map((data, i) => ({ data, filename: `accessory-${toFilename(traitNames.accessories[i] ?? `${i}`)}` })),
-        heads: artData.heads.map((data, i) => ({ data, filename: `head-${toFilename(traitNames.heads[i] ?? `${i}`)}` })),
-        glasses: artData.glasses.map((data, i) => ({ data, filename: `glasses-${toFilename(traitNames.glasses[i] ?? `${i}`)}` })),
+        bodies: artData.bodies.map((data, i) => ({ filename: `body-${toFilename(traitNames.bodies[i] ?? `${i}`)}`, data })),
+        accessories: artData.accessories.map((data, i) => ({ filename: `accessory-${toFilename(traitNames.accessories[i] ?? `${i}`)}`, data })),
+        heads: artData.heads.map((data, i) => ({ filename: `head-${toFilename(traitNames.heads[i] ?? `${i}`)}`, data })),
+        glasses: artData.glasses.map((data, i) => ({ filename: `glasses-${toFilename(traitNames.glasses[i] ?? `${i}`)}`, data })),
     }
 })
 
