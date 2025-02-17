@@ -1,10 +1,10 @@
 import { PublicClient } from "viem";
 import { nounsDescriptorContract } from "../../contracts/nounsDescriptor.js";
-import { EncodedTrait, HexColor, OnchainArtwork } from "../../types/artwork.js";
+import { EncodedTrait, HexColor, NounsArtData } from "../../types/artwork.js";
 
-export const fetchNounsArtwork = async (
+export const fetchOnchainNounsArtData = async (
   publicClient: PublicClient
-): Promise<OnchainArtwork> => {
+): Promise<NounsArtData> => {
   const [
     glassesCount,
     headsCount,

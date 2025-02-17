@@ -1,1 +1,3 @@
-export { fetchNounsArtwork as fetchMainnetArtwork } from "./onchain/fetchNounsArtwork.js";
+export { fetchOnchainNounsArtData as fetchOnchainNounsArtwork } from "../nouns/onchain/fetchOnchainNounsArtData.js";
+export { toSvg } from "./toSvg.js";
+

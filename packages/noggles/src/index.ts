@@ -1,23 +1,25 @@
 export { colormap } from "./artwork/colormap.js";
 export { decodeTrait } from "./artwork/decodeTrait.js";
 export { encodeTrait } from "./artwork/encodeTrait.js";
-export { fetchNounTraits } from "./artwork/onchain/fetchNounTraits.js";
-export { fetchNounsArtwork } from "./artwork/onchain/fetchNounsArtwork.js";
+export { toImageData } from "./artwork/toImageData.js";
+export { fetchOnchainNounsArtData } from "./nouns/onchain/fetchOnchainNounsArtData.js";
+export { fetchOnchainNounTraits } from "./nouns/onchain/fetchOnchainNounTraits.js";
+export { nounsTraitNames } from "./nouns/traitNames.js";
 export {
   type ColorIndex,
   type DecodedTrait,
   type EncodedTrait,
   type HexColor,
   type IndexedColorTrait,
-  type OnchainArtwork,
+  type NounsArtData as OnchainArtwork,
   type Palette,
-  type RawTrait,
+  type RawTrait
 } from "./types/artwork.js";
 
 export {
   EMPTY_ENCODED_TRAIT,
   IMAGE_TRAIT_TYPES,
-  TRAIT_TYPES,
+  TRAIT_TYPES
 } from "./constants/traits.js";
 
 export { TRANSPARENT_HEX, TRANSPARENT_INDEX } from "./constants/artwork.js";

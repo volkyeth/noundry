@@ -3,7 +3,7 @@ import { nounsDescriptorContract } from "../../contracts/nounsDescriptor.js";
 import { NounTraits } from "../../types/artwork.js";
 import { NounSeed } from "../../types/seed.js";
 
-export const fetchNounTraits = async (
+export const fetchOnchainNounTraits = async (
   publicClient: PublicClient,
   seed: NounSeed
 ): Promise<NounTraits> => {

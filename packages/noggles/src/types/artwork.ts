@@ -1,3 +1,5 @@
+import { NounSeed } from "./seed.js";
+
 export type ColorIndex = number;
 
 export type EncodedTrait = `0x${string}`;
@@ -43,7 +45,7 @@ export type DeflatedTraits = {
   traitCount: number;
 };
 
-export type OnchainArtwork = {
+export type NounsArtData = {
   glasses: EncodedTrait[];
   heads: EncodedTrait[];
   accessories: EncodedTrait[];
@@ -59,3 +61,8 @@ export type NounTraits = {
   body: EncodedTrait;
   background: HexColor;
 };
+
+export interface NounsArtDataFetcher {
+  fetchArtData: () => Promise<NounsArtData>;
+  fetchNounTraits: (seed: NounSeed) => Promise<NounTraits>;
+}
