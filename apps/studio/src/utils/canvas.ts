@@ -28,7 +28,11 @@ export const drawLine = (start: Point, end: Point, color: string, brushSize: num
   var err = dx - dy;
 
   while (true) {
-    ctx.fillRect(x0 - brushSize + 1, y0 - brushSize + 1, brushSize, brushSize);
+    if (color === "#00000000") {
+      ctx.clearRect(x0 - brushSize + 1, y0 - brushSize + 1, brushSize, brushSize);
+    } else {
+      ctx.fillRect(x0 - brushSize + 1, y0 - brushSize + 1, brushSize, brushSize);
+    }
 
     if (x0 === end.x && y0 === end.y) break;
     var e2 = 2 * err;
