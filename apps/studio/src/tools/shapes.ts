@@ -28,15 +28,13 @@ export const ellipse = (
   // iterate over a quadrant pixels
   for (x = 0; x <= rX; x++) {
     for (y = 0; y <= rY; y++) {
-      angle = Math.atan(y / x);
+      angle = Math.atan2(y, x);
       r = Math.sqrt(x * x + y * y);
-      if (
-        (fill ||
-          rX <= brushSize ||
-          rY <= brushSize ||
-          r > (iX * iY) / Math.sqrt(iY * iY * Math.pow(Math.cos(angle), 2) + iX * iX * Math.pow(Math.sin(angle), 2)) + 0.5) &&
-        r < (rX * rY) / Math.sqrt(rY * rY * Math.pow(Math.cos(angle), 2) + rX * rX * Math.pow(Math.sin(angle), 2)) + 0.5
-      ) {
+      
+      const outerRadius = (rX * rY) / Math.sqrt(rY * rY * Math.pow(Math.cos(angle), 2) + rX * rX * Math.pow(Math.sin(angle), 2));
+      const innerRadius = fill ? -1 : (iX * iY) / Math.sqrt(iY * iY * Math.pow(Math.cos(angle), 2) + iX * iX * Math.pow(Math.sin(angle), 2));
+
+      if ((fill || rX <= brushSize || rY <= brushSize || r > innerRadius + 0.5) && r < outerRadius + 0.5) {
         // fill pixels in all quadrants
         fillRect(xC + x, yC + y, 1, 1);
         fillRect(xC - x - evenX, yC + y, 1, 1);
