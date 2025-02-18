@@ -57,7 +57,7 @@ export const Preview: FC<PreviewProps> = ({}) => {
     queryKey: ["auctionNounId"],
     queryFn: async () => {
       return fetch(
-        "https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph",
+        "https://www.nouns.camp/subgraphs/nouns",
         {
           body: '{"query":"{\\n  auctions(orderDirection: desc, orderBy: startTime, first : 1) {\\n    noun {\\n      id\\n    }\\n  }\\n}","variables":null}',
           method: "POST",
@@ -241,7 +241,7 @@ const NounActionButton = forwardRef<NounActionButtonProps, "button">(
 
 const loadNoun = async (nounId: string) => {
   return fetch(
-    "https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph",
+    "https://www.nouns.camp/subgraphs/nouns",
     {
       body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
       method: "POST",
