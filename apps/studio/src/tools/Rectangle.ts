@@ -5,7 +5,7 @@ import { getBoundingBoxIncludingBrush, withSelectionClip } from "./utils";
 
 export const Rectangle = (): Tool => ({
   apply: (points, canvas) => {
-    const { fgColor, bgColor, brushSize } = useBrush.getState();
+    const { strokeColor, fillColor, brushSize } = useBrush.getState();
 
     const { start, end } = getBoundingBoxIncludingBrush(points, brushSize);
 
@@ -15,10 +15,10 @@ export const Rectangle = (): Tool => ({
     const ctx = canvas.getContext("2d")!;
 
     withSelectionClip(ctx, () => {
-      ctx.fillStyle = bgColor;
+      ctx.fillStyle = fillColor;
       ctx.fillRect(start.x, start.y, width, height);
 
-      ctx.fillStyle = fgColor;
+      ctx.fillStyle = strokeColor;
       ctx.fillRect(start.x, start.y, width, brushSize);
       ctx.fillRect(end.x + 1, end.y + 1, -width, -brushSize);
       ctx.fillRect(start.x, start.y, brushSize, height);

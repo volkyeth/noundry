@@ -6,14 +6,14 @@ import { withSelectionClip } from "./utils";
 
 export const Ellipse = (): Tool => ({
   apply: (points, canvas) => {
-    const { fgColor, bgColor, brushSize } = useBrush.getState();
+    const { strokeColor, fillColor, brushSize } = useBrush.getState();
     const ctx = canvas.getContext("2d")!;
     const fill = true;
 
     withSelectionClip(ctx, () => {
-      ctx.fillStyle = bgColor;
+      ctx.fillStyle = fillColor;
       ellipse(points, brushSize, fill, (x, y, w, h) => ctx.fillRect(x, y, w, h));
-      ctx.fillStyle = fgColor;
+      ctx.fillStyle = strokeColor;
       ellipse(points, brushSize, !fill, (x, y, w, h) => ctx.fillRect(x, y, w, h));
     });
   },

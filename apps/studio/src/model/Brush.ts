@@ -5,19 +5,31 @@ import { Point } from "../types/geometry";
 export type BrushState = {
   brushSize: number;
   setBrushSize: (brushSize: number) => void;
-  fgColor: Color;
-  setFgColor: (color: Color) => void;
-  bgColor: Color;
-  setBgColor: (color: Color) => void;
+  strokeColor: Color;
+  setStrokeColor: (color: Color) => void;
+  previousStrokeColor: Color;
+  setPreviousStrokeColor: (color: Color) => void;
+  fillColor: Color;
+  setFillColor: (color: Color) => void;
+  previousFillColor: Color;
+  setPreviousFillColor: (color: Color) => void;
+  activeColor: "stroke" | "fill";
+  setActiveColor: (color: "stroke" | "fill") => void;
 };
 
 export const useBrush = create<BrushState>()((set) => ({
   brushSize: 1,
   setBrushSize: (brushSize: number) => set({ brushSize }),
-  fgColor: "#000000",
-  setFgColor: (color: Color) => set({ fgColor: color }),
-  bgColor: "#00000000",
-  setBgColor: (color: Color) => set({ bgColor: color }),
+  strokeColor: "#000000",
+  setStrokeColor: (color: Color) => set({ strokeColor: color }),
+  previousStrokeColor: "#000000",
+  setPreviousStrokeColor: (color: Color) => set({ previousStrokeColor: color }),
+  fillColor: "#00000000",
+  setFillColor: (color: Color) => set({ fillColor: color }),
+  previousFillColor: "#00000000",
+  setPreviousFillColor: (color: Color) => set({ previousFillColor: color }),
+  activeColor: "stroke",
+  setActiveColor: (color: "stroke" | "fill") => set({ activeColor: color }),
 }));
 
 export const Brush = {

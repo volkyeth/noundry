@@ -92,7 +92,7 @@ export const EditMode: WorkspaceMode = {
         const activePart = useNounState.getState().getActivePartState();
         if (!activePart || !activePart.canUndo) return;
         activePart.undo().then(() => drawNounCanvas(useNounState.getState()));
-        
+
       },
       description: "Undo",
     },
@@ -215,7 +215,7 @@ export const EditMode: WorkspaceMode = {
       commands: ["x"],
       callback: () =>
         useBrush.setState((state) => {
-          return { fgColor: state.bgColor, bgColor: state.fgColor };
+          return { strokeColor: state.fillColor, fillColor: state.strokeColor };
         }),
       description: "Switch Foreground/Background colors",
     },

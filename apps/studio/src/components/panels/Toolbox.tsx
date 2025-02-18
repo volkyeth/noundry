@@ -1,4 +1,17 @@
-import { Box, CenterProps, Grid, GridItem, HStack, IconProps, Kbd, SimpleGrid, SimpleGridProps, Text, Tooltip, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  CenterProps,
+  Grid,
+  GridItem,
+  HStack,
+  IconProps,
+  Kbd,
+  SimpleGrid,
+  SimpleGridProps,
+  Text,
+  Tooltip,
+  VStack,
+} from "@chakra-ui/react";
 import { FC } from "react";
 import { Panel } from "./Panel";
 
@@ -18,23 +31,89 @@ export type ToolboxProps = {};
 
 type ColorBoxProps = {
   color: string;
+  previousColor: string;
+  type: "stroke" | "fill";
 } & Omit<CenterProps, "color">;
 
-const ColorBox: FC<ColorBoxProps> = ({ color, ...props }) => {
+const ColorBox: FC<ColorBoxProps> = ({
+  color,
+  previousColor,
+  type,
+  ...props
+}) => {
+  const W = "12px";
+
   return (
-    <CheckerboardBg patternRepetitions={4} w="full" h={"full"} borderWidth={1} borderColor={"gray.800"} {...props}>
-      <Box bgColor={color} borderWidth={1} borderColor={"white"} w="full" h="full" />
+    <CheckerboardBg
+      patternRepetitions={4}
+      w="full"
+      h={"full"}
+      borderWidth={1}
+      borderColor={"gray.800"}
+      clipPath={
+        type === "stroke"
+          ? `polygon(0% 0%, 0% 100%, ${W} 100%, ${W} ${W}, calc(100% - ${W}) ${W}, calc(100% - ${W}) calc(100% - ${W}), ${W} calc(100% - ${W}), ${W} 100%, 100% 100%, 100% 0%);`
+          : undefined
+      }
+      style={{ clipRule: "evenodd" }}
+      {...props}
+    >
+      <HStack w="full" h="full" spacing={0} position={"relative"}>
+        <Box
+          bgColor={previousColor}
+          borderWidth={1}
+          borderRightWidth={0}
+          borderColor={"gray.200"}
+          w="50%"
+          h="full"
+        />
+        <Box
+          bgColor={color}
+          borderWidth={1}
+          borderLeftWidth={0}
+          borderColor={"gray.200"}
+          w="50%"
+          h="full"
+        />
+        {type === "stroke" && (
+          <Box
+            position={"absolute"}
+            top={`calc(${W} - 3px)`}
+            left={`calc(${W} - 3px)`}
+            w={`calc(100% - 2 * ${W} + 6px)`}
+            h={`calc(100% - 2 * ${W} + 6px)`}
+            bgColor={"gray.800"}
+            borderWidth={1}
+            borderColor={"gray.200"}
+          />
+        )}
+      </HStack>
     </CheckerboardBg>
   );
 };
 
 export const Toolbox: FC<ToolboxProps> = ({}) => {
   const { tool, selectTool } = useToolboxState();
-  const { fgColor, bgColor, setFgColor, setBgColor, brushSize, setBrushSize } = useBrush();
+  const {
+    strokeColor,
+    fillColor,
+    previousStrokeColor,
+    previousFillColor,
+    setPreviousFillColor,
+    setPreviousStrokeColor,
+    setStrokeColor,
+    setFillColor,
+    brushSize,
+    setBrushSize,
+    activeColor,
+    setActiveColor,
+  } = useBrush();
   const eyedropper = Eyedropper();
 
   const mode = useWorkspaceState((state) => state.mode);
   const showHotkeys = true;
+
+  console.log(activeColor);
 
   return (
     <Panel title="Toolbox" position={"relative"}>
@@ -66,12 +145,36 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
         </SimpleGrid>
         <HistoryNavigation />
         <HStack alignItems={"end"}>
-          <Grid w={16} h={16} templateRows="repeat(6, 1fr)" gap={0} templateColumns="repeat(6, 1fr)">
-            <GridItem gridArea="3 / 3 / 7 / 7">
-              <ColorBox color={bgColor} />
+          <Grid
+            w={16}
+            h={16}
+            templateRows="repeat(6, 1fr)"
+            gap={0}
+            templateColumns="repeat(6, 1fr)"
+          >
+            <GridItem
+              gridArea="3 / 3 / 7 / 7"
+              zIndex={activeColor === "fill" ? 20 : undefined}
+            >
+              <ColorBox
+                type="fill"
+                color={fillColor}
+                previousColor={previousFillColor}
+                onClick={() => setActiveColor("fill")}
+                cursor={"pointer"}
+              />
             </GridItem>
-            <GridItem gridArea="1 / 1 / 5 / 5">
-              <ColorBox color={fgColor} />
+            <GridItem
+              gridArea="1 / 1 / 5 / 5"
+              zIndex={activeColor === "stroke" ? 20 : undefined}
+            >
+              <ColorBox
+                type="stroke"
+                color={strokeColor}
+                previousColor={previousStrokeColor}
+                onClick={() => setActiveColor("stroke")}
+                cursor={"pointer"}
+              />
             </GridItem>
             <GridItem gridArea="1 / 5 / 3 / 7">
               <Tool
@@ -81,8 +184,10 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
                 name={"Swap colors"}
                 icon={CgCornerDoubleRightDown}
                 action={() => {
-                  setFgColor(bgColor);
-                  setBgColor(fgColor);
+                  setPreviousStrokeColor(fillColor);
+                  setStrokeColor(fillColor);
+                  setFillColor(strokeColor);
+                  setPreviousFillColor(strokeColor);
                 }}
               />
             </GridItem>
@@ -99,7 +204,16 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
         </HStack>
       </VStack>
       {mode.name === "Placing" && (
-        <VStack justify={"center"} p={2} spacing={8} position={"absolute"} top={0} w={"full"} h={"full"} bg={"gray.700"}>
+        <VStack
+          justify={"center"}
+          p={2}
+          spacing={8}
+          position={"absolute"}
+          top={0}
+          w={"full"}
+          h={"full"}
+          bg={"gray.700"}
+        >
           <Text>Drag to position</Text>
           <VStack>
             <Kbd>Enter</Kbd>
@@ -148,7 +262,16 @@ type ToolProps = {
   isDisabled?: boolean;
 } & IconProps;
 
-const Tool: FC<ToolProps> = ({ isActive = false, isDisabled = false, w = "36px", h = "36px", name, icon, action, ...props }) => (
+const Tool: FC<ToolProps> = ({
+  isActive = false,
+  isDisabled = false,
+  w = "36px",
+  h = "36px",
+  name,
+  icon,
+  action,
+  ...props
+}) => (
   <Tooltip label={name} openDelay={500}>
     <ReactIcon
       w={w}

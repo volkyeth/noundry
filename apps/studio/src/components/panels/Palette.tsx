@@ -1,57 +1,149 @@
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Colord, colord } from "colord";
+import { useCallback, useEffect, useState } from "react";
+import { ColorService, Hue, Saturation, useColor } from "react-color-palette";
+import "react-color-palette/css";
 import { useBrush } from "../../model/Brush";
-import { sortedPalette } from "../../utils/colors";
-import { MouseButton } from "../../utils/constants";
+import { useNounState } from "../../model/Noun";
+import { getPalette } from "../../utils/canvas/getPalette";
+import { getClosestPaletteColors } from "../../utils/colors";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { Panel } from "./Panel";
 
 export const Palette = () => {
-  const { setFgColor, setBgColor } = useBrush((state) => ({ setFgColor: state.setFgColor, setBgColor: state.setBgColor }));
+  const {
+    setStrokeColor,
+    setFillColor,
+    setPreviousStrokeColor,
+    setPreviousFillColor,
+    activeColor,
+  } = useBrush((state) => ({
+    setStrokeColor: state.setStrokeColor,
+    setFillColor: state.setFillColor,
+    setPreviousStrokeColor: state.setPreviousStrokeColor,
+    setPreviousFillColor: state.setPreviousFillColor,
+    activeColor: state.activeColor,
+  }));
+  const activePartState = useNounState((state) => state[state.activePart!]);
+
+  const setColor = useCallback(
+    (color: string) => {
+      if (activeColor === "stroke") {
+        setStrokeColor(color);
+      } else {
+        setFillColor(color);
+      }
+    },
+    [activeColor, setStrokeColor, setFillColor]
+  );
+
+  const setPreviousColor = useCallback(
+    (color: string) => {
+      if (activeColor === "stroke") {
+        setPreviousStrokeColor(color);
+      } else {
+        setPreviousFillColor(color);
+      }
+    },
+    [activeColor, setPreviousStrokeColor, setPreviousFillColor]
+  );
+
+  // Use react-color-palette's useColor hook
+  const [pickerColor, setPickerColor] = useColor("#000000");
+  const [layerColors, setLayerColors] = useState<string[]>(["#00000000"]);
+
+  const getClosestPaletteColor = (color: string) => {
+    const closestColor = getClosestPaletteColors(colord(color), 1)[0];
+    return closestColor.toHex();
+  };
+
+  const handleSaturationChange = (newColor: any) => {
+    // Keep the picker color smooth
+    setPickerColor(newColor);
+    // But snap the actual selected color and fg color
+    const closestHex = getClosestPaletteColor(newColor.hex);
+    setColor(closestHex);
+  };
+
+  const handleSaturationChangeComplete = (newColor: any) => {
+    const closestHex = getClosestPaletteColor(newColor.hex);
+    setPreviousColor(closestHex);
+    setPickerColor(ColorService.convert("hex", closestHex));
+  };
+
+  const handleHueChange = (newColor: any) => {
+    setPickerColor(newColor);
+  };
+
+  // Update layer colors whenever the active part's canvas changes
+  useEffect(() => {
+    if (!activePartState?.canvas) return;
+    const uniqueColors = getPalette(activePartState.canvas);
+
+    // Convert colors to hex and deduplicate
+    const hexColors = Array.from(
+      new Set(
+        uniqueColors
+          .filter((c: Colord) => !c.isEqual(colord("#00000000")))
+          .map((c: Colord) => c.toHex())
+      )
+    );
+
+    // Ensure transparent is first, followed by unique colors
+    setLayerColors(["#00000000", ...hexColors]);
+  }, [activePartState]);
+
   return (
     <Panel title={"Palette"} flexGrow={1}>
-      <SimpleGrid columns={8} w="full" h="full" spacing="1px">
-        <CheckerboardBg
-          {...hoverFx}
-          patternRepetitions={2}
-          onContextMenu={(e) => e.preventDefault()}
-          onMouseUp={(e) => {
-            if (e.button === MouseButton.Left) {
-              setFgColor("#00000000");
-            }
-            if (e.button === MouseButton.Right) {
-              setBgColor("#00000000");
-            }
-          }}
+      <VStack spacing={4} w="full">
+        <Saturation
+          height={120}
+          color={pickerColor}
+          onChange={handleSaturationChange}
+          onChangeComplete={handleSaturationChangeComplete}
         />
-        {sortedPalette().map((color, i) => (
-          <Box
-            key={`color-${i}`}
-            {...hoverFx}
-            bgColor={color}
-            onContextMenu={(e) => e.preventDefault()}
-            onMouseUp={(e) => {
-              if (e.button === MouseButton.Left) {
-                setFgColor(color);
-              }
-              if (e.button === MouseButton.Right) {
-                setBgColor(color);
-              }
-              e.stopPropagation();
-            }}
-          />
-        ))}
-      </SimpleGrid>
+
+        <Hue color={pickerColor} onChange={handleHueChange} />
+
+        <SimpleGrid columns={8} w="full" spacing="1px">
+          {layerColors.map((colorHex, i) =>
+            colorHex === "#00000000" ? (
+              <CheckerboardBg
+                key={`layer-color-${i}`}
+                w="full"
+                h="18px"
+                patternRepetitions={2}
+                cursor="pointer"
+                onClick={() => {
+                  setPickerColor({
+                    hex: colorHex,
+                    rgb: { r: 0, g: 0, b: 0, a: 0 },
+                    hsv: { h: 0, s: 0, v: 0, a: 0 },
+                  });
+                  setColor(colorHex);
+                  setPreviousColor(colorHex);
+                }}
+              />
+            ) : (
+              <Box
+                key={`layer-color-${i}`}
+                w="full"
+                h="18px"
+                bg={colorHex}
+                cursor="pointer"
+                onClick={() => {
+                  const c = colord(colorHex);
+                  const rgb = c.toRgb();
+                  const hsv = c.toHsv();
+                  setPickerColor({ hex: colorHex, rgb, hsv });
+                  setColor(colorHex);
+                  setPreviousColor(colorHex);
+                }}
+              />
+            )
+          )}
+        </SimpleGrid>
+      </VStack>
     </Panel>
   );
-};
-
-const hoverFx = {
-  _hover: {
-    m: -1,
-    zIndex: 999,
-    borderRadius: "2px",
-    h: "150%",
-    transitionDuration: "0.1s",
-  },
-  transition: "0.5s",
 };

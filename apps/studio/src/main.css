@@ -3,3 +3,24 @@
   font-variant-ligatures: none;
   text-align: center;
 }
+
+.rcp-saturation {
+  border-radius: 0px !important;
+}
+
+.rcp-saturation-cursor {
+  border-radius: 0px !important;
+  width: 16px !important;
+  height: 16px !important;
+  transform: translate(-8px, -8px) !important;
+}
+
+.rcp-hue {
+  border-radius: 0px !important;
+}
+
+.rcp-hue-cursor {
+  border-radius: 0px !important;
+  width: 10px !important;
+  transform: translate(-5px, -5px) !important;
+}
