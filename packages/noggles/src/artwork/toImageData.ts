@@ -1,5 +1,5 @@
-import { TraitNames } from "../nouns/traitNames.js";
 import { NounsArtData } from "../types/artwork.js";
+import { TraitNames } from "../types/traits.js";
 
 export const toImageData = (artData: NounsArtData, traitNames: TraitNames) => ({
     bgcolors: artData.backgrounds.map(color => color.slice(1)),

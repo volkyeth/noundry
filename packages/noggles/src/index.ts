@@ -17,6 +17,10 @@ export {
 } from "./types/artwork.js";
 
 export {
+  type TraitNames
+} from "./types/traits.js";
+
+export {
   EMPTY_ENCODED_TRAIT,
   IMAGE_TRAIT_TYPES,
   TRAIT_TYPES

@@ -1,9 +1,10 @@
 {
   "name": "@noundry/nouns-assets",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Nouns run-length encoded image data. Auto-updated as new traits are added to the DAO.",
   "author": "Volky",
   "homepage": "https://assets.noundry.wtf",
+  "repository": "github:volkyeth/noundry",
   "license": "GPL-3.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

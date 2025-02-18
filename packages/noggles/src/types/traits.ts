@@ -11,3 +11,11 @@ export type TraitCategory =
   | "accessories"
   | "bodies"
   | "backgrounds";
+
+export interface TraitNames {
+  backgrounds: string[];
+  bodies: string[];
+  accessories: string[];
+  heads: string[];
+  glasses: string[];
+}

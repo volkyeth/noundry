@@ -10,12 +10,10 @@ export async function GET() {
     // Create a self-executing function that assigns the data to window.nounsImageData
     const jsContent = `(function(){window.nounsImageData=${JSON.stringify(imageData)};})();`;
 
-    const response = new NextResponse(jsContent, {
+    return new NextResponse(jsContent, {
         headers: {
             'Content-Type': 'application/javascript',
             'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=604800`
         },
     });
-
-    return response;
 } 
