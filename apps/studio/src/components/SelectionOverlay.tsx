@@ -1,8 +1,6 @@
 import { chakra, HTMLChakraProps, keyframes } from "@chakra-ui/react";
 import { FC } from "react";
 import { useSelection } from "../model/Selection";
-import { useToolboxState } from "../model/Toolbox";
-import { Move } from "../tools/tools";
 
 export type SelectionOverlayProps = {} & HTMLChakraProps<"svg">;
 
@@ -15,9 +13,9 @@ export const SelectionOverlay: FC<SelectionOverlayProps> = (props) => {
   const d = selectedPoints.map((point) => `M${point.x} ${point.y} h1 v1 h-1 z`).join(" ");
 
   return (
-    <chakra.svg viewBox="0 0 32 32" width="full" height="full" strokeWidth={2} pointerEvents={"none"} overflow={"visible"} {...props}>
+    <chakra.svg viewBox="0 0 32 32" width="calc(100% + 2px)" height="calc(100% + 2px)" strokeWidth={2} pointerEvents={"none"} overflow={"visible"} {...props}>
       <mask id="fillMask">
-        <rect x="0" y="0" width="100%" height="100%" fill="white" />
+        <rect x="-1" y="-1" width="calc(100% + 2px)" height="calc(100% + 2px)" fill="white" />
         <chakra.path d={d} fill="black" />
       </mask>
       <chakra.path d={d} fill="none" stroke={"white"} vectorEffect={"non-scaling-stroke"} mask={"url(#fillMask)"} pointerEvents={"fill"} />

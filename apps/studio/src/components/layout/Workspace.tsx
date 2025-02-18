@@ -39,7 +39,7 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
           <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
           {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" left={0} top={0} />}
-          <SelectionOverlay position={"absolute"} />
+          <SelectionOverlay position="absolute" top="-1px" left="-1px"  />
           {isPlacing && <PlacingOverlay position={"absolute"} />}
           <HStack h={10} position="absolute" bottom={-10} right={0}>
             <Tooltip label={"Toggle grid"}>
