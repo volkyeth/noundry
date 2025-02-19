@@ -73,7 +73,43 @@ const Submit = () => {
   const glassesBitmap = useTraitBitmap(traits.glasses);
   const headBitmap = useTraitBitmap(traits.head);
 
-  const { push } = useRouter();
+  const { push, query, replace } = useRouter();
+
+  useEffect(() => {
+    if (!query.type) return;
+    const type = query.type as TraitType;
+    if (!["head", "accessory", "glasses", "body"].includes(type)) return;
+    if (!query[type]) return;
+    const image = query[type] as string;
+    if (!image.startsWith("data:")) return;
+
+    const tmpImage = new Image();
+    tmpImage.onload = () => {
+      createImageBitmap(tmpImage).then((bitmap) => {
+        setTraitBitmap(bitmap);
+        tmpImage.remove();
+      });
+    };
+
+    tmpImage.src = image;
+
+    const isNumeric = (s?: string | string[]) => s && Number.isFinite(+s);
+
+    setSeed({
+      accessory: isNumeric(query.accessory)
+        ? Number(query.accessory)
+        : seed.accessory,
+      background: isNumeric(query.background)
+        ? Number(query.background)
+        : seed.background,
+      body: isNumeric(query.body) ? Number(query.body) : seed.body,
+      glasses: isNumeric(query.glasses) ? Number(query.glasses) : seed.glasses,
+      head: isNumeric(query.head) ? Number(query.head) : seed.head,
+    });
+
+    replace(`/submit?type=${query.type}`);
+  }, [query.toString(), replace, seed]);
+
   const { mutate: submit, isPending: isSubmitting } = useSignedInMutation({
     mutationFn: () => {
       if (
@@ -102,22 +138,22 @@ const Submit = () => {
       previewCtx.drawImage(
         traitType === "body" ? traitBitmap : bodyBitmap,
         0,
-        0
+        0,
       );
       previewCtx.drawImage(
         traitType === "accessory" ? traitBitmap : accessoryBitmap,
         0,
-        0
+        0,
       );
       previewCtx.drawImage(
         traitType === "head" ? traitBitmap : headBitmap,
         0,
-        0
+        0,
       );
       previewCtx.drawImage(
         traitType === "glasses" ? traitBitmap : glassesBitmap,
         0,
-        0
+        0,
       );
 
       const previewImage = previewCanvas.toDataURL("image/png");
@@ -187,7 +223,7 @@ const Submit = () => {
                       {formatTraitType(traitType)}
                     </p>
                   </Button>
-                )
+                ),
               )}
             </div>
           )}
@@ -233,8 +269,8 @@ const Submit = () => {
                         if (!ctx) return;
                         setTraitBitmap(
                           await createImageBitmap(
-                            ctx.getImageData(0, 0, 32, 32)
-                          )
+                            ctx.getImageData(0, 0, 32, 32),
+                          ),
                         );
                       }}
                     >
@@ -270,7 +306,7 @@ const Submit = () => {
                         onChange={(e) =>
                           setTraitName(
                             e.target.value.charAt(0).toUpperCase() +
-                              e.target.value.slice(1)
+                              e.target.value.slice(1),
                           )
                         }
                         maxLength={MAX_TRAIT_NAME_LENGTH}
@@ -317,7 +353,7 @@ const Submit = () => {
                           />
                           <div className="flex gap-[2px] items-center">
                             {TRAIT_TYPES.filter(
-                              (type) => traitType !== type
+                              (type) => traitType !== type,
                             ).map((type) => (
                               <TraitPicker
                                 variant="secondary"

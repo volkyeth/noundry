@@ -1,13 +1,25 @@
+import galleryIcon from "@/assets/gallery.png";
 import { HStack, Text, VStack } from "@chakra-ui/layout";
 import { FC, SVGProps, useState } from "react";
 
-import { Icon, IconButton, Menu, MenuButton, MenuItem, MenuItemProps, MenuList, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+  Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItemProps,
+  MenuList,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { FaUserEdit } from "react-icons/fa";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { RiEraserFill, RiFolderOpenFill, RiSave3Fill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { useNounState } from "../../model/Noun";
 import { NounPartState } from "../../model/NounPart";
 import { useWorkspaceState } from "../../model/Workspace";
@@ -28,7 +40,11 @@ export const Layers: FC<NounPanelPros> = ({}) => {
           .slice()
           .reverse()
           .map((part) => (
-            <PartLayer key={`${part}-layer`} part={part} PartIcon={nounPartIcon[part]} />
+            <PartLayer
+              key={`${part}-layer`}
+              part={part}
+              PartIcon={nounPartIcon[part]}
+            />
           ))}
       </VStack>
     </Panel>
@@ -41,15 +57,26 @@ export type PartSelectorProps = {
 };
 
 export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
+  const navigate = useNavigate();
   const state = useNounState();
   const { activePart, activatePart } = state;
   const active = activePart === part;
-  const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
-  const { isOpen: isImportOpen, onOpen: onImportOpen, onClose: onImportClose } = useDisclosure();
+  const {
+    isOpen: isExportOpen,
+    onOpen: onExportOpen,
+    onClose: onExportClose,
+  } = useDisclosure();
+  const {
+    isOpen: isImportOpen,
+    onOpen: onImportOpen,
+    onClose: onImportClose,
+  } = useDisclosure();
   const partState = state[part];
   const [exportedPart, setExportedPart] = useState<NounPartType>();
   const fileLoader = document.createElement("input");
-  const randomizeAllHovered = useWorkspaceState((state) => state.randomizeAllHovered);
+  const randomizeAllHovered = useWorkspaceState(
+    (state) => state.randomizeAllHovered
+  );
   fileLoader.type = "file";
   fileLoader.accept = "image/x-png";
   fileLoader.onchange = loadFile(partState);
@@ -124,9 +151,60 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
                 variant="ghost"
                 _active={{ bgColor: "transparent", color: "white" }}
               />
-              <MenuList color="gray.600" bgColor="gray.800" borderColor="gray.700" borderRadius={0}>
+              <MenuList
+                color="gray.600"
+                bgColor="gray.800"
+                borderColor="gray.700"
+                borderRadius={0}
+              >
+                {partState.edited && part !== "background" && (
+                  <MenuItem
+                    as="a"
+                    target="_blank"
+                    href={`${
+                      import.meta.env.VITE_GALLERY_URL
+                    }/submit?${new URLSearchParams({
+                      type: part,
+                      background: `${state.background.seed ?? ""}`,
+                      body: `${state.body.seed ?? ""}`,
+                      head: `${state.head.seed ?? ""}`,
+                      accessory: `${state.accessory.seed ?? ""}`,
+                      glasses: `${state.glasses.seed ?? ""}`,
+                      [part]: partState.canvas.toDataURL("image/png"),
+                    })}`}
+                    icon={<img src={galleryIcon} />}
+                  >
+                    Submit to Gallery
+                  </MenuItem>
+                  // <ActionMenuItem
+                  //   // icon={GiDiceSixFacesThree}
+                  //   imgIcon={<img src={galleryIcon} />}
+                  //   onClick={() => {
+                  //     const params = {
+                  //       background: `${state.background.seed ?? ""}`,
+                  //       body: `${state.body.seed ?? ""}`,
+                  //       head: `${state.head.seed ?? ""}`,
+                  //       accessory: `${state.accessory.seed ?? ""}`,
+                  //       glasses: `${state.glasses.seed ?? ""}`,
+                  //       [part]: partState.canvas.toDataURL("image/png"),
+                  //       type: part,
+                  //     };
+
+                  //     const query = new URLSearchParams(params);
+
+                  //     navigate(
+                  //       `${import.meta.env.VITE_GALLERY_URL}/submit?${query}`
+                  //     );
+                  //   }}
+                  // >
+                  //   Submit to Gallery
+                  // </ActionMenuItem>
+                )}
                 {partState.edited && (
-                  <ActionMenuItem icon={GiDiceSixFacesThree} onClick={partState.randomize}>
+                  <ActionMenuItem
+                    icon={GiDiceSixFacesThree}
+                    onClick={partState.randomize}
+                  >
                     Randomize
                   </ActionMenuItem>
                 )}
@@ -155,18 +233,30 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
           </HStack>
         </HStack>
       </HStack>
-      <ExportModal part={exportedPart} isOpen={isExportOpen} onClose={onExportClose} />
+      <ExportModal
+        part={exportedPart}
+        isOpen={isExportOpen}
+        onClose={onExportClose}
+      />
       <ImportModal part={part} isOpen={isImportOpen} onClose={onImportClose} />
     </>
   );
 };
 
 type ActionMenuItemProps = {
-  icon: IconType;
+  icon?: IconType;
 } & Omit<MenuItemProps, "icon">;
 
-const ActionMenuItem: FC<ActionMenuItemProps> = ({ children, icon, ...props }) => (
-  <MenuItem {...props} _hover={{ bgColor: "gray.700", color: "gray.100" }} icon={<Icon as={icon} boxSize={4} />}>
+const ActionMenuItem: FC<ActionMenuItemProps> = ({
+  children,
+  icon,
+  ...props
+}) => (
+  <MenuItem
+    {...props}
+    _hover={{ bgColor: "gray.700", color: "gray.100" }}
+    icon={<Icon as={icon} boxSize={4} />}
+  >
     {children}
   </MenuItem>
 );
