@@ -14,6 +14,7 @@ export type NounPartState = {
   canUndo: boolean;
   canRedo: boolean;
   edited: boolean;
+  seed: number | null;
   loadPart: (seed: number) => Promise<void>;
   clear: () => void;
   randomize: () => void;
@@ -57,15 +58,15 @@ const moveToHistory = async (
 
 const scopedSet =
   (part: NounPartType, set: Set<NounState>) =>
-  (partial: PartialUpdate<NounPartState>) => {
-    set((prev) => {
-      const updatedPartState =
-        typeof partial === "function" ? partial(prev[part]) : partial;
-      return {
-        [part]: { ...prev[part], ...updatedPartState },
-      };
-    });
-  };
+    (partial: PartialUpdate<NounPartState>) => {
+      set((prev) => {
+        const updatedPartState =
+          typeof partial === "function" ? partial(prev[part]) : partial;
+        return {
+          [part]: { ...prev[part], ...updatedPartState },
+        };
+      });
+    };
 
 export const createNounPart = (
   part: NounPartType,
@@ -85,23 +86,26 @@ export const createNounPart = (
     canUndo: false,
     canRedo: false,
     edited: false,
+    seed: null,
     clear: async () => {
       clearCanvas(canvas);
       await get()[part].commit();
+      scopedSet(part, set)({ seed: null });
     },
     randomize: () => {
       clearCanvas(canvas);
-      drawPartFromSeed(part, getRandomSeed(part), canvas).then(async () => {
+      const newSeed = getRandomSeed(part);
+      drawPartFromSeed(part, newSeed, canvas).then(async () => {
         await get()[part].commit();
-        scopedSet(part, set)({ edited: false });
+        scopedSet(part, set)({ edited: false, seed: newSeed });
       });
     },
     loadPart: async (seed: number) => {
       clearCanvas(canvas);
       await drawPartFromSeed(part, seed, canvas).then(async () => {
         await get()
-          [part].commit()
-          .then(() => scopedSet(part, set)({ edited: false }));
+        [part].commit()
+          .then(() => scopedSet(part, set)({ edited: false, seed }));
       });
     },
     blob: () => {
@@ -130,6 +134,7 @@ export const createNounPart = (
             canUndo: state.currentHistoryIndex + 1 > 0,
             canRedo: false,
             edited: true,
+            seed: null,
             currentHistoryIndex: state.currentHistoryIndex + 1,
             blob: () => blob,
           };
