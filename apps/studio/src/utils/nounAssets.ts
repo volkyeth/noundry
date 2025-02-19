@@ -1,4 +1,4 @@
-import { ImageData } from "@nouns/assets";
+import { ImageData } from "@noundry/nouns-assets";
 import { EncodedImage, buildSVG } from "@nouns/sdk";
 import { NounPartType } from "../types/noun";
 import { clearCanvas } from "./canvas/clearCanvas";

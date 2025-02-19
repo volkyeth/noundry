@@ -1,4 +1,4 @@
-import { NounSeed } from "@nouns/assets/dist/types";
+import { NounSeed } from "@noundry/nouns-assets/dist/types";
 import { create } from "zustand";
 import { NounPartMapping, NounPartType } from "../types/noun";
 import { clearCanvas } from "../utils/canvas/clearCanvas";
@@ -91,7 +91,7 @@ export const drawNounCanvas = (state: NounState) => {
     }
 
     state.activePart === part ? drawCanvas(workingCanvas, state.canvas) :
-    drawCanvas(state[part].canvas, state.canvas);
+      drawCanvas(state[part].canvas, state.canvas);
   }
 };
 

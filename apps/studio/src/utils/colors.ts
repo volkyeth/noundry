@@ -1,4 +1,4 @@
-import { ImageData } from "@nouns/assets";
+import { ImageData } from "@noundry/nouns-assets";
 import { Colord, colord, extend } from "colord";
 import labPlugin from "colord/plugins/lab";
 import { some, sortBy, uniq } from "lodash";
