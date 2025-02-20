@@ -1,4 +1,7 @@
+"use server";
+
 import { TraitSchema } from "@/db/schema/TraitSchema";
+import { UserStats } from "@/types/user";
 import { database } from "@/utils/database/db";
 
 export const getArtistStats = async () => {
@@ -66,5 +69,5 @@ export const getArtistStats = async () => {
     },
   ]);
 
-  return await cursor.toArray();
+  return await cursor.toArray() as UserStats[];
 };

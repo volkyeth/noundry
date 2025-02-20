@@ -4,7 +4,7 @@ import Banner from "@/assets/pixel-heart.svg";
 import Image from "next/image";
 import { FaTwitter } from "react-icons/fa6";
 
-const About = () => {
+export default function About() {
   return (
     <>
       <div className="container w-full max-w-4xl mx-auto px-4 gap-8 flex flex-col py-4 pt-8">
@@ -131,6 +131,4 @@ const About = () => {
       </div>
     </>
   );
-};
-
-export default About;
+}

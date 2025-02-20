@@ -17,29 +17,32 @@ import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { formatTraitType } from "@/utils/traits/format";
 import { Input } from "@nextui-org/react";
-import { useQueryState } from "next-usequerystate";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
+  isTraitType,
   NounSeed,
   NounTraits,
   TRAIT_TYPES,
   TraitType,
-  isTraitType,
 } from "noggles";
+import { useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
-const Submit = () => {
+export default function Submit() {
   const [traitType, setTraitType] = useQueryState<TraitType | null>("type", {
     parse: (v) => (isTraitType(v) ? v : null),
     history: "push",
   });
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [traitCanvas, setTraitCanvas] = useState<HTMLCanvasElement | null>();
   const [traitFile, setTraitFile] = useState<File | null>(null);
   const [traitBitmap, setTraitBitmap] = useState<ImageBitmap | null>(null);
   const formatedTraitType = formatTraitType(traitType);
   const [traitName, setTraitName] = useState<string>("");
+  const [seedInitialized, setSeedInitialized] = useState(false);
   const [seed, setSeed] = useState<NounSeed>({
     accessory: 0,
     background: 0,
@@ -47,11 +50,60 @@ const Submit = () => {
     glasses: 0,
     head: 0,
   });
+
+  // Handle image data URL from query parameters
+  useEffect(() => {
+    if (!traitType) return;
+    const imageData = searchParams.get(traitType);
+    if (!imageData?.startsWith("data:")) return;
+
+    const tmpImage = new Image();
+    tmpImage.onload = () => {
+      createImageBitmap(tmpImage).then((bitmap) => {
+        setTraitBitmap(bitmap);
+        const ctx = traitCanvas?.getContext("2d")!;
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, 32, 32);
+        ctx.drawImage(tmpImage, 0, 0, 32, 32);
+        tmpImage.remove();
+      });
+    };
+    tmpImage.src = imageData;
+
+    // Helper function to check if a value is numeric
+    const isNumeric = (s: string | null) => s && Number.isFinite(+s);
+
+    // Update seed values from query parameters
+    setSeed((prev) => ({
+      accessory: isNumeric(searchParams.get("accessory"))
+        ? Number(searchParams.get("accessory"))
+        : prev.accessory,
+      background: isNumeric(searchParams.get("background"))
+        ? Number(searchParams.get("background"))
+        : prev.background,
+      body: isNumeric(searchParams.get("body"))
+        ? Number(searchParams.get("body"))
+        : prev.body,
+      glasses: isNumeric(searchParams.get("glasses"))
+        ? Number(searchParams.get("glasses"))
+        : prev.glasses,
+      head: isNumeric(searchParams.get("head"))
+        ? Number(searchParams.get("head"))
+        : prev.head,
+    }));
+
+    setSeedInitialized(true);
+
+    // Clean up the URL to only keep the type parameter
+    router.replace(`/submit?type=${traitType}`);
+  }, [searchParams, traitType, router]);
+
   const { data: mainnetArtwork } = useMainnetArtwork();
   useEffect(() => {
-    if (!mainnetArtwork) return;
+    if (!mainnetArtwork || seedInitialized) return;
     setSeed(generateSeed(mainnetArtwork, Math.random()));
-  }, [mainnetArtwork]);
+    setSeedInitialized(true);
+  }, [mainnetArtwork, seedInitialized]);
   const traits = useMemo<NounTraits>(() => {
     if (!mainnetArtwork || !traitBitmap || !traitType)
       return {
@@ -72,43 +124,6 @@ const Submit = () => {
   const bodyBitmap = useTraitBitmap(traits.body);
   const glassesBitmap = useTraitBitmap(traits.glasses);
   const headBitmap = useTraitBitmap(traits.head);
-
-  const { push, query, replace } = useRouter();
-
-  useEffect(() => {
-    if (!query.type) return;
-    const type = query.type as TraitType;
-    if (!["head", "accessory", "glasses", "body"].includes(type)) return;
-    if (!query[type]) return;
-    const image = query[type] as string;
-    if (!image.startsWith("data:")) return;
-
-    const tmpImage = new Image();
-    tmpImage.onload = () => {
-      createImageBitmap(tmpImage).then((bitmap) => {
-        setTraitBitmap(bitmap);
-        tmpImage.remove();
-      });
-    };
-
-    tmpImage.src = image;
-
-    const isNumeric = (s?: string | string[]) => s && Number.isFinite(+s);
-
-    setSeed({
-      accessory: isNumeric(query.accessory)
-        ? Number(query.accessory)
-        : seed.accessory,
-      background: isNumeric(query.background)
-        ? Number(query.background)
-        : seed.background,
-      body: isNumeric(query.body) ? Number(query.body) : seed.body,
-      glasses: isNumeric(query.glasses) ? Number(query.glasses) : seed.glasses,
-      head: isNumeric(query.head) ? Number(query.head) : seed.head,
-    });
-
-    replace(`/submit?type=${query.type}`);
-  }, [query.toString(), replace, seed]);
 
   const { mutate: submit, isPending: isSubmitting } = useSignedInMutation({
     mutationFn: () => {
@@ -169,7 +184,7 @@ const Submit = () => {
       }).then((res) => res.json() as Promise<{ id: number }>);
     },
     onSuccess: ({ id }) => {
-      push(`/trait/${id}`);
+      router.push(`/trait/${id}`);
     },
   });
 
@@ -184,10 +199,10 @@ const Submit = () => {
     if (!traitFile || !traitCanvas) return;
     const reader = new FileReader();
     reader.onload = function () {
+      console.log("reader.result", reader.result);
       const img = new Image();
       img.onload = () => {
-        const ctx = traitCanvas?.getContext("2d");
-        if (!ctx) return;
+        const ctx = traitCanvas.getContext("2d")!;
         ctx.imageSmoothingEnabled = false;
         ctx.clearRect(0, 0, 32, 32);
         ctx.drawImage(img, 0, 0, 32, 32);
@@ -196,6 +211,16 @@ const Submit = () => {
     };
     reader.readAsDataURL(traitFile);
   }, [traitFile, traitCanvas]);
+
+  useEffect(() => {
+    if (!traitBitmap || !traitCanvas) return;
+
+    const ctx = traitCanvas.getContext("2d");
+    if (!ctx) return;
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, 32, 32);
+    ctx.drawImage(traitBitmap, 0, 0, 32, 32);
+  }, [traitBitmap, traitCanvas]);
 
   return (
     <>
@@ -324,11 +349,11 @@ const Submit = () => {
                     }
                     type={traitType}
                     image={
-                      <canvas
-                        ref={setTraitCanvas}
-                        className="bg-checkerboard w-full"
-                        width={32}
-                        height={32}
+                      <Noun
+                        {...{ [traitType]: traitBitmap }}
+                        withCheckerboardBg
+                        size={32}
+                        className="w-full"
                       />
                     }
                     previewImage={
@@ -391,6 +416,4 @@ const Submit = () => {
       </Dynamic>
     </>
   );
-};
-
-export default Submit;
+}

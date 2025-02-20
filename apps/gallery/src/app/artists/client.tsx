@@ -1,29 +1,20 @@
 "use client";
-import { getArtistStats } from "@/app/api/artists/stats/getArtistStats";
+
 import { UserBadge } from "@/components/UserBadge";
 import { UserStats } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
-import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 
-export const getStaticProps: GetStaticProps<{
-  artistsStats: UserStats[];
-}> = async () => {
-  const artistsStats = await getArtistStats();
-  return {
-    props: { artistsStats: artistsStats as UserStats[] },
-    revalidate: 900,
-  };
-};
+interface ArtistsClientProps {
+  initialArtistsStats: UserStats[];
+}
 
-const ArtistsPage: NextPage<{ artistsStats: UserStats[] }> = ({
-  artistsStats: initialArtistsStats,
-}) => {
+export function ArtistsClient({ initialArtistsStats }: ArtistsClientProps) {
   const { data: artistsStats } = useQuery({
     queryKey: ["artistsStats"],
     queryFn: () =>
       fetch("/api/artists/stats").then(
-        (res) => res.json() as Promise<UserStats[]>
+        (res) => res.json() as Promise<UserStats[]>,
       ),
     initialData: initialArtistsStats,
     staleTime: 1000 * 60 * 5,
@@ -49,6 +40,4 @@ const ArtistsPage: NextPage<{ artistsStats: UserStats[] }> = ({
       </div>
     </div>
   );
-};
-
-export default ArtistsPage;
+}

@@ -1,5 +1,6 @@
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { NounTraits } from "@/types/noun";
+import { TRANSPARENT_HEX } from "noggles";
 import {
   FC,
   HtmlHTMLAttributes,
@@ -12,7 +13,7 @@ import { twMerge } from "tailwind-merge";
 
 export interface NounProps
   extends Partial<Omit<NounTraits, "background">>,
-    Pick<NounTraits, "background">,
+    Partial<Pick<NounTraits, "background">>,
     HtmlHTMLAttributes<HTMLDivElement> {
   margin?: number;
   size: number;
@@ -44,7 +45,7 @@ export const Noun: FC<NounProps> = ({
   useImperativeHandle(
     canvasRef,
     () => (ready ? (canvas as HTMLCanvasElement) : null),
-    [canvas, ready]
+    [canvas, ready],
   );
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export const Noun: FC<NounProps> = ({
     const ctx = canvas.getContext("2d")!;
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(margin, margin, size, size);
-    ctx.fillStyle = background;
+    ctx.fillStyle = background ?? TRANSPARENT_HEX;
     ctx.fillRect(margin, margin, size, size);
     bodyBitmap && ctx.drawImage(bodyBitmap, margin, margin, size, size);
     accessoryBitmap &&
@@ -90,7 +91,7 @@ export const Noun: FC<NounProps> = ({
         ref={setCanvas}
         className={twMerge(
           withCheckerboardBg ? "bg-checkerboard" : "",
-          "w-full h-full"
+          "w-full h-full",
         )}
       />
     </div>

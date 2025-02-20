@@ -1,4 +1,4 @@
-import { useQueryState } from "next-usequerystate";
+import { useQueryState } from "nuqs";
 import { useEffect } from "react";
 
 export const useIncludeTraitTypes = () => {
