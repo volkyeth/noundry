@@ -1,11 +1,77 @@
 # @noundry/nouns-assets
 
+This is a drop-in replacement for @nouns/assets. This package will be auto-updated as new traits are pushed to the Nouns DAO.
+
+## Replacing @nouns/assets
+
+Just install the package:
+
+```bash
+npm install @noundry/nouns-assets
+```
+
+```bash
+yarn add @noundry/nouns-assets
+```
+
+```bash
+pnpm add @noundry/nouns-assets
+```
+
+Uninstall @nouns/assets
+
+```bash
+npm uninstall @nouns/assets
+```
+
+```bash
+yarn remove @nouns/assets
+```
+
+```bash
+pnpm remove @nouns/assets
+```
+
+Now replace every `@nouns/assets` import in your app for `@noundry/nouns-assets` and you're good to go
+
+## Stay in sync with the onchain artwork
+
+(Browser only, with no SSR support)
+
+To keep your traits always up-to-date with the onchain artwork, without requiring package updates or new deployments, you can include the supplementary script in your app :
+
+```html
+<script src="http://https://assets.noundry.wtf/nouns/image-data.js"></script>
+```
+
+This script is generated on the fly grabbing the latest artwork directly from the Nouns Descriptor contract, and injects it on `window.nounsImageData` for `@noundry/nouns-assets` to use
+
+you should include it before any other scripts, in `html > head`.
+that way, the latest assets will be available when your app loads.
+
+e.g.:
+
+```html
+<!-- Depending on your framework, this might be an index.html file, the global layout.tsx, etc -->
+<html>
+  <head>
+    <script src="http://localhost:3000/nouns/image-data.js" />
+    <!-- any other scripts ... -->
+  </head>
+  <body>
+    <!-- the rest of your app... -->
+  </body>
+</html>
+```
+
+For debug purposes, you can also get the prettified version on For debug purposes, you can get a prettified version on https://assets.noundry.wtf/nouns/image-data.json
+
 ## Development
 
 ### Install dependencies
 
 ```sh
-yarn
+pnpm
 ```
 
 ## Usage
