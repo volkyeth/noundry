@@ -64,7 +64,7 @@ e.g.:
 </html>
 ```
 
-For debug purposes, you can also get the prettified version on For debug purposes, you can get a prettified version on https://assets.noundry.wtf/nouns/image-data.json
+For debug purposes, you can also get the prettified version on https://assets.noundry.wtf/nouns/image-data.json
 
 ## Development
 
