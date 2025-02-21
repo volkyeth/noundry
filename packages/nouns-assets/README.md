@@ -41,7 +41,7 @@ Now replace every `@nouns/assets` import in your app with `@noundry/nouns-assets
 To keep your traits always up-to-date with the onchain artwork, without requiring package updates or new deployments, you can include the supplementary script in your app :
 
 ```html
-<script src="http://https://assets.noundry.wtf/nouns/image-data.js"></script>
+<script src="https://assets.noundry.wtf/nouns/image-data.js"></script>
 ```
 
 This script is generated on the fly grabbing the latest artwork directly from the Nouns Descriptor contract, and injects it on `window.nounsImageData` for `@noundry/nouns-assets` to use
@@ -55,7 +55,7 @@ e.g.:
 <!-- Depending on your framework, this might be an index.html file, the global layout.tsx, etc -->
 <html>
   <head>
-    <script src="http://localhost:3000/nouns/image-data.js" />
+    <script src="https://assets.noundry.wtf/nouns/image-data.js" />
     <!-- any other scripts ... -->
   </head>
   <body>
