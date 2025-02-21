@@ -15,8 +15,8 @@ export default function About() {
         <div className="flex flex-col gap-4 text-lg">
           <div className="flex flex-col gap-4">
             <p className="text-xl my-2 ">
-              Upload your 32x32 pixel images as transparent PNGs, style them
-              using existing NounsDAO assets, and share them with the community!{" "}
+              Publish your Nounish artwork, inspire others and have fun! And
+              when you&apos;re ready, you can submit your artwork to the DAO!{" "}
             </p>
 
             <p className="text-xl my-2 ">
@@ -33,32 +33,11 @@ export default function About() {
               your artwork is added to NounsDAO collection, and becomes CC0.{" "}
             </p>
           </div>
-          <div className="mt-8 mb-2 bg-bright-light dark:bg-off-dark p-6 leading-24 ">
-            <p className="py-2"> Future Features: </p>
-            <li className="">
-              One-click process to submit candidate proposals to NounsDAO
-            </li>
-            <li className="">
-              Farcaster, Twitter and Discord bots letting the community know
-              about newly uploaded traits
-            </li>
-            <li className="">Comments under traits</li>
-            <li className="">
-              Integration with{" "}
-              <a
-                href="https://studio.noundry.wtf/"
-                className=" hover:!text-primary underline"
-                target="_blank"
-              >
-                Noundry Studio
-              </a>{" "}
-            </li>
-          </div>
 
           <div>
             <p className="mb-2 text-md">
               {" "}
-              This project is funded by Nouns via{" "}
+              This project was funded by Nouns via{" "}
               <a
                 href="https://nouns.wtf/vote/375"
                 className=" hover:!text-primary underline"
@@ -72,9 +51,11 @@ export default function About() {
 
           <div>
             <p className="mb-2 text-md">
-              {" "}
-              Get in touch with us on Twitter or Discord if you want to share
-              some feedback or features requests.
+              Get in touch with us on{" "}
+              <a href="https://discord.gg/XbYPDSKVaV" className="underline">
+                Discord
+              </a>{" "}
+              if you want to share some feedback or features requests.
             </p>
           </div>
 
