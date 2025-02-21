@@ -76,13 +76,14 @@ export async function POST(request: Request) {
         method: "POST"
     }).then(res => res.json())) as ProposalDetails;
 
-    const [, traitName, traitType] = propDetails.data.proposals[0].description.match(/^Contribution name: (.+) ([\S]+)$/m)!;
+    const result = propDetails.data.proposals[0].description.match(/^Contribution name: (.+) ([\S]+)$/m)!;
 
-    const traitCategory = getTraitCategory(traitType);
+    const traitName = result?.[1];
+    const traitType = result?.[2]
 
     let traitNames = nounsTraitNames;
 
-    traitNames[traitCategory].push(traitName);
+    if (traitType) traitNames[getTraitCategory(traitType)].push(traitName);
 
     try {
         // Initialize Octokit
@@ -150,7 +151,7 @@ export async function POST(request: Request) {
         const { data: commit } = await octokit.git.createCommit({
             owner: GITHUB_OWNER,
             repo: GITHUB_REPO,
-            message: `Add ${traitName} ${traitType}`,
+            message: `Add ${traitName ? `${traitName} ${traitType}` : "new trait"}`,
             tree: tree.sha,
             parents: [(await octokit.git.getRef({
                 owner: GITHUB_OWNER,
