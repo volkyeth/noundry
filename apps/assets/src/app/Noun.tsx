@@ -8,11 +8,11 @@ import { useMemo } from "react";
 export const InnerNoun = () => {
   const svg = useMemo(() => {
     const { parts, background } = getNounData({
-      accessory: 0,
-      background: 0,
-      body: 30,
-      head: 0,
-      glasses: 0,
+      accessory: ImageData.images.accessories.length - 1,
+      background: ImageData.bgcolors.length - 1,
+      body: ImageData.images.bodies.length - 1,
+      head: ImageData.images.heads.length - 1,
+      glasses: ImageData.images.glasses.length - 1,
     });
 
     return `data:image/svg+xml;base64,${btoa(
