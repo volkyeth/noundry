@@ -113,7 +113,7 @@ export default function About() {
                 unoptimized
               />
               <div className="inline-flex">
-                <p className="mx-2">Volky.eth</p>
+                <p className="mx-2">Volky</p>
                 <div className="px-2 pt-1">
                   <a href="https://twitter.com/volkyeth" target="_blank">
                     <FaTwitter />
