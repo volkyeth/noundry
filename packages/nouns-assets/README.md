@@ -32,7 +32,7 @@ yarn remove @nouns/assets
 pnpm remove @nouns/assets
 ```
 
-Now replace every `@nouns/assets` import in your app for `@noundry/nouns-assets` and you're good to go
+Now replace every `@nouns/assets` import in your app with `@noundry/nouns-assets` and you're good to go
 
 ## Stay in sync with the onchain artwork
 
