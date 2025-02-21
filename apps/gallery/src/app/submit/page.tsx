@@ -26,11 +26,19 @@ import {
   TraitType,
 } from "noggles";
 import { useQueryState } from "nuqs";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 export default function Submit() {
+  return (
+    <Suspense>
+      <InnerSubmit />
+    </Suspense>
+  );
+}
+
+function InnerSubmit() {
   const [traitType, setTraitType] = useQueryState<TraitType | null>("type", {
     parse: (v) => (isTraitType(v) ? v : null),
     history: "push",
