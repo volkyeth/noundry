@@ -1,3 +1,4 @@
+import { revalidateAll } from "@/actions/revalidateAll";
 import { publicClient } from "@/publicClient";
 import * as crypto from "crypto";
 import { NextResponse } from "next/server";
@@ -62,6 +63,8 @@ export async function POST(request: Request) {
     ) {
         return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
+
+    revalidateAll();
 
     const body = JSON.parse(rawBody) as UpdateWebhookBody;
 
