@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="http://localhost:3000/nouns/image-data.js" />
+        <script src="/nouns/image-data.js" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
