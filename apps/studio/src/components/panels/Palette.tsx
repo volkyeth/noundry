@@ -11,41 +11,24 @@ import { CheckerboardBg } from "../CheckerboardBg";
 import { Panel } from "./Panel";
 
 export const Palette = () => {
-  const {
-    setStrokeColor,
-    setFillColor,
-    setPreviousStrokeColor,
-    setPreviousFillColor,
-    activeColor,
-  } = useBrush((state) => ({
+  const { setStrokeColor, setPreviousStrokeColor } = useBrush((state) => ({
     setStrokeColor: state.setStrokeColor,
-    setFillColor: state.setFillColor,
     setPreviousStrokeColor: state.setPreviousStrokeColor,
-    setPreviousFillColor: state.setPreviousFillColor,
-    activeColor: state.activeColor,
   }));
   const activePartState = useNounState((state) => state[state.activePart!]);
 
   const setColor = useCallback(
     (color: string) => {
-      if (activeColor === "stroke") {
-        setStrokeColor(color);
-      } else {
-        setFillColor(color);
-      }
+      setStrokeColor(color);
     },
-    [activeColor, setStrokeColor, setFillColor]
+    [setStrokeColor]
   );
 
   const setPreviousColor = useCallback(
     (color: string) => {
-      if (activeColor === "stroke") {
-        setPreviousStrokeColor(color);
-      } else {
-        setPreviousFillColor(color);
-      }
+      setPreviousStrokeColor(color);
     },
-    [activeColor, setPreviousStrokeColor, setPreviousFillColor]
+    [setPreviousStrokeColor]
   );
 
   // Use react-color-palette's useColor hook

@@ -7,6 +7,8 @@ import {
   EllipticalSelection,
   Eraser,
   Eyedropper,
+  FilledEllipse,
+  FilledRectangle,
   Line,
   Move,
   Rectangle,
@@ -187,8 +189,13 @@ export const EditMode: WorkspaceMode = {
             case "Line":
               return { tool: Rectangle() };
             case "Rectangle":
+              return { tool: FilledRectangle() };
+            case "Filled Rectangle":
               return { tool: Ellipse() };
             case "Ellipse":
+              return { tool: FilledEllipse() };
+            case "Filled Ellipse":
+              return { tool: Line() };
             default:
               return { tool: Line() };
           }
@@ -211,14 +218,7 @@ export const EditMode: WorkspaceMode = {
         }),
       description: "Cycle between Rectangular and Elliptical Marquee tool",
     },
-    {
-      commands: ["x"],
-      callback: () =>
-        useBrush.setState((state) => {
-          return { strokeColor: state.fillColor, fillColor: state.strokeColor };
-        }),
-      description: "Switch Foreground/Background colors",
-    },
+
     { commands: ["i"], callback: () => useToolboxState.setState({ tool: Eyedropper() }), description: "Eyedropper tool" },
     { commands: ["?"], callback: () => useCheatSheetState.getState().toggle(), description: "Open cheat sheet" },
   ],

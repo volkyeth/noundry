@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Brush, Bucket, Ellipse, EllipticalSelection, Eraser, Line, Move, Rectangle, RectangularSelection, Tool } from "../tools/tools";
+import { Brush, Bucket, Ellipse, EllipticalSelection, Eraser, Eyedropper, FilledEllipse, FilledRectangle, Line, Move, Rectangle, RectangularSelection, Tool } from "../tools/tools";
 
 export type ToolboxState = {
   tool: Tool;
@@ -12,4 +12,17 @@ export const useToolboxState = create<ToolboxState>()((set) => ({
 }));
 
 
-export const tools = [Brush(), Eraser(), Line(), Rectangle(), Ellipse(), Bucket(), Move(), RectangularSelection(), EllipticalSelection()]
+export const tools = [
+  Brush(),
+  Eraser(),
+  Rectangle(),
+  FilledRectangle(),
+  Ellipse(),
+  FilledEllipse(),
+  Line(),
+  Bucket(),
+  RectangularSelection(),
+  Move(),
+  EllipticalSelection(),
+  Eyedropper(),
+]

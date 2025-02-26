@@ -1,8 +1,6 @@
 import {
   Box,
   CenterProps,
-  Grid,
-  GridItem,
   HStack,
   IconProps,
   Kbd,
@@ -16,14 +14,12 @@ import { FC } from "react";
 import { Panel } from "./Panel";
 
 import { IconType } from "react-icons";
-import { CgCornerDoubleRightDown } from "react-icons/cg";
 import { FaSquareFull } from "react-icons/fa";
 import { MdRedo, MdUndo } from "react-icons/md";
 import { useBrush } from "../../model/Brush";
 import { useNounState } from "../../model/Noun";
 import { tools, useToolboxState } from "../../model/Toolbox";
 import { useWorkspaceState } from "../../model/Workspace";
-import { Eyedropper } from "../../tools/tools";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { ReactIcon } from "../ReactIcon";
 
@@ -32,17 +28,9 @@ export type ToolboxProps = {};
 type ColorBoxProps = {
   color: string;
   previousColor: string;
-  type: "stroke" | "fill";
 } & Omit<CenterProps, "color">;
 
-const ColorBox: FC<ColorBoxProps> = ({
-  color,
-  previousColor,
-  type,
-  ...props
-}) => {
-  const W = "12px";
-
+const ColorBox: FC<ColorBoxProps> = ({ color, previousColor, ...props }) => {
   return (
     <CheckerboardBg
       patternRepetitions={4}
@@ -50,12 +38,6 @@ const ColorBox: FC<ColorBoxProps> = ({
       h={"full"}
       borderWidth={1}
       borderColor={"gray.800"}
-      clipPath={
-        type === "stroke"
-          ? `polygon(0% 0%, 0% 100%, ${W} 100%, ${W} ${W}, calc(100% - ${W}) ${W}, calc(100% - ${W}) calc(100% - ${W}), ${W} calc(100% - ${W}), ${W} 100%, 100% 100%, 100% 0%);`
-          : undefined
-      }
-      style={{ clipRule: "evenodd" }}
       {...props}
     >
       <HStack w="full" h="full" spacing={0} position={"relative"}>
@@ -75,18 +57,6 @@ const ColorBox: FC<ColorBoxProps> = ({
           w="50%"
           h="full"
         />
-        {type === "stroke" && (
-          <Box
-            position={"absolute"}
-            top={`calc(${W} - 3px)`}
-            left={`calc(${W} - 3px)`}
-            w={`calc(100% - 2 * ${W} + 6px)`}
-            h={`calc(100% - 2 * ${W} + 6px)`}
-            bgColor={"gray.800"}
-            borderWidth={1}
-            borderColor={"gray.200"}
-          />
-        )}
       </HStack>
     </CheckerboardBg>
   );
@@ -96,24 +66,15 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
   const { tool, selectTool } = useToolboxState();
   const {
     strokeColor,
-    fillColor,
     previousStrokeColor,
-    previousFillColor,
-    setPreviousFillColor,
     setPreviousStrokeColor,
     setStrokeColor,
-    setFillColor,
     brushSize,
     setBrushSize,
-    activeColor,
-    setActiveColor,
   } = useBrush();
-  const eyedropper = Eyedropper();
 
   const mode = useWorkspaceState((state) => state.mode);
   const showHotkeys = true;
-
-  console.log(activeColor);
 
   return (
     <Panel title="Toolbox" position={"relative"}>
@@ -145,62 +106,13 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
         </SimpleGrid>
         <HistoryNavigation />
         <HStack alignItems={"end"}>
-          <Grid
-            w={16}
-            h={16}
-            templateRows="repeat(6, 1fr)"
-            gap={0}
-            templateColumns="repeat(6, 1fr)"
-          >
-            <GridItem
-              gridArea="3 / 3 / 7 / 7"
-              zIndex={activeColor === "fill" ? 20 : undefined}
-            >
-              <ColorBox
-                type="fill"
-                color={fillColor}
-                previousColor={previousFillColor}
-                onClick={() => setActiveColor("fill")}
-                cursor={"pointer"}
-              />
-            </GridItem>
-            <GridItem
-              gridArea="1 / 1 / 5 / 5"
-              zIndex={activeColor === "stroke" ? 20 : undefined}
-            >
-              <ColorBox
-                type="stroke"
-                color={strokeColor}
-                previousColor={previousStrokeColor}
-                onClick={() => setActiveColor("stroke")}
-                cursor={"pointer"}
-              />
-            </GridItem>
-            <GridItem gridArea="1 / 5 / 3 / 7">
-              <Tool
-                p={1}
-                w="full"
-                h="full"
-                name={"Swap colors"}
-                icon={CgCornerDoubleRightDown}
-                action={() => {
-                  setPreviousStrokeColor(fillColor);
-                  setStrokeColor(fillColor);
-                  setFillColor(strokeColor);
-                  setPreviousFillColor(strokeColor);
-                }}
-              />
-            </GridItem>
-          </Grid>
-
-          <Tool
-            name={eyedropper.name}
-            icon={eyedropper.icon}
-            action={() => {
-              selectTool(eyedropper);
-            }}
-            isActive={eyedropper.name === tool.name}
-          />
+          <Box w={16} h={16}>
+            <ColorBox
+              color={strokeColor}
+              previousColor={previousStrokeColor}
+              cursor={"pointer"}
+            />
+          </Box>
         </HStack>
       </VStack>
       {mode.name === "Placing" && (

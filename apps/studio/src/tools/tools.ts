@@ -20,6 +20,8 @@ export { Bucket } from "./Bucket";
 export { Ellipse } from "./Ellipse";
 export { Eraser } from "./Eraser";
 export { Eyedropper } from "./Eyedropper";
+export { FilledEllipse } from "./FilledEllipse";
+export { FilledRectangle } from "./FilledRectangle";
 export { Line } from "./Line";
 export { Move } from "./Move";
 export { Rectangle } from "./Rectangle";

@@ -10,12 +10,12 @@ import { inCanvas } from "./utils";
 export const Bucket = (): Tool => ({
   apply: (points, canvas) => {
     const ctx = canvas.getContext("2d")!;
-    const { fillColor: color } = useBrush.getState();
+    const { strokeColor } = useBrush.getState();
 
     const lastPoint = points[points.length - 1];
-    const fillColor = colord(color);
+    const fillColor = colord(strokeColor);
 
-    ctx.fillStyle = color;
+    ctx.fillStyle = strokeColor;
 
     // withSelectionClip(ctx, () => {
     floodFill(ctx, lastPoint, fillColor);
