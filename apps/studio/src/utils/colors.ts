@@ -17,7 +17,7 @@ export const offPalette = (color: Colord) => {
 };
 
 export const getClosestPaletteColors = (color: Colord, amount: number) => {
-  return sortBy(nounsClassicPalette, (c) => c.delta(color))!.slice(0, amount);
+  return sortBy(nounsClassicPalette.slice(1), (c) => c.delta(color))!.slice(0, amount);
 };
 
 const sortColors = (colorA: Colord, colorB: Colord) => {
