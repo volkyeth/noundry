@@ -1,28 +1,14 @@
 import { create } from "zustand";
-import { Brush, Bucket, Ellipse, EllipticalSelection, Eraser, Eyedropper, FilledEllipse, FilledRectangle, Line, Move, Rectangle, RectangularSelection, Tool } from "../tools/tools";
+import { Brush, Tool } from "../tools/tools";
 
 export type ToolboxState = {
   tool: Tool;
+  previousTool: Tool;
   selectTool: (tool: Tool) => void;
 };
 
 export const useToolboxState = create<ToolboxState>()((set) => ({
   tool: Brush(),
-  selectTool: (tool: Tool) => set({ tool }),
+  previousTool: Brush(),
+  selectTool: (tool: Tool) => set(previous => tool.name === previous.tool.name ? previous : ({ tool, previousTool: previous.tool })),
 }));
-
-
-export const tools = [
-  Brush(),
-  Eraser(),
-  Rectangle(),
-  FilledRectangle(),
-  Ellipse(),
-  FilledEllipse(),
-  Line(),
-  Bucket(),
-  RectangularSelection(),
-  Move(),
-  EllipticalSelection(),
-  Eyedropper(),
-]

@@ -1,5 +1,6 @@
 import { RiSipFill } from "react-icons/ri";
 import { useBrush } from "../model/Brush";
+import { useToolboxState } from "../model/Toolbox";
 import { Tool } from "./types";
 
 export const Eyedropper = (): Tool => ({
@@ -17,6 +18,8 @@ export const Eyedropper = (): Tool => ({
 
     setColor(`#${color}`);
     setPreviousColor(`#${color}`);
+    const { selectTool, previousTool } = useToolboxState.getState()
+    selectTool(previousTool);
   },
   name: "Eyedropper",
   icon: RiSipFill,

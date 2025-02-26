@@ -18,8 +18,22 @@ import { FaSquareFull } from "react-icons/fa";
 import { MdRedo, MdUndo } from "react-icons/md";
 import { useBrush } from "../../model/Brush";
 import { useNounState } from "../../model/Noun";
-import { tools, useToolboxState } from "../../model/Toolbox";
+import { useToolboxState } from "../../model/Toolbox";
 import { useWorkspaceState } from "../../model/Workspace";
+import { Brush } from "../../tools/Brush";
+import { Bucket } from "../../tools/Bucket";
+import { Ellipse } from "../../tools/Ellipse";
+import { Eraser } from "../../tools/Eraser";
+import { Eyedropper } from "../../tools/Eyedropper";
+import { FilledEllipse } from "../../tools/FilledEllipse";
+import { FilledRectangle } from "../../tools/FilledRectangle";
+import { Line } from "../../tools/Line";
+import { Move } from "../../tools/Move";
+import { Rectangle } from "../../tools/Rectangle";
+import {
+  EllipticalSelection,
+  RectangularSelection,
+} from "../../tools/selections";
 import { CheckerboardBg } from "../CheckerboardBg";
 import { ReactIcon } from "../ReactIcon";
 
@@ -92,7 +106,20 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
           ))}
         </HStack>
         <SimpleGrid columns={2} spacing={4}>
-          {tools.map((t) => (
+          {[
+            Brush(),
+            Eraser(),
+            Rectangle(),
+            FilledRectangle(),
+            Ellipse(),
+            FilledEllipse(),
+            Line(),
+            Bucket(),
+            RectangularSelection(),
+            Move(),
+            EllipticalSelection(),
+            Eyedropper(),
+          ].map((t) => (
             <Tool
               key={t.name}
               name={t.name}

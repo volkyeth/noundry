@@ -169,7 +169,7 @@ export const EditMode: WorkspaceMode = {
       },
       description: "Paste",
     },
-    { commands: ["b"], callback: () => useToolboxState.setState({ tool: BrushTool() }), description: "Brush tool" },
+    { commands: ["b"], callback: () => useToolboxState.getState().selectTool(BrushTool()), description: "Brush tool" },
     {
       commands: ["["],
       callback: () => useBrush.setState(({ brushSize }) => ({ brushSize: Math.max(brushSize - 1, 1) })),
@@ -180,46 +180,41 @@ export const EditMode: WorkspaceMode = {
       callback: () => useBrush.setState(({ brushSize }) => ({ brushSize: Math.min(brushSize + 1, 6) })),
       description: "Increase brush size",
     },
-    { commands: ["e"], callback: () => useToolboxState.setState({ tool: Eraser() }), description: "Eraser tool" },
+    { commands: ["e"], callback: () => useToolboxState.getState().selectTool(Eraser()), description: "Eraser tool" },
     {
       commands: ["u"],
-      callback: () =>
-        useToolboxState.setState((state) => {
-          switch (state.tool.name) {
-            case "Line":
-              return { tool: Rectangle() };
-            case "Rectangle":
-              return { tool: FilledRectangle() };
-            case "Filled Rectangle":
-              return { tool: Ellipse() };
-            case "Ellipse":
-              return { tool: FilledEllipse() };
-            case "Filled Ellipse":
-              return { tool: Line() };
-            default:
-              return { tool: Line() };
-          }
-        }),
+      callback: () => {
+        const { tool, selectTool } = useToolboxState.getState();
+        if (tool.name === "Line") {
+          selectTool(Rectangle());
+        } else if (tool.name === "Rectangle") {
+          selectTool(FilledRectangle());
+        } else if (tool.name === "Filled Rectangle") {
+          selectTool(Ellipse());
+        } else if (tool.name === "Ellipse") {
+          selectTool(FilledEllipse());
+        } else if (tool.name === "Filled Ellipse") {
+          selectTool(Line());
+        } else {
+          selectTool(Line());
+        }
+      },
       description: "Cycle between Line, Rectangle and Ellipse tool",
     },
-    { commands: ["g"], callback: () => useToolboxState.setState({ tool: Bucket() }), description: "Bucket tool" },
-    { commands: ["v"], callback: () => useToolboxState.setState({ tool: Move() }), description: "Move tool" },
+    { commands: ["g"], callback: () => useToolboxState.getState().selectTool(Bucket()), description: "Bucket tool" },
+    { commands: ["v"], callback: () => useToolboxState.getState().selectTool(Move()), description: "Move tool" },
     {
       commands: ["m"],
-      callback: () =>
-        useToolboxState.setState((state) => {
-          switch (state.tool.name) {
-            case "Rectangular Selection":
-              return { tool: EllipticalSelection() };
-            case "Elliptical Selection":
-            default:
-              return { tool: RectangularSelection() };
-          }
-        }),
+      callback: () => {
+        const { tool, selectTool } = useToolboxState.getState();
+        if (tool.name === "Rectangular Selection") selectTool(EllipticalSelection());
+        else if (tool.name === "Elliptical Selection") selectTool(RectangularSelection());
+        else selectTool(RectangularSelection());
+      },
       description: "Cycle between Rectangular and Elliptical Marquee tool",
     },
 
-    { commands: ["i"], callback: () => useToolboxState.setState({ tool: Eyedropper() }), description: "Eyedropper tool" },
+    { commands: ["i"], callback: () => useToolboxState.getState().selectTool(Eyedropper()), description: "Eyedropper tool" },
     { commands: ["?"], callback: () => useCheatSheetState.getState().toggle(), description: "Open cheat sheet" },
   ],
 };
