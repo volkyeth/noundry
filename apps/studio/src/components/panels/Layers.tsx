@@ -1,5 +1,5 @@
 import galleryIcon from "@/assets/gallery.png";
-import { HStack, Text, VStack } from "@chakra-ui/layout";
+import { Box, HStack, Text, VStack } from "@chakra-ui/layout";
 import { FC, SVGProps, useState } from "react";
 
 import {
@@ -25,6 +25,7 @@ import { NounPartType } from "../../types/noun";
 import { nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
 import { ImportModal } from "../ImportModal";
+import { PartSelectionDialog } from "../PartSelectionDialog";
 import { ReactIcon } from "../ReactIcon";
 import { Panel } from "./Panel";
 
@@ -68,11 +69,25 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
     onOpen: onImportOpen,
     onClose: onImportClose,
   } = useDisclosure();
+  const {
+    isOpen: isPartSelectionOpen,
+    onOpen: onPartSelectionOpen,
+    onClose: onPartSelectionClose,
+  } = useDisclosure();
   const partState = state[part];
   const [exportedPart, setExportedPart] = useState<NounPartType>();
   const randomizeAllHovered = useWorkspaceState(
     (state) => state.randomizeAllHovered
   );
+
+  const handlePartIconClick = (e: React.MouseEvent) => {
+    if (!partState.edited) {
+      onPartSelectionOpen();
+      e.stopPropagation();
+    } else {
+      activatePart(part);
+    }
+  };
 
   return (
     <>
@@ -111,7 +126,13 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
             activatePart(part);
           }}
         >
-          <PartIcon width={48} height={48} />
+          <Box
+            onClick={handlePartIconClick}
+            _hover={{ color: !partState.edited ? "gray.900" : undefined }}
+            cursor="pointer"
+          >
+            <PartIcon width={48} height={48} />
+          </Box>
           <Text flexGrow={1}>{nounPartName[part].toUpperCase()}</Text>
           <HStack color="gray.700" px={3}>
             {partState.edited ? (
@@ -209,6 +230,12 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
         onClose={onExportClose}
       />
       <ImportModal part={part} isOpen={isImportOpen} onClose={onImportClose} />
+      <PartSelectionDialog
+        part={part}
+        partState={partState}
+        isOpen={isPartSelectionOpen}
+        onClose={onPartSelectionClose}
+      />
     </>
   );
 };
