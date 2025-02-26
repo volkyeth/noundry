@@ -19,9 +19,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { RiEraserFill, RiFolderOpenFill, RiSave3Fill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 import { useNounState } from "../../model/Noun";
-import { NounPartState } from "../../model/NounPart";
 import { useWorkspaceState } from "../../model/Workspace";
 import { NounPartType } from "../../types/noun";
 import { nounPartIcon, nounPartName, nounParts } from "../../utils/constants";
@@ -57,7 +55,6 @@ export type PartSelectorProps = {
 };
 
 export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
-  const navigate = useNavigate();
   const state = useNounState();
   const { activePart, activatePart } = state;
   const active = activePart === part;
@@ -73,13 +70,9 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
   } = useDisclosure();
   const partState = state[part];
   const [exportedPart, setExportedPart] = useState<NounPartType>();
-  const fileLoader = document.createElement("input");
   const randomizeAllHovered = useWorkspaceState(
     (state) => state.randomizeAllHovered
   );
-  fileLoader.type = "file";
-  fileLoader.accept = "image/x-png";
-  fileLoader.onchange = loadFile(partState);
 
   return (
     <>
@@ -176,29 +169,6 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
                   >
                     Submit to Gallery
                   </MenuItem>
-                  // <ActionMenuItem
-                  //   // icon={GiDiceSixFacesThree}
-                  //   imgIcon={<img src={galleryIcon} />}
-                  //   onClick={() => {
-                  //     const params = {
-                  //       background: `${state.background.seed ?? ""}`,
-                  //       body: `${state.body.seed ?? ""}`,
-                  //       head: `${state.head.seed ?? ""}`,
-                  //       accessory: `${state.accessory.seed ?? ""}`,
-                  //       glasses: `${state.glasses.seed ?? ""}`,
-                  //       [part]: partState.canvas.toDataURL("image/png"),
-                  //       type: part,
-                  //     };
-
-                  //     const query = new URLSearchParams(params);
-
-                  //     navigate(
-                  //       `${import.meta.env.VITE_GALLERY_URL}/submit?${query}`
-                  //     );
-                  //   }}
-                  // >
-                  //   Submit to Gallery
-                  // </ActionMenuItem>
                 )}
                 {partState.edited && (
                   <ActionMenuItem
@@ -260,57 +230,3 @@ const ActionMenuItem: FC<ActionMenuItemProps> = ({
     {children}
   </MenuItem>
 );
-
-const loadFile = (partState: NounPartState) => (e: Event) => {
-  const file = (e.target as HTMLInputElement).files![0];
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    if (reader.readyState !== FileReader.DONE) {
-      return;
-    }
-
-    const canvas = partState.canvas;
-
-    var img = new Image();
-    img.onload = () => {
-      // console.log("image loaded");
-      // clearCanvas(canvas);
-      // const ctx = canvas.getContext("2d")!;
-      // ctx.imageSmoothingEnabled = false;
-      // ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      // const imageDataAsHex = chunk(imageData.data, 4).map(([r, g, b, a]) => colord({ r, g, b, a: Math.floor(a / 255) }).toHex());
-      // const palette = uniq(imageDataAsHex);
-      // console.log(palette);
-      // const offPaletteColors = palette.map(colord).filter(offPalette);
-      // if (offPaletteColors.length === 0) {
-      //   console.log("some colors are out of palette");
-      //   const substitutes = offPaletteColors.reduce(
-      //     (substitutes, color) => ({
-      //       ...substitutes,
-      //       [color.toHex()]: getClosestPaletteColor(color).toHex(),
-      //     }),
-      //     {} as { [key: string]: string }
-      //   );
-      //   console.log({ substitutes });
-      //   const colorsToSubstitute = Object.keys(substitutes);
-      //   console.log(imageDataAsHex);
-      //   const adjustedImageData = imageDataAsHex
-      //     .map((color) => (colorsToSubstitute.includes(color) ? substitutes[color] : color))
-      //     .map(colord)
-      //     .map((color) => color.toRgb())
-      //     .flatMap(({ r, g, b, a }) => [r, g, b, a === 1 ? 255 : 0]);
-      //   console.log(adjustedImageData);
-      //   const updatedImageData = ctx.createImageData(canvas.width, canvas.height);
-      //   updatedImageData.data.set(Uint8ClampedArray.from(adjustedImageData));
-      //   ctx.putImageData(updatedImageData, 0, 0);
-      // }
-      // partState.commit();
-    };
-
-    img.src = reader.result as string;
-  };
-
-  reader.readAsDataURL(file);
-};
