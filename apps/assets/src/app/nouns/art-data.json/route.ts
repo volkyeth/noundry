@@ -1,15 +1,16 @@
-
+import { CACHE_CONTROL, CDN_CACHE_DURATION } from "@/config/cache";
 import { publicClient } from "@/publicClient";
 import { NextResponse } from "next/server";
 import { fetchOnchainNounsArtData } from "noggles";
 
-export const revalidate = 900;
+// Set revalidation time to match CDN cache duration
+export const revalidate = CDN_CACHE_DURATION;
 
 export async function GET() {
-    return new NextResponse(JSON.stringify(await fetchOnchainNounsArtData(publicClient)), {
+  return new NextResponse(JSON.stringify(await fetchOnchainNounsArtData(publicClient)), {
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=604800`
+      'Cache-Control': CACHE_CONTROL
     },
   });
 }
