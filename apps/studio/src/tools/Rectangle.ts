@@ -5,7 +5,7 @@ import { getBoundingBoxIncludingBrush, withSelectionClip } from "./utils";
 
 export const Rectangle = (): Tool => ({
   apply: (points, canvas) => {
-    const { strokeColor, brushSize } = useBrush.getState();
+    const { color, brushSize } = useBrush.getState();
     const transparentFill = "#00000000"; // Transparent fill
 
     const { start, end } = getBoundingBoxIncludingBrush(points, brushSize);
@@ -20,8 +20,8 @@ export const Rectangle = (): Tool => ({
       ctx.fillStyle = transparentFill;
       ctx.fillRect(start.x, start.y, width, height);
 
-      // Use stroke color for the outline
-      ctx.fillStyle = strokeColor;
+      // Use color for the outline
+      ctx.fillStyle = color;
       ctx.fillRect(start.x, start.y, width, brushSize);
       ctx.fillRect(end.x + 1, end.y + 1, -width, -brushSize);
       ctx.fillRect(start.x, start.y, brushSize, height);

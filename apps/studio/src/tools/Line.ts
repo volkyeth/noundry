@@ -6,11 +6,11 @@ import { withSelectionClip } from "./utils";
 
 export const Line = (): Tool => ({
   apply: (points, canvas) => {
-    const { strokeColor, brushSize } = useBrush.getState();
+    const { color, brushSize } = useBrush.getState();
 
     const ctx = canvas.getContext("2d")!;
     withSelectionClip(ctx, () => {
-      drawLine(points[points.length > 1 ? 1 : 0], points[Math.max(0, points.length - 2)], strokeColor, brushSize, ctx);
+      drawLine(points[points.length > 1 ? 1 : 0], points[Math.max(0, points.length - 2)], color, brushSize, ctx);
     });
   },
   name: "Line",

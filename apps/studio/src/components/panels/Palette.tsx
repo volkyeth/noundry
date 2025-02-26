@@ -11,24 +11,24 @@ import { CheckerboardBg } from "../CheckerboardBg";
 import { Panel } from "./Panel";
 
 export const Palette = () => {
-  const { setStrokeColor, setPreviousStrokeColor } = useBrush((state) => ({
-    setStrokeColor: state.setStrokeColor,
-    setPreviousStrokeColor: state.setPreviousStrokeColor,
+  const { setColor, setPreviousColor } = useBrush((state) => ({
+    setColor: state.setColor,
+    setPreviousColor: state.setPreviousColor,
   }));
   const activePartState = useNounState((state) => state[state.activePart!]);
 
-  const setColor = useCallback(
+  const setCurrentColor = useCallback(
     (color: string) => {
-      setStrokeColor(color);
+      setColor(color);
     },
-    [setStrokeColor]
+    [setColor]
   );
 
-  const setPreviousColor = useCallback(
+  const setPrevColor = useCallback(
     (color: string) => {
-      setPreviousStrokeColor(color);
+      setPreviousColor(color);
     },
-    [setPreviousStrokeColor]
+    [setPreviousColor]
   );
 
   // Use react-color-palette's useColor hook
@@ -45,12 +45,12 @@ export const Palette = () => {
     setPickerColor(newColor);
     // But snap the actual selected color and fg color
     const closestHex = getClosestPaletteColor(newColor.hex);
-    setColor(closestHex);
+    setCurrentColor(closestHex);
   };
 
   const handleSaturationChangeComplete = (newColor: any) => {
     const closestHex = getClosestPaletteColor(newColor.hex);
-    setPreviousColor(closestHex);
+    setPrevColor(closestHex);
     setPickerColor(ColorService.convert("hex", closestHex));
   };
 
@@ -103,8 +103,8 @@ export const Palette = () => {
                     rgb: { r: 0, g: 0, b: 0, a: 0 },
                     hsv: { h: 0, s: 0, v: 0, a: 0 },
                   });
-                  setColor(colorHex);
-                  setPreviousColor(colorHex);
+                  setCurrentColor(colorHex);
+                  setPrevColor(colorHex);
                 }}
               />
             ) : (
@@ -119,8 +119,8 @@ export const Palette = () => {
                   const rgb = c.toRgb();
                   const hsv = c.toHsv();
                   setPickerColor({ hex: colorHex, rgb, hsv });
-                  setColor(colorHex);
-                  setPreviousColor(colorHex);
+                  setCurrentColor(colorHex);
+                  setPrevColor(colorHex);
                 }}
               />
             )

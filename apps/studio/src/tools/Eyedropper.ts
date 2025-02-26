@@ -10,17 +10,13 @@ export const Eyedropper = (): Tool => ({
 
     const color = [r, g, b, a].map((i) => i.toString(16).padStart(2, "0")).join("");
 
-    const { setStrokeColor, setPreviousStrokeColor, setFillColor, setPreviousFillColor, activeColor } = useBrush.getState();
+    const { setColor, setPreviousColor } = useBrush.getState();
     if (color === "00000000") {
       return;
     }
-    if (activeColor === "stroke") {
-      setStrokeColor(`#${color}`);
-      setPreviousStrokeColor(`#${color}`);
-    } else {
-      setFillColor(`#${color}`);
-      setPreviousFillColor(`#${color}`);
-    }
+
+    setColor(`#${color}`);
+    setPreviousColor(`#${color}`);
   },
   name: "Eyedropper",
   icon: RiSipFill,

@@ -6,13 +6,13 @@ import { withSelectionClip } from "./utils";
 
 export const FilledEllipse = (): Tool => ({
     apply: (points, canvas) => {
-        const { strokeColor, brushSize } = useBrush.getState();
+        const { color, brushSize } = useBrush.getState();
         const ctx = canvas.getContext("2d")!;
         const fill = true;
 
         withSelectionClip(ctx, () => {
-            // Use stroke color for both fill and outline
-            ctx.fillStyle = strokeColor;
+            // Use color for both fill and outline
+            ctx.fillStyle = color;
             ellipse(points, brushSize, fill, (x, y, w, h) => ctx.fillRect(x, y, w, h));
             ellipse(points, brushSize, !fill, (x, y, w, h) => ctx.fillRect(x, y, w, h));
         });

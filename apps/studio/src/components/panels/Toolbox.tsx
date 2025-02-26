@@ -65,10 +65,10 @@ const ColorBox: FC<ColorBoxProps> = ({ color, previousColor, ...props }) => {
 export const Toolbox: FC<ToolboxProps> = ({}) => {
   const { tool, selectTool } = useToolboxState();
   const {
-    strokeColor,
-    previousStrokeColor,
-    setPreviousStrokeColor,
-    setStrokeColor,
+    color,
+    previousColor,
+    setPreviousColor,
+    setColor,
     brushSize,
     setBrushSize,
   } = useBrush();
@@ -108,8 +108,8 @@ export const Toolbox: FC<ToolboxProps> = ({}) => {
         <HStack alignItems={"end"}>
           <Box w={16} h={16}>
             <ColorBox
-              color={strokeColor}
-              previousColor={previousStrokeColor}
+              color={color}
+              previousColor={previousColor}
               cursor={"pointer"}
             />
           </Box>
