@@ -1,6 +1,8 @@
+import { deleteTraitFromFarcaster } from "@/app/actions/trait/castOnFarcaster";
+import { deleteTraitFromDiscord } from "@/app/actions/trait/postOnDiscord";
+import { deleteTraitFromTwitter } from "@/app/actions/trait/postOnTwitter";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
-import { inngest } from "@/utils/inngest/client";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -11,11 +13,11 @@ export async function GET(req: NextRequest, { params: { id } }) {
   return NextResponse.json(await getTrait(id, { requester: session.address }));
 }
 
-export async function DELETE(req: NextRequest, { params: { id } }) {
+export async function DELETE(req: NextRequest, { params: { id: traitId } }) {
   const session = await Session.fromRequest(req);
   assertSiwe(session);
 
-  const trait = await getTrait(id);
+  const trait = await getTrait(traitId);
 
   if (!trait) return NextResponse.json({}, { status: 200 });
 
@@ -25,17 +27,48 @@ export async function DELETE(req: NextRequest, { params: { id } }) {
       { status: 403 }
     );
 
+  // Delete Twitter post if it exists
+  if (trait.twitterPostId) {
+    try {
+      await deleteTraitFromTwitter(trait.twitterPostId);
+      console.log(`Deleted Twitter post for trait ${traitId}`);
+    } catch (error) {
+      console.error(`Error deleting Twitter post for trait ${traitId}:`, error);
+    }
+  }
+
+  // Delete Farcaster post if it exists
+  if (trait.farcasterCastHash) {
+    try {
+      await deleteTraitFromFarcaster(trait.farcasterCastHash);
+      console.log(`Deleted Farcaster post for trait ${traitId}`);
+    } catch (error) {
+      console.error(`Error deleting Farcaster post for trait ${traitId}:`, error);
+    }
+  }
+
+  // Delete Discord post if it exists
+  if (trait.discordPostId) {
+    try {
+      const channelId = process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID;
+
+      if (channelId) {
+        await deleteTraitFromDiscord(trait.discordPostId, channelId);
+        console.log(`Deleted Discord post for trait ${traitId}`);
+      } else {
+        console.warn(`No Discord channel ID found for trait ${traitId}`);
+      }
+    } catch (error) {
+      console.error(`Error deleting Discord post for trait ${traitId}:`, error);
+    }
+  }
+
   const result = await database
     .collection<TraitSchema>("nfts")
-    .deleteOne({ _id: new ObjectId(id) });
+    .deleteOne({ _id: new ObjectId(traitId) });
 
   if (result.deletedCount !== 1)
     return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
-
-  await inngest.send({
-    name: "trait/deleted",
-    data: { traitId: id },
-  });
 
   return NextResponse.json({}, { status: 200 });
 }

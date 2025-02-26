@@ -12,4 +12,7 @@ export interface TraitSchema {
   address: LowercaseAddress;
   likedBy: LowercaseAddress[];
   creationDate: number;
+  twitterPostId?: string;
+  farcasterCastHash?: string;
+  discordPostId?: string;
 }

@@ -1,7 +1,8 @@
+import { upsertUser } from "@/app/actions/user/upsertUser";
 import { LowercaseAddress } from "@/types/address";
-import { inngest } from "@/utils/inngest/client";
 import { tap } from "@/utils/misc/tap";
 import Session from "@/utils/siwe/session";
+import { waitUntil } from "@vercel/functions";
 import { NextRequest, NextResponse } from "next/server";
 import { SiweErrorType, SiweMessage, generateNonce } from "siwe";
 
@@ -38,14 +39,7 @@ export const POST = async (req: NextRequest) => {
     session.address = fields.address.toLowerCase() as LowercaseAddress;
     session.chainId = fields.chainId;
 
-    await inngest
-      .send({
-        name: "user/signed-in",
-        data: {
-          address: session.address,
-        },
-      })
-      .catch(console.error);
+    waitUntil(upsertUser(session.address));
   } catch (error) {
     switch (error) {
       case SiweErrorType.INVALID_NONCE:
