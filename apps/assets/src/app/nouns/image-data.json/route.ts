@@ -1,4 +1,4 @@
-import { CACHE_CONTROL, CDN_CACHE_DURATION, CORS_HEADERS } from "@/config/cache";
+import { CACHE_HEADERS, CDN_CACHE_DURATION, CORS_HEADERS } from "@/config/cache";
 import { publicClient } from "@/publicClient";
 import { NextResponse } from "next/server";
 import { fetchOnchainNounsArtData, nounsTraitNames, toImageData } from "noggles";
@@ -10,7 +10,7 @@ export async function GET() {
   const response = new NextResponse(JSON.stringify(toImageData(await fetchOnchainNounsArtData(publicClient), nounsTraitNames), null, 2), {
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': CACHE_CONTROL,
+      ...CACHE_HEADERS,
       ...CORS_HEADERS
     },
   });
