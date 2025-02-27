@@ -1,8 +1,9 @@
 import galleryIcon from "@/assets/gallery.png";
-import { Box, HStack, Text, VStack } from "@chakra-ui/layout";
+import { HStack, Text, VStack } from "@chakra-ui/layout";
 import { FC, SVGProps, useState } from "react";
 
 import {
+  Button,
   Icon,
   IconButton,
   Menu,
@@ -94,18 +95,19 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
       <HStack
         userSelect="none"
         spacing={0}
-        bgColor={active ? "gray.650" : "gray.800"}
+        bgColor={active ? "gray.750" : "gray.800"}
         w="full"
         borderWidth={1}
         borderColor="transparent"
         color={active ? "gray.200" : "gray.600"}
         _hover={{
           color: "gray.100",
-          borderColor: active ? "gray.700" : "gray.100",
+          bgColor: active ? "gray.750" : "gray.850",
+          // borderColor: active ? "gray.700" : "gray.100",
           cursor: active ? undefined : "pointer",
         }}
       >
-        <HStack h="full" px={3} borderRightWidth={1} borderColor="gray.700">
+        <HStack h="full" px={3}>
           <Icon
             color="gray.700"
             _hover={{ color: "gray.100", cursor: "pointer" }}
@@ -126,13 +128,24 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
             activatePart(part);
           }}
         >
-          <Box
+          <Button
             onClick={handlePartIconClick}
-            _hover={{ color: !partState.edited ? "gray.900" : undefined }}
-            cursor="pointer"
+            isDisabled={partState.edited}
+            variant="outline"
+            size="sm"
+            p={0}
+            borderRadius="none"
+            color="gray.600"
+            _hover={{
+              color: "gray.300",
+              _disabled: { transform: "translateY(0)" },
+
+              transform: "translateY(-1px)",
+            }}
+            _active={{ bg: "gray.600", transform: "translateY(0)" }}
           >
-            <PartIcon width={48} height={48} />
-          </Box>
+            <PartIcon width={32} height={32} />
+          </Button>
           <Text flexGrow={1}>{nounPartName[part].toUpperCase()}</Text>
           <HStack color="gray.700" px={3}>
             {partState.edited ? (
