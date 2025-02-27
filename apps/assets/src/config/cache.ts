@@ -8,4 +8,11 @@ export const CDN_CACHE_DURATION = 21_600;
 // - no-cache: Instructs browsers to always revalidate with the CDN
 // - s-maxage: Instructs the CDN to cache for a long time
 // - immutable: Indicates the resource won't change until manually invalidated
-export const CACHE_CONTROL = `no-cache, s-maxage=${CDN_CACHE_DURATION}, immutable`; 
+export const CACHE_CONTROL = `no-cache, s-maxage=${CDN_CACHE_DURATION}, immutable`;
+
+// CORS headers to allow access from anywhere
+export const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+}; 

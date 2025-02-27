@@ -1,4 +1,4 @@
-import { CACHE_CONTROL, CDN_CACHE_DURATION } from "@/config/cache";
+import { CACHE_CONTROL, CDN_CACHE_DURATION, CORS_HEADERS } from "@/config/cache";
 import { publicClient } from "@/publicClient";
 import { NextResponse } from "next/server";
 import { fetchOnchainNounsArtData, nounsTraitNames, toImageData } from "noggles";
@@ -15,7 +15,15 @@ export async function GET() {
     return new NextResponse(jsContent, {
         headers: {
             'Content-Type': 'application/javascript',
-            'Cache-Control': CACHE_CONTROL
+            'Cache-Control': CACHE_CONTROL,
+            ...CORS_HEADERS
         },
+    });
+}
+
+// Handle OPTIONS requests for CORS preflight
+export async function OPTIONS() {
+    return new NextResponse(null, {
+        headers: CORS_HEADERS
     });
 } 
