@@ -42,6 +42,16 @@ export const Noun: FC<NounProps> = ({
   const headBitmap = useTraitBitmap(head);
   const accessoryBitmap = useTraitBitmap(accessory);
   const bodyBitmap = useTraitBitmap(body);
+
+  // Check if all required trait bitmaps are loaded
+  const allRequiredBitmapsLoaded = Boolean(
+    // Only check for bitmaps that were provided as props
+    (!glasses || glassesBitmap) &&
+      (!head || headBitmap) &&
+      (!accessory || accessoryBitmap) &&
+      (!body || bodyBitmap),
+  );
+
   useImperativeHandle(
     canvasRef,
     () => (ready ? (canvas as HTMLCanvasElement) : null),
@@ -49,7 +59,7 @@ export const Noun: FC<NounProps> = ({
   );
 
   useEffect(() => {
-    if (!canvas) return;
+    if (!canvas || !allRequiredBitmapsLoaded) return;
 
     canvas.width = size + margin * 2;
     canvas.height = size + margin * 2;
@@ -83,6 +93,7 @@ export const Noun: FC<NounProps> = ({
     circleCrop,
     background,
     size,
+    allRequiredBitmapsLoaded,
   ]);
 
   return (

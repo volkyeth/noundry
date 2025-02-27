@@ -74,7 +74,7 @@ export const Propose = ({ trait, author }) => {
   const [standaloneCanvas, setStandaloneCanvas] =
     useState<HTMLCanvasElement | null>(null);
   const [paletteCanvas, setPaletteCanvas] = useState<HTMLCanvasElement | null>(
-    null
+    null,
   );
   const [previewNounCanvas, setPreviewNounCanvas] =
     useState<HTMLCanvasElement | null>(null);
@@ -117,7 +117,7 @@ Contribution specification: ${trait.trait}`;
             };
           })
         : undefined,
-    [salt, trait, mainnetArtwork]
+    [salt, trait, mainnetArtwork],
   );
 
   useResizedImage({
@@ -161,7 +161,7 @@ Contribution specification: ${trait.trait}`;
   const createCandidateCost = useCreateCandidateCost();
   const [wordsFromAuthor, innerSetWordsFromAuthor] = useLocalStorage(
     `words-${trait.id}`,
-    ""
+    "",
   );
   const setWordsFromAuthor = useDebounceCallback(innerSetWordsFromAuthor, 1000);
 
@@ -175,7 +175,7 @@ Contribution specification: ${trait.trait}`;
   const traitColors = useTraitColors(trait.trait);
   const traitColorsWithoutTransparent = useMemo(
     () => traitColors?.filter((color) => color !== TRANSPARENT_HEX),
-    [traitColors]
+    [traitColors],
   );
 
   const paletteIndex =
@@ -205,7 +205,7 @@ Contribution specification: ${trait.trait}`;
           glasses: 4, //blue noggles
           head: 216, //void head
         },
-        mainnetArtwork
+        mainnetArtwork,
       ),
       [traitType(trait)]: traitBitmap,
     };
@@ -228,7 +228,7 @@ Contribution specification: ${trait.trait}`;
         palette: paletteCanvas.toDataURL("image/png"),
         previewNoun: previewNounCanvas.toDataURL("image/png"),
         galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
-          canvas.toDataURL("image/png")
+          canvas.toDataURL("image/png"),
         ),
       };
 
@@ -250,7 +250,7 @@ Contribution specification: ${trait.trait}`;
         standalone: standaloneCanvas.toDataURL("image/png"),
         palette: paletteCanvas.toDataURL("image/png"),
         galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
-          canvas.toDataURL("image/png")
+          canvas.toDataURL("image/png"),
         ),
       },
       amountPaletteColors: traitColorsWithoutTransparent?.length ?? 0,
@@ -530,18 +530,16 @@ Contribution specification: ${trait.trait}`;
                 />
 
                 {previewNounsTraits &&
-                  previewNounsTraits.map((traits, i) => {
-                    return (
-                      <Noun
-                        canvasRef={(canvas) => setGalleryCanvas(i, canvas)}
-                        key={i}
-                        margin={2}
-                        {...traits}
-                        withCheckerboardBg={false}
-                        size={96}
-                      />
-                    );
-                  })}
+                  previewNounsTraits.map((traits, i) => (
+                    <Noun
+                      key={i}
+                      canvasRef={(canvas) => setGalleryCanvas(i, canvas)}
+                      margin={2}
+                      {...traits}
+                      withCheckerboardBg={false}
+                      size={96}
+                    />
+                  ))}
               </div>
             )}
 
