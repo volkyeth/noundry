@@ -22,5 +22,6 @@
 .rcp-hue-cursor {
   border-radius: 0px !important;
   width: 10px !important;
-  transform: translate(-5px, -5px) !important;
+  transform: translate(-5px, -1px) !important;
+  height: 18px !important;
 }

@@ -1,6 +1,6 @@
 import { Box, SimpleGrid, VStack } from "@chakra-ui/react";
 import { Colord, colord } from "colord";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ColorService, Hue, Saturation, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { useBrush } from "../../model/Brush";
@@ -17,40 +17,34 @@ export const Palette = () => {
   }));
   const activePartState = useNounState((state) => state[state.activePart!]);
 
-  const setCurrentColor = useCallback(
-    (color: string) => {
-      setColor(color);
-    },
-    [setColor]
-  );
-
-  const setPrevColor = useCallback(
-    (color: string) => {
-      setPreviousColor(color);
-    },
-    [setPreviousColor]
-  );
-
   // Use react-color-palette's useColor hook
   const [pickerColor, setPickerColor] = useColor("#000000");
   const [layerColors, setLayerColors] = useState<string[]>(["#00000000"]);
+  const [closestColors, setClosestColors] = useState<string[]>([]);
 
   const getClosestPaletteColor = (color: string) => {
     const closestColor = getClosestPaletteColors(colord(color), 1)[0];
     return closestColor.toHex();
   };
 
+  // Update closest colors whenever pickerColor changes
+  useEffect(() => {
+    if (!pickerColor) return;
+    const closest = getClosestPaletteColors(colord(pickerColor.hex), 8);
+    setClosestColors(closest.map((c) => c.toHex()));
+  }, [pickerColor]);
+
   const handleSaturationChange = (newColor: any) => {
     // Keep the picker color smooth
     setPickerColor(newColor);
     // But snap the actual selected color and fg color
     const closestHex = getClosestPaletteColor(newColor.hex);
-    setCurrentColor(closestHex);
+    setColor(closestHex);
   };
 
   const handleSaturationChangeComplete = (newColor: any) => {
     const closestHex = getClosestPaletteColor(newColor.hex);
-    setPrevColor(closestHex);
+    setPreviousColor(closestHex);
     setPickerColor(ColorService.convert("hex", closestHex));
   };
 
@@ -78,7 +72,7 @@ export const Palette = () => {
 
   return (
     <Panel title={"Palette"} flexGrow={1}>
-      <VStack spacing={4} w="full">
+      <VStack spacing={0} w="full">
         <Saturation
           height={120}
           color={pickerColor}
@@ -86,9 +80,30 @@ export const Palette = () => {
           onChangeComplete={handleSaturationChangeComplete}
         />
 
+        {/* Closest colors row */}
+        <SimpleGrid columns={8} w="full" spacing="1px">
+          {closestColors.map((colorHex, i) => (
+            <Box
+              key={`closest-color-${i}`}
+              w="full"
+              h="18px"
+              bg={colorHex}
+              cursor="pointer"
+              onClick={() => {
+                const c = colord(colorHex);
+                const rgb = c.toRgb();
+                const hsv = c.toHsv();
+                setPickerColor({ hex: colorHex, rgb, hsv });
+                setColor(colorHex);
+                setPreviousColor(colorHex);
+              }}
+            />
+          ))}
+        </SimpleGrid>
+
         <Hue color={pickerColor} onChange={handleHueChange} />
 
-        <SimpleGrid columns={8} w="full" spacing="1px">
+        <SimpleGrid columns={8} w="full" spacing="1px" pt={"10px"}>
           {layerColors.map((colorHex, i) =>
             colorHex === "#00000000" ? (
               <CheckerboardBg
@@ -103,8 +118,8 @@ export const Palette = () => {
                     rgb: { r: 0, g: 0, b: 0, a: 0 },
                     hsv: { h: 0, s: 0, v: 0, a: 0 },
                   });
-                  setCurrentColor(colorHex);
-                  setPrevColor(colorHex);
+                  setColor(colorHex);
+                  setPreviousColor(colorHex);
                 }}
               />
             ) : (
@@ -119,8 +134,8 @@ export const Palette = () => {
                   const rgb = c.toRgb();
                   const hsv = c.toHsv();
                   setPickerColor({ hex: colorHex, rgb, hsv });
-                  setCurrentColor(colorHex);
-                  setPrevColor(colorHex);
+                  setColor(colorHex);
+                  setPreviousColor(colorHex);
                 }}
               />
             )
