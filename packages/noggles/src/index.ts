@@ -5,8 +5,8 @@ export { toImageData } from "./artwork/toImageData.js";
 export { fetchOnchainLilNounsArtData } from "./lil-nouns/fetchOnchainLilNounsArtData.js";
 export { fetchOnchainLilNounTraits } from "./lil-nouns/fetchOnchainLilNounTraits.js";
 export { lilNounsTraitNames } from "./lil-nouns/traitNames.js";
-export { fetchOnchainNounsArtData } from "./nouns/onchain/fetchOnchainNounsArtData.js";
-export { fetchOnchainNounTraits } from "./nouns/onchain/fetchOnchainNounTraits.js";
+export { fetchOnchainNounsArtData } from "./nouns/fetchOnchainNounsArtData.js";
+export { fetchOnchainNounTraits } from "./nouns/fetchOnchainNounTraits.js";
 export { nounsTraitNames } from "./nouns/traitNames.js";
 export {
   type ColorIndex,
