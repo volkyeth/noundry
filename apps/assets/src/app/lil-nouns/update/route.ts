@@ -1,4 +1,4 @@
-import { revalidateNounsCache } from "@/app/nouns/revalidateNounsCache";
+import { revalidateLilNounsCache } from "@/app/lil-nouns/revalidateLilNounsCache";
 import { publicClient } from "@/publicClient";
 import * as crypto from "crypto";
 import { NextResponse } from "next/server";
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
-    revalidateNounsCache();
+    revalidateLilNounsCache();
 
     const body = JSON.parse(rawBody) as UpdateWebhookBody;
 

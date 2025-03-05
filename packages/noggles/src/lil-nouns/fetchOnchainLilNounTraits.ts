@@ -1,9 +1,9 @@
 import { PublicClient } from "viem";
-import { nounsDescriptorContract } from "../../contracts/nouns/nouns-descriptor.js";
-import { NounTraits } from "../../types/artwork.js";
-import { NounSeed } from "../../types/seed.js";
+import { lilNounsDescriptorContract } from "../contracts/lil-nouns/lil-nouns-descriptor.js";
+import { NounTraits } from "../types/artwork.js";
+import { NounSeed } from "../types/seed.js";
 
-export const fetchOnchainNounTraits = async (
+export const fetchOnchainLilNounTraits = async (
   publicClient: PublicClient,
   seed: NounSeed
 ): Promise<NounTraits> => {
@@ -12,27 +12,27 @@ export const fetchOnchainNounTraits = async (
       allowFailure: false,
       contracts: [
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "glasses",
           args: [BigInt(seed.glasses)],
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "heads",
           args: [BigInt(seed.head)],
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "accessories",
           args: [BigInt(seed.accessory)],
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "bodies",
           args: [BigInt(seed.body)],
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "backgrounds",
           args: [BigInt(seed.background)],
         },

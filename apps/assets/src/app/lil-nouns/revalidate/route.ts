@@ -1,8 +1,8 @@
-import { revalidateNounsCache } from "@/app/nouns/revalidateNounsCache";
+import { revalidateLilNounsCache } from "@/app/lil-nouns/revalidateLilNounsCache";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  revalidateNounsCache();
+  revalidateLilNounsCache();
 
   return NextResponse.json({ message: "Revalidated" });
 }

@@ -1,8 +1,8 @@
 import { PublicClient } from "viem";
-import { nounsDescriptorContract } from "../../contracts/nouns/nouns-descriptor.js";
-import { EncodedTrait, HexColor, NounsArtData } from "../../types/artwork.js";
+import { lilNounsDescriptorContract } from "../contracts/lil-nouns/lil-nouns-descriptor.js";
+import { EncodedTrait, HexColor, NounsArtData } from "../types/artwork.js";
 
-export const fetchOnchainNounsArtData = async (
+export const fetchOnchainLilNounsArtData = async (
   publicClient: PublicClient
 ): Promise<NounsArtData> => {
   const [
@@ -16,23 +16,23 @@ export const fetchOnchainNounsArtData = async (
       allowFailure: false,
       contracts: [
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "glassesCount",
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "headCount",
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "accessoryCount",
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "bodyCount",
         },
         {
-          ...nounsDescriptorContract,
+          ...lilNounsDescriptorContract,
           functionName: "backgroundCount",
         },
       ],
@@ -43,7 +43,7 @@ export const fetchOnchainNounsArtData = async (
     .multicall({
       allowFailure: false,
       contracts: new Array(glassesCount).fill(null).map((_, index) => ({
-        ...nounsDescriptorContract,
+        ...lilNounsDescriptorContract,
         functionName: "glasses",
         args: [index],
       })),
@@ -54,7 +54,7 @@ export const fetchOnchainNounsArtData = async (
       allowFailure: false,
       batchSize: 100,
       contracts: new Array(headsCount).fill(null).map((_, index) => ({
-        ...nounsDescriptorContract,
+        ...lilNounsDescriptorContract,
         functionName: "heads",
         args: [index],
       })),
@@ -64,7 +64,7 @@ export const fetchOnchainNounsArtData = async (
     .multicall({
       allowFailure: false,
       contracts: new Array(accessoriesCount).fill(null).map((_, index) => ({
-        ...nounsDescriptorContract,
+        ...lilNounsDescriptorContract,
         functionName: "accessories",
         args: [index],
       })),
@@ -74,7 +74,7 @@ export const fetchOnchainNounsArtData = async (
     .multicall({
       allowFailure: false,
       contracts: new Array(bodiesCount).fill(null).map((_, index) => ({
-        ...nounsDescriptorContract,
+        ...lilNounsDescriptorContract,
         functionName: "bodies",
         args: [index],
       })),
@@ -84,7 +84,7 @@ export const fetchOnchainNounsArtData = async (
     .multicall({
       allowFailure: false,
       contracts: new Array(backgroundsCount).fill(null).map((_, index) => ({
-        ...nounsDescriptorContract,
+        ...lilNounsDescriptorContract,
         functionName: "backgrounds",
         args: [index],
       })),
@@ -92,7 +92,7 @@ export const fetchOnchainNounsArtData = async (
     .then((data) => data.map((result) => `#${result}` as HexColor));
   const palettes = await publicClient
     .readContract({
-      ...nounsDescriptorContract,
+      ...lilNounsDescriptorContract,
       functionName: "palettes",
       args: [0],
     })
