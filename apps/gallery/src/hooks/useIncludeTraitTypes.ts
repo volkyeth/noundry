@@ -21,7 +21,7 @@ export const useIncludeTraitTypes = () => {
     if (includeTypes?.length === 4) {
       setIncludeTypes(null, { history: "replace" });
     }
-  }, [includeTypes]);
+  }, [includeTypes, setIncludeTypes]);
 
   return includeTypesState;
 };

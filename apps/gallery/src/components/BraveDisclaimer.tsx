@@ -26,7 +26,10 @@ export const BraveDisclaimer = () => {
               Brave you have to disable the Shields for this site.
             </p>
 
-            <Image src={disableAnimation.src} />
+            <Image
+              src={disableAnimation.src}
+              alt="Instructions to disable Brave Shields"
+            />
           </ModalBody>
         </>
       </ModalContent>

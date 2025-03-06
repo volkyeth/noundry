@@ -24,12 +24,12 @@ export const GalleryQueryBar: FC<GalleryQueryBarProps> = ({ className }) => {
       setSearch(searchValue);
     }, 500);
     return () => clearTimeout(timeout);
-  }, [searchValue]);
+  }, [searchValue, setSearch]);
   return (
     <div
       className={twMerge(
         "flex flex-wrap justify-between gap-4 mx-4 p-2",
-        className
+        className,
       )}
     >
       <Input

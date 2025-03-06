@@ -104,7 +104,7 @@ function InnerSubmit() {
 
     // Clean up the URL to only keep the type parameter
     router.replace(`/submit?type=${traitType}`);
-  }, [searchParams, traitType, router]);
+  }, [searchParams, traitType, router, traitCanvas]);
 
   const { data: mainnetArtwork } = useMainnetArtwork();
   useEffect(() => {
@@ -126,7 +126,7 @@ function InnerSubmit() {
       ...getTraitsFromSeed(seed, mainnetArtwork),
       [traitType]: traitBitmap,
     };
-  }, [mainnetArtwork, traitBitmap, seed]);
+  }, [mainnetArtwork, traitBitmap, seed, traitType]);
 
   const accessoryBitmap = useTraitBitmap(traits.accessory);
   const bodyBitmap = useTraitBitmap(traits.body);

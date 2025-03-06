@@ -29,7 +29,7 @@ export const TraitPalette = forwardRef<HTMLCanvasElement, TraitPaletteProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
     useImperativeHandle(ref, () => canvas as HTMLCanvasElement, [canvas]);
@@ -58,7 +58,7 @@ export const TraitPalette = forwardRef<HTMLCanvasElement, TraitPaletteProps>(
         ctx.fillStyle = color;
         ctx.fillRect(x, y, tileSize, tileSize);
       });
-    }, [canvas, colors]);
+    }, [canvas, colors, bgColor, gap, padding, tileSize, tilesPerRow]);
 
     return (
       <canvas
@@ -67,7 +67,7 @@ export const TraitPalette = forwardRef<HTMLCanvasElement, TraitPaletteProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 TraitPalette.displayName = "TraitPalette";

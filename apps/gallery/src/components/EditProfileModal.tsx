@@ -30,10 +30,10 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
   currentUserInfo,
 }) => {
   const [profilePic, setProfilePic] = useState<string | undefined>(
-    currentUserInfo.profilePic
+    currentUserInfo.profilePic,
   );
   const [userName, setUserName] = useState(
-    currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName
+    currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName,
   );
   const [twitter, setTwitter] = useState(currentUserInfo.twitter);
   const [farcaster, setFarcaster] = useState(currentUserInfo.farcaster);
@@ -42,7 +42,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
 
   useEffect(() => {
     setIsUsernameInvalid(
-      userName !== "" && usernameSchema.safeParse(userName).success === false
+      userName !== "" && usernameSchema.safeParse(userName).success === false,
     );
   }, [userName]);
 
@@ -68,7 +68,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
             twitter: twitter || undefined,
           },
           null,
-          2
+          2,
         ),
       }).then(async (r) => ({
         status: r.status,
@@ -80,15 +80,22 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
   const reset = useCallback(() => {
     setProfilePic(currentUserInfo.profilePic);
     setUserName(
-      currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName
+      currentUserInfo.userName.includes(".") ? "" : currentUserInfo.userName,
     );
     setTwitter(currentUserInfo.twitter);
     setFarcaster(currentUserInfo.farcaster);
     setAbout(currentUserInfo.about);
     resetErrors();
-  }, [isOpen, currentUserInfo]);
+  }, [
+    currentUserInfo.profilePic,
+    currentUserInfo.userName,
+    currentUserInfo.twitter,
+    currentUserInfo.farcaster,
+    currentUserInfo.about,
+    resetErrors,
+  ]);
 
-  useEffect(reset, [isOpen, currentUserInfo]);
+  useEffect(reset, [isOpen, currentUserInfo, reset]);
 
   const { refresh } = useRouter();
 
@@ -128,6 +135,7 @@ export const EditProfileModal: FC<EditProfileModalProps> = ({
                 <div className="flex gap-2 items-end">
                   <img
                     src={profilePic ?? ensAvatar ?? DEFAULT_PROFILE_PICTURE}
+                    alt="Profile picture"
                     className="w-24 h-24  box-content border-content1 shrink-0 bg-warm"
                   />
                   <div className="flex gap-2">
