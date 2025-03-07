@@ -1,44 +1,63 @@
-# Noundry Studio ⌐◧-◧
-[![GitPOAP Badge](https://public-api.gitpoap.io/v1/repo/volkyeth/noundry-studio/badge)](https://www.gitpoap.io/gh/volkyeth/noundry-studio)
+# Noundry Studio
 
-Noundry studio is a pixel editor optimized for the workflow of designing new Nouns parts/traits and trying them out with existing ones.
+A pixel art editor for creating and customizing Nouns and Lil Nouns.
 
-![noundry studio preview](preview.png)
+## App Variants
 
-## Running locally
+This application supports multiple variants:
 
-This project runs on https://vitejs.dev
+- **Nouns**: The original Nouns editor
+- **Lil Nouns**: A variant for Lil Nouns
+
+## Development
+
+To run the application in development mode:
 
 ```bash
-pnpm
-pnpm dev
+# Run the Nouns variant
+npm run dev:nouns
+
+# Run the Lil Nouns variant
+npm run dev:lil-nouns
 ```
 
-## Contributing
+## Building
 
-Bug reports are welcome.
+To build the application for production:
 
-Feature Requests are welcome.
+```bash
+# Build the Nouns variant
+npm run build:nouns
 
-Pull requests are more than welcome. If it's a big change, please open an issue first to discuss it.
+# Build the Lil Nouns variant
+npm run build:lil-nouns
+```
 
-**Contributors are eligible for a [GitPOAP](https://www.gitpoap.io/gh/volkyeth/noundry-studio). Get yours now!**
+## Architecture
 
-<img width="250" alt="Noundry studio contributor GitPOAP" src="https://user-images.githubusercontent.com/847070/214595331-eaabcbe4-6f82-4bfc-af16-84a1dbacf50c.png">
+The application uses a variant-based architecture to support multiple versions with minimal code duplication:
 
-## Author
+- **Configuration**: Each variant has its own configuration in `src/variants/{variant}/config.ts`
+- **Environment Variables**: Environment-specific settings are in `.env.{variant}` files
+- **Asset Loading**: Assets are loaded dynamically based on the current variant
+- **Variant-Specific Assets**: Each variant has its own assets in `src/variants/{variant}/assets/` (e.g., favicon.ico)
 
-![volky](src/assets/volky.png)
+## Adding a New Variant
 
-I'm Volky, a web3 engineer developing for the Nouns ecosystem. 
+To add a new variant:
 
-## Acknowledgements
+1. Create a new configuration file in `src/variants/{new-variant}/config.ts`
+2. Create a new environment file `.env.{new-variant}`
+3. Add new build scripts to `package.json`
+4. Add variant-specific assets in `src/variants/{new-variant}/assets/` (including favicon.ico)
 
-This project was funded (twice 🙏) on https://prop.house by the [Nouns](https://nouns.wtf) community. Thank you!
+## Customizing a Variant
 
-## License
+To customize an existing variant:
 
-CC0
+1. Update the variant's configuration in `src/variants/{variant}/config.ts`
+2. Update the variant's environment variables in `.env.{variant}`
+3. Add any variant-specific components or assets in `src/variants/{variant}/`
 
 Attribution is appreciated but not required.
 

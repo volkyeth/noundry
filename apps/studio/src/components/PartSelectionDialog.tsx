@@ -11,11 +11,11 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { ImageData } from "@noundry/nouns-assets";
 import { buildSVG } from "@nouns/sdk";
 import { FC, useEffect, useState } from "react";
 import { NounPartState } from "../model/NounPart";
 import { NounPartType } from "../types/noun";
+import { ImageData } from "../utils/assetImports";
 import { nounPartName } from "../utils/constants";
 
 interface PartSelectionDialogProps {

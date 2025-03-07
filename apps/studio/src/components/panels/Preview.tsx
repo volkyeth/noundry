@@ -1,5 +1,5 @@
 import loadingNoun from "@/assets/loading-noun.gif";
-import { ReactComponent as LoadingNoun } from "@/assets/nouns-loading-sharp.svg";
+import LoadingNoun from "@/assets/nouns-loading-sharp.svg?react";
 import {
   Box,
   Button,
@@ -30,6 +30,7 @@ import { FC, SVGProps, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { RiSave3Fill } from "react-icons/ri";
+import { appConfig } from "../../config";
 import { useNounState } from "../../model/Noun";
 import { useWorkspaceState } from "../../model/Workspace";
 import { checkerboardBg } from "../../utils/constants";
@@ -56,13 +57,11 @@ export const Preview: FC<PreviewProps> = ({}) => {
   const { data: auctionNounId } = useQuery({
     queryKey: ["auctionNounId"],
     queryFn: async () => {
-      return fetch(
-        "https://www.nouns.camp/subgraphs/nouns",
-        {
-          body: '{"query":"{\\n  auctions(orderDirection: desc, orderBy: startTime, first : 1) {\\n    noun {\\n      id\\n    }\\n  }\\n}","variables":null}',
-          method: "POST",
-        }
-      )
+      if (!appConfig.subgraphUri) return null;
+      return fetch(appConfig.subgraphUri, {
+        body: '{"query":"{\\n  auctions(orderDirection: desc, orderBy: startTime, first : 1) {\\n    noun {\\n      id\\n    }\\n  }\\n}","variables":null}',
+        method: "POST",
+      })
         .then((r) => r.json())
         .then((r) => parseInt(r!.data!.auctions[0]!.noun!.id));
     },
@@ -137,70 +136,72 @@ export const Preview: FC<PreviewProps> = ({}) => {
             onMouseLeave={() => setRandomizeAllHovered(false)}
             disabled={nounLoading}
           />
-          <Popover>
-            <PopoverTrigger>
-              <NounActionButton
-                label="Load Noun"
-                icon={LoadingNoun}
-                disabled={nounLoading}
-              />
-            </PopoverTrigger>
-            <PopoverContent w={"xs"} p={2}>
-              <PopoverArrow />
-              <PopoverBody fontSize={"sm"}>
-                <VStack w={"full"} alignItems={"start"}>
-                  <Button
-                    borderRadius={0}
-                    w={"full"}
-                    fontSize={"xs"}
-                    disabled={!auctionNounId || nounLoading}
-                    onClick={() => {
-                      setNounLoading.on();
-                      loadNoun(auctionNounId!.toString()).finally(() =>
-                        setNounLoading.off()
-                      );
-                    }}
-                  >
-                    Load Auction Noun
-                  </Button>
-                  <HStack w={"full"}>
+          {appConfig.subgraphUri && (
+            <Popover>
+              <PopoverTrigger>
+                <NounActionButton
+                  label="Load Noun"
+                  icon={LoadingNoun}
+                  disabled={nounLoading}
+                />
+              </PopoverTrigger>
+              <PopoverContent w={"xs"} p={2}>
+                <PopoverArrow />
+                <PopoverBody fontSize={"sm"}>
+                  <VStack w={"full"} alignItems={"start"}>
                     <Button
                       borderRadius={0}
+                      w={"full"}
                       fontSize={"xs"}
-                      flexGrow={1}
                       disabled={!auctionNounId || nounLoading}
                       onClick={() => {
                         setNounLoading.on();
-                        loadNoun(nounIdInputRef!.current!.value).finally(() =>
+                        loadNoun(auctionNounId!.toString()).finally(() =>
                           setNounLoading.off()
                         );
                       }}
                     >
-                      Load Noun #
+                      Load Auction Noun
                     </Button>
-                    <NumberInput
-                      isDisabled={!auctionNounId || nounLoading}
-                      defaultValue={0}
-                      min={0}
-                      max={auctionNounId}
-                      w={32}
-                      borderRadius={0}
-                    >
-                      <NumberInputField
-                        ref={nounIdInputRef}
-                        maxLength={4}
+                    <HStack w={"full"}>
+                      <Button
                         borderRadius={0}
-                      />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </HStack>
-                </VStack>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
+                        fontSize={"xs"}
+                        flexGrow={1}
+                        disabled={!auctionNounId || nounLoading}
+                        onClick={() => {
+                          setNounLoading.on();
+                          loadNoun(nounIdInputRef!.current!.value).finally(() =>
+                            setNounLoading.off()
+                          );
+                        }}
+                      >
+                        Load Noun #
+                      </Button>
+                      <NumberInput
+                        isDisabled={!auctionNounId || nounLoading}
+                        defaultValue={0}
+                        min={0}
+                        max={auctionNounId ?? undefined}
+                        w={32}
+                        borderRadius={0}
+                      >
+                        <NumberInputField
+                          ref={nounIdInputRef}
+                          maxLength={4}
+                          borderRadius={0}
+                        />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    </HStack>
+                  </VStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          )}
           <NounActionButton
             label="Export"
             icon={RiSave3Fill}
@@ -240,13 +241,11 @@ const NounActionButton = forwardRef<NounActionButtonProps, "button">(
 );
 
 const loadNoun = async (nounId: string) => {
-  return fetch(
-    "https://www.nouns.camp/subgraphs/nouns",
-    {
-      body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
-      method: "POST",
-    }
-  )
+  if (!appConfig.subgraphUri) return;
+  return fetch(appConfig.subgraphUri, {
+    body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
+    method: "POST",
+  })
     .then(
       (r) =>
         r.json() as Promise<{

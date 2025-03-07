@@ -1,6 +1,6 @@
-import { NounSeed } from "@noundry/nouns-assets/dist/types";
 import { create } from "zustand";
 import { NounPartMapping, NounPartType } from "../types/noun";
+import { NounSeed } from "../utils/assetImports";
 import { clearCanvas } from "../utils/canvas/clearCanvas";
 import { drawCanvas } from "../utils/canvas/drawCanvas";
 import { nounParts } from "../utils/constants";

@@ -1,7 +1,7 @@
-import { ImageData } from "@noundry/nouns-assets";
 import { Colord, colord, extend } from "colord";
 import labPlugin from "colord/plugins/lab";
 import { some, sortBy, uniq } from "lodash";
+import { ImageData } from "./assetImports";
 import { getPixels } from "./canvas/getPixels";
 
 extend([labPlugin]);

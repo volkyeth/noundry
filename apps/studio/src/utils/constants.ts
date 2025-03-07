@@ -1,9 +1,9 @@
 import { FC, SVGProps } from "react";
-import { ReactComponent as PartGlasses } from "../assets/nouns-noggles-sharp.svg";
-import { ReactComponent as PartBackground } from "../assets/nouns-nouns-part-background.svg";
-import { ReactComponent as PartBody } from "../assets/nouns-nouns-part-body-sharp.svg";
-import { ReactComponent as PartHead } from "../assets/nouns-nouns-part-head-sharp.svg";
-import { ReactComponent as PartAccessory } from "../assets/nouns-txt-noun-sharp.svg";
+import PartGlasses from "../assets/nouns-noggles-sharp.svg?react";
+import PartBackground from "../assets/nouns-nouns-part-background.svg?react";
+import PartBody from "../assets/nouns-nouns-part-body-sharp.svg?react";
+import PartHead from "../assets/nouns-nouns-part-head-sharp.svg?react";
+import PartAccessory from "../assets/nouns-txt-noun-sharp.svg?react";
 import { NounPartMapping, NounPartType } from "../types/noun";
 
 export const nounParts = ["background", "body", "accessory", "head", "glasses"] as NounPartType[];

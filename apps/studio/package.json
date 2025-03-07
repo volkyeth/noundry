@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest"
+    "dev": "vite --mode nouns",
+    "dev:nouns": "vite --mode nouns",
+    "dev:lil-nouns": "vite --mode lil-nouns",
+    "build": "tsc && vite build --mode nouns",
+    "build:nouns": "tsc && vite build --mode nouns",
+    "build:lil-nouns": "tsc && vite build --mode lil-nouns",
+    "preview": "vite preview --mode nouns"
   },
   "dependencies": {
     "@chakra-ui/layout": "^2.3.1",
@@ -16,6 +19,7 @@
     "@emotion/styled": "^11",
     "@fontsource/press-start-2p": "^4.5.10",
     "@fontsource/vt323": "^5.0.8",
+    "@noundry/lil-nouns-assets": "^1.0.0",
     "@noundry/nouns-assets": "^1.0.0",
     "@nouns/sdk": "^0.4.0",
     "@tanstack/react-query": "^4.35.7",
@@ -41,11 +45,10 @@
     "@types/node": "^18.7.13",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react": "^2.0.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "prettier": "^2.7.1",
     "typescript": "^5.2.2",
-    "vite": "^3.0.7",
-    "vite-plugin-svgr": "^2.2.1",
-    "vitest": "^0.34.4"
+    "vite": "^6.2.1",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

@@ -1,8 +1,11 @@
-import { ReactComponent as LogoNoggles } from "@/assets/NoundryStudio.svg";
-import { Box, Heading, SimpleGrid, StackProps } from "@chakra-ui/react";
+import { Heading, SimpleGrid, StackProps } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { create } from "zustand";
+import { appConfig } from "../../config";
+
+// Get the Logo component from appConfig
+const { Logo } = appConfig;
 
 export interface HeaderProps extends StackProps {
   sectionTitle?: string;
@@ -20,9 +23,7 @@ export const Header: FC<HeaderProps> = ({ ...props }) => {
       p={0}
       spacing={8}
     >
-      <Link to="/">
-        <LogoNoggles />
-      </Link>
+      <Link to="/">{Logo && <Logo />}</Link>
       <Heading fontSize={16}>{sectionTitle}</Heading>
     </SimpleGrid>
   );
