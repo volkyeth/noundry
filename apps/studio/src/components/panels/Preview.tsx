@@ -25,7 +25,6 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { FC, SVGProps, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { GiDiceSixFacesThree } from "react-icons/gi";
@@ -33,6 +32,7 @@ import { RiSave3Fill } from "react-icons/ri";
 import { appConfig } from "../../config";
 import { useNounState } from "../../model/Noun";
 import { useWorkspaceState } from "../../model/Workspace";
+import { publicClient } from "../../services/publicClient";
 import { checkerboardBg } from "../../utils/constants";
 import { ExportModal } from "../ExportModal";
 import { PixelArtCanvas } from "../PixelArtCanvas";
@@ -54,20 +54,6 @@ export const Preview: FC<PreviewProps> = ({}) => {
   } = useDisclosure();
   const [nounLoading, setNounLoading] = useBoolean(false);
   const nounIdInputRef = useRef<HTMLInputElement>(null);
-  const { data: auctionNounId } = useQuery({
-    queryKey: ["auctionNounId"],
-    queryFn: async () => {
-      if (!appConfig.subgraphUri) return null;
-      return fetch(appConfig.subgraphUri, {
-        body: '{"query":"{\\n  auctions(orderDirection: desc, orderBy: startTime, first : 1) {\\n    noun {\\n      id\\n    }\\n  }\\n}","variables":null}',
-        method: "POST",
-      })
-        .then((r) => r.json())
-        .then((r) => parseInt(r!.data!.auctions[0]!.noun!.id));
-    },
-
-    refetchInterval: 12_000,
-  });
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -136,72 +122,73 @@ export const Preview: FC<PreviewProps> = ({}) => {
             onMouseLeave={() => setRandomizeAllHovered(false)}
             disabled={nounLoading}
           />
-          {appConfig.subgraphUri && (
-            <Popover>
-              <PopoverTrigger>
-                <NounActionButton
-                  label="Load Noun"
-                  icon={LoadingNoun}
-                  disabled={nounLoading}
-                />
-              </PopoverTrigger>
-              <PopoverContent w={"xs"} p={2}>
-                <PopoverArrow />
-                <PopoverBody fontSize={"sm"}>
-                  <VStack w={"full"} alignItems={"start"}>
+          <Popover>
+            <PopoverTrigger>
+              <NounActionButton
+                label={`Load ${appConfig.nounTerm}`}
+                icon={LoadingNoun}
+                disabled={nounLoading}
+              />
+            </PopoverTrigger>
+            <PopoverContent w={"xs"} p={2}>
+              <PopoverArrow />
+              <PopoverBody fontSize={"sm"}>
+                <VStack w={"full"} alignItems={"start"}>
+                  <Button
+                    borderRadius={0}
+                    w={"full"}
+                    fontSize={"xs"}
+                    disabled={nounLoading}
+                    onClick={async () => {
+                      setNounLoading.on();
+                      try {
+                        await loadAuctionNoun();
+                      } finally {
+                        setNounLoading.off();
+                      }
+                    }}
+                  >
+                    {`Load Auction ${appConfig.nounTerm}`}
+                  </Button>
+                  <HStack w={"full"}>
                     <Button
                       borderRadius={0}
-                      w={"full"}
                       fontSize={"xs"}
-                      disabled={!auctionNounId || nounLoading}
-                      onClick={() => {
+                      flexGrow={1}
+                      disabled={nounLoading}
+                      onClick={async () => {
                         setNounLoading.on();
-                        loadNoun(auctionNounId!.toString()).finally(() =>
-                          setNounLoading.off()
-                        );
+                        try {
+                          await loadNoun(nounIdInputRef!.current!.value);
+                        } finally {
+                          setNounLoading.off();
+                        }
                       }}
                     >
-                      Load Auction Noun
+                      {`Load ${appConfig.nounTerm} #`}
                     </Button>
-                    <HStack w={"full"}>
-                      <Button
+                    <NumberInput
+                      isDisabled={nounLoading}
+                      defaultValue={0}
+                      min={0}
+                      w={32}
+                      borderRadius={0}
+                    >
+                      <NumberInputField
+                        ref={nounIdInputRef}
+                        maxLength={4}
                         borderRadius={0}
-                        fontSize={"xs"}
-                        flexGrow={1}
-                        disabled={!auctionNounId || nounLoading}
-                        onClick={() => {
-                          setNounLoading.on();
-                          loadNoun(nounIdInputRef!.current!.value).finally(() =>
-                            setNounLoading.off()
-                          );
-                        }}
-                      >
-                        Load Noun #
-                      </Button>
-                      <NumberInput
-                        isDisabled={!auctionNounId || nounLoading}
-                        defaultValue={0}
-                        min={0}
-                        max={auctionNounId ?? undefined}
-                        w={32}
-                        borderRadius={0}
-                      >
-                        <NumberInputField
-                          ref={nounIdInputRef}
-                          maxLength={4}
-                          borderRadius={0}
-                        />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                    </HStack>
-                  </VStack>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-          )}
+                      />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </HStack>
+                </VStack>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
           <NounActionButton
             label="Export"
             icon={RiSave3Fill}
@@ -240,38 +227,34 @@ const NounActionButton = forwardRef<NounActionButtonProps, "button">(
   )
 );
 
-const loadNoun = async (nounId: string) => {
-  if (!appConfig.subgraphUri) return;
-  return fetch(appConfig.subgraphUri, {
-    body: `{"query":"{\\n  seed(id: \\"${nounId}\\") {\\n    background,\\n    body,\\n    accessory,\\n    head,\\n    glasses\\n  }\\n}","variables":null}`,
-    method: "POST",
-  })
-    .then(
-      (r) =>
-        r.json() as Promise<{
-          data: {
-            seed: {
-              background: string;
-              body: string;
-              accessory: string;
-              head: string;
-              glasses: string;
-            };
-          };
-        }>
-    )
-    .then(
-      async ({
-        data: {
-          seed: { accessory, background, body, glasses, head },
-        },
-      }) =>
-        await useNounState.getState().loadSeed({
-          accessory: parseInt(accessory),
-          background: parseInt(background),
-          body: parseInt(body),
-          glasses: parseInt(glasses),
-          head: parseInt(head),
-        })
-    );
+const loadAuctionNoun = async (): Promise<void> => {
+  try {
+    if (!appConfig.fetchLatestNounId) return;
+
+    const latestId = await appConfig.fetchLatestNounId(publicClient);
+    if (latestId !== undefined) {
+      await loadNoun(latestId.toString());
+    }
+  } catch (error) {
+    console.error("Error loading auction noun:", error);
+  }
+};
+
+const loadNoun = async (nounId: string): Promise<void> => {
+  try {
+    const id = parseInt(nounId);
+    if (isNaN(id) || !appConfig.fetchNounSeed) return;
+
+    const seed = await appConfig.fetchNounSeed(publicClient, id);
+
+    await useNounState.getState().loadSeed({
+      accessory: seed.accessory,
+      background: seed.background,
+      body: seed.body,
+      glasses: seed.glasses,
+      head: seed.head,
+    });
+  } catch (error) {
+    console.error("Error loading noun:", error);
+  }
 };

@@ -19,7 +19,7 @@
     "fast-png": "^6.2.0",
     "pako": "^2.1.0",
     "remeda": "^1.27.1",
-    "viem": "^2.23.2"
+    "viem": "^2.23.9"
   },
   "devDependencies": {
     "@types/pako": "^2.0.0",
