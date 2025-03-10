@@ -1,7 +1,7 @@
 import { PublicClient } from "viem";
-import { lilNounsDescriptorContract } from "../contracts/lil-nouns/lil-nouns-descriptor.js";
 import { NounTraits } from "../types/artwork.js";
 import { NounSeed } from "../types/seed.js";
+import { lilNounsDescriptorContract } from "./contracts/lil-nouns-descriptor.js";
 
 export const fetchOnchainLilNounTraits = async (
   publicClient: PublicClient,
