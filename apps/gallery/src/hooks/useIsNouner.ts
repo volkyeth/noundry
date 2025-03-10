@@ -1,11 +1,10 @@
-import { nounsTokenAbi, nounsTokenAddress } from "@/contracts/nounsToken";
-import { useBlockNumber, useContractRead } from "wagmi";
+import { nounsTokenContract } from "noggles";
+import { useBlockNumber, useReadContract } from "wagmi";
 
 export const useIsNouner = (address?: `0x${string}`) => {
   const { data: blockNumber } = useBlockNumber();
-  const { data: votes } = useContractRead({
-    abi: nounsTokenAbi,
-    address: nounsTokenAddress,
+  const { data: votes } = useReadContract({
+    ...nounsTokenContract,
     functionName: "getPriorVotes",
     args: [address!, (blockNumber ?? 0n) - 1n],
   });

@@ -39,3 +39,7 @@ export { type NounSeed } from "./types/seed.js";
 export { type TraitCategory, type TraitType } from "./types/traits.js";
 
 export { isTraitType } from "./utils/traits/isTraitType.js";
+
+export { nounsDaoDataContract } from "./nouns/contracts/nouns-dao-data.js";
+export { nounsDescriptorContract } from "./nouns/contracts/nouns-descriptor.js";
+export { nounsTokenContract } from "./nouns/contracts/nouns-token.js";

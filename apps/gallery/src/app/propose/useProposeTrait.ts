@@ -2,18 +2,18 @@
 
 import { useSimulateContract } from "wagmi";
 
-import { nounsDaoDataAbi, nounsDaoDataAddress } from "@/contracts/nounsDaoData";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
-import { TraitCategory, TraitType } from "noggles";
 import {
-  nounsDescriptorAbi,
-  nounsDescriptorContractAddress,
-} from "noggles/src/contracts/nounsDescriptor";
+  nounsDaoDataContract,
+  nounsDescriptorContract,
+  TraitCategory,
+  TraitType
+} from "noggles";
 import { useMemo } from "react";
 import slugify from "slugify";
-import { encodeFunctionData, getAbiItem, getFunctionSignature } from "viem";
+import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
 import { compressAndEncodeTrait } from "./artworkEncoding";
 import { useTraitColorIndexes } from "./useTraitColorIndexes";
 
@@ -58,18 +58,18 @@ export const useProposeTraitSimulation = ({
 
     return ("0x" +
       encodeFunctionData({
-        abi: nounsDescriptorAbi,
+        abi: nounsDescriptorContract.abi,
         functionName,
         args: compressedEncodedArtwork,
       }).substring(10)) as `0x${string}`;
   }, [compressedEncodedArtwork, functionName]);
 
-  const targets = [nounsDescriptorContractAddress];
+  const targets = [nounsDescriptorContract.address];
   const calldatas = [calldata];
   const signatures = useMemo(
     () => [
-      getFunctionSignature(
-        getAbiItem({ abi: nounsDescriptorAbi, name: functionName })
+      toFunctionSignature(
+        getAbiItem({ abi: nounsDescriptorContract.abi, name: functionName })
       ),
     ],
     [functionName]
@@ -85,8 +85,7 @@ export const useProposeTraitSimulation = ({
     palette !== undefined
 
   return useSimulateContract({
-    abi: nounsDaoDataAbi,
-    address: nounsDaoDataAddress,
+    ...nounsDaoDataContract,
     functionName: "createProposalCandidate",
     args: [
       targets,

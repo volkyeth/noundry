@@ -1,10 +1,9 @@
-import { nounsDaoDataAbi, nounsDaoDataAddress } from "@/contracts/nounsDaoData";
-import { useContractRead } from "wagmi";
+import { nounsDaoDataContract } from "noggles";
+import { useReadContract } from "wagmi";
 
 export const useCreateCandidateCost = () => {
-  const { data: cost } = useContractRead({
-    abi: nounsDaoDataAbi,
-    address: nounsDaoDataAddress,
+  const { data: cost } = useReadContract({
+    ...nounsDaoDataContract,
     functionName: "createCandidateCost",
   });
 
