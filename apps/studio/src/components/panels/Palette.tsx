@@ -11,7 +11,8 @@ import { CheckerboardBg } from "../CheckerboardBg";
 import { Panel } from "./Panel";
 
 export const Palette = () => {
-  const { setColor, setPreviousColor } = useBrush((state) => ({
+  const { color, setColor, setPreviousColor } = useBrush((state) => ({
+    color: state.color,
     setColor: state.setColor,
     setPreviousColor: state.setPreviousColor,
   }));
@@ -29,8 +30,8 @@ export const Palette = () => {
 
   // Update closest colors whenever pickerColor changes
   useEffect(() => {
-    if (!pickerColor) return;
-    const closest = getClosestPaletteColors(colord(pickerColor.hex), 8);
+    if (!color) return;
+    const closest = getClosestPaletteColors(colord(color), 8);
     setClosestColors(closest.map((c) => c.toHex()));
   }, [pickerColor]);
 
