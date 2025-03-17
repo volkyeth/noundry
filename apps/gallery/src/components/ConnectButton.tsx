@@ -13,7 +13,7 @@ export const ConnectButton = () => {
   const { data: userInfo } = useUserInfo(address);
   const { chainId } = useAccount();
   const unsupported = useMemo(() => {
-    return chainId !== mainnet.id;
+    return chainId !== undefined && chainId !== mainnet.id;
   }, [chainId]);
 
   useEffect(() => {

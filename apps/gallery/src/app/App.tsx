@@ -11,7 +11,7 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
 import { mainnet } from "viem/chains";
-import { WagmiConfig, createConfig, http } from "wagmi";
+import { WagmiProvider, createConfig, fallback, http } from "wagmi";
 import Navbar from "../components/Navbar";
 
 export const App = ({ children }: { children: ReactNode }) => {
@@ -19,9 +19,12 @@ export const App = ({ children }: { children: ReactNode }) => {
     getDefaultConfig({
       chains: [mainnet],
       transports: {
-        [mainnet.id]: http(
-          `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-        ),
+        [mainnet.id]: fallback([
+          http(
+            `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+          ),
+          http(),
+        ]),
       },
       walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID!,
       appName: "Noundry Gallery",
@@ -33,7 +36,7 @@ export const App = ({ children }: { children: ReactNode }) => {
   return (
     <NuqsAdapter>
       <QueryClientProvider client={queryClient}>
-        <WagmiConfig config={config}>
+        <WagmiProvider config={config}>
           <SIWEProvider {...siweConfig}>
             <ConnectKitProvider
               mode={"light"}
@@ -54,7 +57,7 @@ export const App = ({ children }: { children: ReactNode }) => {
               </NextUIProvider>
             </ConnectKitProvider>
           </SIWEProvider>
-        </WagmiConfig>
+        </WagmiProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </NuqsAdapter>
