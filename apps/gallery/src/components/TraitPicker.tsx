@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { TraitType } from "noggles";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { useMediaQuery } from "usehooks-ts";
 import { Button, ButtonProps } from "./Button";
@@ -23,6 +23,7 @@ export interface TraitPickerProps extends ButtonProps {
   currentTraits: NounTraits;
   classNames?: { button?: string; icon?: string };
   onPick?: (traitId: number) => void;
+  children?: ReactNode;
 }
 
 export const TraitPicker: FC<TraitPickerProps> = ({
@@ -30,6 +31,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
   currentTraits,
   onPick,
   classNames,
+  children,
   ...props
 }) => {
   const { data: mainnetArtwork } = useMainnetArtwork();
@@ -45,11 +47,13 @@ export const TraitPicker: FC<TraitPickerProps> = ({
         onClick={onOpen}
         isDisabled={!mainnetArtwork}
       >
-        <TraitIcon
-          type={traitType}
-          negative
-          className={twMerge("w-[16px]", classNames?.icon)}
-        />
+        {children || (
+          <TraitIcon
+            type={traitType}
+            negative
+            className={twMerge("w-[16px]", classNames?.icon)}
+          />
+        )}
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent className="w-fit">
@@ -65,7 +69,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
                 scrollContainerPadding={4}
                 header={
                   <h2 className="self-center pb-2 font-bold">{`Pick the ${formatTraitType(
-                    traitType
+                    traitType,
                   )}`}</h2>
                 }
               >

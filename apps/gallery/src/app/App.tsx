@@ -12,6 +12,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
 import { mainnet } from "viem/chains";
 import { WagmiProvider, createConfig, fallback, http } from "wagmi";
+import { hashFn } from "wagmi/query";
 import Navbar from "../components/Navbar";
 
 export const App = ({ children }: { children: ReactNode }) => {
@@ -31,7 +32,13 @@ export const App = ({ children }: { children: ReactNode }) => {
     }),
   );
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        queryKeyHashFn: hashFn,
+      },
+    },
+  });
 
   return (
     <NuqsAdapter>

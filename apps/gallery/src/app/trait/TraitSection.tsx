@@ -19,7 +19,13 @@ import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
 import { formatTraitType } from "@/utils/traits/format";
-import { Link } from "@nextui-org/react";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+} from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import NextLink from "next/link";
@@ -113,18 +119,38 @@ export const TraitSection: FC<TraitSectionProps> = ({
             <Dynamic>
               {isCreator && (
                 <div className="flex justify-between w-full">
-                  <NextLink href={`/propose/${trait.id}`}>
-                    <Button
-                      variant="ghost"
-                      className="h-fit p-2 text-default hover:text-black"
-                    >
-                      Propose
-                    </Button>
-                  </NextLink>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        variant="ghost"
+                        className="h-fit p-2 text-default hover:text-black"
+                      >
+                        Propose
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Propose actions">
+                      <DropdownItem>
+                        <NextLink
+                          href={`/propose/${trait.id}`}
+                          className="w-full"
+                        >
+                          Propose new trait
+                        </NextLink>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <NextLink
+                          href={`/propose-update/${trait.id}`}
+                          className="w-full"
+                        >
+                          Propose trait update
+                        </NextLink>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                   <div className="flex">
                     <Link
                       download={slugify(
-                        `${trait.name}-${formatTraitType(trait.type)}.png`
+                        `${trait.name}-${formatTraitType(trait.type)}.png`,
                       )}
                       href={trait.trait}
                     >
@@ -155,7 +181,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
                           className="bg-danger-500"
                           onClick={() => {
                             deleteTrait().then(() =>
-                              push(`/profile/${address}`)
+                              push(`/profile/${address}`),
                             );
                           }}
                         >

@@ -1,18 +1,26 @@
-import { PngDataUri } from "@/types/image";
 import { useQuery } from "@tanstack/react-query";
 import { EncodedTrait, colormap, decodeTrait } from "noggles";
 import { useMainnetArtwork } from "./useMainnetArtwork";
 
+// Define the PngDataUri type
+type PngDataUri = string;
+
 export const useTraitBitmap = (
-  trait?: PngDataUri | EncodedTrait | ImageBitmap
+  trait?: PngDataUri | EncodedTrait | ImageBitmap | null
 ) => {
   const { data: onchainArtwork } = useMainnetArtwork();
-  const isEncodedTrait = typeof trait === "string" && trait.startsWith("0x");
-  const isDataUri = typeof trait === "string" && trait.startsWith("data:");
-  const isTraitBitmap = typeof trait === "object" && "width" in trait;
+  const isEncodedTrait = typeof trait === "string" && trait?.startsWith("0x");
+  const isDataUri = typeof trait === "string" && trait?.startsWith("data:");
+  const isTraitBitmap = trait !== null && typeof trait === "object" && "width" in trait;
+
   const { data: imageBitmap } = useQuery<ImageBitmap | null>({
     queryKey: ["trait-bitmap", trait],
     queryFn: () => {
+      // Return null early if trait is null or undefined
+      if (trait === null || trait === undefined) {
+        return null;
+      }
+
       if (isEncodedTrait) {
         const { width, height, colorIndexes, paletteIndex } = decodeTrait(
           trait as EncodedTrait,
@@ -32,22 +40,26 @@ export const useTraitBitmap = (
       if (isDataUri) {
         return new Promise((resolve, reject) => {
           const image = new Image();
-          image.onerror = reject;
+          image.onerror = () => resolve(null);
           image.onload = () => {
-            resolve(createImageBitmap(image));
+            try {
+              resolve(createImageBitmap(image));
+            } catch (error) {
+              console.error("Error creating image bitmap:", error);
+              resolve(null);
+            }
           };
-          image.src = trait;
+          image.src = trait as string;
         });
       }
 
-      return null;
+      return isTraitBitmap ? trait as ImageBitmap : null;
     },
     staleTime: Infinity,
     gcTime: Infinity,
-    enabled: (trait && isDataUri) || (isEncodedTrait && !!onchainArtwork),
+    enabled: (trait !== null && isDataUri) || (isEncodedTrait && !!onchainArtwork),
   });
 
-  if (trait === undefined) return undefined;
-
-  return isTraitBitmap ? trait : imageBitmap ?? undefined;
+  if (trait === undefined || trait === null) return null;
+  return isTraitBitmap ? trait as ImageBitmap : imageBitmap ?? null;
 };

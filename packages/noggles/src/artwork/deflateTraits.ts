@@ -11,7 +11,7 @@ export const deflateTraits = (
   );
   const data = ("0x" +
     Buffer.from(
-      deflateRaw(Buffer.from(abiEncodedArtwork.substring(2), "hex"))
+      deflateRaw(new Uint8Array(Buffer.from(abiEncodedArtwork.substring(2), "hex")))
     ).toString("hex")) as `0x${string}`;
   const originalLength = BigInt(abiEncodedArtwork.substring(2).length / 2);
   const traitCount = encodedTraits.length;

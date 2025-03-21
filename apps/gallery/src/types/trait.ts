@@ -5,7 +5,7 @@ export interface Trait {
   id: string;
   nft: PngDataUri;
   name: string;
-  type: TraitCategory;
+  type: Exclude<TraitCategory, "backgrounds">;
   trait: PngDataUri;
   address: `0x${string}`;
   likesCount: number;

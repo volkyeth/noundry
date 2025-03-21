@@ -77,7 +77,7 @@ export const useProposeTraitSimulation = ({
 
   const values = [0n];
 
-  const simulationEnabled = description !== undefined &&
+  const enabled = description !== undefined &&
     compressedEncodedArtwork !== undefined &&
     paletteIndex !== undefined &&
     createCandidateCost !== undefined &&
@@ -98,13 +98,7 @@ export const useProposeTraitSimulation = ({
     ],
     value,
     query: {
-      enabled:
-        description !== undefined &&
-        compressedEncodedArtwork !== undefined &&
-        paletteIndex !== undefined &&
-        createCandidateCost !== undefined &&
-        isNouner !== undefined &&
-        palette !== undefined,
+      enabled
     }
   });
 };

@@ -1,3 +1,4 @@
+import { InflaterDecoder } from "@/app/nouns/InflaterDecoder";
 import { Noun } from "@/app/nouns/LatestNoun";
 import { TraitsList } from "@/app/nouns/TraitsList";
 
@@ -24,6 +25,15 @@ export default function Home() {
       </p>
 
       <TraitsList />
+
+      <h2 className="text-3xl font-bold mb-6 mt-16">
+        Trait Inflater & Decoder
+      </h2>
+      <p className="text-center max-w-2xl mb-8">
+        Enter compressed trait data to decode and render traits.
+      </p>
+
+      <InflaterDecoder />
     </main>
   );
 }

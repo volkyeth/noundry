@@ -1,12 +1,12 @@
 import { PngDataUri } from "@/types/image";
-import { HexColor } from "noggles";
+import { EncodedTrait, HexColor } from "noggles";
 import {
   TRANSPARENT_HEX
 } from "noggles/src/constants/artwork";
 import { useMemo } from "react";
 import { useTraitBitmap } from "./useTraitBitmap";
 
-export const useTraitColors = (trait: PngDataUri): HexColor[] | undefined => {
+export const useTraitColors = (trait: PngDataUri | EncodedTrait | ImageBitmap | null): HexColor[] | undefined => {
   const traitBitmap = useTraitBitmap(trait);
   return useMemo(() => {
     if (!traitBitmap) return undefined;

@@ -40,7 +40,7 @@ export const ChecklistItem: FC<ChecklistItemProps> = ({
       {isUserTickable && isTicked === false && tickableContent && (
         <div className=" p-3 mt-1">{tickableContent}</div>
       )}
-      {!isUserTickable && isTicked === false && (
+      {!isUserTickable && isTicked === false && !!warningContent && (
         <div className="border-1 p-3 mt-1 border-red-200 text-center">
           <p className="text-red-500 text-sm inline">{warningContent}</p>
         </div>

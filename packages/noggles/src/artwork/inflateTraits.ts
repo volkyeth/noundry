@@ -6,7 +6,7 @@ export const inflateTraits = (data: DeflatedTraitsData): EncodedTrait[] => {
   const [encodedTraits] = decodeAbiParameters(
     [{ type: "bytes[]" }],
     ("0x" +
-      Buffer.from(inflateRaw(Buffer.from(data.slice(2), "hex"))).toString(
+      Buffer.from(inflateRaw(new Uint8Array(Buffer.from(data.slice(2), "hex")))).toString(
         "hex"
       )) as `0x${string}`
   );

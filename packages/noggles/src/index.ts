@@ -1,6 +1,8 @@
 export { colormap } from "./artwork/colormap.js";
 export { decodeTrait } from "./artwork/decodeTrait.js";
+export { deflateTraits } from "./artwork/deflateTraits.js";
 export { encodeTrait } from "./artwork/encodeTrait.js";
+export { inflateTraits } from "./artwork/inflateTraits.js";
 export { toImageData } from "./artwork/toImageData.js";
 export { fetchLatestLilNounId } from "./lil-nouns/fetchLatestLilNounId.js";
 export { fetchLilNounSeed } from "./lil-nouns/fetchLilNounSeed.js";
@@ -43,3 +45,4 @@ export { isTraitType } from "./utils/traits/isTraitType.js";
 export { nounsDaoDataContract } from "./nouns/contracts/nouns-dao-data.js";
 export { nounsDescriptorContract } from "./nouns/contracts/nouns-descriptor.js";
 export { nounsTokenContract } from "./nouns/contracts/nouns-token.js";
+

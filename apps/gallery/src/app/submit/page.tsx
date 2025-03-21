@@ -207,7 +207,6 @@ function InnerSubmit() {
     if (!traitFile || !traitCanvas) return;
     const reader = new FileReader();
     reader.onload = function () {
-      console.log("reader.result", reader.result);
       const img = new Image();
       img.onload = () => {
         const ctx = traitCanvas.getContext("2d")!;
