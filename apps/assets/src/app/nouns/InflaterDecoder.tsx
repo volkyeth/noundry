@@ -290,7 +290,7 @@ export const InflaterDecoder = () => {
             className="h-4 w-4 text-blue-600 border-gray-300 rounded"
           />
           <label htmlFor="compareWithDAO" className="ml-2 text-sm font-medium">
-            Compare with current DAO traits
+            Compare with current DAO traits to verify trait update proposals
           </label>
         </div>
       </div>
