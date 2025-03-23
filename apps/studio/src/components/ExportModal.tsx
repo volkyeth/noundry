@@ -20,6 +20,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
+import { appConfig } from "../config";
 import { useNounState } from "../model/Noun";
 import { NounPartType } from "../types/noun";
 import { drawCanvas } from "../utils/canvas/drawCanvas";
@@ -30,7 +31,11 @@ export type ExportModalProps = {
   part?: NounPartType;
 } & Omit<ModalProps, "children">;
 
-export const ExportModal: FC<ExportModalProps> = ({ part, onClose, ...props }) => {
+export const ExportModal: FC<ExportModalProps> = ({
+  part,
+  onClose,
+  ...props
+}) => {
   const [exportCanvas, setExportCanvas] = useState<HTMLCanvasElement | null>();
   const nounState = useNounState();
   const [scale, setScale] = useState(10);
@@ -48,13 +53,25 @@ export const ExportModal: FC<ExportModalProps> = ({ part, onClose, ...props }) =
   return (
     <Modal {...props} onClose={onClose} size="6xl">
       <ModalOverlay />
-      <ModalContent h="80%" color="gray.100" bgColor="gray.800" borderRadius={0}>
+      <ModalContent
+        h="80%"
+        color="gray.100"
+        bgColor="gray.800"
+        borderRadius={0}
+      >
         <ModalHeader fontSize={16}>{`Export ${part ?? "noun"}`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack h="full">
             <Center w="full" position="relative" flexGrow={1} overflow="hidden">
-              <Center borderWidth={1} {...checkerboardBg} position="absolute" w={`${32 * scale}px`} h={`${32 * scale}px`} bgColor="transparent">
+              <Center
+                borderWidth={1}
+                {...checkerboardBg}
+                position="absolute"
+                w={`${32 * scale}px`}
+                h={`${32 * scale}px`}
+                bgColor="transparent"
+              >
                 {scaleChanged ? (
                   <Spinner size={scale > 2 ? "xl" : scale > 1 ? "md" : "sm"} />
                 ) : (
@@ -67,8 +84,17 @@ export const ExportModal: FC<ExportModalProps> = ({ part, onClose, ...props }) =
                 )}
               </Center>
             </Center>
-            <Text>{`export size: ${32 * scale}px x ${32 * scale}px (x${scale})`}</Text>
-            <Slider value={scale} min={1} max={32} step={1} w="80%" onChange={setScale}>
+            <Text>{`export size: ${32 * scale}px x ${
+              32 * scale
+            }px (x${scale})`}</Text>
+            <Slider
+              value={scale}
+              min={1}
+              max={32}
+              step={1}
+              w="80%"
+              onChange={setScale}
+            >
               <SliderMark value={1} mt="1" ml="-2.5" fontSize="sm">
                 x1
               </SliderMark>
@@ -97,7 +123,9 @@ export const ExportModal: FC<ExportModalProps> = ({ part, onClose, ...props }) =
             mr={3}
             onClick={() => {
               const link = document.createElement("a");
-              link.download = `noundry-studio-${part ?? "noun"}` ?? "noundry-studio-noun";
+              link.download = `${appConfig.appTitle
+                .toLowerCase()
+                .replace(" ", "-")}-${part ?? "noun"}`;
               link.href = exportCanvas!.toDataURL("image/png");
               link.click();
             }}
