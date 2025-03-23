@@ -36,16 +36,16 @@ export const generateProposalContent = ({
   artContributionAgreementSignature,
 }: generateProposalContentProps) => {
   return `
-# 🎨 Noundry: Add ${trait.name} ${capitalize(formatTraitType(trait.type))}
+# 🎨 LilNoundry: Add ${trait.name} ${capitalize(formatTraitType(trait.type))}
 
 *submitted via [Lil Noundry](https://lil.noundry.wtf/trait/${trait.id})*
 
 ## Summary
 This proposal adds a new **${formatTraitType(trait.type)}** trait: ${trait.name}
 
-Showcase Noun
+Showcase Lil
 
-![Showcase Noun](${proposalImages.previewNoun})
+![Showcase Lil](${proposalImages.previewNoun})
 
 Trait artwork
 
