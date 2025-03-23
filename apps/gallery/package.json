@@ -44,7 +44,7 @@
     "remark-breaks": "^3.0.3",
     "remeda": "^1.27.1",
     "seedrandom": "^3.0.5",
-    "sharp": "^0.30.4",
+    "sharp": "^0.32.6",
     "siwe": "^2.1.4",
     "slugify": "^1.6.6",
     "twitter-api-v2": "^1.15.2",
