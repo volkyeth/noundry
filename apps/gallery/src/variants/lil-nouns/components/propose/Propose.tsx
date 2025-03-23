@@ -11,7 +11,6 @@ import { TraitCard } from "@/components/TraitCard";
 import { UserBadge } from "@/components/UserBadge";
 import { AMOUNT_PROPOSAL_PREVIEWS } from "@/constants/config";
 import { useImageBitmap } from "@/hooks/useImageBitmap";
-import { useIsNouner } from "@/hooks/useIsNouner";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { usePaletteIndex } from "@/hooks/usePaletteIndex";
 import { useResizedImage } from "@/hooks/useResizedCanvas";
@@ -24,38 +23,59 @@ import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { formatTraitType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import {
-  ProposalImagesUris,
   generateProposalContent,
-} from "@/variants/nouns/propose/generateProposalContent";
-import { useCreateCandidateCost } from "@/variants/nouns/propose/useCreateCandidateCost";
+  ProposalImagesUris,
+} from "@/variants/nouns/components/propose/generateProposalContent";
 import { Divider, Link, Textarea } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import NextLink from "next/link";
-import { NounSeed, NounTraits, TRANSPARENT_HEX } from "noggles";
+import {
+  lilNounsDAOContract,
+  lilNounsTokenContract,
+  NounSeed,
+  NounTraits,
+  TRANSPARENT_HEX,
+} from "noggles";
 import InfoBox from "pixelarticons/svg/info-box.svg";
 import { useMemo, useState } from "react";
 import { useDebounceCallback, useLocalStorage } from "usehooks-ts";
-import { formatEther } from "viem";
 import { mainnet } from "viem/chains";
 import {
   useAccount,
-  useBalance,
+  useReadContract,
   useSignMessage,
   useSwitchChain,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { uploadPropImages } from "../../../app/actions/uploadPropImages";
-import { ChecklistItem } from "../../../components/ChecklistItem";
-import { TraitOnCheckerboard } from "../../../components/TraitOnCheckerboard";
-import { TraitPalette } from "../../../components/TraitPalette";
+import { uploadPropImages } from "../../../../app/actions/uploadPropImages";
+import { ChecklistItem } from "../../../../components/ChecklistItem";
+import { TraitOnCheckerboard } from "../../../../components/TraitOnCheckerboard";
+import { TraitPalette } from "../../../../components/TraitPalette";
 import { useProposeTraitSimulation } from "./useProposeTrait";
 const { LoadingNoggles } = appConfig;
 
 export const Propose = ({ trait, author }) => {
   const [salt] = useState(Math.random());
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
+
+  const { data: votesRequiredToPropose } = useReadContract({
+    ...lilNounsDAOContract,
+    functionName: "proposalThreshold",
+    query: {
+      select: (threshold) => threshold + 1n, // +1 because the contract checks if the proposer has more votes than the threshold to be able to propose.
+    },
+  });
+
+  const { data: userVotes } = useReadContract({
+    ...lilNounsTokenContract,
+    functionName: "getCurrentVotes",
+    args: [address ?? "0x0"],
+    query: {
+      enabled: !!address,
+    },
+  });
 
   const { data: mainnetArtwork } = useMainnetArtwork();
   const traitBitmap = useTraitBitmap(trait.trait) ?? null;
@@ -78,7 +98,8 @@ export const Propose = ({ trait, author }) => {
   const artContributionAgreementMessage = `I, ${
     userInfo?.nameOrPseudonym ?? userInfo?.userName
   }, hereby waive all copyright and related or neighboring rights together with all associated claims and causes of action with respect to this work to the extent possible under the law.
-I have read and understand the terms and intended legal effect of the Nouns Art Contribution Agreement, available at https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk, and hereby voluntarily elect to apply it to this contribution.
+
+I have read and understand the terms and intended legal effect of CC0, available at https://agjzp2ws3k7i2lb65nfj2c2o6jklzmz4bffpxaz5mxjrk7rdzkdq.arweave.net/AZOX6tLavo0sPutKnQtO8lS8szwJSvuDPWXTFX4jyoc, and hereby voluntarily elect to apply it to this work.
 
 Contribution name: ${trait.name} ${formatTraitType(trait.type)}
 Contribution specification: ${trait.trait}`;
@@ -90,7 +111,6 @@ Contribution specification: ${trait.trait}`;
 
   const previewNounBitmap = useImageBitmap(trait.nft);
 
-  const { chainId } = useAccount();
   const isMainnet = chainId === mainnet.id;
   const { switchChain } = useSwitchChain();
 
@@ -150,21 +170,18 @@ Contribution specification: ${trait.trait}`;
   const isCreator =
     address && trait.address.toLowerCase() === address.toLowerCase();
 
-  const isNouner = useIsNouner(address);
-  const { data: balance } = useBalance({ address });
-  const createCandidateCost = useCreateCandidateCost();
   const [wordsFromAuthor, innerSetWordsFromAuthor] = useLocalStorage(
     `words-${trait.id}`,
     "",
   );
   const setWordsFromAuthor = useDebounceCallback(innerSetWordsFromAuthor, 1000);
 
-  const canSubmitProposalCandidate =
-    isNouner || createCandidateCost
-      ? balance
-        ? balance.value >= createCandidateCost!
-        : undefined
-      : undefined;
+  const hasEnoughVotes = useMemo(() => {
+    if (!userVotes || !votesRequiredToPropose) return undefined;
+    return userVotes >= votesRequiredToPropose;
+  }, [userVotes, votesRequiredToPropose]);
+
+  const canSubmitProposal = hasEnoughVotes;
 
   const traitColors = useTraitColors(trait.trait);
   const traitColorsWithoutTransparent = useMemo(
@@ -176,7 +193,7 @@ Contribution specification: ${trait.trait}`;
     usePaletteIndex(traitColors, mainnetArtwork?.palettes) ?? undefined;
 
   const prerequisitesMet =
-    isCreator && paletteIndex !== null && canSubmitProposalCandidate;
+    isCreator && paletteIndex !== null && canSubmitProposal;
 
   const previewImagesReady =
     mainnetArtwork &&
@@ -272,8 +289,6 @@ Contribution specification: ${trait.trait}`;
 
   const { isPending: isProposing, data: simulation } =
     useProposeTraitSimulation({
-      createCandidateCost,
-      isNouner,
       description: proposalContent,
       trait,
       paletteIndex,
@@ -338,35 +353,27 @@ Contribution specification: ${trait.trait}`;
             />
           </div>
           <p>
-            You&apos;re about to propose the above trait to the Nouns DAO, so it
-            can become part of the original onchain Nouns. Pretty exciting, huh!
+            You&apos;re about to propose the above trait to the Lil Nouns DAO,
+            so it can become part of the original onchain Lil Nouns. Pretty
+            exciting, huh!
           </p>
           <p>
-            This process will create a Nouns{" "}
+            This process will create a Lil Nouns{" "}
             <Link
               href="https://nouns.wtf/create-candidate"
               underline="always"
               color="foreground"
             >
-              Proposal Candidate
+              Proposal
             </Link>{" "}
             using a standard template to showcase your trait alongside the
-            existing Nouns traits.
+            existing Lil Nouns traits.
           </p>
           <p>
-            It will help Nouners ensure that your trait integrates seamlessly
-            with the original collection. The proposal candidate will also
-            include a transaction that adds your trait to the Nouns Descriptor,
-            officially making it part of the onchain collection.
-          </p>
-
-          <p className="border-2 p-6 gap-4">
-            ℹ️ If you wish to include additional transactions (such as a
-            Droposal, transfer of funds, etc.), you can add them to the Proposal
-            Candidate after its initial publication. We strongly advise against
-            modifying the template or the initial transaction that adds the
-            encoded trait to the Descriptor, as doing so could result in
-            proposing gibberish pixels to the DAO.
+            It will help Lil Nouners ensure that your trait integrates
+            seamlessly with the original collection. The proposal will also
+            include a transaction that adds your trait to the Lil Nouns
+            Descriptor, officially making it part of the onchain collection.
           </p>
 
           <h2 id="prerequisites">Prerequisites</h2>
@@ -402,15 +409,15 @@ Contribution specification: ${trait.trait}`;
                   isTicked={paletteIndex !== undefined}
                   warningContent={
                     <>
-                      Oh, it uses some colors that do not belong to the Nouns
-                      palette. Try fixing that on{" "}
+                      Oh, it uses some colors that do not belong to the Lil
+                      Nouns palette. Try fixing that on{" "}
                       <Link
                         target="_blank"
-                        href="https://studio.noundry.wtf/palette"
+                        href="https://lil-studio.noundry.wtf/palette"
                         color="danger"
                         className="underline text-sm"
                       >
-                        Noundry Studio
+                        Lil Studio
                       </Link>{" "}
                       or your favorite editor and resubmitting.
                       <br />
@@ -423,24 +430,25 @@ Contribution specification: ${trait.trait}`;
                     </>
                   }
                 >
-                  The trait conforms to the Nouns palette
+                  The trait conforms to the Lil Nouns palette
                 </ChecklistItem>
                 <ChecklistItem
-                  isTicked={canSubmitProposalCandidate}
+                  isTicked={hasEnoughVotes}
                   warningContent={
                     <>
-                      Oh, looks like you don&apos;t have enough funds to pay for
-                      creating a proposal candidate.
+                      Oh, looks like you don&apos;t have enough votes to create
+                      a proposal. You could buy more Lils or ask someone for a
+                      delegation.
                     </>
                   }
                 >
-                  You&apos;re either a Nouner or you have the required{" "}
-                  {createCandidateCost ? (
-                    formatEther(createCandidateCost)
+                  You have the{" "}
+                  {votesRequiredToPropose ? (
+                    votesRequiredToPropose.toString()
                   ) : (
-                    <LoadingNoggles className="w-12" />
+                    <LoadingNoggles className="inline h-3" />
                   )}{" "}
-                  ETH to create a Proposal Candidate
+                  votes required to create a Proposal
                 </ChecklistItem>
                 {prerequisitesMet && (
                   <>
@@ -449,7 +457,7 @@ Contribution specification: ${trait.trait}`;
                       isUserTickable
                       id="agreement"
                       isTicked={artContributionAgreementSignature !== undefined}
-                      onClick={() =>
+                      onTick={() =>
                         signArtContributionAgreement({
                           message: artContributionAgreementMessage,
                         })
@@ -459,8 +467,7 @@ Contribution specification: ${trait.trait}`;
                           <p className="text-sm text-foreground">
                             You&apos;ll be prompted to sign the following
                             statement releasing your artwork under the{" "}
-                            <strong>CC0 license</strong> and agreeing to the
-                            Nouns Art Contribution Agreement, which will then be
+                            <strong>CC0 license</strong>, which will then be
                             included in the proposal:
                           </p>
                           <Dynamic>
@@ -476,7 +483,7 @@ Contribution specification: ${trait.trait}`;
                               })
                             }
                           >
-                            Sign Nouns Art Contribution Agreement
+                            Sign CC0 waiver
                           </Button>
                         </div>
                       }
@@ -484,14 +491,14 @@ Contribution specification: ${trait.trait}`;
                       You&apos;ve signed the{" "}
                       <Link
                         href={
-                          "https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk"
+                          "https://agjzp2ws3k7i2lb65nfj2c2o6jklzmz4bffpxaz5mxjrk7rdzkdq.arweave.net/AZOX6tLavo0sPutKnQtO8lS8szwJSvuDPWXTFX4jyoc"
                         }
                         className="text-blue-500"
                         color="foreground"
                         target="_blank"
                         underline="always"
                       >
-                        Nouns Art Contribution Agreement
+                        CC0 waiver
                       </Link>
                     </ChecklistItem>
                   </>
@@ -600,7 +607,7 @@ Contribution specification: ${trait.trait}`;
                 href="#agreement"
                 className="text-red-500"
               >
-                Art Contribution Agreement
+                CC0 waiver
               </Link>{" "}
               to proceed.
             </p>
@@ -658,9 +665,9 @@ Contribution specification: ${trait.trait}`;
           {proposalSuccessful && (
             <p>
               Proposal candidate submitted! Check{" "}
-              <Link href="https://nouns.wtf/vote#candidates">nouns.wtf</Link> or{" "}
-              <Link href="https://www.nouns.camp/?tab=candidates">
-                nouns.camp
+              <Link href="https://lilnouns.wtf/vote">lilnouns.wtf</Link> or{" "}
+              <Link href="https://lilnouns.camp/?tab=proposals">
+                lilnouns.camp
               </Link>{" "}
               to see it live.
             </p>

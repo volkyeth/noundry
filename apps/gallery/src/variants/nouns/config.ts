@@ -1,9 +1,9 @@
 import { nounsTokenContract } from 'noggles';
 import { AppConfig, ThemeColors } from '../config';
 import LogoImage from "./assets/NoundryGalleryLogo.svg";
+import favicon from "./assets/favicon.png";
 import LoadingNoggles from "./assets/loading-noggles.svg";
 import loadingNoun from "./assets/loading-noun.gif";
-import favicon from "./assets/favicon.png";
 
 // Nouns theme colors
 const theme: ThemeColors = {

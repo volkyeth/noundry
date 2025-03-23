@@ -1,50 +1,41 @@
 "use client";
 
-import { uploadUpdatePropImages } from "@/app/actions/uploadUpdatePropImages";
 import { BraveDisclaimer } from "@/components/BraveDisclaimer";
 import { Button } from "@/components/Button";
-import { ChecklistItem } from "@/components/ChecklistItem";
 import { ConnectButton } from "@/components/ConnectButton";
 import Dynamic from "@/components/Dynamic";
 import { LikeWidget } from "@/components/LikeWidget";
 import { Noun } from "@/components/Noun";
 import { ProposalPreview } from "@/components/ProposalPreview";
 import { TraitCard } from "@/components/TraitCard";
-import { TraitOnCheckerboard } from "@/components/TraitOnCheckerboard";
-import { TraitPalette } from "@/components/TraitPalette";
-import { TraitPicker } from "@/components/TraitPicker";
 import { UserBadge } from "@/components/UserBadge";
 import { AMOUNT_PROPOSAL_PREVIEWS } from "@/constants/config";
 import { useImageBitmap } from "@/hooks/useImageBitmap";
 import { useIsNouner } from "@/hooks/useIsNouner";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { usePaletteIndex } from "@/hooks/usePaletteIndex";
+import { useResizedImage } from "@/hooks/useResizedCanvas";
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { useTraitColors } from "@/hooks/useTraitColors";
 import { useUserInfo } from "@/hooks/useUserInfo";
-import { NounTraits } from "@/types/noun";
-import { Trait } from "@/types/trait";
-import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
-import { titleCase } from "@/utils/titleCase";
 import { formatTraitType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import {
-  generateUpdateProposalContent,
-  UpdateProposalImagesUris,
-} from "@/variants/nouns/propose-update/generateUpdateProposalContent";
-import { useCreateCandidateCost } from "@/variants/nouns/propose/useCreateCandidateCost";
-import { Divider, Input, Link, Textarea } from "@nextui-org/react";
+  ProposalImagesUris,
+  generateProposalContent,
+} from "@/variants/nouns/components/propose/generateProposalContent";
+import { useCreateCandidateCost } from "@/variants/nouns/components/propose/useCreateCandidateCost";
+import { Divider, Link, Textarea } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import NextLink from "next/link";
-import { NounSeed, TRANSPARENT_HEX } from "noggles";
-import { nounsTraitNames } from "noggles/src/nouns/traitNames";
+import { NounSeed, NounTraits, TRANSPARENT_HEX } from "noggles";
 import InfoBox from "pixelarticons/svg/info-box.svg";
 import { useMemo, useState } from "react";
-import { useDebounceCallback } from "usehooks-ts";
+import { useDebounceCallback, useLocalStorage } from "usehooks-ts";
 import { formatEther } from "viem";
 import { mainnet } from "viem/chains";
 import {
@@ -55,83 +46,32 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { useProposeTraitUpdateSimulation } from "./useProposeTraitUpdate";
+import { uploadPropImages } from "../../../../app/actions/uploadPropImages";
+import { ChecklistItem } from "../../../../components/ChecklistItem";
+import { TraitOnCheckerboard } from "../../../../components/TraitOnCheckerboard";
+import { TraitPalette } from "../../../../components/TraitPalette";
+import { useProposeTraitSimulation } from "./useProposeTrait";
 const { LoadingNoggles } = appConfig;
 
-export interface ProposeUpdateProps {
-  trait: Trait;
-  author: UserInfo;
-}
-
-export const ProposeUpdate = ({ trait, author }: ProposeUpdateProps) => {
+export const Propose = ({ trait, author }) => {
   const [salt] = useState(Math.random());
   const { address } = useAccount();
-  const { data: mainnetArtwork } = useMainnetArtwork();
 
-  const [selectedTraitIndex, setSelectedTraitIndex] = useState<number | null>(
+  const { data: mainnetArtwork } = useMainnetArtwork();
+  const traitBitmap = useTraitBitmap(trait.trait) ?? null;
+  const [circleCropLgCanvas, setCircleCropLgCanvas] =
+    useState<HTMLCanvasElement | null>(null);
+  const [circleCropMdCanvas, setCircleCropMdCanvas] =
+    useState<HTMLCanvasElement | null>(null);
+  const [circleCropSmCanvas, setCircleCropSmCanvas] =
+    useState<HTMLCanvasElement | null>(null);
+  const [standaloneCanvas, setStandaloneCanvas] =
+    useState<HTMLCanvasElement | null>(null);
+  const [paletteCanvas, setPaletteCanvas] = useState<HTMLCanvasElement | null>(
     null,
   );
-  const [customTitle, setCustomTitle] = useState("");
-
-  const originalTraitName =
-    trait.type &&
-    selectedTraitIndex !== null &&
-    titleCase(nounsTraitNames[trait.type]?.[selectedTraitIndex]);
-
-  const encodedOriginalTrait = useMemo(() => {
-    if (selectedTraitIndex === null || !mainnetArtwork) return null;
-
-    const category = trait.type;
-
-    return category &&
-      mainnetArtwork &&
-      mainnetArtwork[category] &&
-      mainnetArtwork[category][selectedTraitIndex]
-      ? mainnetArtwork[category][selectedTraitIndex]
-      : null;
-  }, [selectedTraitIndex, mainnetArtwork, trait]);
-
-  const originalTraitBitmap = useTraitBitmap(encodedOriginalTrait);
-  const traitBitmap = useTraitBitmap(trait.trait);
-
-  const originalTraitColors = useTraitColors(encodedOriginalTrait);
-  const originalTraitColorsWithoutTransparent = useMemo(
-    () =>
-      originalTraitColors?.filter((color) => color !== TRANSPARENT_HEX) || [],
-    [originalTraitColors],
-  );
-
-  const traitColors = useTraitColors(trait.trait);
-  const traitColorsWithoutTransparent = useMemo(
-    () => traitColors?.filter((color) => color !== TRANSPARENT_HEX) || [],
-    [traitColors],
-  );
-
-  // Calculate palette index using useMemo, since usePaletteIndex is a regular function
-  const paletteIndex =
-    usePaletteIndex(traitColors, mainnetArtwork?.palettes) ?? undefined;
-
-  const [oldStandaloneCanvas, setOldStandaloneCanvas] =
+  const [previewNounCanvas, setPreviewNounCanvas] =
     useState<HTMLCanvasElement | null>(null);
-
-  const [oldPaletteCanvas, setOldPaletteCanvas] =
-    useState<HTMLCanvasElement | null>(null);
-
-  const [newStandaloneCanvas, setNewStandaloneCanvas] =
-    useState<HTMLCanvasElement | null>(null);
-  const [newPaletteCanvas, setNewPaletteCanvas] =
-    useState<HTMLCanvasElement | null>(null);
-
-  const [galleryCanvases, setGalleryCanvases] = useState<
-    Map<number, HTMLCanvasElement>
-  >(new Map());
-
-  const setGalleryCanvas = (index: number, canvas: HTMLCanvasElement | null) =>
-    setGalleryCanvases((draft) => {
-      canvas ? draft.set(index, canvas) : draft.delete(index);
-
-      return draft;
-    });
 
   const { data: userInfo } = useUserInfo(address);
 
@@ -154,51 +94,70 @@ Contribution specification: ${trait.trait}`;
   const isMainnet = chainId === mainnet.id;
   const { switchChain } = useSwitchChain();
 
-  // Always create previewNounsTraits with the same hook call, returning undefined or an empty array if dependencies aren't ready
-  const previewNounsTraits = useMemo(() => {
-    if (!mainnetArtwork) return undefined;
-    if (!originalTraitBitmap || typeof originalTraitBitmap !== "object")
-      return [];
-    if (selectedTraitIndex === null) return [];
+  const previewNounsTraits = useMemo(
+    () =>
+      mainnetArtwork
+        ? new Array(AMOUNT_PROPOSAL_PREVIEWS).fill(undefined).map((_, i) => {
+            const seed: NounSeed = {
+              ...generateSeed(mainnetArtwork, salt + i),
+              body: i % mainnetArtwork.bodies.length,
+              glasses: i % mainnetArtwork.glasses.length,
+              background: i % mainnetArtwork.backgrounds.length,
+            };
+            if (i < mainnetArtwork.bodies.length) seed.accessory = 70; //use "none" accessory on the first appearance of each body color
+            return {
+              ...getTraitsFromSeed(seed, mainnetArtwork),
+              [traitType(trait)]: trait.trait,
+            };
+          })
+        : undefined,
+    [salt, trait, mainnetArtwork],
+  );
 
-    return new Array(AMOUNT_PROPOSAL_PREVIEWS)
-      .fill(undefined)
-      .flatMap((_, i) => {
-        const seed: NounSeed = {
-          ...generateSeed(mainnetArtwork, salt + i),
-          body: i % mainnetArtwork.bodies.length,
-          glasses: i % mainnetArtwork.glasses.length,
-          background: i % mainnetArtwork.backgrounds.length,
-        };
-        if (i < mainnetArtwork.bodies.length) seed.accessory = 70; //use "none" accessory on the first appearance of each body color
+  useResizedImage({
+    input: previewNounBitmap,
+    canvas: previewNounCanvas,
+    size: 256,
+  });
+  useResizedImage({
+    input: previewNounBitmap,
+    canvas: circleCropLgCanvas,
+    size: 128,
+    circleCrop: true,
+  });
+  useResizedImage({
+    input: previewNounBitmap,
+    canvas: circleCropMdCanvas,
+    size: 96,
+    circleCrop: true,
+  });
+  useResizedImage({
+    input: previewNounBitmap,
+    canvas: circleCropSmCanvas,
+    size: 64,
+    circleCrop: true,
+  });
 
-        const baseTraits = getTraitsFromSeed(seed, mainnetArtwork);
+  const [galleryCanvases, setGalleryCanvases] = useState<
+    Map<number, HTMLCanvasElement>
+  >(new Map());
+  const setGalleryCanvas = (index: number, canvas: HTMLCanvasElement | null) =>
+    setGalleryCanvases((draft) => {
+      canvas ? draft.set(index, canvas) : draft.delete(index);
 
-        // Create a pair of Nouns with the same traits except the one being updated
-        return [
-          {
-            // Old trait version
-            ...baseTraits,
-            [traitType(trait)]: originalTraitBitmap,
-          },
-          {
-            // New trait version
-            ...baseTraits,
-            [traitType(trait)]: trait.trait,
-          },
-        ];
-      });
-  }, [salt, trait, mainnetArtwork, originalTraitBitmap, selectedTraitIndex]);
-
+      return draft;
+    });
   const isCreator =
     address && trait.address.toLowerCase() === address.toLowerCase();
 
   const isNouner = useIsNouner(address);
   const { data: balance } = useBalance({ address });
   const createCandidateCost = useCreateCandidateCost();
-  const [wordsFromArtist, setWordsFromArtist] = useState("");
-  const setWordsFromAuthor = useDebounceCallback(setWordsFromArtist, 1000);
-  const setDebouncedCustomTitle = useDebounceCallback(setCustomTitle, 1000);
+  const [wordsFromAuthor, innerSetWordsFromAuthor] = useLocalStorage(
+    `words-${trait.id}`,
+    "",
+  );
+  const setWordsFromAuthor = useDebounceCallback(innerSetWordsFromAuthor, 1000);
 
   const canSubmitProposalCandidate =
     isNouner || createCandidateCost
@@ -207,20 +166,44 @@ Contribution specification: ${trait.trait}`;
         : undefined
       : undefined;
 
-  const prerequisitesMet =
-    isCreator &&
-    paletteIndex !== undefined &&
-    canSubmitProposalCandidate &&
-    selectedTraitIndex !== null &&
-    selectedTraitIndex !== null;
+  const traitColors = useTraitColors(trait.trait);
+  const traitColorsWithoutTransparent = useMemo(
+    () => traitColors?.filter((color) => color !== TRANSPARENT_HEX),
+    [traitColors],
+  );
 
-  // Fix the previewImagesReady check to match our new canvas structure
+  const paletteIndex =
+    usePaletteIndex(traitColors, mainnetArtwork?.palettes) ?? undefined;
+
+  const prerequisitesMet =
+    isCreator && paletteIndex !== null && canSubmitProposalCandidate;
+
   const previewImagesReady =
     mainnetArtwork &&
-    newStandaloneCanvas &&
-    oldStandaloneCanvas &&
-    oldPaletteCanvas &&
-    newPaletteCanvas;
+    circleCropLgCanvas &&
+    circleCropMdCanvas &&
+    circleCropSmCanvas &&
+    standaloneCanvas &&
+    previewNounCanvas &&
+    paletteCanvas &&
+    galleryCanvases.size === AMOUNT_PROPOSAL_PREVIEWS;
+
+  const previewTraits: NounTraits | undefined = useMemo(() => {
+    if (!mainnetArtwork || !traitBitmap) return undefined;
+    return {
+      ...getTraitsFromSeed(
+        {
+          accessory: 70, //empty
+          background: 0, //cool
+          body: 13, //black
+          glasses: 4, //blue noggles
+          head: 216, //void head
+        },
+        mainnetArtwork,
+      ),
+      [traitType(trait)]: traitBitmap,
+    };
+  }, [trait, traitBitmap, mainnetArtwork]);
 
   const {
     isPending: isUploading,
@@ -231,117 +214,82 @@ Contribution specification: ${trait.trait}`;
     mutationFn: async () => {
       if (!previewImagesReady) throw new Error("Preview images not ready");
 
-      const propImages: UpdateProposalImagesUris = {
-        oldStandalone: oldStandaloneCanvas.toDataURL("image/png"),
-        newStandalone: newStandaloneCanvas.toDataURL("image/png"),
-        oldPalette: oldPaletteCanvas.toDataURL("image/png"),
-        newPalette: newPaletteCanvas.toDataURL("image/png"),
+      const propImages: ProposalImagesUris = {
+        circleCropLg: circleCropLgCanvas.toDataURL("image/png"),
+        circleCropMd: circleCropMdCanvas.toDataURL("image/png"),
+        circleCropSm: circleCropSmCanvas.toDataURL("image/png"),
+        standalone: standaloneCanvas.toDataURL("image/png"),
+        palette: paletteCanvas.toDataURL("image/png"),
+        previewNoun: previewNounCanvas.toDataURL("image/png"),
         galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
           canvas.toDataURL("image/png"),
         ),
       };
 
-      return await uploadUpdatePropImages(propImages);
+      return await uploadPropImages(propImages);
     },
   });
 
   const proposalContent = useMemo(() => {
-    if (
-      !previewImagesReady ||
-      selectedTraitIndex === null ||
-      !originalTraitName ||
-      !newStandaloneCanvas ||
-      !oldStandaloneCanvas ||
-      !oldPaletteCanvas ||
-      !newPaletteCanvas ||
-      !originalTraitBitmap
-    )
-      return undefined;
+    if (!previewImagesReady) return undefined;
 
-    const proposalImages =
-      uploadedImages ||
-      ({
-        oldStandalone: oldStandaloneCanvas.toDataURL(),
-        newStandalone: newStandaloneCanvas.toDataURL(),
-        oldPalette: oldPaletteCanvas.toDataURL(),
-        newPalette: newPaletteCanvas.toDataURL(),
-        galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
-          canvas.toDataURL(),
-        ),
-      } as any);
-
-    return generateUpdateProposalContent({
+    return generateProposalContent({
       trait,
-      proposalImages,
-      wordsFromArtist,
-      amountOldPaletteColors:
-        originalTraitColorsWithoutTransparent?.length ?? 0,
-      amountNewPaletteColors: traitColorsWithoutTransparent?.length ?? 0,
-      originalTraitName,
-      originalTraitIndex: selectedTraitIndex,
+      wordsFromArtist: wordsFromAuthor,
+      proposalImages: uploadedImages ?? {
+        previewNoun: previewNounCanvas.toDataURL("image/png"),
+        circleCropLg: circleCropLgCanvas.toDataURL("image/png"),
+        circleCropMd: circleCropMdCanvas.toDataURL("image/png"),
+        circleCropSm: circleCropSmCanvas.toDataURL("image/png"),
+        standalone: standaloneCanvas.toDataURL("image/png"),
+        palette: paletteCanvas.toDataURL("image/png"),
+        galleryImages: Array.from(galleryCanvases.values()).map((canvas) =>
+          canvas.toDataURL("image/png"),
+        ),
+      },
+      amountPaletteColors: traitColorsWithoutTransparent?.length ?? 0,
       artContributionAgreementMessage,
       artContributionAgreementSignature,
       artContributionAgreementSigner: address,
-      customTitle,
     });
   }, [
     previewImagesReady,
-    selectedTraitIndex,
-    originalTraitName,
-    wordsFromArtist,
-    newStandaloneCanvas,
-    oldStandaloneCanvas,
-    oldPaletteCanvas,
-    newPaletteCanvas,
-    originalTraitBitmap,
-    originalTraitColorsWithoutTransparent?.length,
-    traitColorsWithoutTransparent?.length,
-    uploadedImages,
-    galleryCanvases,
     trait,
+    wordsFromAuthor,
+    uploadedImages,
+    previewNounCanvas,
+    circleCropLgCanvas,
+    circleCropMdCanvas,
+    circleCropSmCanvas,
+    standaloneCanvas,
+    paletteCanvas,
+    galleryCanvases,
+    traitColorsWithoutTransparent?.length,
     artContributionAgreementMessage,
     artContributionAgreementSignature,
     address,
-    customTitle,
   ]);
 
-  const { data: simulation, isFetching: isSimulating } =
-    useProposeTraitUpdateSimulation({
+  const { isPending: isProposing, data: simulation } =
+    useProposeTraitSimulation({
       createCandidateCost,
       isNouner,
       description: proposalContent,
       trait,
       paletteIndex,
-      traitToUpdateIndex: selectedTraitIndex ?? 0,
     });
 
-  const {
-    writeContractAsync: propose,
-    data: proposeTx,
-    isPending: isProposing,
-  } = useWriteContract();
+  const { writeContractAsync: propose, data: proposeTx } = useWriteContract();
 
   const { isSuccess: proposalSuccessful, isError: proposalFailed } =
     useWaitForTransactionReceipt({ hash: proposeTx });
-
-  // Create a transparent traits object for the trait picker
-  const transparentTraits = useMemo((): NounTraits => {
-    // Set all traits to transparent
-    return {
-      background: "#00000000",
-      body: "0x00",
-      accessory: "0x00",
-      head: "0x00",
-      glasses: "0x00",
-    };
-  }, []);
 
   return (
     <>
       <BraveDisclaimer />
       <div className="max-w-3xl mx-auto py-8 px-4 lg:p-10">
         <div className="flex flex-col items-center justify-center gap-10 lg:gap-16">
-          <h1>Propose Update</h1>
+          <h1>Propose</h1>
           <div className="flex flex-col gap-2 w-min">
             <TraitCard
               name={trait.name}
@@ -381,7 +329,7 @@ Contribution specification: ${trait.trait}`;
                     </Link>
                   </div>
                   <LikeWidget
-                    liked={false}
+                    liked={trait.liked}
                     likesCount={trait.likesCount}
                     traitId={trait.id}
                   />
@@ -390,8 +338,8 @@ Contribution specification: ${trait.trait}`;
             />
           </div>
           <p>
-            You&apos;re about to propose updating an existing trait in the Nouns
-            DAO with the above trait.
+            You&apos;re about to propose the above trait to the Nouns DAO, so it
+            can become part of the original onchain Nouns. Pretty exciting, huh!
           </p>
           <p>
             This process will create a Nouns{" "}
@@ -403,26 +351,22 @@ Contribution specification: ${trait.trait}`;
               Proposal Candidate
             </Link>{" "}
             using a standard template to showcase your trait alongside the
-            existing trait you want to update.
+            existing Nouns traits.
+          </p>
+          <p>
+            It will help Nouners ensure that your trait integrates seamlessly
+            with the original collection. The proposal candidate will also
+            include a transaction that adds your trait to the Nouns Descriptor,
+            officially making it part of the onchain collection.
           </p>
 
           <p className="border-2 p-6 gap-4">
             ℹ️ If you wish to include additional transactions (such as a
             Droposal, transfer of funds, etc.), you can add them to the Proposal
             Candidate after its initial publication. We strongly advise against
-            modifying the template or the initial transaction that updates the
-            encoded trait in the Descriptor, as doing so could result in
+            modifying the template or the initial transaction that adds the
+            encoded trait to the Descriptor, as doing so could result in
             proposing gibberish pixels to the DAO.
-          </p>
-
-          <p className="border-2 p-6 gap-4">
-            ⚠️ This update proposal should not be published while there are any
-            props adding or updating {traitType(trait)} traits up because it
-            could cause conflicts. Furthermore, this proposal will also become
-            invalid if another {traitType(trait)} trait is added to the DAO
-            between the time this one was submitted as a candidate and the time
-            of it graduating to a proposal, so time is of the essence! Get your
-            sponsors ready before submitting!
           </p>
 
           <h2 id="prerequisites">Prerequisites</h2>
@@ -498,124 +442,87 @@ Contribution specification: ${trait.trait}`;
                   )}{" "}
                   ETH to create a Proposal Candidate
                 </ChecklistItem>
-                <ChecklistItem
-                  isTicked={selectedTraitIndex !== null ? true : undefined}
-                  warningContent={null}
-                >
-                  You&apos;ve selected a trait to update
-                </ChecklistItem>
-                {originalTraitBitmap && selectedTraitIndex !== null && (
+                {prerequisitesMet && (
                   <>
-                    <TraitOnCheckerboard
-                      size={128}
-                      trait={originalTraitBitmap}
-                    />
-                    <p>
-                      {originalTraitName} {formatTraitType(trait.type)}
-                    </p>
+                    <Divider className="!my-12" />
+                    <ChecklistItem
+                      isUserTickable
+                      id="agreement"
+                      isTicked={artContributionAgreementSignature !== undefined}
+                      onTick={() =>
+                        signArtContributionAgreement({
+                          message: artContributionAgreementMessage,
+                        })
+                      }
+                      tickableContent={
+                        <div className="flex flex-col gap-4">
+                          <p className="text-sm text-foreground">
+                            You&apos;ll be prompted to sign the following
+                            statement releasing your artwork under the{" "}
+                            <strong>CC0 license</strong> and agreeing to the
+                            Nouns Art Contribution Agreement, which will then be
+                            included in the proposal:
+                          </p>
+                          <Dynamic>
+                            <pre className="text-xs p-2 border text-foreground/75 break-words whitespace-pre-wrap">
+                              {artContributionAgreementMessage}
+                            </pre>
+                          </Dynamic>
+                          <Button
+                            className="w-full"
+                            onClick={() =>
+                              signArtContributionAgreement({
+                                message: artContributionAgreementMessage,
+                              })
+                            }
+                          >
+                            Sign Nouns Art Contribution Agreement
+                          </Button>
+                        </div>
+                      }
+                    >
+                      You&apos;ve signed the{" "}
+                      <Link
+                        href={
+                          "https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk"
+                        }
+                        className="text-blue-500"
+                        color="foreground"
+                        target="_blank"
+                        underline="always"
+                      >
+                        Nouns Art Contribution Agreement
+                      </Link>
+                    </ChecklistItem>
                   </>
                 )}
-                <TraitPicker
-                  traitType={traitType(trait)}
-                  currentTraits={transparentTraits}
-                  onPick={(index) => {
-                    // Just update the index, and handle everything else in an effect
-                    setSelectedTraitIndex(index);
-                  }}
-                  className="w-full mt-2"
-                  classNames={{
-                    button: "w-fit",
-                  }}
-                >
-                  {selectedTraitIndex === null
-                    ? "Select trait"
-                    : "Change selection"}
-                </TraitPicker>
-                <Divider className="!my-12" />
-                <ChecklistItem
-                  isUserTickable
-                  id="agreement"
-                  isTicked={artContributionAgreementSignature !== undefined}
-                  onClick={() =>
-                    signArtContributionAgreement({
-                      message: artContributionAgreementMessage,
-                    })
-                  }
-                  tickableContent={
-                    <div className="flex flex-col gap-4">
-                      <p className="text-sm text-foreground">
-                        You&apos;ll be prompted to sign the following statement
-                        releasing your artwork under the{" "}
-                        <strong>CC0 license</strong> and agreeing to the Nouns
-                        Art Contribution Agreement, which will then be included
-                        in the proposal:
-                      </p>
-                      <Dynamic>
-                        <pre className="text-xs p-2 border text-foreground/75 break-words whitespace-pre-wrap">
-                          {artContributionAgreementMessage}
-                        </pre>
-                      </Dynamic>
-                      <Button
-                        className="w-full"
-                        onClick={() =>
-                          signArtContributionAgreement({
-                            message: artContributionAgreementMessage,
-                          })
-                        }
-                      >
-                        Sign Nouns Art Contribution Agreement
-                      </Button>
-                    </div>
-                  }
-                >
-                  You&apos;ve signed the{" "}
-                  <Link
-                    href={
-                      "https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk"
-                    }
-                    className="text-blue-500"
-                    color="foreground"
-                    target="_blank"
-                    underline="always"
-                  >
-                    Nouns Art Contribution Agreement
-                  </Link>
-                </ChecklistItem>
               </ul>
               {!address && <ConnectButton />}
             </Dynamic>
           </div>
 
-          {previewNounsTraits &&
+          {previewTraits &&
             traitBitmap &&
             traitColorsWithoutTransparent &&
-            mainnetArtwork &&
-            originalTraitBitmap &&
-            originalTraitColorsWithoutTransparent && (
+            mainnetArtwork && (
               <div className="hidden">
+                <canvas ref={setPreviewNounCanvas} />
+                <canvas ref={setCircleCropLgCanvas} />
+                <canvas ref={setCircleCropMdCanvas} />
+                <canvas ref={setCircleCropSmCanvas} />
+
                 <TraitOnCheckerboard
-                  ref={setNewStandaloneCanvas}
+                  ref={setStandaloneCanvas}
                   size={256}
                   trait={traitBitmap}
                 />
-                <TraitOnCheckerboard
-                  ref={setOldStandaloneCanvas}
-                  size={256}
-                  trait={originalTraitBitmap}
-                />
 
                 <TraitPalette
-                  ref={setOldPaletteCanvas}
-                  colors={originalTraitColorsWithoutTransparent}
-                  className="w-fit h-fit"
-                />
-                <TraitPalette
-                  ref={setNewPaletteCanvas}
+                  ref={setPaletteCanvas}
                   colors={traitColorsWithoutTransparent}
-                  className="w-fit h-fit"
+                  className="w-fit h-fit "
                 />
 
-                {/* Gallery of side-by-side comparisons */}
                 {previewNounsTraits &&
                   previewNounsTraits.map((traits, i) => (
                     <Noun
@@ -632,19 +539,10 @@ Contribution specification: ${trait.trait}`;
 
           <h2 className="self-center">Your space</h2>
           <div className="bg-content1 max-w-2xl flex flex-col p-10 gap-4 px-7 w-full shadow-md">
-            <Input
-              label="Title"
-              placeholder={`Update ${
-                originalTraitName || "the"
-              } ${formatTraitType(trait.type)}`}
-              labelPlacement="outside"
-              className="flex-grow"
-              onChange={(e) => setDebouncedCustomTitle(e.target.value)}
-            />
             <p>
               This is your space to talk about your trait and whatever else
-              you&apos;d like. Tell the DAO why they should update the existing
-              trait with your new version!
+              you&apos;d like. Tell the DAO why they should incorporate your
+              trait into the collection!
             </p>
 
             <p>
@@ -656,7 +554,7 @@ Contribution specification: ${trait.trait}`;
 
             <Textarea
               label="Words from the author"
-              defaultValue={wordsFromArtist}
+              defaultValue={wordsFromAuthor}
               labelPlacement="outside"
               minRows={20}
               onChange={(e) => setWordsFromAuthor(e.target.value)}
@@ -664,7 +562,6 @@ Contribution specification: ${trait.trait}`;
               classNames={{ mainWrapper: "mt-8" }}
             />
           </div>
-
           <h2>Preview</h2>
           {proposalContent ? (
             <ProposalPreview
@@ -678,7 +575,6 @@ Contribution specification: ${trait.trait}`;
               </p>
             </div>
           )}
-
           {prerequisitesMet && artContributionAgreementSignature && (
             <p>
               If everything seems about right, let&apos;s get ready to submit!
@@ -709,7 +605,6 @@ Contribution specification: ${trait.trait}`;
               to proceed.
             </p>
           )}
-
           <Button
             onClick={() => {
               uploadImages();
@@ -730,8 +625,8 @@ Contribution specification: ${trait.trait}`;
             <>
               <p>Ready to submit? Let&apos;s do it!</p>
               <Button
-                loadingContent={isSimulating ? "Simulating tx" : "Submitting"}
-                isLoading={isProposing || isSimulating}
+                loadingContent="Submitting"
+                isLoading={isProposing}
                 disabled={
                   isProposing ||
                   !propose ||
@@ -752,7 +647,9 @@ Contribution specification: ${trait.trait}`;
           {proposeTx && (
             <p>
               Transaction submitted.{" "}
-              <Link href={`https://etherscan.io/tx/${proposeTx}`}>
+              <Link
+                href={`https://etherscan.io/tx/0xdfa89f520f33d0d26ad3728121fc9ce020722505e9a0f0903c306d73d2074c80`}
+              >
                 See it on Etherscan
               </Link>
             </p>

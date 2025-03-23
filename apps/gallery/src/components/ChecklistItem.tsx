@@ -9,6 +9,7 @@ export interface ChecklistItemProps
   isUserTickable?: boolean;
   tickableContent?: React.ReactNode;
   warningContent?: React.ReactNode;
+  onTick?: () => void;
 }
 
 export const ChecklistItem: FC<ChecklistItemProps> = ({
@@ -17,7 +18,7 @@ export const ChecklistItem: FC<ChecklistItemProps> = ({
   tickableContent,
   children,
   warningContent,
-  onClick,
+  onTick,
   ...props
 }) => {
   return (
@@ -29,7 +30,7 @@ export const ChecklistItem: FC<ChecklistItemProps> = ({
           <Checkbox className="align-bottom inline h-7 w-7 text-green-500" />
         ) : isUserTickable ? (
           <EmptyBox
-            onClick={onClick}
+            onClick={onTick}
             className="cursor-pointer align-bottom inline h-7 w-7 text-foreground"
           />
         ) : (

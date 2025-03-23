@@ -1,5 +1,5 @@
-import { BlinkingNoggles as LilNounsBlinkingNoggles } from "@/variants/lil-nouns/BlinkingNoggles";
-import { BlinkingNoggles as NounsBlinkingNoggles } from "@/variants/nouns/BlinkingNoggles";
+import { BlinkingNoggles as LilNounsBlinkingNoggles } from "@/variants/lil-nouns/components/BlinkingNoggles";
+import { BlinkingNoggles as NounsBlinkingNoggles } from "@/variants/nouns/components/BlinkingNoggles";
 import { FC, SVGProps } from "react";
 
 export const BlinkingNoggles: FC<SVGProps<SVGElement>> = (props) => {

@@ -1,7 +1,7 @@
 import { getTrait } from "@/app/actions/getTrait";
 import { getUserInfo } from "@/app/actions/getUserInfo";
 import { appConfig } from "@/variants/config";
-import { ProposeUpdate } from "@/variants/nouns/propose-update/ProposeUpdate";
+import { ProposeUpdate } from "@/variants/nouns/components/propose-update/ProposeUpdate";
 import { notFound } from "next/navigation";
 
 const ProposeUpdatePage = async ({

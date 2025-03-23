@@ -1,8 +1,8 @@
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { FC } from "react";
-import { Propose as LilNounsPropose } from "../lil-nouns/propose/Propose";
-import { Propose as NounsPropose } from "../nouns/propose/Propose";
+import { Propose as LilNounsPropose } from "../lil-nouns/components/propose/Propose";
+import { Propose as NounsPropose } from "../nouns/components/propose/Propose";
 
 export interface ProposeProps {
   trait: Trait;

@@ -2,7 +2,9 @@
 
 import { useSimulateContract } from "wagmi";
 
+import { compressEncodedArtwork, encodeArtwork } from "@/app/propose/artworkEncoding";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
+import { useTraitColorIndexes } from "@/hooks/useTraitColorIndexes";
 import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
 import {
@@ -13,8 +15,6 @@ import {
 import { useMemo } from "react";
 import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
-import { useTraitColorIndexes } from "@/hooks/useTraitColorIndexes";
-import { compressEncodedArtwork, encodeArtwork } from "@/app/propose/artworkEncoding";
 
 export interface UseProposeTraitUpdateArgs {
     description?: string;
@@ -120,7 +120,7 @@ export const useProposeTraitUpdateSimulation = ({
             functionName,
             args: compressedEncodedArtwork,
         }) as `0x${string}`;
-    }, [compressedEncodedArtwork, trait, functionName]);
+    }, [compressedEncodedArtwork, functionName]);
 
 
     const targets = [nounsDescriptorContract.address] as const;

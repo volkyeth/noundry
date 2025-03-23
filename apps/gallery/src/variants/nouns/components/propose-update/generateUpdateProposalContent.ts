@@ -1,6 +1,6 @@
 import { Trait } from "@/types/trait";
 import { titleCase } from "@/utils/titleCase";
-import { formatTraitType } from "../../utils/traits/format";
+import { formatTraitType } from "@/utils/traits/format";
 
 export interface UpdateProposalImages<T> {
     oldStandalone: T;

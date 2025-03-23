@@ -14,8 +14,8 @@ import {
 import { useMemo } from "react";
 import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
-import { compressAndEncodeTrait } from "../../../app/propose/artworkEncoding";
-import { useTraitColorIndexes } from "../../../hooks/useTraitColorIndexes";
+import { compressAndEncodeTrait } from "../../../../app/propose/artworkEncoding";
+import { useTraitColorIndexes } from "../../../../hooks/useTraitColorIndexes";
 
 export interface UseProposePartArgs {
   description?: string;

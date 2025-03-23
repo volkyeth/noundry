@@ -1,6 +1,6 @@
 import { Trait } from "@/types/trait";
-import { capitalize } from "../../../utils/capitalize";
-import { formatTraitType } from "../../../utils/traits/format";
+import { capitalize } from "../../../../utils/capitalize";
+import { formatTraitType } from "../../../../utils/traits/format";
 
 export interface ProposalImages<T> {
   previewNoun: T;
@@ -38,7 +38,7 @@ export const generateProposalContent = ({
   return `
 # 🎨 Noundry: Add ${trait.name} ${capitalize(formatTraitType(trait.type))}
 
-*submitted via [Noundry Gallery](https://gallery.noundry.wtf/trait/${trait.id})*
+*submitted via [Lil Noundry](https://lil.noundry.wtf/trait/${trait.id})*
 
 ## Summary
 This proposal adds a new **${formatTraitType(trait.type)}** trait: ${trait.name}
@@ -64,12 +64,12 @@ Palette: ${amountPaletteColors} colors
 
 ## Playground testing
 
-Here are some auto-generated combinations of the new part with existing Nouns parts:
+Here are some auto-generated combinations of the new part with existing Lil Nouns parts:
 
 ${proposalImages.galleryImages
       .map((imageUri, i) => `![Preview ${i + 1}](${imageUri})`)
       .join("")}
-  [see more previews](https://gallery.noundry.wtf/trait/${trait.id})
+  [see more previews](https://lil.noundry.wtf/trait/${trait.id})
 
   ${wordsFromArtist &&
     `## Some words from the artist
@@ -77,8 +77,7 @@ ${proposalImages.galleryImages
 ${wordsFromArtist}`
     }
 
-  ## Nouns Art Contribution Agreement
-
+  ## CC0 waiver
   **Signer**:
   \`\`\`
   ${artContributionAgreementSigner ?? "connect your wallet"}
