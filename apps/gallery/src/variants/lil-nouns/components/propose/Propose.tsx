@@ -25,7 +25,7 @@ import { appConfig } from "@/variants/config";
 import {
   generateProposalContent,
   ProposalImagesUris,
-} from "@/variants/nouns/components/propose/generateProposalContent";
+} from "@/variants/lil-nouns/components/propose/generateProposalContent";
 import { Divider, Link, Textarea } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
