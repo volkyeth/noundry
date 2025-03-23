@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   ],
   description: `Let there be ${appConfig.nounTermPlural}.`,
   other: {
-    "twitter:image": `${SITE_URI}/og.png`,
+    "twitter:image": `${SITE_URI}/${appConfig.variant}-og.png`,
     "twitter:card": "summary_large_image",
     "theme-color": getPrimaryColor(),
   },
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     description: `Let there be ${appConfig.nounTermPlural}.`,
     images: [
       {
-        url: `${SITE_URI}/og.png`,
+        url: `${SITE_URI}/${appConfig.variant}-og.png`,
       },
     ],
     siteName: appConfig.appTitle,
