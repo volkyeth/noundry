@@ -1,3 +1,4 @@
+import { InflaterDecoder } from "@/app/lil-nouns/InflaterDecoder";
 import { LatestLilNoun } from "@/app/lil-nouns/LatestLilNoun";
 import { TraitsList } from "@/app/lil-nouns/TraitsList";
 
@@ -24,6 +25,17 @@ export default function Home() {
       </p>
 
       <TraitsList />
+
+      <h2 className="text-3xl font-bold mb-6 mt-16">
+        Trait Inflater & Decoder
+      </h2>
+      <p className="text-center max-w-2xl mb-8">
+        Enter compressed trait data to decode and render traits. You can use
+        this to double check the transactions in proposals that add traits or
+        update them.
+      </p>
+
+      <InflaterDecoder />
     </main>
   );
 }
