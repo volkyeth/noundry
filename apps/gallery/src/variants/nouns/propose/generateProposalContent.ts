@@ -1,6 +1,6 @@
 import { Trait } from "@/types/trait";
-import { capitalize } from "../../utils/capitalize";
-import { formatTraitType } from "../../utils/traits/format";
+import { capitalize } from "../../../utils/capitalize";
+import { formatTraitType } from "../../../utils/traits/format";
 
 export interface ProposalImages<T> {
   previewNoun: T;
@@ -67,16 +67,15 @@ Palette: ${amountPaletteColors} colors
 Here are some auto-generated combinations of the new part with existing Nouns parts:
 
 ${proposalImages.galleryImages
-  .map((imageUri, i) => `![Preview ${i + 1}](${imageUri})`)
-  .join("")}
+      .map((imageUri, i) => `![Preview ${i + 1}](${imageUri})`)
+      .join("")}
   [see more previews](https://gallery.noundry.wtf/trait/${trait.id})
 
-  ${
-    wordsFromArtist &&
+  ${wordsFromArtist &&
     `## Some words from the artist
 
 ${wordsFromArtist}`
-  }
+    }
 
   ## Nouns Art Contribution Agreement
 

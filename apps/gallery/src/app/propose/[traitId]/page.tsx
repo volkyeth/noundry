@@ -1,7 +1,7 @@
 import { getTrait } from "@/app/actions/getTrait";
 import { getUserInfo } from "@/app/actions/getUserInfo";
+import { Propose } from "@/variants/proxy-components/Propose";
 import { notFound } from "next/navigation";
-import { Propose } from "../Propose";
 
 const ProposePage = async ({
   params: { traitId },

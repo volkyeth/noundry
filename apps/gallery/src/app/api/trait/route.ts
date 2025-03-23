@@ -42,9 +42,9 @@ export async function POST(req: Request) {
   // Create the response
   const response = NextResponse.json({ id: id.toString() });
 
-  waitUntil(postTraitOnDiscord(id.toString()))
-  waitUntil(postTraitOnTwitter(id.toString()))
-  waitUntil(castTraitOnFarcaster(id.toString()))
+  if (process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID) waitUntil(postTraitOnDiscord(id.toString()))
+  if (process.env.NOUNDRY_TWITTER_ACCESS_TOKEN) waitUntil(postTraitOnTwitter(id.toString()))
+  if (process.env.NOUNDRY_NEYNAR_SIGNER_UUID) waitUntil(castTraitOnFarcaster(id.toString()))
 
   return response;
 }

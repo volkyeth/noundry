@@ -1,12 +1,13 @@
-import loadingNoun from "@/assets/loading-noun.gif";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { PngDataUri } from "@/types/image";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
+import { appConfig } from "@/variants/config";
 import { EncodedTrait, HexColor, NounSeed, TraitType } from "noggles";
 import { FC, HtmlHTMLAttributes, ReactNode, useState } from "react";
 import { Noun } from "./Noun";
 import { VirtualizedGallery } from "./VirtualizedGallery";
+const { loadingNoun } = appConfig;
 
 export interface TraitTestingGroundsProps
   extends HtmlHTMLAttributes<HTMLDivElement> {

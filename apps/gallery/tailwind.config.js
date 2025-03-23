@@ -1,6 +1,19 @@
 const { nextui } = require("@nextui-org/react");
+const { theme: nounsTheme } = require("./src/variants/nouns/theme");
+const { theme: lilNounsTheme } = require("./src/variants/lil-nouns/theme");
 const containerQueries = require("@tailwindcss/container-queries");
 const colors = require("tailwindcss/colors");
+
+// Import the app config to get the theme colors
+// We need to use a dynamic approach since this is a Node.js module
+// and we can't directly import the TypeScript config
+const getThemeColors = () => {
+  // Get the app variant from environment variable
+  const appVariant = process.env.NEXT_PUBLIC_APP_VARIANT || "nouns";
+
+  // Return the theme colors for the current variant
+  return appVariant === "nouns" ? nounsTheme : lilNounsTheme;
+};
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -21,18 +34,8 @@ module.exports = {
       colors: {
         cool: "#d5d7e1",
         warm: "#e1d7d5",
-        primary: {
-          DEFAULT: "#ff2165",
-          100: "#ffd3e0",
-          200: "#ffa6c1",
-          300: "#ff7aa3",
-          400: "#ff4d84",
-          500: "#ff2165",
-          600: "#cc1a51",
-          700: "#99143d",
-          800: "#660d28",
-          900: "#330714",
-        },
+        // Use the theme colors from the app config
+        primary: getThemeColors().primary,
         secondary: {
           DEFAULT: "#5d576b",
           100: "#dfdde1",

@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { appConfig } from "../../variants/config";
 
 function main() {
   const client = new MongoClient(process.env.MONGODB_HOST!, {
@@ -20,4 +21,4 @@ function main() {
 }
 
 export const client = main();
-export const database = client!.db("gallery");
+export const database = client!.db(appConfig.databaseName);

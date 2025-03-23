@@ -28,7 +28,7 @@ export async function DELETE(req: NextRequest, { params: { id: traitId } }) {
     );
 
   // Delete Twitter post if it exists
-  if (trait.twitterPostId) {
+  if (trait.twitterPostId && process.env.NOUNDRY_TWITTER_ACCESS_TOKEN) {
     try {
       await deleteTraitFromTwitter(trait.twitterPostId);
       console.log(`Deleted Twitter post for trait ${traitId}`);
@@ -38,7 +38,7 @@ export async function DELETE(req: NextRequest, { params: { id: traitId } }) {
   }
 
   // Delete Farcaster post if it exists
-  if (trait.farcasterCastHash) {
+  if (trait.farcasterCastHash && process.env.NOUNDRY_NEYNAR_SIGNER_UUID) {
     try {
       await deleteTraitFromFarcaster(trait.farcasterCastHash);
       console.log(`Deleted Farcaster post for trait ${traitId}`);
@@ -48,7 +48,7 @@ export async function DELETE(req: NextRequest, { params: { id: traitId } }) {
   }
 
   // Delete Discord post if it exists
-  if (trait.discordPostId) {
+  if (trait.discordPostId && process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID) {
     try {
       const channelId = process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID;
 

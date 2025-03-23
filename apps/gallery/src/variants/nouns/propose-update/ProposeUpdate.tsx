@@ -1,22 +1,20 @@
 "use client";
 
-import {
-  generateUpdateProposalContent,
-  UpdateProposalImagesUris,
-} from "@/app/propose-update/generateUpdateProposalContent";
-import LoadingNoggles from "@/assets/loading-noggles.svg";
+import { uploadUpdatePropImages } from "@/app/actions/uploadUpdatePropImages";
 import { BraveDisclaimer } from "@/components/BraveDisclaimer";
 import { Button } from "@/components/Button";
+import { ChecklistItem } from "@/components/ChecklistItem";
 import { ConnectButton } from "@/components/ConnectButton";
 import Dynamic from "@/components/Dynamic";
 import { LikeWidget } from "@/components/LikeWidget";
 import { Noun } from "@/components/Noun";
 import { ProposalPreview } from "@/components/ProposalPreview";
 import { TraitCard } from "@/components/TraitCard";
+import { TraitOnCheckerboard } from "@/components/TraitOnCheckerboard";
+import { TraitPalette } from "@/components/TraitPalette";
 import { TraitPicker } from "@/components/TraitPicker";
 import { UserBadge } from "@/components/UserBadge";
 import { AMOUNT_PROPOSAL_PREVIEWS } from "@/constants/config";
-import { useCreateCandidateCost } from "@/hooks/useCreateCandidateCost";
 import { useImageBitmap } from "@/hooks/useImageBitmap";
 import { useIsNouner } from "@/hooks/useIsNouner";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
@@ -32,6 +30,12 @@ import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { titleCase } from "@/utils/titleCase";
 import { formatTraitType } from "@/utils/traits/format";
+import { appConfig } from "@/variants/config";
+import {
+  generateUpdateProposalContent,
+  UpdateProposalImagesUris,
+} from "@/variants/nouns/propose-update/generateUpdateProposalContent";
+import { useCreateCandidateCost } from "@/variants/nouns/propose/useCreateCandidateCost";
 import { Divider, Input, Link, Textarea } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
@@ -51,11 +55,8 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { uploadUpdatePropImages } from "../actions/uploadUpdatePropImages";
-import { ChecklistItem } from "../propose/ChecklistItem";
-import { TraitOnCheckerboard } from "../propose/TraitOnCheckerboard";
-import { TraitPalette } from "../propose/TraitPalette";
 import { useProposeTraitUpdateSimulation } from "./useProposeTraitUpdate";
+const { LoadingNoggles } = appConfig;
 
 export interface ProposeUpdateProps {
   trait: Trait;

@@ -1,6 +1,6 @@
 "use server";
 
-import { ProposalImagesUris } from "@/app/propose/generateProposalContent";
+import { ProposalImagesUris } from "@/variants/nouns/propose/generateProposalContent";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { nanoid } from "nanoid";
 

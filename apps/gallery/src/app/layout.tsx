@@ -1,27 +1,39 @@
 import { SITE_URI } from "@/constants/config";
+import { appConfig } from "@/variants/config";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/lora";
 import { Metadata } from "next";
 import "../globals.css";
 import { App } from "./App";
 
+// Get the primary color for the current variant
+const getPrimaryColor = () => {
+  return appConfig.variant === "nouns" ? "#FF2165" : "#1e92d9";
+};
+
 export const metadata: Metadata = {
-  title: "Noundry Gallery",
-  description: "Let there be Nouns.",
+  title: appConfig.appTitle,
+  icons: [
+    {
+      rel: "icon",
+      url: appConfig.favicon.src,
+    },
+  ],
+  description: `Let there be ${appConfig.nounTermPlural}.`,
   other: {
     "twitter:image": `${SITE_URI}/og.png`,
     "twitter:card": "summary_large_image",
-    "theme-color": "#FF2165",
+    "theme-color": getPrimaryColor(),
   },
   openGraph: {
-    title: "Noundry Gallery",
-    description: "Let there be Nouns.",
+    title: appConfig.appTitle,
+    description: `Let there be ${appConfig.nounTermPlural}.`,
     images: [
       {
         url: `${SITE_URI}/og.png`,
       },
     ],
-    siteName: "Noundry Gallery",
+    siteName: appConfig.appTitle,
   },
 };
 

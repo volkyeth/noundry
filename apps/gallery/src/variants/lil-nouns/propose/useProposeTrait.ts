@@ -6,7 +6,7 @@ import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
 import {
-  nounsDaoDataContract,
+  lilNounsDAOContract,
   nounsDescriptorContract,
   TraitCategory,
   TraitType
@@ -14,14 +14,12 @@ import {
 import { useMemo } from "react";
 import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
-import { compressAndEncodeTrait } from "./artworkEncoding";
-import { useTraitColorIndexes } from "./useTraitColorIndexes";
+import { compressAndEncodeTrait } from "../../../app/propose/artworkEncoding";
+import { useTraitColorIndexes } from "../../../hooks/useTraitColorIndexes";
 
 export interface UseProposePartArgs {
   description?: string;
   trait: Trait;
-  isNouner?: boolean;
-  createCandidateCost?: bigint;
   paletteIndex?: number;
 }
 
@@ -29,8 +27,6 @@ export const useProposeTraitSimulation = ({
   description,
   trait,
   paletteIndex,
-  createCandidateCost,
-  isNouner,
 }: UseProposePartArgs) => {
   const slug = useMemo(
     () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
@@ -52,7 +48,6 @@ export const useProposeTraitSimulation = ({
 
   const functionName = useMemo(() => getAddPartCallFunc(trait.type), [trait]);
 
-  const value = isNouner ? 0n : createCandidateCost;
   const calldata = useMemo(() => {
     if (!compressedEncodedArtwork) return "0x";
 
@@ -80,23 +75,19 @@ export const useProposeTraitSimulation = ({
   const enabled = description !== undefined &&
     compressedEncodedArtwork !== undefined &&
     paletteIndex !== undefined &&
-    createCandidateCost !== undefined &&
-    isNouner !== undefined &&
     palette !== undefined
 
   return useSimulateContract({
-    ...nounsDaoDataContract,
-    functionName: "createProposalCandidate",
+    ...lilNounsDAOContract,
+    functionName: "propose",
+
     args: [
       targets,
       values,
       signatures,
       calldatas,
       description ?? "",
-      slug,
-      proposalIdToUpdate,
     ],
-    value,
     query: {
       enabled
     }

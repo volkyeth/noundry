@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  ProposalImagesUris,
-  generateProposalContent,
-} from "@/app/propose/generateProposalContent";
-import LoadingNoggles from "@/assets/loading-noggles.svg";
 import { BraveDisclaimer } from "@/components/BraveDisclaimer";
 import { Button } from "@/components/Button";
 import { ConnectButton } from "@/components/ConnectButton";
@@ -15,7 +10,6 @@ import { ProposalPreview } from "@/components/ProposalPreview";
 import { TraitCard } from "@/components/TraitCard";
 import { UserBadge } from "@/components/UserBadge";
 import { AMOUNT_PROPOSAL_PREVIEWS } from "@/constants/config";
-import { useCreateCandidateCost } from "@/hooks/useCreateCandidateCost";
 import { useImageBitmap } from "@/hooks/useImageBitmap";
 import { useIsNouner } from "@/hooks/useIsNouner";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
@@ -24,12 +18,16 @@ import { useResizedImage } from "@/hooks/useResizedCanvas";
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
 import { useTraitColors } from "@/hooks/useTraitColors";
 import { useUserInfo } from "@/hooks/useUserInfo";
-import { Trait } from "@/types/trait";
-import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { formatTraitType } from "@/utils/traits/format";
+import { appConfig } from "@/variants/config";
+import {
+  ProposalImagesUris,
+  generateProposalContent,
+} from "@/variants/nouns/propose/generateProposalContent";
+import { useCreateCandidateCost } from "@/variants/nouns/propose/useCreateCandidateCost";
 import { Divider, Link, Textarea } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
@@ -48,16 +46,12 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { uploadPropImages } from "../actions/uploadPropImages";
-import { ChecklistItem } from "./ChecklistItem";
-import { TraitOnCheckerboard } from "./TraitOnCheckerboard";
-import { TraitPalette } from "./TraitPalette";
+import { uploadPropImages } from "../../../app/actions/uploadPropImages";
+import { ChecklistItem } from "../../../components/ChecklistItem";
+import { TraitOnCheckerboard } from "../../../components/TraitOnCheckerboard";
+import { TraitPalette } from "../../../components/TraitPalette";
 import { useProposeTraitSimulation } from "./useProposeTrait";
-
-export interface ProposeProps {
-  trait: Trait;
-  author: UserInfo;
-}
+const { LoadingNoggles } = appConfig;
 
 export const Propose = ({ trait, author }) => {
   const [salt] = useState(Math.random());

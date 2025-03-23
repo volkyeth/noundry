@@ -2,7 +2,7 @@
 
 import { PngDataUri } from "@/types/image";
 import { useEffect, useState } from "react";
-import { getColorIndexes } from "./artworkEncoding";
+import { getColorIndexes } from "../app/propose/artworkEncoding";
 
 export const useTraitColorIndexes = (
   trait: PngDataUri,

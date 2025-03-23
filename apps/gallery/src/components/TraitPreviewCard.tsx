@@ -1,9 +1,8 @@
-import loadingNoun from "@/assets/loading-noun.gif";
 import { useUsername } from "@/hooks/useUsername";
 import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
-
-import LoadingNoggles from "@/assets/loading-noggles.svg";
+import { appConfig } from "@/variants/config";
+const { LoadingNoggles, loadingNoun } = appConfig;
 import {
   Card,
   CardBody,

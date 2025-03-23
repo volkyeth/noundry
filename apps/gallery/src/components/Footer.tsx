@@ -1,6 +1,7 @@
-import LoadingNoggles from "@/assets/loading-noggles.svg";
+import { appConfig } from "@/variants/config";
+import { BlinkingNoggles } from "@/variants/proxy-components/BlinkingNoggles";
 import { useIsFetching } from "@tanstack/react-query";
-import { BlinkingNoggles } from "./BlinkingNoggles";
+const { LoadingNoggles } = appConfig;
 
 const Footer = () => {
   const isFetching = useIsFetching() > 0;
@@ -12,7 +13,9 @@ const Footer = () => {
         <BlinkingNoggles className="w-[64px] h-[24px] shrink-0 text-default-300" />
       )}
 
-      <p className="text-xl font-semibold text-default-300">A Nouns thing</p>
+      <p className="text-xl font-semibold text-default-300">
+        A {appConfig.nounTermPlural} thing
+      </p>
     </div>
   );
 };

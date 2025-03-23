@@ -46,3 +46,7 @@ export { nounsDaoDataContract } from "./nouns/contracts/nouns-dao-data.js";
 export { nounsDescriptorContract } from "./nouns/contracts/nouns-descriptor.js";
 export { nounsTokenContract } from "./nouns/contracts/nouns-token.js";
 
+export { lilNounsDAOContract } from "./lil-nouns/contracts/lil-nouns-dao.js";
+export { lilNounsDescriptorContract } from "./lil-nouns/contracts/lil-nouns-descriptor.js";
+export { lilNounsTokenContract } from "./lil-nouns/contracts/lil-nouns-token.js";
+

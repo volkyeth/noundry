@@ -1,0 +1,13 @@
+<svg height="54" viewBox="0 0 560 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="560" height="190" fill="#7CC4F2" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M59.9999 60H79.9999V79.9999H40V40H59.9999V60Z" fill="#FF638D" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M90 40H110V79.9999H90V40Z" fill="#FFEF16" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M140 60H160V79.9999H120V40H140V60Z" fill="#2B83F6" />
+    <path d="M40 150V90H100V150H80V110H60V150H40Z" fill="white" />
+    <path d="M110 150V90H170V150H110ZM130 130H150V110H130V130Z" fill="white" />
+    <path d="M180 150V90H200V130H220V90H240V150H180Z" fill="white" />
+    <path d="M250 150V90H310V150H290V110H270V150H250Z" fill="white" />
+    <path d="M320 150V90H360V110H380V130H360V150H320ZM340 130H360V110H340V130Z" fill="white" />
+    <path d="M390 150V90H430V110H450V150H430V130H410V110L410 150H390Z" fill="white" />
+    <path d="M481 149V129H461V89H481V109H501V99V89H521V129H501V149H481Z" fill="white" />
+</svg>

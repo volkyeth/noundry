@@ -1,6 +1,5 @@
 "use client";
 
-import LogoImage from "@/assets/NoundryGalleryLogo.svg";
 import FarcasterIcon from "@/assets/icons/farcaster.svg";
 import {
   Link,
@@ -17,6 +16,7 @@ import { usePathname } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 
 import { Button } from "@/components/Button";
+import { appConfig } from "@/variants/config";
 import { useSIWE } from "connectkit";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa6";
 import { RiCloseFill, RiMenuFill, RiUpload2Fill } from "react-icons/ri";
@@ -24,6 +24,8 @@ import { twMerge } from "tailwind-merge";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "./ConnectButton";
 import Dynamic from "./Dynamic";
+
+const { LogoImage, socialLinks, studioName, studioUrl } = appConfig;
 
 const Navbar = () => {
   const { isSignedIn } = useSIWE();
@@ -99,23 +101,29 @@ const Navbar = () => {
 
             <div className="mt-20">
               <p className="font-normal text-sm text-off-dark">Check out</p>
-              <a href="https://studio.noundry.wtf/" target="_blank">
+              <a href={studioUrl} target="_blank">
                 <p className="font-Pix text-off-dark py-1 hover:!text-primary text-xs">
-                  Noundry Studio
+                  {studioName}
                 </p>
               </a>
             </div>
 
             <div className="flex gap-4">
-              <a href={`https://warpcast.com/noundry`} target="_blank">
-                <FarcasterIcon />
-              </a>
-              <a href={`https://twitter.com/noundry`} target="_blank">
-                <FaTwitter />
-              </a>
-              <a href={`https://discord.gg/XbYPDSKVaV`} target="_blank">
-                <FaDiscord />
-              </a>
+              {socialLinks.farcaster && (
+                <a href={socialLinks.farcaster} target="_blank">
+                  <FarcasterIcon />
+                </a>
+              )}
+              {socialLinks.twitter && (
+                <a href={socialLinks.twitter} target="_blank">
+                  <FaTwitter />
+                </a>
+              )}
+              {socialLinks.discord && (
+                <a href={socialLinks.discord} target="_blank">
+                  <FaDiscord />
+                </a>
+              )}
               <a href={`https://github.com/volkyeth/noundry`} target="_blank">
                 <FaGithub />
               </a>
@@ -146,7 +154,7 @@ const NavbarLink: FC<NavbarLinkProps> = ({ children, href, ...props }) => {
           as={NextLink}
           className={twMerge(
             "uppercase hover:text-secondary",
-            isActive ? "text-secondary font-semibold" : "text-gray-400"
+            isActive ? "text-secondary font-semibold" : "text-gray-400",
           )}
           href={href}
           aria-current={isActive ? "page" : undefined}

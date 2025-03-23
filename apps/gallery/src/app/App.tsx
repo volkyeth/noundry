@@ -1,7 +1,10 @@
 "use client";
 
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+
 import { siweConfig } from "@/utils/siwe/siweConfig";
+import { appConfig } from "@/variants/config";
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -13,7 +16,11 @@ import { ReactNode } from "react";
 import { mainnet } from "viem/chains";
 import { WagmiProvider, createConfig, fallback, http } from "wagmi";
 import { hashFn } from "wagmi/query";
-import Navbar from "../components/Navbar";
+
+// Get the primary color for the current variant
+const getPrimaryColor = () => {
+  return appConfig.variant === "nouns" ? "#FF2165" : "#1e92d9";
+};
 
 export const App = ({ children }: { children: ReactNode }) => {
   const config = createConfig(
@@ -28,7 +35,7 @@ export const App = ({ children }: { children: ReactNode }) => {
         ]),
       },
       walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID!,
-      appName: "Noundry Gallery",
+      appName: appConfig.appTitle,
     }),
   );
 
@@ -51,7 +58,7 @@ export const App = ({ children }: { children: ReactNode }) => {
             >
               <NextUIProvider className="flex flex-col min-h-screen">
                 <ProgressBar
-                  color="#FF2165"
+                  color={getPrimaryColor()}
                   height={"2px"}
                   options={{ showSpinner: false }}
                 />

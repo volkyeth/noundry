@@ -55,9 +55,15 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:nouns": "env-cmd -f .env.nouns.local next dev",
+    "dev:lil-nouns": "env-cmd -f .env.lil-nouns.local next dev",
     "check": "tsc --noEmit",
     "build": "next build",
+    "build:nouns": "env-cmd -f .env.nouns.local next build",
+    "build:lil-nouns": "env-cmd -f .env.lil-nouns.local next build",
     "start": "next start",
+    "start:nouns": "env-cmd -f .env.nouns.local next start",
+    "start:lil-nouns": "env-cmd -f .env.lil-nouns.local next start",
     "lint": "next lint",
     "test": "vitest"
   },
@@ -67,8 +73,8 @@
     "@testing-library/react": "^14.2.2",
     "@types/react": "^18.0.17",
     "@types/seedrandom": "^3.0.6",
-    "@vitejs/plugin-react": "^2.0.1",
     "autoprefixer": "^10.4.16",
+    "env-cmd": "^10.1.0",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.3",
     "jsdom": "^24.0.0",
@@ -76,7 +82,7 @@
     "prettier": "^3.0.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
-    "typescript": "^5.2.2",
+    "typescript": "^5.8.2",
     "vitest": "^0.34.4"
   }
 }

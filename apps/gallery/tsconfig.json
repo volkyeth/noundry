@@ -25,6 +25,7 @@
     "strictNullChecks": true
   },
   "include": [
+    "svgr.d.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",

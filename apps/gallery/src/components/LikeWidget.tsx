@@ -1,7 +1,8 @@
-import LoadingNoggles from "@/assets/loading-noggles.svg";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
+import { appConfig } from "@/variants/config";
+import { BlinkingNoggles } from "@/variants/proxy-components/BlinkingNoggles";
 import { FC } from "react";
-import { BlinkingNoggles } from "./BlinkingNoggles";
+const { LoadingNoggles } = appConfig;
 
 export interface LikeWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   traitId: string;

@@ -19,6 +19,7 @@ import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
 import { formatTraitType } from "@/utils/traits/format";
+import { appConfig } from "@/variants/config";
 import {
   Dropdown,
   DropdownItem,
@@ -119,34 +120,45 @@ export const TraitSection: FC<TraitSectionProps> = ({
             <Dynamic>
               {isCreator && (
                 <div className="flex justify-between w-full">
-                  <Dropdown>
-                    <DropdownTrigger>
+                  {appConfig.traitUpdatesEnabled ? (
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          variant="ghost"
+                          className="h-fit p-2 text-default hover:text-black"
+                        >
+                          Propose
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Propose actions">
+                        <DropdownItem>
+                          <NextLink
+                            href={`/propose/${trait.id}`}
+                            className="w-full"
+                          >
+                            Propose new trait
+                          </NextLink>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <NextLink
+                            href={`/propose-update/${trait.id}`}
+                            className="w-full"
+                          >
+                            Propose trait update
+                          </NextLink>
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  ) : (
+                    <NextLink href={`/propose/${trait.id}`}>
                       <Button
                         variant="ghost"
                         className="h-fit p-2 text-default hover:text-black"
                       >
                         Propose
                       </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="Propose actions">
-                      <DropdownItem>
-                        <NextLink
-                          href={`/propose/${trait.id}`}
-                          className="w-full"
-                        >
-                          Propose new trait
-                        </NextLink>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <NextLink
-                          href={`/propose-update/${trait.id}`}
-                          className="w-full"
-                        >
-                          Propose trait update
-                        </NextLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                    </NextLink>
+                  )}
                   <div className="flex">
                     <Link
                       download={slugify(

@@ -1,6 +1,7 @@
 import { getTrait } from "@/app/actions/getTrait";
 import { getUserInfo } from "@/app/actions/getUserInfo";
-import { ProposeUpdate } from "@/app/propose-update/ProposeUpdate";
+import { appConfig } from "@/variants/config";
+import { ProposeUpdate } from "@/variants/nouns/propose-update/ProposeUpdate";
 import { notFound } from "next/navigation";
 
 const ProposeUpdatePage = async ({
@@ -10,7 +11,9 @@ const ProposeUpdatePage = async ({
 }) => {
   const { traitId } = params;
 
-  // Validate that the traitId is a valid MongoDB ObjectId
+  if (!appConfig.traitUpdatesEnabled) {
+    return notFound();
+  }
 
   if (!traitId) {
     return notFound();

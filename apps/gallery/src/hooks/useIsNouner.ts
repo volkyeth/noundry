@@ -1,13 +1,17 @@
-import { nounsTokenContract } from "noggles";
 import { useBlockNumber, useReadContract } from "wagmi";
+import { appConfig } from "../variants/config";
 
 export const useIsNouner = (address?: `0x${string}`) => {
   const { data: blockNumber } = useBlockNumber();
   const { data: votes } = useReadContract({
-    ...nounsTokenContract,
+    ...appConfig.descriptorContract,
     functionName: "getPriorVotes",
     args: [address!, (blockNumber ?? 0n) - 1n],
   });
 
-  return votes !== undefined ? votes > 0n : undefined;
+  if (votes === undefined || votes === null) {
+    return undefined;
+  }
+
+  return (votes as bigint) > 0n;
 };
