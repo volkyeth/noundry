@@ -19,6 +19,7 @@ import {
 } from "react";
 import { useDropzone } from "react-dropzone";
 import { HiArrowCircleRight } from "react-icons/hi";
+import { appConfig } from "../config";
 import { useCanvasInitializer, useOffscreenCanvas } from "../utils/canvas";
 import { clearCanvas } from "../utils/canvas/clearCanvas";
 import { getPixels } from "../utils/canvas/getPixels";
@@ -103,7 +104,7 @@ export const PartImporter: FC<PartImporterProps> = ({
             </Center>
             {conformsToPalette ? (
               <Text color="green.300" w={64}>
-                This image conforms to the classic nouns palette!
+                This image conforms to the {appConfig.nounTerm}s palette!
               </Text>
             ) : (
               <Text color="red.300" w={64}>
