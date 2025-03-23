@@ -7,7 +7,7 @@ import { Trait } from "@/types/trait";
 import { formatTraitType } from "@/utils/traits/format";
 import {
   lilNounsDAOContract,
-  nounsDescriptorContract,
+  lilNounsDescriptorContract,
   TraitCategory,
   TraitType
 } from "noggles";
@@ -53,18 +53,18 @@ export const useProposeTraitSimulation = ({
 
     return ("0x" +
       encodeFunctionData({
-        abi: nounsDescriptorContract.abi,
+        abi: lilNounsDescriptorContract.abi,
         functionName,
         args: compressedEncodedArtwork,
       }).substring(10)) as `0x${string}`;
   }, [compressedEncodedArtwork, functionName]);
 
-  const targets = [nounsDescriptorContract.address];
+  const targets = [lilNounsDescriptorContract.address];
   const calldatas = [calldata];
   const signatures = useMemo(
     () => [
       toFunctionSignature(
-        getAbiItem({ abi: nounsDescriptorContract.abi, name: functionName })
+        getAbiItem({ abi: lilNounsDescriptorContract.abi, name: functionName })
       ),
     ],
     [functionName]
