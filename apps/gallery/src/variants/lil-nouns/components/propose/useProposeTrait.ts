@@ -4,7 +4,6 @@ import { useSimulateContract } from "wagmi";
 
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { Trait } from "@/types/trait";
-import { formatTraitType } from "@/utils/traits/format";
 import {
   lilNounsDAOContract,
   lilNounsDescriptorContract,
@@ -12,7 +11,6 @@ import {
   TraitType
 } from "noggles";
 import { useMemo } from "react";
-import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
 import { compressAndEncodeTrait } from "../../../../app/propose/artworkEncoding";
 import { useTraitColorIndexes } from "../../../../hooks/useTraitColorIndexes";
@@ -28,11 +26,6 @@ export const useProposeTraitSimulation = ({
   trait,
   paletteIndex,
 }: UseProposePartArgs) => {
-  const slug = useMemo(
-    () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
-    [trait]
-  );
-  const proposalIdToUpdate = 0n;
   const { data: mainnetArtwork } = useMainnetArtwork();
   const palette = useMemo(
     () => mainnetArtwork?.palettes[paletteIndex ?? 0],
