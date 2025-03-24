@@ -293,11 +293,11 @@ importers:
         specifier: ^5.0.8
         version: 5.0.8
       '@noundry/lil-nouns-assets':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
       '@noundry/nouns-assets':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.4.0
+        version: 1.4.0
       '@nouns/sdk':
         specifier: ^0.4.0
         version: 0.4.0(bufferutil@4.0.8)(ethers@6.12.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(utf-8-validate@5.0.10)
@@ -3054,8 +3054,14 @@ packages:
   '@noundry/lil-nouns-assets@1.0.0':
     resolution: {integrity: sha512-bq3lsgjCZ0IAZQOn6sVJOntQKBHr9nzwYpx8NHRY3p+ySt+EPIESHncw3q3Im8Spp9lLGI70Xkvbt2j/XoxnZQ==}
 
+  '@noundry/lil-nouns-assets@1.1.0':
+    resolution: {integrity: sha512-8H/y+6ihdaIGEzS9isucmPIRiioEWZFW1mP6CNvNXChZdHmiKdPfsKwV4bZO2s96gcizYx+9f5Cb+XQihOd2ew==}
+
   '@noundry/nouns-assets@1.0.0':
     resolution: {integrity: sha512-PFzJypAQAyQMe/WTyjLUpmdfXf/RPyXqD5C9jfIjMqVRUeBBfAl2Skt/W3xpbgjLtZlGfiEzpjZEvujen271fw==}
+
+  '@noundry/nouns-assets@1.4.0':
+    resolution: {integrity: sha512-6oti3tUkmqAo2M3UPaOR5D+7LYG1TSSOCrf0F+tf/VFavhsWMqhRYc7lOdb1zE1P1uDUbIErnqTt7+KlrfC0Dw==}
 
   '@nouns/assets@0.5.0':
     resolution: {integrity: sha512-WWap8jldLvoUPBjfi9r5Ulj4Q7D7NW4XIPJhmlDqR4QpAidy3h13dIKOvW0ZDtzTyOPJ+/hGQTJGc7cZckTx0g==}
@@ -12749,7 +12755,17 @@ snapshots:
       '@ethersproject/bignumber': 5.7.0
       '@ethersproject/solidity': 5.7.0
 
+  '@noundry/lil-nouns-assets@1.1.0':
+    dependencies:
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/solidity': 5.7.0
+
   '@noundry/nouns-assets@1.0.0':
+    dependencies:
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/solidity': 5.7.0
+
+  '@noundry/nouns-assets@1.4.0':
     dependencies:
       '@ethersproject/bignumber': 5.7.0
       '@ethersproject/solidity': 5.7.0
