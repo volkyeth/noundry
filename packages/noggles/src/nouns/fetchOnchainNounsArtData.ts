@@ -52,7 +52,7 @@ export const fetchOnchainNounsArtData = async (
   const heads = await publicClient
     .multicall({
       allowFailure: false,
-      batchSize: 100,
+      batchSize: 25,
       contracts: new Array(headsCount).fill(null).map((_, index) => ({
         ...nounsDescriptorContract,
         functionName: "heads",
