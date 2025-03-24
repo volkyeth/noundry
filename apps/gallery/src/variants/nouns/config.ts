@@ -31,6 +31,7 @@ const nounsConfig: AppConfig = {
     favicon,
     nounTerm: 'Noun',
     nounTermPlural: 'Nouns',
+    nounTermShortPlural: 'Nouns',
     daoName: 'Nouns DAO',
     socialLinks: {
         discord: 'https://discord.gg/XbYPDSKVaV',

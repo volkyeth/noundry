@@ -32,6 +32,7 @@ export interface AppConfig {
     nounTerm: string;
     favicon: StaticImageData;
     nounTermPlural: string;
+    nounTermShortPlural: string;
     daoName: string;
     socialLinks: {
         discord?: string;

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
       url: appConfig.favicon.src,
     },
   ],
-  description: `Let there be ${appConfig.nounTermPlural}.`,
+  description: `Let there be ${appConfig.nounTermShortPlural}.`,
   other: {
     "twitter:image": `${SITE_URI}/${appConfig.variant}-og.png`,
     "twitter:card": "summary_large_image",

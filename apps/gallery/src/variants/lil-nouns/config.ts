@@ -35,13 +35,14 @@ const theme: ThemeColors = {
 
 const lilNounsConfig: AppConfig = {
     variant: 'lil-nouns',
-    appTitle: 'Lil Noundry Gallery',
+    appTitle: 'Lil Noundry',
     LogoImage,
     LoadingNoggles,
     loadingNoun,
     favicon,
     nounTerm: 'Lil Noun',
     nounTermPlural: 'Lil Nouns',
+    nounTermShortPlural: 'Lils',
     daoName: 'Lil Nouns DAO',
     socialLinks: {
         discord: 'https://discord.gg/QdvWkSSWcB',
