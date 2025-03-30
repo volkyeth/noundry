@@ -9,7 +9,7 @@ export type NounPartState = {
   visible: boolean;
   part: NounPartType;
   canvas: HTMLCanvasElement;
-  history: Blob[];
+  history: { blob: Blob; seed: number | null }[];
   currentHistoryIndex: number;
   canUndo: boolean;
   canRedo: boolean;
@@ -42,9 +42,9 @@ const moveToHistory = async (
   if (!partState.history[index]) {
     throw "Can't move to inexistent history position";
   }
-  const blob = partState.history[index];
+  const historyItem = partState.history[index];
 
-  await replaceCanvasWithBlob(blob, partState.canvas).then(() => {
+  await replaceCanvasWithBlob(historyItem.blob, partState.canvas).then(() => {
     drawNounCanvas(state);
   });
 
@@ -52,7 +52,8 @@ const moveToHistory = async (
     currentHistoryIndex: index,
     canUndo: index > 0,
     canRedo: index < partState.history.length - 1,
-    blob: () => blob,
+    blob: () => historyItem.blob,
+    seed: historyItem.seed,
   };
 };
 
@@ -109,14 +110,19 @@ export const createNounPart = (
       });
     },
     blob: () => {
+      const currentHistoryItem = get()[part].history[get()[part].currentHistoryIndex];
+      if (currentHistoryItem) {
+        return currentHistoryItem.blob;
+      }
       throw "History not initialized yet";
     },
     // Redraws the Noun and pushes current canvas content to history
     commit: async () => {
       await getBlob(canvas).then(async (blob) => {
         const partState = get()[part];
+        const currentSeed = partState.seed;
 
-        const currentBlob = partState.history[partState.currentHistoryIndex];
+        const currentBlob = partState.history[partState.currentHistoryIndex]?.blob;
 
         if (currentBlob && (await blobsAreEqual(blob, currentBlob))) {
           return;
@@ -129,12 +135,11 @@ export const createNounPart = (
           return {
             history: [
               ...state.history.slice(0, state.currentHistoryIndex + 1),
-              blob,
+              { blob, seed: currentSeed },
             ],
             canUndo: state.currentHistoryIndex + 1 > 0,
             canRedo: false,
             edited: true,
-            seed: null,
             currentHistoryIndex: state.currentHistoryIndex + 1,
             blob: () => blob,
           };
