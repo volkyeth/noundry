@@ -1,6 +1,6 @@
 {
   "name": "@noundry/nouns-assets",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Nouns run-length encoded image data. Auto-updated as new traits are added to the DAO.",
   "author": "Volky",
   "homepage": "https://assets.noundry.wtf/nouns",
