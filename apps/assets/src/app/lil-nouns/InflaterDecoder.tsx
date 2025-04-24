@@ -92,12 +92,23 @@ export const InflaterDecoder = () => {
     message: string;
   } | null>(null);
   const [compareWithDAO, setCompareWithDAO] = useState<boolean>(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   // Get current DAO traits based on selected trait type
   const currentDAOTraits = useMemo(() => {
     if (!compareWithDAO) return [];
     return ImageData.images[traitType] || [];
   }, [compareWithDAO, traitType]);
+
+  const copyToClipboard = async (text: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
 
   // Calculate trait status for comparison
   const getTraitStatus = (index: number, trait: EncodedTrait): TraitStatus => {
@@ -331,6 +342,14 @@ export const InflaterDecoder = () => {
                   <span className="mt-2 text-sm text-center">
                     Trait {index}
                   </span>
+                  <code
+                    className="text-sm text-ellipsis w-24 overflow-hidden cursor-pointer hover:bg-gray-100 transition-colors p-1 rounded"
+                    onClick={() =>
+                      copyToClipboard(String(encodedTraits[index]), index)
+                    }
+                  >
+                    {copiedIndex === index ? "Copied!" : encodedTraits[index]}
+                  </code>
                   {compareWithDAO && <StatusBadge status={status} />}
                 </div>
               );
