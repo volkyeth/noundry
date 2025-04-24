@@ -78,7 +78,7 @@ export const Propose = ({ trait, author }) => {
   const artContributionAgreementMessage = `I, ${
     userInfo?.nameOrPseudonym ?? userInfo?.userName
   }, hereby waive all copyright and related or neighboring rights together with all associated claims and causes of action with respect to this work to the extent possible under the law.
-I have read and understand the terms and intended legal effect of the Nouns Art Contribution Agreement, available at https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk, and hereby voluntarily elect to apply it to this contribution.
+I have read and understand the terms and intended legal effect of the Nouns Art Contribution Agreement, available at https://ern3fbtsj23a2achuj5kqa4xtp2yvplqjy2r6cemo6ep52lfn2cq.arweave.net/JFuyhnJOtg0AR6J6qAOXm_WKvXBONR8IjHeI_ullboU, and hereby voluntarily elect to apply it to this contribution.
 
 Contribution name: ${trait.name} ${formatTraitType(trait.type)}
 Contribution specification: ${trait.trait}`;
@@ -484,7 +484,7 @@ Contribution specification: ${trait.trait}`;
                       You&apos;ve signed the{" "}
                       <Link
                         href={
-                          "https://z5pvlzj323gcssdd3bua3hjqckxbcsydr4ksukoidh3l46fhet4q.arweave.net/z19V5TvWzClIY9hoDZ0wEq4RSwOPFSopyBn2vninJPk"
+                          "https://ern3fbtsj23a2achuj5kqa4xtp2yvplqjy2r6cemo6ep52lfn2cq.arweave.net/JFuyhnJOtg0AR6J6qAOXm_WKvXBONR8IjHeI_ullboU"
                         }
                         className="text-blue-500"
                         color="foreground"
