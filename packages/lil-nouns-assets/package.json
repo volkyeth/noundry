@@ -1,6 +1,6 @@
 {
   "name": "@noundry/lil-nouns-assets",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Lil Nouns run-length encoded image data. Auto-updated as new traits are added to the DAO.",
   "author": "Volky",
   "homepage": "https://assets.noundry.wtf/lil-nouns",
