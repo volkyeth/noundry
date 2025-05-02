@@ -4,5 +4,6 @@
 	},
 	"scripts": {
 		"build": "turbo build"
-	}
+	},
+	"packageManager": "pnpm@10.10.0"
 }
