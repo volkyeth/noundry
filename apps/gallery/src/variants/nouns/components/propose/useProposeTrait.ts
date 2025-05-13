@@ -11,7 +11,8 @@ import {
   TraitCategory,
   TraitType
 } from "noggles";
-import { useMemo } from "react";
+import { nounsDescriptorContractAddress } from "noggles/src/nouns/contracts/nouns-descriptor";
+import { useEffect, useMemo } from "react";
 import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
 import { compressAndEncodeTrait } from "../../../../app/propose/artworkEncoding";
@@ -23,6 +24,7 @@ export interface UseProposePartArgs {
   isNouner?: boolean;
   createCandidateCost?: bigint;
   paletteIndex?: number;
+  logToConsole?: boolean;
 }
 
 export const useProposeTraitSimulation = ({
@@ -31,6 +33,7 @@ export const useProposeTraitSimulation = ({
   paletteIndex,
   createCandidateCost,
   isNouner,
+  logToConsole
 }: UseProposePartArgs) => {
   const slug = useMemo(
     () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
@@ -83,6 +86,19 @@ export const useProposeTraitSimulation = ({
     createCandidateCost !== undefined &&
     isNouner !== undefined &&
     palette !== undefined
+
+  useEffect(() => {
+    if (logToConsole) {
+      console.log("description:");
+      console.log(description);
+      console.log("----------------------------");
+      console.log("transaction:");
+      console.log(`${nounsDescriptorContractAddress}.${functionName}(
+${compressedEncodedArtwork}
+)`);
+    }
+  }, [description, compressedEncodedArtwork, logToConsole, functionName]);
+
 
   return useSimulateContract({
     ...nounsDaoDataContract,

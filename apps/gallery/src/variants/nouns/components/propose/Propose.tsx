@@ -277,6 +277,7 @@ Contribution specification: ${trait.trait}`;
       description: proposalContent,
       trait,
       paletteIndex,
+      logToConsole: imagesUploaded,
     });
 
   const { writeContractAsync: propose, data: proposeTx } = useWriteContract();
