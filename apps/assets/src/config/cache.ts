@@ -1,12 +1,12 @@
 // Cache configuration for Nouns asset routes
 
-// 6 hours in seconds
-export const CDN_CACHE_DURATION = 21_600;
+// 2 hours in seconds
+export const CDN_CACHE_DURATION = 7_200;
 
-// 1 day in seconds (for stale-while-revalidate)
-export const STALE_REVALIDATE_DURATION = 86_400;
+// 1 year in seconds (for stale-while-revalidate) - maximized for longest possible duration
+export const STALE_REVALIDATE_DURATION = 31_536_000;
 
-// CDN will cache for 6 hours, but browsers will always revalidate
+// CDN will cache for 2 hours, but browsers will always revalidate
 // stale-while-revalidate allows serving stale content while fetching fresh content
 export const CACHE_HEADERS = {
     'Cache-Control': 'no-cache',
