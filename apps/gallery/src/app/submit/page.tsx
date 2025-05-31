@@ -69,10 +69,24 @@ function InnerSubmit() {
     tmpImage.onload = () => {
       createImageBitmap(tmpImage).then((bitmap) => {
         setTraitBitmap(bitmap);
-        const ctx = traitCanvas?.getContext("2d")!;
+
+        // Create a temporary canvas to process the image data
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = 32;
+        tempCanvas.height = 32;
+        const ctx = tempCanvas.getContext("2d")!;
         ctx.imageSmoothingEnabled = false;
         ctx.clearRect(0, 0, 32, 32);
         ctx.drawImage(tmpImage, 0, 0, 32, 32);
+
+        // Set the canvas reference
+        setTraitCanvas(tempCanvas);
+
+        // Create a placeholder file to indicate we have image data from URL
+        const blob = new Blob(["placeholder"], { type: "text/plain" });
+        const file = new File([blob], "url-image.png", { type: "image/png" });
+        setTraitFile(file);
+
         tmpImage.remove();
       });
     };
@@ -104,7 +118,7 @@ function InnerSubmit() {
 
     // Clean up the URL to only keep the type parameter
     router.replace(`/submit?type=${traitType}`);
-  }, [searchParams, traitType, router, traitCanvas]);
+  }, [searchParams, traitType, router]);
 
   const { data: mainnetArtwork } = useMainnetArtwork();
   useEffect(() => {
@@ -204,22 +218,6 @@ function InnerSubmit() {
   });
 
   useEffect(() => {
-    if (!traitFile || !traitCanvas) return;
-    const reader = new FileReader();
-    reader.onload = function () {
-      const img = new Image();
-      img.onload = () => {
-        const ctx = traitCanvas.getContext("2d")!;
-        ctx.imageSmoothingEnabled = false;
-        ctx.clearRect(0, 0, 32, 32);
-        ctx.drawImage(img, 0, 0, 32, 32);
-      };
-      img.src = reader.result as string;
-    };
-    reader.readAsDataURL(traitFile);
-  }, [traitFile, traitCanvas]);
-
-  useEffect(() => {
     if (!traitBitmap || !traitCanvas) return;
 
     const ctx = traitCanvas.getContext("2d");
@@ -236,43 +234,9 @@ function InnerSubmit() {
         <div className="container w-full max-w-6xl mx-auto px-2 sm:px-4 gap-8 md:gap-12 items-center flex flex-col flex-grow py-4 pt-8">
           <h1>Submit {formatTraitType(traitType) || "trait"}</h1>
 
-          {traitType === null && (
-            <div className="grid w-full max-w-2xl grid-cols-1 xs:grid-cols-2  items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
-              {["head", "accessory", "glasses", "body"].map(
-                (traitType: TraitType) => (
-                  <Button
-                    key={`select-type-${traitType}`}
-                    variant="secondary"
-                    className="w-full h-fit flex flex-col items-center p-8"
-                    onClick={() => setTraitType(traitType)}
-                  >
-                    <TraitIcon
-                      type={traitType}
-                      negative
-                      className="w-12 h-12 md:w-[72px] md:h-[72px]"
-                    />
-                    <p className="uppercase mt-4 text-sm font-semibold ">
-                      {formatTraitType(traitType)}
-                    </p>
-                  </Button>
-                ),
-              )}
-            </div>
-          )}
-
-          {traitType !== null && traitBitmap === null && (
+          {traitFile === null && (
             <>
               <div className="w-full max-w-xl flex flex-col items-center justify-center gap-2 ">
-                <Button
-                  variant="ghost"
-                  className="self-start px-2 py-1"
-                  onClick={() => {
-                    setTraitType(null);
-                    setTraitFile(null);
-                  }}
-                >
-                  <RiArrowGoBackFill className="text-2xl" />
-                </Button>
                 <div
                   {...getRootProps()}
                   className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
@@ -280,41 +244,109 @@ function InnerSubmit() {
                   <input {...getInputProps()} />
                   <p className="text-center ">
                     {isDragActive
-                      ? `Drop your ${formatedTraitType} here`
-                      : traitFile
-                      ? `Drop another ${formatedTraitType} here to replace, or click to select a file`
-                      : `Drop your ${formatedTraitType} here, or click to select a file`}
+                      ? "Drop your trait image here"
+                      : "Drop your trait image here, or click to select a file"}
                   </p>
                   <canvas
                     ref={setTraitCanvas}
                     className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
-                    style={{ display: !traitFile ? "none" : undefined }}
+                    style={{ display: "none" }}
                     width={32}
                     height={32}
                   />
-                  {traitFile && (
-                    <Button
-                      className="w-48"
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        const ctx = traitCanvas?.getContext("2d");
-                        if (!ctx) return;
-                        setTraitBitmap(
-                          await createImageBitmap(
-                            ctx.getImageData(0, 0, 32, 32),
-                          ),
-                        );
-                      }}
-                    >
-                      NEXT
-                    </Button>
-                  )}
                 </div>
               </div>
             </>
           )}
 
-          {traitType !== null && traitBitmap !== null && (
+          {traitFile !== null && traitType === null && (
+            <>
+              <div className="w-full flex flex-col items-center justify-center gap-4">
+                <Button
+                  variant="ghost"
+                  className="self-start px-2 py-1"
+                  onClick={() => {
+                    setTraitFile(null);
+                    setTraitBitmap(null);
+                  }}
+                >
+                  <RiArrowGoBackFill className="text-2xl" />
+                </Button>
+                <div className="flex flex-col items-center gap-4">
+                  <canvas
+                    className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
+                    width={32}
+                    height={32}
+                    ref={(canvas) => {
+                      if (canvas && traitFile) {
+                        // If we already have a traitCanvas from URL params, copy its content
+                        if (traitCanvas) {
+                          const ctx = canvas.getContext("2d")!;
+                          ctx.imageSmoothingEnabled = false;
+                          ctx.clearRect(0, 0, 32, 32);
+                          ctx.drawImage(traitCanvas, 0, 0, 32, 32);
+                          return;
+                        }
+
+                        // Otherwise, process the file normally
+                        setTraitCanvas(canvas);
+                        const ctx = canvas.getContext("2d")!;
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                          const img = new Image();
+                          img.onload = () => {
+                            ctx.imageSmoothingEnabled = false;
+                            ctx.clearRect(0, 0, 32, 32);
+                            ctx.drawImage(img, 0, 0, 32, 32);
+                          };
+                          img.src = reader.result as string;
+                        };
+                        reader.readAsDataURL(traitFile);
+                      }
+                    }}
+                  />
+                  <p className="text-center font-semibold">
+                    Which type of trait is it?
+                  </p>
+                  <div className="grid w-full max-w-2xl grid-cols-2 items-center justify-center gap-2 xs:gap-4 sm:gap-6 md:gap-8 text-black">
+                    {["head", "accessory", "glasses", "body"].map(
+                      (type: TraitType) => (
+                        <Button
+                          key={`select-type-${type}`}
+                          variant="secondary"
+                          className="w-full h-fit flex flex-col items-center p-6"
+                          onClick={async () => {
+                            setTraitType(type);
+                            // Immediately process the image and go to final step
+                            if (traitCanvas) {
+                              const ctx = traitCanvas.getContext("2d");
+                              if (ctx) {
+                                const bitmap = await createImageBitmap(
+                                  ctx.getImageData(0, 0, 32, 32),
+                                );
+                                setTraitBitmap(bitmap);
+                              }
+                            }
+                          }}
+                        >
+                          <TraitIcon
+                            type={type}
+                            negative
+                            className="w-10 h-10 md:w-12 md:h-12"
+                          />
+                          <p className="uppercase mt-2 text-sm font-semibold ">
+                            {formatTraitType(type)}
+                          </p>
+                        </Button>
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {traitFile !== null && traitType !== null && traitBitmap !== null && (
             <>
               <div className="w-full flex flex-col gap-4 items-center justify-center ">
                 <div className="flex flex-col gap-2">
@@ -323,8 +355,8 @@ function InnerSubmit() {
                     className="self-start px-2 py-1"
                     onClick={() => {
                       setTraitBitmap(null);
-                      setTraitFile(null);
                       setTraitName("");
+                      setTraitType(null);
                     }}
                   >
                     <RiArrowGoBackFill className="text-2xl" />
