@@ -1,13 +1,13 @@
 import { LowercaseAddress } from "@/types/address";
 import { PngDataUri } from "@/types/image";
+import { SubmissionCategory } from "@/types/submission";
 import { ObjectId } from "mongodb";
-import { TraitCategory } from "noggles";
 
 export interface TraitSchema {
   _id: ObjectId;
   nft: PngDataUri;
   name: string;
-  type: TraitCategory;
+  type: SubmissionCategory;
   trait: PngDataUri;
   address: LowercaseAddress;
   likedBy: LowercaseAddress[];
