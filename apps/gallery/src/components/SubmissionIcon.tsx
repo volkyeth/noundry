@@ -45,6 +45,7 @@ export const SubmissionIcon: FC<SubmissionIconProps> = ({
     case "backgrounds":
       return <BackgroundIcon {...props} />;
     case "nouns":
+    case "noun":
       return negative ? (
         <NegativeNounIcon {...props} />
       ) : (
