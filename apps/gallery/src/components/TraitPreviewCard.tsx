@@ -1,6 +1,6 @@
 import { useUsername } from "@/hooks/useUsername";
 import { Trait } from "@/types/trait";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 const { LoadingNoggles, loadingNoun } = appConfig;
 import {
@@ -45,7 +45,7 @@ export const TraitPreviewCard = forwardRef<
           )}
           {trait ? (
             <small className="text-secondary uppercase opacity-30 text-tiny font-bold tracking-wide">
-              {formatTraitType(trait.type)}
+              {formatSubmissionType(trait.type)}
             </small>
           ) : (
             <Skeleton className="h-3 w-9 mb-[2px]" />

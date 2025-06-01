@@ -6,12 +6,11 @@ import { addTraitQuerySchema } from "@/schemas/addTraitQuery";
 import { PngDataUri } from "@/types/image";
 import { database } from "@/utils/database/db";
 import Session, { assertSiwe } from "@/utils/siwe/session";
-import { traitCategory } from "@/utils/traits/categories";
+import { submissionCategory } from "@/utils/traits/categories";
 import { waitUntil } from "@vercel/functions";
 import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { TraitType } from "noggles";
 
 export async function POST(req: Request) {
   const cookieStore = cookies();
@@ -32,7 +31,7 @@ export async function POST(req: Request) {
     _id: id,
     nft: previewImage as PngDataUri,
     name: name,
-    type: traitCategory(traitType as TraitType),
+    type: submissionCategory(traitType),
     trait: traitImage as PngDataUri,
     address: session.address!,
     likedBy: [],

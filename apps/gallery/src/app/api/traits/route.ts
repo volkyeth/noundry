@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     search,
     includeTypes:
       includeTypes.length === 0
-        ? ["heads", "glasses", "accessories", "bodies"]
+        ? ["heads", "glasses", "accessories", "bodies", "nouns"]
         : includeTypes,
     creator,
     likedBy,
@@ -77,12 +77,12 @@ export async function GET(req: NextRequest) {
     },
     ...(session.address
       ? [
-          {
-            $addFields: {
-              liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
-            },
+        {
+          $addFields: {
+            liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
           },
-        ]
+        },
+      ]
       : []),
     { $project: { likedBy: 0, likers: 0, _id: 0 } },
     {

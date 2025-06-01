@@ -1,5 +1,5 @@
 import { useIncludeTraitTypes } from "@/hooks/useIncludeTraitTypes";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import {
   Checkbox,
   CheckboxGroup,
@@ -24,8 +24,8 @@ export const GalleryFilterModal: FC<GalleryFilterModalProps> = ({
 }) => {
   const [includeTypes, setIncludeTypes] = useIncludeTraitTypes();
   const [updatedIncludeTypes, setUpdatedIncludeTypes] = useState<
-    ("heads" | "glasses" | "accessories" | "bodies")[]
-  >(includeTypes ?? ["heads", "glasses", "accessories", "bodies"]);
+    ("heads" | "glasses" | "accessories" | "bodies" | "nouns")[]
+  >(includeTypes ?? ["heads", "glasses", "accessories", "bodies", "nouns"]);
 
   return (
     <Modal disableAnimation isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -42,15 +42,21 @@ export const GalleryFilterModal: FC<GalleryFilterModalProps> = ({
                 //@ts-expect-error
                 onChange={setUpdatedIncludeTypes}
                 defaultValue={
-                  includeTypes ?? ["heads", "glasses", "accessories", "bodies"]
+                  includeTypes ?? [
+                    "heads",
+                    "glasses",
+                    "accessories",
+                    "bodies",
+                    "nouns",
+                  ]
                 }
               >
-                {["heads", "glasses", "accessories", "bodies"].map(
+                {["heads", "glasses", "accessories", "bodies", "nouns"].map(
                   (type: TraitType) => (
                     <Checkbox disableAnimation key={type} value={type}>
-                      {formatTraitType(type)}
+                      {formatSubmissionType(type)}
                     </Checkbox>
-                  )
+                  ),
                 )}
               </CheckboxGroup>
             </ModalBody>

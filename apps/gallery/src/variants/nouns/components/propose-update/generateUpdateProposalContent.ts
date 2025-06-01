@@ -1,6 +1,6 @@
 import { Trait } from "@/types/trait";
 import { titleCase } from "@/utils/titleCase";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 
 export interface UpdateProposalImages<T> {
     oldStandalone: T;
@@ -43,7 +43,7 @@ export const generateUpdateProposalContent = ({
 }: generateUpdateProposalContentProps) => {
     const title = customTitle ?
         `🎨 Noundry: ${customTitle}` :
-        `🎨 Noundry: Update ${titleCase(originalTraitName)} ${formatTraitType(trait.type)}`;
+        `🎨 Noundry: Update ${titleCase(originalTraitName)} ${formatSubmissionType(trait.type)}`;
 
     return `
 # ${title}
@@ -51,7 +51,7 @@ export const generateUpdateProposalContent = ({
 *submitted via [Noundry Gallery](https://gallery.noundry.wtf/trait/${trait.id})*
 
 ## Summary
-This proposal updates an existing ${formatTraitType(trait.type)} trait: ${titleCase(originalTraitName)}
+This proposal updates an existing ${formatSubmissionType(trait.type)} trait: ${titleCase(originalTraitName)}
 
 ## Before & After Comparison
 

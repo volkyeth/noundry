@@ -87,11 +87,13 @@ export const useProposeTraitSimulation = ({
   });
 };
 
-const getAddPartCallFunc = (traitType: TraitType | TraitCategory) => {
+const getAddPartCallFunc = (traitType: TraitType | TraitCategory | "nouns") => {
   switch (traitType) {
     case "background":
     case "backgrounds":
       throw new Error("Proposing backgrounds is not supported");
+    case "nouns":
+      throw new Error("Proposing complete nouns is not supported - only individual traits can be proposed");
     case "body":
     case "bodies":
       return "addBodies";

@@ -7,6 +7,7 @@ export interface UserStats {
   accessories: number;
   glasses: number;
   bodies: number;
+  nouns: number;
 }
 
 export interface UserInfo {

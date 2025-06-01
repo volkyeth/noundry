@@ -6,8 +6,8 @@ export const traitsQuerySchema = z
     sortBy: z.optional(sortBySchema).default("newest"),
     search: z.optional(z.string()),
     includeTypes: z
-      .optional(z.array(z.enum(["heads", "glasses", "accessories", "bodies"])))
-      .default(["heads", "glasses", "accessories", "bodies"]),
+      .optional(z.array(z.enum(["heads", "glasses", "accessories", "bodies", "nouns"])))
+      .default(["heads", "glasses", "accessories", "bodies", "nouns"]),
 
     creator: z.optional(addressSchema),
     likedBy: z.optional(addressSchema),

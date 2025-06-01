@@ -1,6 +1,6 @@
 import { Trait } from "@/types/trait";
 import { capitalize } from "../../../../utils/capitalize";
-import { formatTraitType } from "../../../../utils/traits/format";
+import { formatSubmissionType } from "../../../../utils/traits/format";
 
 export interface ProposalImages<T> {
   previewNoun: T;
@@ -36,12 +36,12 @@ export const generateProposalContent = ({
   artContributionAgreementSignature,
 }: generateProposalContentProps) => {
   return `
-# 🎨 Noundry: Add ${trait.name} ${capitalize(formatTraitType(trait.type))}
+# 🎨 Noundry: Add ${trait.name} ${capitalize(formatSubmissionType(trait.type))}
 
 *submitted via [Noundry Gallery](https://gallery.noundry.wtf/trait/${trait.id})*
 
 ## Summary
-This proposal adds a new **${formatTraitType(trait.type)}** trait: ${trait.name}
+This proposal adds a new **${formatSubmissionType(trait.type)}** trait: ${trait.name}
 
 Showcase Noun
 

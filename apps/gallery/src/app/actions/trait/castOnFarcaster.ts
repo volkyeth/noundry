@@ -5,7 +5,7 @@ import { getFarcasterUser } from "@/app/api/farcaster/user/[address]/getFarcaste
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { ObjectId } from "mongodb";
 
 export async function castTraitOnFarcaster(traitId: string): Promise<void> {
@@ -32,7 +32,7 @@ export async function castTraitOnFarcaster(traitId: string): Promise<void> {
     await fetch(`${SITE_URI}/api/trait/${traitId}/og`);
 
     const castBody = `New submission by ${author}:
-${trait.name} ${formatTraitType(trait.type)}`;
+${trait.name} ${formatSubmissionType(trait.type)}`;
 
     // Use the Neynar API directly
     const neynarApiUrl = "https://api.neynar.com/v2/farcaster/cast";

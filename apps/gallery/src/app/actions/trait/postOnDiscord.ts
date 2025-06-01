@@ -4,7 +4,7 @@ import { getUserInfo } from "@/app/actions/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { Client } from "detritus-client-rest";
 import { RESTPostAPIChannelMessageResult } from "discord-api-types/rest/v10";
 import { ObjectId } from "mongodb";
@@ -40,11 +40,11 @@ export async function postTraitOnDiscord(traitId: string): Promise<void> {
         process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID,
         {
             content: `New submission by ${author}:\n${trait.name
-                } ${formatTraitType(trait.type)}`,
+                } ${formatSubmissionType(trait.type)}`,
             embed: {
                 url: `${SITE_URI}/trait/${traitId}`,
                 image: { url: `${SITE_URI}/api/trait/${traitId}/og` },
-                title: `${trait.name} ${formatTraitType(trait.type)}`,
+                title: `${trait.name} ${formatSubmissionType(trait.type)}`,
                 author: {
                     name: author,
                     url: `${SITE_URI}/profile/${trait.address}`,

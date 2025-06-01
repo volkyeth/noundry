@@ -1,7 +1,7 @@
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { NounTraits } from "@/types/noun";
 import { traitCategory } from "@/utils/traits/categories";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import {
   Modal,
   ModalBody,
@@ -68,7 +68,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
                 lanes={lanes}
                 scrollContainerPadding={4}
                 header={
-                  <h2 className="self-center pb-2 font-bold">{`Pick the ${formatTraitType(
+                  <h2 className="self-center pb-2 font-bold">{`Pick the ${formatSubmissionType(
                     traitType,
                   )}`}</h2>
                 }

@@ -3,22 +3,22 @@ import { useEffect } from "react";
 
 export const useIncludeTraitTypes = () => {
   const includeTypesState = useQueryState<
-    ("heads" | "glasses" | "accessories" | "bodies")[] | null
+    ("heads" | "glasses" | "accessories" | "bodies" | "nouns")[] | null
   >("includeTypes", {
     defaultValue: null,
     parse: (v) =>
       v
         .split(",")
         .filter((v) =>
-          ["heads", "glasses", "accessories", "bodies"].includes(v)
-        ) as ("heads" | "glasses" | "accessories" | "bodies")[],
-    serialize: (v) => (v ? (v.length === 4 ? "" : v.join(",")) : ""),
+          ["heads", "glasses", "accessories", "bodies", "nouns"].includes(v)
+        ) as ("heads" | "glasses" | "accessories" | "bodies" | "nouns")[],
+    serialize: (v) => (v ? (v.length === 5 ? "" : v.join(",")) : ""),
   });
 
   const [includeTypes, setIncludeTypes] = includeTypesState;
 
   useEffect(() => {
-    if (includeTypes?.length === 4) {
+    if (includeTypes?.length === 5) {
       setIncludeTypes(null, { history: "replace" });
     }
   }, [includeTypes, setIncludeTypes]);

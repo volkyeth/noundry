@@ -1,7 +1,7 @@
 import { getTrait } from "@/app/actions/getTrait";
 import { getUserInfo } from "@/app/actions/getUserInfo";
 import { SITE_URI } from "@/constants/config";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TraitSection } from "../TraitSection";
@@ -14,10 +14,10 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   const author = await getUserInfo(trait.address);
 
   return {
-    title: `${trait.name} ${formatTraitType(trait.type)}`,
+    title: `${trait.name} ${formatSubmissionType(trait.type)}`,
     description: `Created by: ${author.userName}`,
     openGraph: {
-      title: `${trait.name} ${formatTraitType(trait.type)}`,
+      title: `${trait.name} ${formatSubmissionType(trait.type)}`,
       description: `Created by: ${author.userName}`,
       images: [
         {

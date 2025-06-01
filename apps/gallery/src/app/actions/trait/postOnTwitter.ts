@@ -4,7 +4,7 @@ import { getUserInfo } from "@/app/actions/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { database } from "@/utils/database/db";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { ObjectId } from "mongodb";
 import { TwitterApi } from "twitter-api-v2";
 
@@ -41,7 +41,7 @@ export async function postTraitOnTwitter(traitId: string): Promise<void> {
     await fetch(ogImageUrl);
 
     const result = await client.v2.tweet(
-        `New submission by ${author}:\n${trait.name} ${formatTraitType(
+        `New submission by ${author}:\n${trait.name} ${formatSubmissionType(
             trait.type
         )}\n\n${SITE_URI}/trait/${traitId}`
     );

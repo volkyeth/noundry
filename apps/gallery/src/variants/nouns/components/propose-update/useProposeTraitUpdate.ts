@@ -6,7 +6,7 @@ import { compressEncodedArtwork, encodeArtwork } from "@/app/propose/artworkEnco
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { useTraitColorIndexes } from "@/hooks/useTraitColorIndexes";
 import { Trait } from "@/types/trait";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import {
     nounsDaoDataContract,
     nounsDescriptorContract,
@@ -15,6 +15,7 @@ import {
 import { useMemo } from "react";
 import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
+import { SubmissionCategory } from "@/types/submission";
 
 export interface UseProposeTraitUpdateArgs {
     description?: string;
@@ -25,7 +26,7 @@ export interface UseProposeTraitUpdateArgs {
     traitToUpdateIndex: number;
 }
 
-const getUpdatePartCallFunc = (traitType: TraitCategory) => {
+const getUpdatePartCallFunc = (traitType: SubmissionCategory) => {
     switch (traitType) {
         case "accessories":
             return "updateAccessories";
@@ -37,6 +38,8 @@ const getUpdatePartCallFunc = (traitType: TraitCategory) => {
             return "updateGlasses";
         case "backgrounds":
             throw new Error("Updating backgrounds is not supported");
+        case "nouns":
+            throw new Error("Updating complete nouns is not supported - only individual traits can be updated");
         default:
             throw new Error(`Unsupported trait type: ${traitType}`);
     }
@@ -51,7 +54,7 @@ export const useProposeTraitUpdateSimulation = ({
     traitToUpdateIndex,
 }: UseProposeTraitUpdateArgs) => {
     const slug = useMemo(
-        () => slugify(`Update ${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
+        () => slugify(`Update ${trait.name} ${formatSubmissionType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
         [trait]
     );
     const { data: mainnetArtwork } = useMainnetArtwork();

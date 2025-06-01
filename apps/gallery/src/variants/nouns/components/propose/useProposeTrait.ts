@@ -4,7 +4,7 @@ import { useSimulateContract } from "wagmi";
 
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { Trait } from "@/types/trait";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import {
   nounsDaoDataContract,
   nounsDescriptorContract,
@@ -17,6 +17,7 @@ import slugify from "slugify";
 import { encodeFunctionData, getAbiItem, toFunctionSignature } from "viem";
 import { compressAndEncodeTrait } from "../../../../app/propose/artworkEncoding";
 import { useTraitColorIndexes } from "../../../../hooks/useTraitColorIndexes";
+import { SubmissionCategory } from "@/types/submission";
 
 export interface UseProposePartArgs {
   description?: string;
@@ -36,7 +37,7 @@ export const useProposeTraitSimulation = ({
   logToConsole
 }: UseProposePartArgs) => {
   const slug = useMemo(
-    () => slugify(`${trait.name} ${formatTraitType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
+    () => slugify(`${trait.name} ${formatSubmissionType(trait.type)} ${(new Date()).toISOString().slice(0, 10)}`.toLowerCase()),
     [trait]
   );
   const proposalIdToUpdate = 0n;
@@ -119,11 +120,13 @@ ${compressedEncodedArtwork}
   });
 };
 
-const getAddPartCallFunc = (traitType: TraitType | TraitCategory) => {
+const getAddPartCallFunc = (traitType: TraitType | TraitCategory | "nouns") => {
   switch (traitType) {
     case "background":
     case "backgrounds":
       throw new Error("Proposing backgrounds is not supported");
+    case "nouns":
+      throw new Error("Proposing complete nouns is not supported - only individual traits can be proposed");
     case "body":
     case "bodies":
       return "addBodies";

@@ -27,6 +27,9 @@ export const getArtistStats = async () => {
         bodies: {
           $sum: { $cond: [{ $eq: ["$type", "bodies"] }, 1, 0] },
         },
+        nouns: {
+          $sum: { $cond: [{ $eq: ["$type", "nouns"] }, 1, 0] },
+        },
       },
     },
     { $match: { traits: { $gt: 0 } } },
@@ -65,6 +68,7 @@ export const getArtistStats = async () => {
         accessories: true,
         glasses: true,
         bodies: true,
+        nouns: true,
       },
     },
   ]);

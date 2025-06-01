@@ -18,7 +18,7 @@ import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { traitType } from "@/utils/misc/traitType";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import {
   Dropdown,
@@ -120,7 +120,9 @@ export const TraitSection: FC<TraitSectionProps> = ({
             <Dynamic>
               {isCreator && (
                 <div className="flex justify-between w-full">
-                  {appConfig.traitUpdatesEnabled ? (
+                  {trait.type === "nouns" ? (
+                    <div></div>
+                  ) : appConfig.traitUpdatesEnabled ? (
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
@@ -162,7 +164,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
                   <div className="flex">
                     <Link
                       download={slugify(
-                        `${trait.name}-${formatTraitType(trait.type)}.png`,
+                        `${trait.name}-${formatSubmissionType(trait.type)}.png`,
                       )}
                       href={trait.trait}
                     >
@@ -211,21 +213,25 @@ export const TraitSection: FC<TraitSectionProps> = ({
           </div>
         </div>
 
-        <div className="flex w-full flex-col gap-4 max-w-xl">
-          <TraitTestingGrounds
-            traitType={traitType(trait)}
-            trait={trait.trait}
-            className="relative h-fit w-full"
-            classNames={{ card: "pb-10" }}
-            lanes={2}
-          />
+        {trait.type !== "nouns" && (
+          <div className="flex w-full flex-col gap-4 max-w-xl">
+            <>
+              <TraitTestingGrounds
+                traitType={traitType(trait)}
+                trait={trait.trait}
+                className="relative h-fit w-full"
+                classNames={{ card: "pb-10" }}
+                lanes={2}
+              />
 
-          <TraitWithFriends
-            traitType={traitType(trait)}
-            trait={trait.trait}
-            className="relative h-fit w-full"
-          />
-        </div>
+              <TraitWithFriends
+                traitType={traitType(trait)}
+                trait={trait.trait}
+                className="relative h-fit w-full"
+              />
+            </>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ import { useUserInfo } from "@/hooks/useUserInfo";
 import { traitType } from "@/utils/misc/traitType";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatTraitType, formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import {
   generateProposalContent,
@@ -101,7 +101,7 @@ export const Propose = ({ trait, author }) => {
 
 I have read and understand the terms and intended legal effect of CC0, available at https://agjzp2ws3k7i2lb65nfj2c2o6jklzmz4bffpxaz5mxjrk7rdzkdq.arweave.net/AZOX6tLavo0sPutKnQtO8lS8szwJSvuDPWXTFX4jyoc, and hereby voluntarily elect to apply it to this work.
 
-Contribution name: ${trait.name} ${formatTraitType(trait.type)}
+Contribution name: ${trait.name} ${formatSubmissionType(trait.type)}
 Contribution specification: ${trait.trait}`;
 
   const {

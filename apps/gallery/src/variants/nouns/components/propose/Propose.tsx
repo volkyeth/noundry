@@ -21,7 +21,7 @@ import { useUserInfo } from "@/hooks/useUserInfo";
 import { traitType } from "@/utils/misc/traitType";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import {
   ProposalImagesUris,
@@ -80,7 +80,7 @@ export const Propose = ({ trait, author }) => {
   }, hereby waive all copyright and related or neighboring rights together with all associated claims and causes of action with respect to this work to the extent possible under the law.
 I have read and understand the terms and intended legal effect of the Nouns Art Contribution Agreement, available at https://ern3fbtsj23a2achuj5kqa4xtp2yvplqjy2r6cemo6ep52lfn2cq.arweave.net/JFuyhnJOtg0AR6J6qAOXm_WKvXBONR8IjHeI_ullboU, and hereby voluntarily elect to apply it to this contribution.
 
-Contribution name: ${trait.name} ${formatTraitType(trait.type)}
+Contribution name: ${trait.name} ${formatSubmissionType(trait.type)}
 Contribution specification: ${trait.trait}`;
 
   const {

@@ -1,11 +1,11 @@
-import { TraitCategory } from "noggles";
 import { PngDataUri } from "./image";
+import { SubmissionCategory } from "./submission";
 
 export interface Trait {
   id: string;
   nft: PngDataUri;
   name: string;
-  type: Exclude<TraitCategory, "backgrounds">;
+  type: Exclude<SubmissionCategory, "backgrounds">;
   trait: PngDataUri;
   address: `0x${string}`;
   likesCount: number;
