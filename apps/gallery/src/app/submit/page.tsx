@@ -295,18 +295,6 @@ function InnerSubmit() {
           {traitFile !== null && traitType === null && (
             <>
               <div className="w-full flex flex-col items-center justify-center gap-4">
-                <Button
-                  variant="ghost"
-                  className="self-start px-2 py-1"
-                  onClick={() => {
-                    setTraitFile(null);
-                    setTraitBitmap(null);
-                    setImageHasTransparency(null);
-                    setPreviewCanvas(null);
-                  }}
-                >
-                  <RiArrowGoBackFill className="text-2xl" />
-                </Button>
                 <div className="flex flex-col items-center gap-4">
                   <canvas
                     className="w-[128px] h-[128px] bg-checkerboard border-1 box-content shadow-xs shadow-default-300"
@@ -401,6 +389,18 @@ function InnerSubmit() {
                           </Button>
                         ))}
                       </div>
+                      <Button
+                        variant="white"
+                        className="w-full"
+                        onClick={() => {
+                          setTraitFile(null);
+                          setTraitBitmap(null);
+                          setImageHasTransparency(null);
+                          setPreviewCanvas(null);
+                        }}
+                      >
+                        Pick another image
+                      </Button>
                     </>
                   ) : (
                     <p className="text-center text-gray-500">
@@ -416,28 +416,6 @@ function InnerSubmit() {
             <>
               <div className="w-full flex flex-col gap-4 items-center justify-center ">
                 <div className="flex flex-col gap-2">
-                  <Button
-                    variant="ghost"
-                    className="self-start px-2 py-1"
-                    onClick={() => {
-                      // For noun submissions, go back to the beginning since type was auto-detected
-                      if (traitType === "noun") {
-                        setTraitFile(null);
-                        setTraitBitmap(null);
-                        setTraitName("");
-                        setTraitType(null);
-                        setImageHasTransparency(null);
-                        setPreviewCanvas(null);
-                      } else {
-                        // For trait submissions, go back to type selection
-                        // Keep traitBitmap and imageHasTransparency so the image shows on type selection
-                        setTraitName("");
-                        setTraitType(null);
-                      }
-                    }}
-                  >
-                    <RiArrowGoBackFill className="text-2xl" />
-                  </Button>
                   <SubmissionCard
                     name={
                       <Input
@@ -549,6 +527,28 @@ function InnerSubmit() {
                       ) : undefined
                     }
                   />
+                  <Button
+                    variant="white"
+                    className="flex-grow w-full"
+                    onClick={() => {
+                      // For noun submissions, go back to the beginning since type was auto-detected
+                      if (traitType === "noun") {
+                        setTraitFile(null);
+                        setTraitBitmap(null);
+                        setTraitName("");
+                        setTraitType(null);
+                        setImageHasTransparency(null);
+                        setPreviewCanvas(null);
+                      } else {
+                        // For trait submissions, go back to type selection
+                        // Keep traitBitmap and imageHasTransparency so the image shows on type selection
+                        setTraitName("");
+                        setTraitType(null);
+                      }
+                    }}
+                  >
+                    Go back
+                  </Button>
                   <Button
                     className="flex-grow w-full"
                     onClick={() => submit()}
