@@ -5,15 +5,18 @@ import NegativeHeadIcon from "@/assets/traitIcons/head-negative.svg";
 import HeadIcon from "@/assets/traitIcons/head.svg";
 import NegativeNogglesIcon from "@/assets/traitIcons/noggles-negative.svg";
 import NogglesIcon from "@/assets/traitIcons/noggles.svg";
+import NegativeNounIcon from "@/assets/traitIcons/noun-negative.svg";
+import NounIcon from "@/assets/traitIcons/noun.svg";
+import { SubmissionCategory, SubmissionType } from "@/types/submission";
 import { TraitCategory, TraitType } from "noggles";
 import { FC, HtmlHTMLAttributes } from "react";
 
-export interface TraitIconProps extends HtmlHTMLAttributes<SVGSVGElement> {
-  type: TraitCategory | TraitType;
+export interface SubmissionIconProps extends HtmlHTMLAttributes<SVGSVGElement> {
+  type: TraitCategory | TraitType | SubmissionType | SubmissionCategory;
   negative?: boolean;
 }
 
-export const TraitIcon: FC<TraitIconProps> = ({
+export const SubmissionIcon: FC<SubmissionIconProps> = ({
   type,
   negative = false,
   ...props
@@ -41,5 +44,13 @@ export const TraitIcon: FC<TraitIconProps> = ({
     case "background":
     case "backgrounds":
       return <BackgroundIcon {...props} />;
+    case "nouns":
+      return negative ? (
+        <NegativeNounIcon {...props} />
+      ) : (
+        <NounIcon {...props} />
+      );
+    default:
+      throw new Error(`Unknown submission type: ${type}`);
   }
 };

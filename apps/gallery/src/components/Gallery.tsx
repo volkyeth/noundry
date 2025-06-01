@@ -3,17 +3,17 @@ import { useTraits } from "@/hooks/useTraits";
 import { SortCriteria } from "@/types/sort";
 import { FC, HtmlHTMLAttributes, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { TraitPreviewCard } from "./TraitPreviewCard";
+import { SubmissionPreviewCard } from "./SubmissionPreviewCard";
 
-export interface TraitGalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
+export interface GalleryProps extends HtmlHTMLAttributes<HTMLDivElement> {
   creator?: `0x${string}`;
   likedBy?: `0x${string}`;
-  includeTypes?: ("heads" | "glasses" | "accessories" | "bodies")[];
+  includeTypes?: ("heads" | "glasses" | "accessories" | "bodies" | "nouns")[];
   sortBy?: SortCriteria;
   search?: string;
 }
 
-export const TraitGallery: FC<TraitGalleryProps> = ({
+export const Gallery: FC<GalleryProps> = ({
   creator,
   likedBy,
   includeTypes,
@@ -55,14 +55,17 @@ export const TraitGallery: FC<TraitGalleryProps> = ({
             traits: new Array(
               isFetchingNextPage || !isFetched
                 ? Math.min(traitsRemaining, TRAITS_PAGE_SIZE)
-                : 0
+                : 0,
             ).fill(undefined),
           },
         ].flatMap(
           (page) =>
             page?.traits.map((trait, i) => (
-              <TraitPreviewCard key={`card-${trait?.id ?? i}`} trait={trait} />
-            ))
+              <SubmissionPreviewCard
+                key={`card-${trait?.id ?? i}`}
+                trait={trait}
+              />
+            )),
         )}
       </div>
       {isFetched && !data?.pages?.[0]?.traits.length && (

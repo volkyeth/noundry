@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/Popover";
-import { TraitCard } from "@/components/TraitCard";
+import { SubmissionCard } from "@/components/SubmissionCard";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { TraitWithFriends } from "@/components/TraitWithFriends";
 import { UserBadge } from "@/components/UserBadge";
@@ -71,7 +71,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
     <div className="container mx-auto py-4 lg:p-10">
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16 p-4">
         <div className="flex flex-col gap-2 w-min">
-          <TraitCard
+          <SubmissionCard
             name={trait.name}
             type={trait.type}
             image={

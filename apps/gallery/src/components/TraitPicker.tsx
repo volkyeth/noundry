@@ -15,7 +15,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { Button, ButtonProps } from "./Button";
 import Dynamic from "./Dynamic";
 import { Noun } from "./Noun";
-import { TraitIcon } from "./TraitIcon";
+import { SubmissionIcon } from "./SubmissionIcon";
 import { VirtualizedGallery } from "./VirtualizedGallery";
 
 export interface TraitPickerProps extends ButtonProps {
@@ -48,7 +48,7 @@ export const TraitPicker: FC<TraitPickerProps> = ({
         isDisabled={!mainnetArtwork}
       >
         {children || (
-          <TraitIcon
+          <SubmissionIcon
             type={traitType}
             negative
             className={twMerge("w-[16px]", classNames?.icon)}

@@ -41,7 +41,7 @@ export const formatSubmissionType = (type?: SubmissionCategory | SubmissionType 
       return "background";
     case "nouns":
     case "noun":
-      return appConfig.nounTerm;
+      return appConfig.nounTerm.toLowerCase();
     default:
       return "";
   }

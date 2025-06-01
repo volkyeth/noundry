@@ -9,7 +9,7 @@ import Dynamic from "@/components/Dynamic";
 import { LikeWidget } from "@/components/LikeWidget";
 import { Noun } from "@/components/Noun";
 import { ProposalPreview } from "@/components/ProposalPreview";
-import { TraitCard } from "@/components/TraitCard";
+import { SubmissionCard } from "@/components/SubmissionCard";
 import { TraitOnCheckerboard } from "@/components/TraitOnCheckerboard";
 import { TraitPalette } from "@/components/TraitPalette";
 import { TraitPicker } from "@/components/TraitPicker";
@@ -343,7 +343,7 @@ Contribution specification: ${trait.trait}`;
         <div className="flex flex-col items-center justify-center gap-10 lg:gap-16">
           <h1>Propose Update</h1>
           <div className="flex flex-col gap-2 w-min">
-            <TraitCard
+            <SubmissionCard
               name={trait.name}
               type={trait.type}
               image={

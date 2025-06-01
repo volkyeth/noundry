@@ -8,6 +8,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  cn,
   Link,
 } from "@nextui-org/react";
 import NextLink from "next/link";
@@ -15,15 +16,15 @@ import NextLink from "next/link";
 import { forwardRef, useState } from "react";
 import { LikeWidget } from "./LikeWidget";
 import { Skeleton } from "./Skeleton";
-import { TraitIcon } from "./TraitIcon";
+import { SubmissionIcon } from "./SubmissionIcon";
 
-export interface TraitPreviewCardProps {
+export interface SubmissionPreviewCardProps {
   trait?: Trait & { liked?: boolean };
 }
 
-export const TraitPreviewCard = forwardRef<
+export const SubmissionPreviewCard = forwardRef<
   HTMLDivElement,
-  TraitPreviewCardProps
+  SubmissionPreviewCardProps
 >(({ trait }, ref) => {
   const [seeThrough, setSeeThrough] = useState(false);
   const username = useUsername(trait?.address);
@@ -53,11 +54,18 @@ export const TraitPreviewCard = forwardRef<
         </div>
 
         {trait ? (
-          <TraitIcon
-            onMouseEnter={() => setSeeThrough(true)}
-            onMouseLeave={() => setSeeThrough(false)}
+          <SubmissionIcon
+            onMouseEnter={
+              trait.type !== "nouns" ? () => setSeeThrough(true) : undefined
+            }
+            onMouseLeave={
+              trait.type !== "nouns" ? () => setSeeThrough(false) : undefined
+            }
             type={trait.type}
-            className="w-[16px] text-dark opacity-50  pt-1  hover:opacity-20 "
+            className={cn(
+              "w-[16px] text-dark opacity-50  pt-1   ",
+              trait.type !== "nouns" && "hover:opacity-20",
+            )}
           />
         ) : (
           <Skeleton className="w-[20px] h-[20px] mt-1" />
@@ -118,4 +126,4 @@ export const TraitPreviewCard = forwardRef<
   );
 });
 
-TraitPreviewCard.displayName = "TraitPreviewCard";
+SubmissionPreviewCard.displayName = "TraitPreviewCard";

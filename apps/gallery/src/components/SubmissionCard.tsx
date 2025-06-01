@@ -4,10 +4,11 @@ import { formatSubmissionType } from "@/utils/traits/format";
 import { SubmissionType, SubmissionCategory } from "@/types/submission";
 
 import { FC, ReactNode, useState } from "react";
-import { TraitIcon } from "./TraitIcon";
+import { SubmissionIcon } from "./SubmissionIcon";
 import NounIcon from "@/assets/traitIcons/noun.svg";
+import { cn } from "@nextui-org/react";
 
-export interface TraitCardProps {
+export interface SubmissionCardProps {
   name: ReactNode;
   type: SubmissionType | SubmissionCategory;
   image: ReactNode;
@@ -15,7 +16,7 @@ export interface TraitCardProps {
   footer?: ReactNode;
 }
 
-export const TraitCard: FC<TraitCardProps> = ({
+export const SubmissionCard: FC<SubmissionCardProps> = ({
   name,
   type,
   image,
@@ -36,16 +37,23 @@ export const TraitCard: FC<TraitCardProps> = ({
           </small>
         </div>
 
-        {type === "noun" || type === "nouns" ? (
-          <NounIcon className="w-[24px] xs:w-[32px] text-default-300" />
-        ) : (
-          <TraitIcon
-            onMouseEnter={() => setSeeThrough(true)}
-            onMouseLeave={() => setSeeThrough(false)}
-            type={type}
-            className="w-[24px] xs:w-[32px] text-default-300 hover:text-default-200"
-          />
-        )}
+        <SubmissionIcon
+          onMouseEnter={
+            type !== "nouns" && type != "noun"
+              ? () => setSeeThrough(true)
+              : undefined
+          }
+          onMouseLeave={
+            type !== "nouns" && type != "noun"
+              ? () => setSeeThrough(false)
+              : undefined
+          }
+          type={type}
+          className={cn(
+            "w-[24px] xs:w-[32px] text-default-300",
+            type !== "nouns" && type != "noun" && "hover:text-default-200",
+          )}
+        />
       </div>
       <div className="overflow-visible items-center p-0 w-fit">
         <div className="grid  w-[256px]  h-[256px] xs:w-[320px] xs:h-[320px]  bg-checkerboard">

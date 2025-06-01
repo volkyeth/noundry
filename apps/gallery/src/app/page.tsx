@@ -1,7 +1,7 @@
 "use client";
 
 import { GalleryQueryBar } from "@/components/GalleryQueryBar";
-import { TraitGallery } from "@/components/TraitGallery";
+import { Gallery } from "@/components/Gallery";
 import { useIncludeTraitTypes } from "@/hooks/useIncludeTraitTypes";
 import { useSortBy } from "@/hooks/useSortBy";
 import { useTraitSearch } from "@/hooks/useTraitSearch";
@@ -23,7 +23,7 @@ function InnerHome() {
   return (
     <>
       <GalleryQueryBar />
-      <TraitGallery
+      <Gallery
         className="w-fit px-2 self-center my-12 mx-auto"
         includeTypes={includeTypes ?? undefined}
         sortBy={sortBy}

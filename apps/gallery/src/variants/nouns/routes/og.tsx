@@ -3,11 +3,12 @@
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
 import { resizePng } from "@/utils/image/resize";
-import { formatTraitType } from "@/utils/traits/format";
+import { formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import { ImageResponse } from "@vercel/og";
 import { NextResponse } from "next/server";
 import { TraitCategory } from "noggles";
+import { SubmissionCategory } from "@/types/submission";
 const { theme } = appConfig;
 export async function GET(req: Request, { params: { id } }) {
   const baseUri = `${
@@ -90,7 +91,7 @@ export async function GET(req: Request, { params: { id } }) {
             <div tw="flex flex-col justify-between">
               <h1 tw="text-10 m-0">{trait.name}</h1>
               <h2 tw="uppercase text-7 font-700 m-0 text-gray-400 tracking-wider">
-                {formatTraitType(trait.type)}
+                {formatSubmissionType(trait.type)}
               </h2>
             </div>
             <div tw="flex absolute right-0">
@@ -129,7 +130,7 @@ export async function GET(req: Request, { params: { id } }) {
   );
 }
 
-const TraitIcon = ({ type }: { type: TraitCategory }) => {
+const TraitIcon = ({ type }: { type: SubmissionCategory }) => {
   switch (type) {
     case "accessories":
       return (
@@ -175,5 +176,16 @@ const TraitIcon = ({ type }: { type: TraitCategory }) => {
           />
         </svg>
       );
+    case "nouns":
+      return (
+        <svg width={48} height={48} viewBox="0 0 24 24" fill="#d4d4d9">
+          <rect x="9" y="4" width="2" height="4" />
+          <path d="M19,22L8,22L8,17L7,17L7,22L5,22L5,13L19,13L19,22Z" />
+          <rect x="16" y="4" width="2" height="4" />
+          <path d="M12,6L12,9L6,9L6,6L4,6L4,12L20,12L20,2L4,2L4,5L6,5L6,3L12,3L12,5L13,5L13,3L19,3L19,9L13,9L13,6L12,6Z" />
+        </svg>
+      );
+    default:
+      return null;
   }
 };

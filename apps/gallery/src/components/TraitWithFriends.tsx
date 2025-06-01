@@ -1,6 +1,6 @@
 import NounIcon from "@/assets/traitIcons/noun.svg";
 import { Button } from "@/components/Button";
-import { TraitIcon } from "@/components/TraitIcon";
+import { SubmissionIcon } from "@/components/SubmissionIcon";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { PngDataUri } from "@/types/image";
 import { generateSeed } from "@/utils/nouns/generateSeed";
@@ -53,7 +53,7 @@ export const TraitWithFriends: FC<TraitWithFriendsProps> = ({
           {showFullNoun ? (
             <NounIcon className={"h-4 text-secondary"} />
           ) : (
-            <TraitIcon type={traitType} className={"h-4 text-secondary"} />
+            <SubmissionIcon type={traitType} className={"h-4 text-secondary"} />
           )}
         </Button>
       }

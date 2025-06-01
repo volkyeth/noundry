@@ -4,7 +4,7 @@ import FarcasterIcon from "@/assets/icons/farcaster.svg";
 import { Button } from "@/components/Button";
 import Dynamic from "@/components/Dynamic";
 import { EditProfileModal } from "@/components/EditProfileModal";
-import { TraitGallery } from "@/components/TraitGallery";
+import { Gallery } from "@/components/Gallery";
 import { UserAvatar } from "@/components/UserAvatar";
 import { UserInfo } from "@/types/user";
 import { useDisclosure } from "@nextui-org/react";
@@ -84,11 +84,11 @@ const Profile: FC<ProfileProps> = ({ userInfo }) => {
         </div>
         <div>
           <h2 className="text-2xl text-default-400">User traits</h2>
-          <TraitGallery creator={userInfo.address} />
+          <Gallery creator={userInfo.address} />
         </div>
         <div>
           <h2 className="text-2xl text-default-400">User favorites</h2>
-          <TraitGallery likedBy={userInfo.address} />
+          <Gallery likedBy={userInfo.address} />
         </div>
       </div>
     </>

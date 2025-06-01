@@ -7,7 +7,7 @@ import Dynamic from "@/components/Dynamic";
 import { LikeWidget } from "@/components/LikeWidget";
 import { Noun } from "@/components/Noun";
 import { ProposalPreview } from "@/components/ProposalPreview";
-import { TraitCard } from "@/components/TraitCard";
+import { SubmissionCard } from "@/components/SubmissionCard";
 import { UserBadge } from "@/components/UserBadge";
 import { AMOUNT_PROPOSAL_PREVIEWS } from "@/constants/config";
 import { useImageBitmap } from "@/hooks/useImageBitmap";
@@ -292,7 +292,7 @@ Contribution specification: ${trait.trait}`;
         <div className="flex flex-col items-center justify-center gap-10 lg:gap-16">
           <h1>Propose</h1>
           <div className="flex flex-col gap-2 w-min">
-            <TraitCard
+            <SubmissionCard
               name={trait.name}
               type={trait.type}
               image={
