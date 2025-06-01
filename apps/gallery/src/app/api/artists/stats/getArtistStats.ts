@@ -16,7 +16,7 @@ export const getArtistStats = async () => {
     {
       $group: {
         _id: "$address",
-        traits: { $sum: 1 },
+        traits: { $sum: { $cond: [{ $ne: ["$type", "nouns"] }, 1, 0] } },
         heads: { $sum: { $cond: [{ $eq: ["$type", "heads"] }, 1, 0] } },
         accessories: {
           $sum: { $cond: [{ $eq: ["$type", "accessories"] }, 1, 0] },
