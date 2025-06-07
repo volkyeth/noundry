@@ -155,14 +155,6 @@ function InnerSubmit() {
     }));
 
     setSeedInitialized(true);
-
-    // Clean up the URL to only keep the type and remixedFrom parameters
-    const cleanUrlParams = new URLSearchParams();
-    cleanUrlParams.set("type", traitType);
-    if (remixedFromId) {
-      cleanUrlParams.set("remixedFrom", remixedFromId);
-    }
-    router.replace(`/submit?${cleanUrlParams.toString()}`);
   }, [searchParams, traitType, router]);
 
   const { data: mainnetArtwork } = useMainnetArtwork();
