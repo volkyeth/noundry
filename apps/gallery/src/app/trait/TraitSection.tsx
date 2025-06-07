@@ -146,18 +146,36 @@ export const TraitSection: FC<TraitSectionProps> = ({
           />
           <div className="flex w-full gap-2 justify-between">
             <div className="flex gap-2">
-              <Link
-                href={getRemixUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  variant="ghost"
-                  className="h-fit p-2 text-default hover:text-black"
-                >
-                  Remix
-                </Button>
-              </Link>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    variant="ghost"
+                    className="h-fit p-2 text-default hover:text-black"
+                  >
+                    Remix
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Remix options">
+                  <DropdownItem>
+                    <NextLink
+                      href={getRemixUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                    >
+                      Remix on studio
+                    </NextLink>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NextLink
+                      href={`/submit?remixedFrom=${trait.id}`}
+                      className="w-full"
+                    >
+                      Submit remix
+                    </NextLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
               <Dynamic>
                 {isCreator &&
                   trait.type !== "nouns" &&
