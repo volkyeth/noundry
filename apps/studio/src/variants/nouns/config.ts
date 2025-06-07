@@ -4,7 +4,7 @@ import Logo from "./assets/noundry-studio.svg?react";
 
 export const nounsConfig: AppConfig = {
     variant: 'nouns' as AppVariant,
-    galleryUrl: 'https://gallery.noundry.wtf',
+    galleryUrl: import.meta.env.VITE_GALLERY_URL || 'https://gallery.noundry.wtf',
     imageDataScriptUri: 'https://assets.noundry.wtf/nouns/image-data.js',
     appTitle: 'Noundry Studio',
     Logo,
