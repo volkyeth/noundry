@@ -65,22 +65,27 @@ export const TraitSection: FC<TraitSectionProps> = ({
   const getRemixUrl = () => {
     const studioUrl = process.env.NEXT_PUBLIC_STUDIO_URL || appConfig.studioUrl;
     const params = new URLSearchParams();
-    
+
     // Add seed values if available
     if (trait.seed) {
-      if (trait.seed.accessory !== undefined) params.set('accessory', trait.seed.accessory.toString());
-      if (trait.seed.background !== undefined) params.set('background', trait.seed.background.toString());
-      if (trait.seed.body !== undefined) params.set('body', trait.seed.body.toString());
-      if (trait.seed.glasses !== undefined) params.set('glasses', trait.seed.glasses.toString());
-      if (trait.seed.head !== undefined) params.set('head', trait.seed.head.toString());
+      if (trait.seed.accessory !== undefined)
+        params.set("accessory", trait.seed.accessory.toString());
+      if (trait.seed.background !== undefined)
+        params.set("background", trait.seed.background.toString());
+      if (trait.seed.body !== undefined)
+        params.set("body", trait.seed.body.toString());
+      if (trait.seed.glasses !== undefined)
+        params.set("glasses", trait.seed.glasses.toString());
+      if (trait.seed.head !== undefined)
+        params.set("head", trait.seed.head.toString());
     }
-    
+
     // Add the trait data URI for the specific trait type (only for trait submissions, not full nouns)
     if (trait.type !== "nouns") {
       const traitTypeKey = traitType(trait);
       params.set(traitTypeKey, trait.trait);
     }
-    
+
     return `${studioUrl}?${params.toString()}`;
   };
 
@@ -139,26 +144,24 @@ export const TraitSection: FC<TraitSectionProps> = ({
               </>
             }
           />
-          <div className="flex w-full gap-2 justify-end">
-            {/* Remix button - visible to everyone */}
-            <Link
-              href={getRemixUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                variant="ghost"
-                className="h-fit p-2 text-default hover:text-black"
+          <div className="flex w-full gap-2 justify-between">
+            <div className="flex gap-2">
+              <Link
+                href={getRemixUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Remix
-              </Button>
-            </Link>
-            <Dynamic>
-              {isCreator && (
-                <div className="flex justify-between w-full">
-                  {trait.type === "nouns" ? (
-                    <div></div>
-                  ) : appConfig.traitUpdatesEnabled ? (
+                <Button
+                  variant="ghost"
+                  className="h-fit p-2 text-default hover:text-black"
+                >
+                  Remix
+                </Button>
+              </Link>
+              <Dynamic>
+                {isCreator &&
+                  trait.type !== "nouns" &&
+                  (appConfig.traitUpdatesEnabled ? (
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
@@ -196,56 +199,57 @@ export const TraitSection: FC<TraitSectionProps> = ({
                         Propose
                       </Button>
                     </NextLink>
-                  )}
-                  <div className="flex">
-                    <Link
-                      download={slugify(
-                        `${trait.name}-${formatSubmissionType(trait.type)}.png`,
-                      )}
-                      href={trait.trait}
-                    >
+                  ))}
+              </Dynamic>
+            </div>
+            <div className="flex gap-2">
+              <Link
+                download={slugify(
+                  `${trait.name}-${formatSubmissionType(trait.type)}.png`,
+                )}
+                href={trait.trait}
+              >
+                <Button
+                  variant="ghost"
+                  className="h-fit p-2 text-default hover:text-black"
+                >
+                  <Download className="w-6" />
+                </Button>
+              </Link>
+              <Dynamic>
+                {isCreator && (
+                  <Popover>
+                    <PopoverTrigger asChild>
                       <Button
                         variant="ghost"
                         className="h-fit p-2 text-default hover:text-black"
                       >
-                        <Download className="w-6" />
+                        <Trash className="w-6" />
                       </Button>
-                    </Link>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="h-fit p-2 text-default hover:text-black"
-                        >
-                          <Trash className="w-6" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        collisionPadding={10}
-                        className="flex p-4 bg-content1 gap-4 shadow-sm drop-shadow-md z-50"
+                    </PopoverTrigger>
+                    <PopoverContent
+                      collisionPadding={10}
+                      className="flex p-4 bg-content1 gap-4 shadow-sm drop-shadow-md z-50"
+                    >
+                      <PopoverArrow className="fill-content1 w-6 h-2" />
+                      <Button
+                        isLoading={isDeleting}
+                        loadingContent={"Deleting"}
+                        className="bg-danger-500"
+                        onClick={() => {
+                          deleteTrait().then(() => push(`/profile/${address}`));
+                        }}
                       >
-                        <PopoverArrow className="fill-content1 w-6 h-2" />
-                        <Button
-                          isLoading={isDeleting}
-                          loadingContent={"Deleting"}
-                          className="bg-danger-500"
-                          onClick={() => {
-                            deleteTrait().then(() =>
-                              push(`/profile/${address}`),
-                            );
-                          }}
-                        >
-                          Delete
-                        </Button>
-                        <PopoverClose asChild>
-                          <Button variant="ghost">Cancel</Button>
-                        </PopoverClose>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
-              )}
-            </Dynamic>
+                        Delete
+                      </Button>
+                      <PopoverClose asChild>
+                        <Button variant="ghost">Cancel</Button>
+                      </PopoverClose>
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </Dynamic>
+            </div>
           </div>
         </div>
 
