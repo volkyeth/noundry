@@ -27,6 +27,13 @@ export const getTrait = async (
         id: {
           $toString: "$_id",
         },
+        remixedFrom: {
+          $cond: {
+            if: { $ne: ["$remixedFrom", null] },
+            then: { $toString: "$remixedFrom" },
+            else: undefined,
+          },
+        },
       },
     },
     ...(options?.requester
