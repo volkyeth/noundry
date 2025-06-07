@@ -114,7 +114,7 @@ export const createNounPart = (
     loadFromImageUri: async (imageUri: string) => {
       await loadFromImageUri(imageUri, canvas).then(async () => {
         await get()[part].commit()
-          .then(() => scopedSet(part, set)({ edited: false, seed: null }));
+          .then(() => scopedSet(part, set)({ edited: true, seed: null }));
       });
     },
     blob: () => {
