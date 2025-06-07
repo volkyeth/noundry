@@ -66,6 +66,9 @@ export const TraitSection: FC<TraitSectionProps> = ({
     const studioUrl = process.env.NEXT_PUBLIC_STUDIO_URL || appConfig.studioUrl;
     const params = new URLSearchParams();
 
+    // Add remix reference
+    params.set("remixedFrom", trait.id);
+
     // Add seed values if available
     if (trait.seed) {
       if (trait.seed.accessory !== undefined)
