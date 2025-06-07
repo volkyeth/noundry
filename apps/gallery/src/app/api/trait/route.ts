@@ -28,7 +28,8 @@ export async function POST(req: Request) {
     name, 
     traitImage, 
     traitType,
-    seed
+    seed,
+    remixedFrom
   } = addTraitQuery.data;
 
   const id = new ObjectId();
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
     likedBy: [],
     creationDate: Date.now(),
     seed,
+    ...(remixedFrom && { remixedFrom: new ObjectId(remixedFrom) }),
   });
 
   // Create the response

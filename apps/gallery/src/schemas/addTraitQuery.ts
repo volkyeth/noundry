@@ -18,6 +18,8 @@ export const addTraitQuerySchema = z.object({
     glasses: z.number().optional(),
     head: z.number().optional(),
   }).optional(),
+  // Optional remixedFrom ObjectId reference
+  remixedFrom: z.string().optional(),
 });
 
 export type AddTraitQuery = z.infer<typeof addTraitQuerySchema>;
