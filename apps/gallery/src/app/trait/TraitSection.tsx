@@ -87,6 +87,8 @@ export const TraitSection: FC<TraitSectionProps> = ({
     if (trait.type !== "nouns") {
       const traitTypeKey = traitType(trait);
       params.set(traitTypeKey, trait.trait);
+      // Add the remixed part type so we know which part this remix came from
+      params.set("remixedPart", traitTypeKey);
     }
 
     return `${studioUrl}?${params.toString()}`;
