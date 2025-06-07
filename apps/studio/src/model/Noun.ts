@@ -62,6 +62,16 @@ export const useNounState = create<NounState>()((set, get) => {
       // Set remixedFrom reference
       set({ remixedFrom: remixedFrom || null });
 
+      // Find the part with imageUri (the remixed trait)
+      let remixedPartType: NounPartType | null = null;
+      for (const partType of nounParts) {
+        const param = params[partType];
+        if (param?.type === 'imageUri') {
+          remixedPartType = partType;
+          break;
+        }
+      }
+
       // Initialize each part based on URL params or randomize if not provided
       await Promise.all(
         nounParts.map(async (partType) => {
@@ -78,6 +88,11 @@ export const useNounState = create<NounState>()((set, get) => {
           }
         })
       );
+
+      // Activate the remixed part layer if one was found
+      if (remixedPartType) {
+        set({ activePart: remixedPartType });
+      }
     },
     randomize: () => {
       const state = get();
