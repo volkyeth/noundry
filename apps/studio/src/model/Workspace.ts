@@ -25,11 +25,13 @@ export type WorkspaceState = {
 };
 
 export const useWorkspaceState = create<WorkspaceState>()((set, get) => {
-  EditMode.keyBindings.forEach((binding) => {
-    Mousetrap.bind(binding.commands, binding.callback);
-  });
-
-  EditMode.init();
+  // Defer EditMode initialization to avoid circular dependency issues
+  setTimeout(() => {
+    EditMode.keyBindings.forEach((binding) => {
+      Mousetrap.bind(binding.commands, binding.callback);
+    });
+    EditMode.init();
+  }, 0);
 
   return {
     mode: EditMode,

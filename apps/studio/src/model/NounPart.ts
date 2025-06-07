@@ -1,6 +1,7 @@
 import { NounPartType } from "../types/noun";
 import { clearCanvas } from "../utils/canvas/clearCanvas";
 import { getBlob } from "../utils/canvas/getBlob";
+import { loadFromImageUri } from "../utils/canvas/loadFromImageUri";
 import { replaceCanvasWithBlob } from "../utils/canvas/replaceCanvasWithBlob";
 import { drawPartFromSeed, getRandomSeed } from "../utils/nounAssets";
 import { NounState, drawNounCanvas } from "./Noun";
@@ -16,6 +17,7 @@ export type NounPartState = {
   edited: boolean;
   seed: number | null;
   loadPart: (seed: number) => Promise<void>;
+  loadFromImageUri: (imageUri: string) => Promise<void>;
   clear: () => void;
   randomize: () => void;
   commit: () => Promise<void>;
@@ -107,6 +109,12 @@ export const createNounPart = (
         await get()
         [part].commit()
           .then(() => scopedSet(part, set)({ edited: false, seed }));
+      });
+    },
+    loadFromImageUri: async (imageUri: string) => {
+      await loadFromImageUri(imageUri, canvas).then(async () => {
+        await get()[part].commit()
+          .then(() => scopedSet(part, set)({ edited: false, seed: null }));
       });
     },
     blob: () => {

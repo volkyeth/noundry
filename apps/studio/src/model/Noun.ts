@@ -17,6 +17,7 @@ export type NounState = {
   glasses: NounPartState;
   canvas: HTMLCanvasElement | null;
   loadSeed: (seed: NounSeed) => Promise<void>;
+  initializeWithParams: (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }) => Promise<void>;
   randomize: () => void;
   canvasRef: (canvas: null | HTMLCanvasElement) => void;
   activatePart: (part: NounPartType) => void;
@@ -31,9 +32,6 @@ export const useNounState = create<NounState>()((set, get) => {
     glasses: createNounPart("glasses", set, get),
   } as NounPartMapping<NounPartState>;
 
-  for (const part of Object.values(parts)) {
-    part.randomize();
-  }
 
   return {
     activePart: null,
@@ -54,6 +52,26 @@ export const useNounState = create<NounState>()((set, get) => {
         Object.entries(seed).map(([part, partSeed]) =>
           state[part as NounPartType].loadPart(partSeed)
         )
+      );
+    },
+    initializeWithParams: async (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }) => {
+      const state = get();
+
+      // Initialize each part based on URL params or randomize if not provided
+      await Promise.all(
+        nounParts.map(async (partType) => {
+          const param = params[partType];
+          if (param) {
+            if (param.type === 'seed') {
+              await state[partType].loadPart(param.value);
+            } else if (param.type === 'imageUri') {
+              await state[partType].loadFromImageUri(param.value);
+            }
+          } else {
+            // No URL param for this part, randomize it
+            state[partType].randomize();
+          }
+        })
       );
     },
     randomize: () => {
