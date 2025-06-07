@@ -61,6 +61,29 @@ export const TraitSection: FC<TraitSectionProps> = ({
 
   const { push } = useRouter();
 
+  // Generate studio URL with trait data for remixing
+  const getRemixUrl = () => {
+    const studioUrl = process.env.NEXT_PUBLIC_STUDIO_URL || appConfig.studioUrl;
+    const params = new URLSearchParams();
+    
+    // Add seed values if available
+    if (trait.seed) {
+      if (trait.seed.accessory !== undefined) params.set('accessory', trait.seed.accessory.toString());
+      if (trait.seed.background !== undefined) params.set('background', trait.seed.background.toString());
+      if (trait.seed.body !== undefined) params.set('body', trait.seed.body.toString());
+      if (trait.seed.glasses !== undefined) params.set('glasses', trait.seed.glasses.toString());
+      if (trait.seed.head !== undefined) params.set('head', trait.seed.head.toString());
+    }
+    
+    // Add the trait data URI for the specific trait type (only for trait submissions, not full nouns)
+    if (trait.type !== "nouns") {
+      const traitTypeKey = traitType(trait);
+      params.set(traitTypeKey, trait.trait);
+    }
+    
+    return `${studioUrl}?${params.toString()}`;
+  };
+
   const { isPending: isDeleting, mutateAsync: deleteTrait } =
     useSignedInMutation({
       mutationFn: () =>
@@ -117,6 +140,19 @@ export const TraitSection: FC<TraitSectionProps> = ({
             }
           />
           <div className="flex w-full gap-2 justify-end">
+            {/* Remix button - visible to everyone */}
+            <Link
+              href={getRemixUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                variant="ghost"
+                className="h-fit p-2 text-default hover:text-black"
+              >
+                Remix
+              </Button>
+            </Link>
             <Dynamic>
               {isCreator && (
                 <div className="flex justify-between w-full">
