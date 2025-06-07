@@ -17,6 +17,7 @@ export type NounState = {
   glasses: NounPartState;
   canvas: HTMLCanvasElement | null;
   remixedFrom: string | null;
+  customPart: NounPartType | null;
   loadSeed: (seed: NounSeed) => Promise<void>;
   initializeWithParams: (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string) => Promise<void>;
   randomize: () => void;
@@ -47,6 +48,7 @@ export const useNounState = create<NounState>()((set, get) => {
     ...parts,
     canvas: null,
     remixedFrom: null,
+    customPart: null,
     loadSeed: async (seed: NounSeed) => {
       const state = get();
 
@@ -59,18 +61,21 @@ export const useNounState = create<NounState>()((set, get) => {
     initializeWithParams: async (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string) => {
       const state = get();
 
-      // Set remixedFrom reference
-      set({ remixedFrom: remixedFrom || null });
-
-      // Find the part with imageUri (the remixed trait)
-      let remixedPartType: NounPartType | null = null;
+      // Find the part with imageUri (the custom trait)
+      let customPartType: NounPartType | null = null;
       for (const partType of nounParts) {
         const param = params[partType];
         if (param?.type === 'imageUri') {
-          remixedPartType = partType;
+          customPartType = partType;
           break;
         }
       }
+
+      // Set remixedFrom reference and customPart
+      set({ 
+        remixedFrom: remixedFrom || null,
+        customPart: customPartType
+      });
 
       // Initialize each part based on URL params or randomize if not provided
       await Promise.all(
@@ -89,9 +94,9 @@ export const useNounState = create<NounState>()((set, get) => {
         })
       );
 
-      // Activate the remixed part layer if one was found
-      if (remixedPartType) {
-        set({ activePart: remixedPartType });
+      // Activate the custom part layer if one was found
+      if (customPartType) {
+        set({ activePart: customPartType });
       }
     },
     randomize: () => {

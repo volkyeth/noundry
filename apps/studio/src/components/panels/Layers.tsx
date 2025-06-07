@@ -1,4 +1,3 @@
-import galleryIcon from "@/assets/gallery.png";
 import { HStack, Text, VStack } from "@chakra-ui/layout";
 import { FC, SVGProps, useState } from "react";
 
@@ -20,7 +19,6 @@ import { FaUserEdit } from "react-icons/fa";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { RiEraserFill, RiFolderOpenFill, RiSave3Fill } from "react-icons/ri";
-import { appConfig } from "../../config";
 import { useNounState } from "../../model/Noun";
 import { useWorkspaceState } from "../../model/Workspace";
 import { NounPartType } from "../../types/noun";
@@ -59,7 +57,7 @@ export type PartSelectorProps = {
 
 export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
   const state = useNounState();
-  const { activePart, activatePart, remixedFrom } = state;
+  const { activePart, activatePart } = state;
   const active = activePart === part;
   const {
     isOpen: isExportOpen,
@@ -185,29 +183,6 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
                 borderColor="gray.700"
                 borderRadius={0}
               >
-                {appConfig.galleryUrl &&
-                  partState.edited &&
-                  part !== "background" && (
-                    <MenuItem
-                      as="a"
-                      target="_blank"
-                      href={`${
-                        appConfig.galleryUrl
-                      }/submit?${new URLSearchParams({
-                        type: part,
-                        background: `${state.background.seed ?? ""}`,
-                        body: `${state.body.seed ?? ""}`,
-                        head: `${state.head.seed ?? ""}`,
-                        accessory: `${state.accessory.seed ?? ""}`,
-                        glasses: `${state.glasses.seed ?? ""}`,
-                        [part]: partState.canvas.toDataURL("image/png"),
-                        ...(remixedFrom && { remixedFrom }),
-                      })}`}
-                      icon={<img src={galleryIcon} />}
-                    >
-                      Submit to Gallery
-                    </MenuItem>
-                  )}
                 {partState.edited && (
                   <ActionMenuItem
                     icon={GiDiceSixFacesThree}

@@ -1,3 +1,4 @@
+import galleryIcon from "@/assets/gallery.png";
 import loadingNoun from "@/assets/loading-noun.gif";
 import LoadingNoun from "@/assets/nouns-loading-sharp.svg?react";
 import {
@@ -113,88 +114,143 @@ export const Preview: FC<PreviewProps> = ({}) => {
             )}
           </Box>
         </Center>
-        <HStack color="gray.800" w="full" justifyContent="end" spacing={0}>
-          <NounActionButton
-            label="Randomize"
-            icon={GiDiceSixFacesThree}
-            onClick={nounState.randomize}
-            onMouseEnter={() => setRandomizeAllHovered(true)}
-            onMouseLeave={() => setRandomizeAllHovered(false)}
-            disabled={nounLoading}
-          />
-          <Popover>
-            <PopoverTrigger>
-              <NounActionButton
-                label={`Load ${appConfig.nounTerm}`}
-                icon={LoadingNoun}
-                disabled={nounLoading}
-              />
-            </PopoverTrigger>
-            <PopoverContent w={"xs"} p={2}>
-              <PopoverArrow />
-              <PopoverBody fontSize={"sm"}>
-                <VStack w={"full"} alignItems={"start"}>
-                  <Button
-                    borderRadius={0}
-                    w={"full"}
-                    fontSize={"xs"}
-                    disabled={nounLoading}
-                    onClick={async () => {
-                      setNounLoading.on();
-                      try {
-                        await loadAuctionNoun();
-                      } finally {
-                        setNounLoading.off();
-                      }
-                    }}
-                  >
-                    {`Load Auction ${appConfig.nounTerm}`}
-                  </Button>
-                  <HStack w={"full"}>
+        <HStack
+          color="gray.800"
+          w="full"
+          justifyContent="space-between"
+          alignItems={"flex-end"}
+          spacing={0}
+        >
+          {/* Submit to Gallery button - only show if we have a custom part */}
+          {appConfig.galleryUrl &&
+          nounState.customPart &&
+          nounState[nounState.customPart].edited ? (
+            <Button
+              as="a"
+              target="_blank"
+              href={`${appConfig.galleryUrl}/submit?${new URLSearchParams({
+                type: nounState.customPart,
+                background: `${nounState.background.seed ?? ""}`,
+                body: `${nounState.body.seed ?? ""}`,
+                head: `${nounState.head.seed ?? ""}`,
+                accessory: `${nounState.accessory.seed ?? ""}`,
+                glasses: `${nounState.glasses.seed ?? ""}`,
+                [nounState.customPart]:
+                  nounState[nounState.customPart].canvas.toDataURL("image/png"),
+                ...(nounState.remixedFrom && {
+                  remixedFrom: nounState.remixedFrom,
+                }),
+              })}`}
+              size="xs"
+              borderRadius={0}
+              bgColor="#ff2165"
+              borderBottomWidth={2}
+              borderColor="gray.800"
+              color="gray.800"
+              _hover={{
+                bgColor: "gray.600",
+              }}
+              _active={{
+                borderBottomWidth: 1,
+              }}
+              leftIcon={
+                <img
+                  src={galleryIcon}
+                  style={{ width: "16px", height: "16px" }}
+                />
+              }
+              fontSize="xx-small"
+              letterSpacing={1}
+              disabled={nounLoading}
+            >
+              SUBMIT
+            </Button>
+          ) : (
+            <div />
+          )}
+          <HStack spacing={0}>
+            <NounActionButton
+              label="Randomize"
+              icon={GiDiceSixFacesThree}
+              onClick={nounState.randomize}
+              onMouseEnter={() => setRandomizeAllHovered(true)}
+              onMouseLeave={() => setRandomizeAllHovered(false)}
+              disabled={nounLoading}
+            />
+            <Popover>
+              <PopoverTrigger>
+                <NounActionButton
+                  label={`Load ${appConfig.nounTerm}`}
+                  icon={LoadingNoun}
+                  disabled={nounLoading}
+                />
+              </PopoverTrigger>
+              <PopoverContent w={"xs"} p={2}>
+                <PopoverArrow />
+                <PopoverBody fontSize={"sm"}>
+                  <VStack w={"full"} alignItems={"start"}>
                     <Button
                       borderRadius={0}
+                      w={"full"}
                       fontSize={"xs"}
-                      flexGrow={1}
                       disabled={nounLoading}
                       onClick={async () => {
                         setNounLoading.on();
                         try {
-                          await loadNoun(nounIdInputRef!.current!.value);
+                          await loadAuctionNoun();
                         } finally {
                           setNounLoading.off();
                         }
                       }}
                     >
-                      {`Load ${appConfig.nounTerm} #`}
+                      {`Load Auction ${appConfig.nounTerm}`}
                     </Button>
-                    <NumberInput
-                      isDisabled={nounLoading}
-                      defaultValue={0}
-                      min={0}
-                      w={32}
-                      borderRadius={0}
-                    >
-                      <NumberInputField
-                        ref={nounIdInputRef}
-                        maxLength={4}
+                    <HStack w={"full"}>
+                      <Button
                         borderRadius={0}
-                      />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </HStack>
-                </VStack>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-          <NounActionButton
-            label="Export"
-            icon={RiSave3Fill}
-            onClick={onExportOpen}
-            disabled={nounLoading}
-          />
+                        fontSize={"xs"}
+                        flexGrow={1}
+                        disabled={nounLoading}
+                        onClick={async () => {
+                          setNounLoading.on();
+                          try {
+                            await loadNoun(nounIdInputRef!.current!.value);
+                          } finally {
+                            setNounLoading.off();
+                          }
+                        }}
+                      >
+                        {`Load ${appConfig.nounTerm} #`}
+                      </Button>
+                      <NumberInput
+                        isDisabled={nounLoading}
+                        defaultValue={0}
+                        min={0}
+                        w={32}
+                        borderRadius={0}
+                      >
+                        <NumberInputField
+                          ref={nounIdInputRef}
+                          maxLength={4}
+                          borderRadius={0}
+                        />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    </HStack>
+                  </VStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+            <NounActionButton
+              label="Export"
+              icon={RiSave3Fill}
+              onClick={onExportOpen}
+              disabled={nounLoading}
+            />
+          </HStack>
         </HStack>
       </Panel>
       <ExportModal isOpen={isExportOpen} onClose={onExportClose} />
