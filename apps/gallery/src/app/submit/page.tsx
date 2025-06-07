@@ -7,16 +7,20 @@ import { ModelPicker } from "@/components/ModelPicker";
 import { Noun } from "@/components/Noun";
 import { SubmissionCard } from "@/components/SubmissionCard";
 import { SubmissionIcon } from "@/components/SubmissionIcon";
+import { SubmissionPreviewCard } from "@/components/SubmissionPreviewCard";
 import { TraitPicker } from "@/components/TraitPicker";
 import { MAX_TRAIT_NAME_LENGTH } from "@/constants/trait";
 import { useMainnetArtwork } from "@/hooks/useMainnetArtwork";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { useTraitBitmap } from "@/hooks/useTraitBitmap";
+import { useTrait } from "@/hooks/useTrait";
 import { AddTraitQuery } from "@/schemas/addTraitQuery";
 import { SubmissionType, isSubmissionType } from "@/types/submission";
+import { Trait } from "@/types/trait";
 import { generateSeed } from "@/utils/nouns/generateSeed";
 import { getTraitsFromSeed } from "@/utils/nouns/getTraitsFromSeed";
 import { formatSubmissionType } from "@/utils/traits/format";
+import { categoryToSubmissionType } from "@/utils/traits/categories";
 import { hasTransparency } from "@/utils/images/hasTransparency";
 import { Input } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -24,7 +28,6 @@ import { NounSeed, NounTraits, TraitType, TRAIT_TYPES } from "noggles";
 import { useQueryState } from "nuqs";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { RiArrowGoBackFill } from "react-icons/ri";
 
 export default function Submit() {
   return (
@@ -39,6 +42,13 @@ function InnerSubmit() {
     "type",
     {
       parse: (v) => (isSubmissionType(v) ? v : null),
+      history: "push",
+    },
+  );
+  const [remixedFromId, setRemixedFromId] = useQueryState<string | null>(
+    "remixedFrom",
+    {
+      parse: (v) => v || null,
       history: "push",
     },
   );
@@ -61,6 +71,28 @@ function InnerSubmit() {
     glasses: 0,
     head: 0,
   });
+
+  // Fetch remixed trait data using React Query
+  const { data: remixedFromTrait, isLoading: isLoadingRemixedTrait } =
+    useTrait(remixedFromId);
+
+  // Set trait type when remixed trait is loaded
+  useEffect(() => {
+    if (!remixedFromTrait || traitType !== null) return;
+
+    // Convert from SubmissionCategory to SubmissionType
+    if (remixedFromTrait.type) {
+      const submissionType = categoryToSubmissionType(remixedFromTrait.type);
+      setTraitType(submissionType);
+    }
+
+    if (remixedFromTrait.seed) {
+      setSeed((seed) => ({
+        ...seed,
+        ...remixedFromTrait.seed,
+      }));
+    }
+  }, [remixedFromTrait, setTraitType, traitType]);
 
   // Handle image data URL from query parameters
   useEffect(() => {
@@ -224,6 +256,7 @@ function InnerSubmit() {
           traitImage,
           previewImage,
           seed: submissionSeed,
+          remixedFrom: remixedFromId ?? undefined,
         } as AddTraitQuery),
       }).then((res) => res.json() as Promise<{ id: number }>);
     },
@@ -239,6 +272,43 @@ function InnerSubmit() {
     onDropAccepted: ([file]) => setTraitFile(file),
   });
 
+  // Process uploaded file to create canvas and bitmap
+  useEffect(() => {
+    if (!traitFile) {
+      setTraitCanvas(null);
+      setTraitBitmap(null);
+      return;
+    }
+
+    // Create a canvas for file processing
+    const fileCanvas = document.createElement("canvas");
+    fileCanvas.width = 32;
+    fileCanvas.height = 32;
+    setTraitCanvas(fileCanvas);
+
+    const fileCtx = fileCanvas.getContext("2d", {
+      willReadFrequently: true,
+    })!;
+
+    const reader = new FileReader();
+    reader.onload = function () {
+      const img = new Image();
+      img.onload = async () => {
+        fileCtx.imageSmoothingEnabled = false;
+        fileCtx.clearRect(0, 0, 32, 32);
+        fileCtx.drawImage(img, 0, 0, 32, 32);
+
+        // Create the traitBitmap from the file canvas
+        const bitmap = await createImageBitmap(
+          fileCtx.getImageData(0, 0, 32, 32),
+        );
+        setTraitBitmap(bitmap);
+      };
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(traitFile);
+  }, [traitFile]);
+
   useEffect(() => {
     if (!traitBitmap || !traitCanvas) return;
 
@@ -252,11 +322,16 @@ function InnerSubmit() {
     const hasTransparentPixels = hasTransparency(traitCanvas);
     setImageHasTransparency(hasTransparentPixels);
 
+    // Skip auto-detection if we're in remix mode (trait type will be set from remixed trait)
+    if (remixedFromId) {
+      return;
+    }
+
     // If image has no transparency, automatically set it as a "noun" type
     if (!hasTransparentPixels && !traitType) {
       setTraitType("noun");
     }
-  }, [traitBitmap, traitCanvas, traitType, setTraitType]);
+  }, [traitBitmap, traitCanvas, traitType, setTraitType, remixedFromId]);
 
   // Update preview canvas when traitBitmap changes
   useEffect(() => {
@@ -279,10 +354,10 @@ function InnerSubmit() {
 
           {traitFile === null && (
             <>
-              <div className="w-full max-w-xl flex flex-col items-center justify-center gap-2 ">
+              <div className="w-full max-w-lg flex flex-col items-center justify-center gap-2 ">
                 <div
                   {...getRootProps()}
-                  className="bg-content3 cursor-pointer flex flex-col min-h-[400px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
+                  className="bg-content3 cursor-pointer flex flex-col min-h-[200px] w-full gap-10 p-6 items-center justify-center shadow-inset shadow-default-300"
                 >
                   <input {...getInputProps()} />
                   <p className="text-center ">
@@ -302,7 +377,7 @@ function InnerSubmit() {
             </>
           )}
 
-          {traitFile !== null && traitType === null && (
+          {traitFile !== null && traitType === null && !remixedFromId && (
             <>
               <div className="w-full flex flex-col items-center justify-center gap-4">
                 <div className="flex flex-col items-center gap-4">
@@ -312,45 +387,13 @@ function InnerSubmit() {
                     height={32}
                     ref={(canvas) => {
                       if (canvas) {
-                        // This is the display canvas, always set it
                         setPreviewCanvas(canvas);
-
-                        if (traitFile) {
-                          // If we already have a traitCanvas from URL params, copy its content
-                          if (traitCanvas) {
-                            const ctx = canvas.getContext("2d")!;
-                            ctx.imageSmoothingEnabled = false;
-                            ctx.clearRect(0, 0, 32, 32);
-                            ctx.drawImage(traitCanvas, 0, 0, 32, 32);
-                            return;
-                          }
-
-                          // For file processing, create a separate hidden canvas
-                          const fileCanvas = document.createElement("canvas");
-                          fileCanvas.width = 32;
-                          fileCanvas.height = 32;
-                          setTraitCanvas(fileCanvas);
-
-                          const fileCtx = fileCanvas.getContext("2d", {
-                            willReadFrequently: true,
-                          })!;
-                          const reader = new FileReader();
-                          reader.onload = function () {
-                            const img = new Image();
-                            img.onload = async () => {
-                              fileCtx.imageSmoothingEnabled = false;
-                              fileCtx.clearRect(0, 0, 32, 32);
-                              fileCtx.drawImage(img, 0, 0, 32, 32);
-
-                              // Create the traitBitmap from the file canvas
-                              const bitmap = await createImageBitmap(
-                                fileCtx.getImageData(0, 0, 32, 32),
-                              );
-                              setTraitBitmap(bitmap);
-                            };
-                            img.src = reader.result as string;
-                          };
-                          reader.readAsDataURL(traitFile);
+                        // Copy content from traitCanvas if available
+                        if (traitCanvas && traitBitmap) {
+                          const ctx = canvas.getContext("2d")!;
+                          ctx.imageSmoothingEnabled = false;
+                          ctx.clearRect(0, 0, 32, 32);
+                          ctx.drawImage(traitBitmap, 0, 0, 32, 32);
                         }
                       }
                     }}
@@ -541,8 +584,8 @@ function InnerSubmit() {
                     variant="white"
                     className="flex-grow w-full"
                     onClick={() => {
-                      // For noun submissions, go back to the beginning since type was auto-detected
-                      if (traitType === "noun") {
+                      // For noun submissions or when in remix mode, go back to the beginning
+                      if (traitType === "noun" || remixedFromId) {
                         setTraitFile(null);
                         setTraitBitmap(null);
                         setTraitName("");
@@ -566,11 +609,28 @@ function InnerSubmit() {
                     isLoading={isSubmitting}
                     loadingContent="Submitting"
                   >
-                    Submit
+                    Submit{remixedFromId && " Remix"}
                   </Button>
                 </div>
               </div>
             </>
+          )}
+
+          {remixedFromId && (
+            <div className="flex flex-col  items-center ">
+              <span className="text-xs font-semibold tracking-widest text-gray-400">
+                REMIXING
+              </span>
+
+              <SubmissionPreviewCard trait={remixedFromTrait ?? undefined} />
+              <Button
+                variant="white"
+                onClick={() => setRemixedFromId(null)}
+                className="text-gray-400 hover:text-gray-600 w-full mt-2 flex-grow"
+              >
+                Detach
+              </Button>
+            </div>
           )}
         </div>
       </Dynamic>

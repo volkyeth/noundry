@@ -32,3 +32,20 @@ export const submissionCategory = (type: SubmissionType): SubmissionCategory => 
       return "nouns";
   }
 };
+
+export const categoryToSubmissionType = (category: SubmissionCategory): SubmissionType => {
+  switch (category) {
+    case "backgrounds":
+      return "background";
+    case "bodies":
+      return "body";
+    case "glasses":
+      return "glasses";
+    case "heads":
+      return "head";
+    case "accessories":
+      return "accessory";
+    case "nouns":
+      return "noun";
+  }
+};
