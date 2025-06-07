@@ -73,8 +73,7 @@ function InnerSubmit() {
   });
 
   // Fetch remixed trait data using React Query
-  const { data: remixedFromTrait, isLoading: isLoadingRemixedTrait } =
-    useTrait(remixedFromId);
+  const { data: remixedFromTrait } = useTrait(remixedFromId);
 
   // Set trait type when remixed trait is loaded
   useEffect(() => {
@@ -93,6 +92,12 @@ function InnerSubmit() {
       }));
     }
   }, [remixedFromTrait, setTraitType, traitType]);
+
+  // Set trait name when remixed trait is loaded
+  useEffect(() => {
+    if (!remixedFromTrait) return;
+    setTraitName(remixedFromTrait.name);
+  }, [remixedFromTrait]);
 
   // Handle image data URL from query parameters
   useEffect(() => {
@@ -153,9 +158,9 @@ function InnerSubmit() {
 
     // Clean up the URL to only keep the type and remixedFrom parameters
     const cleanUrlParams = new URLSearchParams();
-    cleanUrlParams.set('type', traitType);
+    cleanUrlParams.set("type", traitType);
     if (remixedFromId) {
-      cleanUrlParams.set('remixedFrom', remixedFromId);
+      cleanUrlParams.set("remixedFrom", remixedFromId);
     }
     router.replace(`/submit?${cleanUrlParams.toString()}`);
   }, [searchParams, traitType, router]);
