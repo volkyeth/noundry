@@ -18,6 +18,7 @@ export type TraitParams = {
 export type UrlParams = {
   traitParams: TraitParams;
   remixedFrom?: string;
+  remixedPart?: NounPartType;
 };
 
 export const useUrlTraitParams = (): UrlParams => {
@@ -74,10 +75,17 @@ export const useUrlTraitParams = (): UrlParams => {
 
     // Get remixedFrom parameter
     const remixedFrom = searchParams.get('remixedFrom') || undefined;
+    
+    // Get remixedPart parameter
+    const remixedPartParam = searchParams.get('remixedPart');
+    const remixedPart = remixedPartParam && traitTypes.includes(remixedPartParam as NounPartType) 
+      ? remixedPartParam as NounPartType 
+      : undefined;
 
     return {
       traitParams: params,
-      remixedFrom
+      remixedFrom,
+      remixedPart
     };
   }, [searchParams]);
 };

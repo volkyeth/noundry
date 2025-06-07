@@ -1,4 +1,4 @@
-import galleryIcon from "@/assets/gallery.png";
+import { nounPartIcon } from "../../utils/constants";
 import loadingNoun from "@/assets/loading-noun.gif";
 import LoadingNoun from "@/assets/nouns-loading-sharp.svg?react";
 import {
@@ -121,25 +121,37 @@ export const Preview: FC<PreviewProps> = ({}) => {
           alignItems={"flex-end"}
           spacing={0}
         >
-          {/* Submit to Gallery button - only show if we have a custom part */}
+          {/* Submit to Gallery button - only show if active part is edited (excluding background) */}
           {appConfig.galleryUrl &&
-          nounState.customPart &&
-          nounState[nounState.customPart].edited ? (
+          nounState.activePart &&
+          nounState.activePart !== "background" &&
+          nounState[nounState.activePart].edited ? (
             <Button
               as="a"
               target="_blank"
               href={`${appConfig.galleryUrl}/submit?${new URLSearchParams({
-                type: nounState.customPart,
-                background: `${nounState.background.seed ?? ""}`,
-                body: `${nounState.body.seed ?? ""}`,
-                head: `${nounState.head.seed ?? ""}`,
-                accessory: `${nounState.accessory.seed ?? ""}`,
-                glasses: `${nounState.glasses.seed ?? ""}`,
-                [nounState.customPart]:
-                  nounState[nounState.customPart].canvas.toDataURL("image/png"),
-                ...(nounState.remixedFrom && {
-                  remixedFrom: nounState.remixedFrom,
+                type: nounState.activePart,
+                ...(nounState.background.seed != null && {
+                  background: `${nounState.background.seed}`,
                 }),
+                ...(nounState.body.seed != null && {
+                  body: `${nounState.body.seed}`,
+                }),
+                ...(nounState.head.seed != null && {
+                  head: `${nounState.head.seed}`,
+                }),
+                ...(nounState.accessory.seed != null && {
+                  accessory: `${nounState.accessory.seed}`,
+                }),
+                ...(nounState.glasses.seed != null && {
+                  glasses: `${nounState.glasses.seed}`,
+                }),
+                [nounState.activePart]:
+                  nounState[nounState.activePart].canvas.toDataURL("image/png"),
+                ...(nounState.remixedFrom &&
+                  nounState.remixedPart === nounState.activePart && {
+                    remixedFrom: nounState.remixedFrom,
+                  }),
               })}`}
               size="xs"
               borderRadius={0}
@@ -154,10 +166,7 @@ export const Preview: FC<PreviewProps> = ({}) => {
                 borderBottomWidth: 1,
               }}
               leftIcon={
-                <img
-                  src={galleryIcon}
-                  style={{ width: "16px", height: "16px" }}
-                />
+                <Icon as={nounPartIcon[nounState.activePart]} boxSize={4} />
               }
               fontSize="xx-small"
               letterSpacing={1}

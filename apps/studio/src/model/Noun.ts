@@ -17,9 +17,9 @@ export type NounState = {
   glasses: NounPartState;
   canvas: HTMLCanvasElement | null;
   remixedFrom: string | null;
-  customPart: NounPartType | null;
+  remixedPart: NounPartType | null;
   loadSeed: (seed: NounSeed) => Promise<void>;
-  initializeWithParams: (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string) => Promise<void>;
+  initializeWithParams: (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string, remixedPart?: NounPartType) => Promise<void>;
   randomize: () => void;
   canvasRef: (canvas: null | HTMLCanvasElement) => void;
   activatePart: (part: NounPartType) => void;
@@ -48,7 +48,7 @@ export const useNounState = create<NounState>()((set, get) => {
     ...parts,
     canvas: null,
     remixedFrom: null,
-    customPart: null,
+    remixedPart: null,
     loadSeed: async (seed: NounSeed) => {
       const state = get();
 
@@ -58,23 +58,23 @@ export const useNounState = create<NounState>()((set, get) => {
         )
       );
     },
-    initializeWithParams: async (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string) => {
+    initializeWithParams: async (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string, remixedPart?: NounPartType) => {
       const state = get();
 
-      // Find the part with imageUri (the custom trait)
-      let customPartType: NounPartType | null = null;
+      // Find the part with imageUri (the edited trait)
+      let editedPartType: NounPartType | null = null;
       for (const partType of nounParts) {
         const param = params[partType];
         if (param?.type === 'imageUri') {
-          customPartType = partType;
+          editedPartType = partType;
           break;
         }
       }
 
-      // Set remixedFrom reference and customPart
+      // Set remixedFrom reference and remixedPart
       set({ 
         remixedFrom: remixedFrom || null,
-        customPart: customPartType
+        remixedPart: remixedPart || null
       });
 
       // Initialize each part based on URL params or randomize if not provided
@@ -94,9 +94,9 @@ export const useNounState = create<NounState>()((set, get) => {
         })
       );
 
-      // Activate the custom part layer if one was found
-      if (customPartType) {
-        set({ activePart: customPartType });
+      // Activate the edited part layer if one was found
+      if (editedPartType) {
+        set({ activePart: editedPartType });
       }
     },
     randomize: () => {
