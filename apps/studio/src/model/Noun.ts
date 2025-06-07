@@ -16,8 +16,9 @@ export type NounState = {
   accessory: NounPartState;
   glasses: NounPartState;
   canvas: HTMLCanvasElement | null;
+  remixedFrom: string | null;
   loadSeed: (seed: NounSeed) => Promise<void>;
-  initializeWithParams: (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }) => Promise<void>;
+  initializeWithParams: (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string) => Promise<void>;
   randomize: () => void;
   canvasRef: (canvas: null | HTMLCanvasElement) => void;
   activatePart: (part: NounPartType) => void;
@@ -45,6 +46,7 @@ export const useNounState = create<NounState>()((set, get) => {
     },
     ...parts,
     canvas: null,
+    remixedFrom: null,
     loadSeed: async (seed: NounSeed) => {
       const state = get();
 
@@ -54,8 +56,11 @@ export const useNounState = create<NounState>()((set, get) => {
         )
       );
     },
-    initializeWithParams: async (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }) => {
+    initializeWithParams: async (params: { [K in NounPartType]?: { type: 'seed'; value: number } | { type: 'imageUri'; value: string } }, remixedFrom?: string) => {
       const state = get();
+
+      // Set remixedFrom reference
+      set({ remixedFrom: remixedFrom || null });
 
       // Initialize each part based on URL params or randomize if not provided
       await Promise.all(

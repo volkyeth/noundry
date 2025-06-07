@@ -59,7 +59,7 @@ export type PartSelectorProps = {
 
 export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
   const state = useNounState();
-  const { activePart, activatePart } = state;
+  const { activePart, activatePart, remixedFrom } = state;
   const active = activePart === part;
   const {
     isOpen: isExportOpen,
@@ -201,6 +201,7 @@ export const PartLayer: FC<PartSelectorProps> = ({ PartIcon, part }) => {
                         accessory: `${state.accessory.seed ?? ""}`,
                         glasses: `${state.glasses.seed ?? ""}`,
                         [part]: partState.canvas.toDataURL("image/png"),
+                        ...(remixedFrom && { remixedFrom }),
                       })}`}
                       icon={<img src={galleryIcon} />}
                     >

@@ -15,7 +15,12 @@ export type TraitParams = {
   [K in NounPartType]?: TraitParam;
 };
 
-export const useUrlTraitParams = (): TraitParams => {
+export type UrlParams = {
+  traitParams: TraitParams;
+  remixedFrom?: string;
+};
+
+export const useUrlTraitParams = (): UrlParams => {
   const [searchParams] = useSearchParams();
 
   return useMemo(() => {
@@ -67,6 +72,12 @@ export const useUrlTraitParams = (): TraitParams => {
       }
     }
 
-    return params;
+    // Get remixedFrom parameter
+    const remixedFrom = searchParams.get('remixedFrom') || undefined;
+
+    return {
+      traitParams: params,
+      remixedFrom
+    };
   }, [searchParams]);
 };

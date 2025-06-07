@@ -39,13 +39,13 @@ import { Toolbox } from "../panels/Toolbox";
  * special characters like +, /, =, :, and ; that have special meaning in URLs.
  */
 export const Editor = () => {
-  const urlParams = useUrlTraitParams();
+  const { traitParams, remixedFrom } = useUrlTraitParams();
   const { initializeWithParams } = useNounState();
 
   useEffect(() => {
     // Initialize the noun with URL parameters (or random for missing ones)
-    initializeWithParams(urlParams);
-  }, [urlParams, initializeWithParams]);
+    initializeWithParams(traitParams, remixedFrom);
+  }, [traitParams, remixedFrom, initializeWithParams]);
 
   return (
     <HStack w="full" h="full" p={0} justifyContent="space-between" spacing={0}>
