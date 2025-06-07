@@ -15,4 +15,12 @@ export interface TraitSchema {
   twitterPostId?: string;
   farcasterCastHash?: string;
   discordPostId?: string;
+  // Optional seed object containing all trait values (for old traits that don't have this info)
+  seed?: {
+    accessory?: number;
+    background?: number;
+    body?: number;
+    glasses?: number;
+    head?: number;
+  };
 }

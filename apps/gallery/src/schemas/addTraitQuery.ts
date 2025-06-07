@@ -10,6 +10,14 @@ export const addTraitQuerySchema = z.object({
   traitImage: pngDataUrlSchema,
   previewImage: pngDataUrlSchema,
   traitType: submissionTypeSchema,
+  // Optional seed object containing all trait values
+  seed: z.object({
+    accessory: z.number().optional(),
+    background: z.number().optional(),
+    body: z.number().optional(),
+    glasses: z.number().optional(),
+    head: z.number().optional(),
+  }).optional(),
 });
 
 export type AddTraitQuery = z.infer<typeof addTraitQuerySchema>;

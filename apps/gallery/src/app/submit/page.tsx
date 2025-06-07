@@ -207,6 +207,15 @@ function InnerSubmit() {
         previewImage = previewCanvas.toDataURL("image/png");
       }
 
+      // Create seed object excluding the trait type being submitted
+      const submissionSeed = {
+        accessory: traitType === "accessory" ? undefined : seed.accessory,
+        background: traitType === "background" ? undefined : seed.background,
+        body: traitType === "body" ? undefined : seed.body,
+        glasses: traitType === "glasses" ? undefined : seed.glasses,
+        head: traitType === "head" ? undefined : seed.head,
+      };
+
       return fetch("/api/trait", {
         method: "POST",
         body: JSON.stringify({
@@ -214,6 +223,7 @@ function InnerSubmit() {
           traitType,
           traitImage,
           previewImage,
+          seed: submissionSeed,
         } as AddTraitQuery),
       }).then((res) => res.json() as Promise<{ id: number }>);
     },

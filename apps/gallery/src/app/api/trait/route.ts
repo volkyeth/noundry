@@ -23,7 +23,13 @@ export async function POST(req: Request) {
     return NextResponse.json(addTraitQuery.error.issues, { status: 400 });
   }
 
-  const { previewImage, name, traitImage, traitType } = addTraitQuery.data;
+  const { 
+    previewImage, 
+    name, 
+    traitImage, 
+    traitType,
+    seed
+  } = addTraitQuery.data;
 
   const id = new ObjectId();
 
@@ -36,6 +42,7 @@ export async function POST(req: Request) {
     address: session.address!,
     likedBy: [],
     creationDate: Date.now(),
+    seed,
   });
 
   // Create the response
