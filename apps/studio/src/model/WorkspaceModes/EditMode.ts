@@ -93,7 +93,7 @@ export const EditMode: WorkspaceMode = {
         e.preventDefault();
         const activePart = useNounState.getState().getActivePartState();
         if (!activePart || !activePart.canUndo) return;
-        activePart.undo().then(() => drawNounCanvas(useNounState.getState()));
+        activePart.undo();
 
       },
       description: "Undo",
@@ -104,7 +104,7 @@ export const EditMode: WorkspaceMode = {
         e.preventDefault();
         const activePart = useNounState.getState().getActivePartState();
         if (!activePart || !activePart.canRedo) return;
-        activePart.redo().then(() => drawNounCanvas(useNounState.getState()));
+        activePart.redo();
       },
       description: "Redo",
     },
