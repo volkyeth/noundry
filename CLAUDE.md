@@ -78,7 +78,7 @@ All apps support multiple variants through:
 
 ### Testing & Quality
 - **Testing**: Vitest with JSdom environment (Gallery app)
-- **Type Checking**: Use `pnpm check` in Gallery app for TypeScript validation
+- **Type Checking**: Use `pnpm check` in Gallery app, `pnpm tsc --noEmit` in Studio app for TypeScript validation
 - **Linting**: ESLint with Next.js configuration across all apps
 - **Styling**: Tailwind CSS with variant-specific themes
 
