@@ -3,11 +3,11 @@
 import { formatSubmissionType } from "@/utils/traits/format";
 import { SubmissionType, SubmissionCategory } from "@/types/submission";
 
-import { FC, ReactNode, useState } from "react";
+import { FC, HTMLAttributes, ReactNode, useState } from "react";
 import { SubmissionIcon } from "./SubmissionIcon";
 import { cn } from "@nextui-org/react";
 
-export interface SubmissionCardProps {
+export interface SubmissionCardProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;
   type: SubmissionType | SubmissionCategory;
   image: ReactNode;
@@ -23,11 +23,19 @@ export const SubmissionCard: FC<SubmissionCardProps> = ({
   previewImage,
   version,
   footer,
+  className,
+  ...props
 }) => {
   const [seeThrough, setSeeThrough] = useState(false);
 
   return (
-    <div className="p-4 xs:p-6 w-fit h-fit flex-shrink-0 shadow-md bg-content1">
+    <div
+      className={cn(
+        "p-4 xs:p-6 w-fit h-fit flex-shrink-0 shadow-md bg-content1",
+        className,
+      )}
+      {...props}
+    >
       <div className="p-0 pb-1 flex-row flex justify-between w-full items-start gap-0 rounded-none">
         <div className="flex flex-col items-start ">
           <h1 className="font-Inter text-secondary font-bold text-2xl">

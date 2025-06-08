@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/Popover";
 import { SubmissionCard } from "@/components/SubmissionCard";
+import { SubmissionPreviewCard } from "@/components/SubmissionPreviewCard";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { TraitWithFriends } from "@/components/TraitWithFriends";
 import { UserBadge } from "@/components/UserBadge";
@@ -54,6 +55,12 @@ export const TraitSection: FC<TraitSectionProps> = ({
         Trait & { liked?: boolean }
       >,
     initialData: initialTrait as Trait & { liked?: boolean },
+  });
+
+  const { data: remixedFrom } = useQuery({
+    queryKey: ["trait", initialTrait.remixedFrom],
+    queryFn: () => getTrait(initialTrait.remixedFrom!, { requester: address }),
+    enabled: !!initialTrait.remixedFrom,
   });
 
   const isCreator =
@@ -103,11 +110,12 @@ export const TraitSection: FC<TraitSectionProps> = ({
   return (
     <div className="container mx-auto py-4 lg:p-10">
       <div className="flex flex-col items-center lg:items-start justify-center lg:flex-row gap-10 lg:gap-16 p-4">
-        <div className="flex flex-col gap-2 w-min">
+        <div className="flex flex-col gap-2 w-min relative">
           <SubmissionCard
             name={trait.name}
             type={trait.type}
             version={trait.version}
+            className="z-10"
             image={
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -275,6 +283,14 @@ export const TraitSection: FC<TraitSectionProps> = ({
               </Dynamic>
             </div>
           </div>
+          {trait.remixedFrom && remixedFrom !== null && (
+            <div className="flex flex-col  mx-auto mt-4 gap-0.5 w-fit items-center xl:items-start  xl:-rotate-12 xl:absolute xl:top-40 xl:-left-44">
+              <p className="text-xs font-bold tracking-widest text-gray-500">
+                REMIXED FROM
+              </p>
+              <SubmissionPreviewCard trait={remixedFrom} />
+            </div>
+          )}
         </div>
 
         {trait.type !== "nouns" && (

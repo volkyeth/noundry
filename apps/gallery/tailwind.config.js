@@ -61,6 +61,7 @@ module.exports = {
       },
       screens: {
         xs: { min: "475px" },
+        xl: { min: "1440px" },
         "non-touchscreen": { raw: "(pointer: fine)" },
         touchscreen: { raw: "(pointer: coarse)" },
       },
