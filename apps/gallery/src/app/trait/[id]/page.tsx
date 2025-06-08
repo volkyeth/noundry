@@ -15,10 +15,16 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 
   return {
     title: `${trait.name} ${formatSubmissionType(trait.type)}`,
-    description: `Created by: ${author.userName}`,
+    description: `${trait.remixedFrom ? "Remixed" : "Created"} by: ${
+      author.userName
+    }`,
     openGraph: {
-      title: `${trait.name} ${formatSubmissionType(trait.type)}`,
-      description: `Created by: ${author.userName}`,
+      title: `${trait.name} ${formatSubmissionType(trait.type)}${
+        trait.remixedFrom ? ` v${trait.version}` : ""
+      }`,
+      description: `${trait.remixedFrom ? "Remixed" : "Created"} by: ${
+        author.userName
+      }`,
       images: [
         {
           url: `${SITE_URI}/api/trait/${trait.id}/og`,
@@ -36,9 +42,16 @@ const TraitPage = async ({ params: { id } }: { params: { id: string } }) => {
   if (!trait) {
     return notFound();
   }
+
+  const remixedFrom = trait.remixedFrom
+    ? await getTrait(trait.remixedFrom)
+    : null;
+
   const author = await getUserInfo(trait.address);
 
-  return <TraitSection trait={trait} author={author} />;
+  return (
+    <TraitSection trait={trait} remixedFrom={remixedFrom} author={author} />
+  );
 };
 
 export default TraitPage;

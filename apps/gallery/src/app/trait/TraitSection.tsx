@@ -39,11 +39,13 @@ import { useAccount } from "wagmi";
 
 export interface TraitSectionProps {
   trait: Trait;
+  remixedFrom: Trait | null;
   author: UserInfo;
 }
 
 export const TraitSection: FC<TraitSectionProps> = ({
   trait: initialTrait,
+  remixedFrom: initialRemixedFrom,
   author,
 }) => {
   const { address } = useAccount();
@@ -51,19 +53,20 @@ export const TraitSection: FC<TraitSectionProps> = ({
     queryKey: ["trait", initialTrait.id, address],
     queryFn: async () => {
       const response = await fetch(`/api/trait/${initialTrait.id}`);
-      if (!response.ok) throw new Error('Failed to fetch trait');
+      if (!response.ok) throw new Error("Failed to fetch trait");
       return response.json() as Promise<Trait & { liked?: boolean }>;
     },
     initialData: initialTrait as Trait & { liked?: boolean },
   });
 
   const { data: remixedFrom } = useQuery({
-    queryKey: ["trait", initialTrait.remixedFrom],
+    queryKey: ["trait", initialRemixedFrom?.id],
     queryFn: async () => {
-      const response = await fetch(`/api/trait/${initialTrait.remixedFrom!}`);
-      if (!response.ok) throw new Error('Failed to fetch remixed trait');
+      const response = await fetch(`/api/trait/${initialRemixedFrom?.id!}`);
+      if (!response.ok) throw new Error("Failed to fetch remixed trait");
       return response.json();
     },
+    initialData: initialRemixedFrom,
     enabled: !!initialTrait.remixedFrom,
   });
 
