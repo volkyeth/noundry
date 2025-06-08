@@ -1,4 +1,5 @@
 import { castTraitOnFarcaster } from "@/app/actions/trait/castOnFarcaster";
+import { getNextVersion } from "@/app/actions/trait/getNextversion";
 import { postTraitOnDiscord } from "@/app/actions/trait/postOnDiscord";
 import { postTraitOnTwitter } from "@/app/actions/trait/postOnTwitter";
 import { TraitSchema } from "@/db/schema/TraitSchema";
@@ -23,16 +24,19 @@ export async function POST(req: Request) {
     return NextResponse.json(addTraitQuery.error.issues, { status: 400 });
   }
 
-  const { 
-    previewImage, 
-    name, 
-    traitImage, 
+  const {
+    previewImage,
+    name,
+    traitImage,
     traitType,
     seed,
     remixedFrom
   } = addTraitQuery.data;
 
   const id = new ObjectId();
+
+  // Determine version number
+  const version = remixedFrom ? await getNextVersion(remixedFrom) : 1;
 
   await database.collection<TraitSchema>("nfts").insertOne({
     _id: id,
@@ -43,6 +47,7 @@ export async function POST(req: Request) {
     address: session.address!,
     likedBy: [],
     creationDate: Date.now(),
+    version,
     seed,
     ...(remixedFrom && { remixedFrom: new ObjectId(remixedFrom) }),
   });

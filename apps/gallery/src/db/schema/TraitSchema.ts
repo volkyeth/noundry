@@ -16,6 +16,7 @@ export interface TraitSchema {
   farcasterCastHash?: string;
   discordPostId?: string;
   remixedFrom?: ObjectId;
+  version: number;
   // Optional seed object containing all trait values (for old traits that don't have this info)
   seed?: {
     accessory?: number;
