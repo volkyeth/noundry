@@ -1,5 +1,5 @@
 import { useUserInfo } from "@/hooks/useUserInfo";
-import { Avatar, AvatarProps } from "@nextui-org/react";
+import { Avatar, AvatarProps, cn } from "@nextui-org/react";
 import { FC } from "react";
 import Dynamic from "./Dynamic";
 
@@ -14,7 +14,10 @@ export const UserAvatar: FC<UserAvatarProps> = ({ address, ...props }) => {
     <Dynamic>
       <Avatar
         radius="none"
-        className="w-8 h-8 border-2 border-content1 box-content p-0 bg-warm flex-shrink-0"
+        className={cn(
+          "w-8 h-8 border-2 border-content1 box-content p-0 bg-warm flex-shrink-0",
+          props.className,
+        )}
         src={userInfo?.profilePic}
         {...props}
       />
