@@ -15,7 +15,7 @@ export const GET = async (req: Request) => {
 
   const traitPreviews = await database
     .collection<TraitSchema>("nfts")
-    .find({}, { projection: { _id: 1, nft: 1 } })
+    .find({ removed: { $ne: true } }, { projection: { _id: 1, nft: 1 } })
     .toArray();
 
   const zip = new JSZip();

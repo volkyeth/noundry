@@ -65,9 +65,12 @@ export async function DELETE(req: NextRequest, { params: { id: traitId } }) {
 
   const result = await database
     .collection<TraitSchema>("nfts")
-    .deleteOne({ _id: new ObjectId(traitId) });
+    .updateOne(
+      { _id: new ObjectId(traitId) },
+      { $set: { removed: true } }
+    );
 
-  if (result.deletedCount !== 1)
+  if (result.modifiedCount !== 1)
     return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
 
   return NextResponse.json({}, { status: 200 });

@@ -1,14 +1,63 @@
 "use server";
 
-import { getAllVersions } from "@/app/actions/trait/getAllVersions";
+import { TraitSchema } from "@/db/schema/TraitSchema";
+import { database } from "@/utils/database/db";
+import { ObjectId } from "mongodb";
 
 export const getNextVersion = async (traitId: string): Promise<number> => {
-    const allVersions = await getAllVersions(traitId);
+    const cursor = database.collection<TraitSchema>("nfts").aggregate([
+        {
+            $match: {
+                _id: new ObjectId(traitId),
+            },
+        },
+        {
+            $graphLookup: {
+                from: "nfts",
+                startWith: "$_id",
+                connectFromField: "_id",
+                connectToField: "remixedFrom",
+                as: "descendants",
+            },
+        },
+        {
+            $graphLookup: {
+                from: "nfts",
+                startWith: "$remixedFrom",
+                connectFromField: "remixedFrom",
+                connectToField: "_id",
+                as: "ancestors",
+            },
+        },
+        {
+            $project: {
+                allVersions: {
+                    $concatArrays: [
+                        ["$$ROOT"],
+                        "$descendants",
+                        "$ancestors",
+                    ],
+                },
+            },
+        },
+        {
+            $unwind: "$allVersions",
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$allVersions",
+            },
+        },
+        {
+            $group: {
+                _id: null,
+                maxVersion: { $max: "$version" },
+            },
+        },
+    ]);
 
-    if (allVersions.length === 0) {
-        return 1;
-    }
+    const result = await cursor.next();
+    const maxVersion = result?.maxVersion || 0;
 
-    const maxVersion = Math.max(...allVersions.map(trait => trait.version));
     return maxVersion + 1;
 };

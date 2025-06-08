@@ -17,6 +17,7 @@ export interface TraitSchema {
   discordPostId?: string;
   remixedFrom?: ObjectId;
   version: number;
+  removed?: boolean;
   // Optional seed object containing all trait values (for old traits that don't have this info)
   seed?: {
     accessory?: number;

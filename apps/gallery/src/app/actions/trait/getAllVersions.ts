@@ -64,6 +64,11 @@ export const getAllVersions = async (
       },
     },
     {
+      $match: {
+        removed: { $ne: true },
+      },
+    },
+    {
       $addFields: {
         likesCount: {
           $cond: {
@@ -86,12 +91,12 @@ export const getAllVersions = async (
     },
     ...(options?.requester
       ? [
-          {
-            $addFields: {
-              liked: { $in: [options.requester.toLowerCase(), "$likedBy"] },
-            },
+        {
+          $addFields: {
+            liked: { $in: [options.requester.toLowerCase(), "$likedBy"] },
           },
-        ]
+        },
+      ]
       : []),
     {
       $project: {

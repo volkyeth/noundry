@@ -13,6 +13,7 @@ export const getTrait = async (
     {
       $match: {
         _id: new ObjectId(id),
+        removed: { $ne: true },
       },
     },
     {

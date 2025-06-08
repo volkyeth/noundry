@@ -7,6 +7,11 @@ import { database } from "@/utils/database/db";
 export const getArtistStats = async () => {
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {
+      $match: {
+        removed: { $ne: true },
+      },
+    },
+    {
       $project: {
         _id: false,
         type: true,
