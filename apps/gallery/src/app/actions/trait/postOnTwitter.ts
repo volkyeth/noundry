@@ -41,7 +41,7 @@ export async function postTraitOnTwitter(traitId: string): Promise<void> {
     await fetch(ogImageUrl);
 
     const result = await client.v2.tweet(
-        `New submission by ${author}:\n${trait.name} ${formatSubmissionType(
+        `New ${trait.remixedFrom ? "remix" : "submission"} by ${author}:\n${trait.name} ${formatSubmissionType(
             trait.type
         )}\n\n${SITE_URI}/trait/${traitId}`
     );

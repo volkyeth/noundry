@@ -31,7 +31,7 @@ export async function castTraitOnFarcaster(traitId: string): Promise<void> {
     // Prefetch the OG image
     await fetch(`${SITE_URI}/api/trait/${traitId}/og`);
 
-    const castBody = `New submission by ${author}:
+    const castBody = `New ${trait.remixedFrom ? "remix" : "submission"} by ${author}:
 ${trait.name} ${formatSubmissionType(trait.type)}`;
 
     // Use the Neynar API directly

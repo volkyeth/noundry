@@ -39,7 +39,7 @@ export async function postTraitOnDiscord(traitId: string): Promise<void> {
     const message = await client.createMessage(
         process.env.NOUNDRY_SUBMISSIONS_DISCORD_CHANNEL_ID,
         {
-            content: `New submission by ${author}:\n${trait.name
+            content: `New ${trait.remixedFrom ? "remix" : "submission"} by ${author}:\n${trait.name
                 } ${formatSubmissionType(trait.type)}`,
             embed: {
                 url: `${SITE_URI}/trait/${traitId}`,
