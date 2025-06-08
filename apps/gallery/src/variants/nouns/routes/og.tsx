@@ -7,7 +7,6 @@ import { formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
 import { ImageResponse } from "@vercel/og";
 import { NextResponse } from "next/server";
-import { TraitCategory } from "noggles";
 import { SubmissionCategory } from "@/types/submission";
 const { theme } = appConfig;
 export async function GET(req: Request, { params: { id } }) {
@@ -90,12 +89,15 @@ export async function GET(req: Request, { params: { id } }) {
           <div tw="flex">
             <div tw="flex flex-col justify-between">
               <h1 tw="text-10 m-0">{trait.name}</h1>
+              <h2 tw="text-7 font-700 m-0 text-gray-400 tracking-wider">
+                {trait.version === 1 ? "OG" : `v${trait.version}`}
+              </h2>
+            </div>
+            <div tw="flex flex-col items-end absolute right-0">
+              <TraitIcon type={trait.type} />
               <h2 tw="uppercase text-7 font-700 m-0 text-gray-400 tracking-wider">
                 {formatSubmissionType(trait.type)}
               </h2>
-            </div>
-            <div tw="flex absolute right-0">
-              <TraitIcon type={trait.type} />
             </div>
           </div>
           <img tw="mt-2 w-[384px] h-[384px] " src={upscaledNounImage} />

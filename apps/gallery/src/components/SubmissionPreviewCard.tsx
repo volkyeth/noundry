@@ -45,6 +45,33 @@ export const SubmissionPreviewCard = forwardRef<
             </div>
           )}
           {trait ? (
+            <small className="text-secondary opacity-30 text-tiny font-bold tracking-wide">
+              {trait.version === 1 ? "OG" : `v${trait.version}`}
+            </small>
+          ) : (
+            <Skeleton className="h-3 w-9 mt-[2px]" />
+          )}
+        </div>
+
+        <div className="flex flex-col items-end">
+          {trait ? (
+            <SubmissionIcon
+              onMouseEnter={
+                trait.type !== "nouns" ? () => setSeeThrough(true) : undefined
+              }
+              onMouseLeave={
+                trait.type !== "nouns" ? () => setSeeThrough(false) : undefined
+              }
+              type={trait.type}
+              className={cn(
+                "w-[16px] text-dark opacity-50  pt-1   ",
+                trait.type !== "nouns" && "hover:opacity-20",
+              )}
+            />
+          ) : (
+            <Skeleton className="w-[20px] h-[20px] mt-1" />
+          )}
+          {trait ? (
             <small className="text-secondary uppercase opacity-30 text-tiny font-bold tracking-wide">
               {formatSubmissionType(trait.type)}
             </small>
@@ -52,24 +79,6 @@ export const SubmissionPreviewCard = forwardRef<
             <Skeleton className="h-3 w-9 mb-[2px]" />
           )}
         </div>
-
-        {trait ? (
-          <SubmissionIcon
-            onMouseEnter={
-              trait.type !== "nouns" ? () => setSeeThrough(true) : undefined
-            }
-            onMouseLeave={
-              trait.type !== "nouns" ? () => setSeeThrough(false) : undefined
-            }
-            type={trait.type}
-            className={cn(
-              "w-[16px] text-dark opacity-50  pt-1   ",
-              trait.type !== "nouns" && "hover:opacity-20",
-            )}
-          />
-        ) : (
-          <Skeleton className="w-[20px] h-[20px] mt-1" />
-        )}
       </CardHeader>
       <CardBody className="overflow-visible items-center flex-none p-0 w-[192px] h-[192px]">
         <Link

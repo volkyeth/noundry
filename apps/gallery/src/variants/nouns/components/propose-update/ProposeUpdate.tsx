@@ -346,6 +346,7 @@ Contribution specification: ${trait.trait}`;
             <SubmissionCard
               name={trait.name}
               type={trait.type}
+              version={trait.version}
               image={
                 // eslint-disable-next-line @next/next/no-img-element
                 <img

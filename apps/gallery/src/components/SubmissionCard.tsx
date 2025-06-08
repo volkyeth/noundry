@@ -5,7 +5,6 @@ import { SubmissionType, SubmissionCategory } from "@/types/submission";
 
 import { FC, ReactNode, useState } from "react";
 import { SubmissionIcon } from "./SubmissionIcon";
-import NounIcon from "@/assets/traitIcons/noun.svg";
 import { cn } from "@nextui-org/react";
 
 export interface SubmissionCardProps {
@@ -14,6 +13,7 @@ export interface SubmissionCardProps {
   image: ReactNode;
   previewImage: ReactNode;
   footer?: ReactNode;
+  version?: number;
 }
 
 export const SubmissionCard: FC<SubmissionCardProps> = ({
@@ -21,6 +21,7 @@ export const SubmissionCard: FC<SubmissionCardProps> = ({
   type,
   image,
   previewImage,
+  version,
   footer,
 }) => {
   const [seeThrough, setSeeThrough] = useState(false);
@@ -32,28 +33,36 @@ export const SubmissionCard: FC<SubmissionCardProps> = ({
           <h1 className="font-Inter text-secondary font-bold text-2xl">
             {name}
           </h1>
+          {version && (
+            <small className="text-default-300 text-tiny xs:text-medium uppercase font-bold tracking-wider">
+              {version === 1 ? "OG" : `v${version}`}
+            </small>
+          )}
+        </div>
+
+        <div className="flex flex-col items-end">
+          <SubmissionIcon
+            onMouseEnter={
+              type !== "nouns" && type != "noun"
+                ? () => setSeeThrough(true)
+                : undefined
+            }
+            onMouseLeave={
+              type !== "nouns" && type != "noun"
+                ? () => setSeeThrough(false)
+                : undefined
+            }
+            type={type}
+            className={cn(
+              "w-[24px] xs:w-[32px] text-default-300",
+              type !== "nouns" && type != "noun" && "hover:text-default-200",
+            )}
+          />
+
           <small className="text-default-300 text-tiny xs:text-medium uppercase font-bold tracking-wider">
             {formatSubmissionType(type)}
           </small>
         </div>
-
-        <SubmissionIcon
-          onMouseEnter={
-            type !== "nouns" && type != "noun"
-              ? () => setSeeThrough(true)
-              : undefined
-          }
-          onMouseLeave={
-            type !== "nouns" && type != "noun"
-              ? () => setSeeThrough(false)
-              : undefined
-          }
-          type={type}
-          className={cn(
-            "w-[24px] xs:w-[32px] text-default-300",
-            type !== "nouns" && type != "noun" && "hover:text-default-200",
-          )}
-        />
       </div>
       <div className="overflow-visible items-center p-0 w-fit">
         <div className="grid  w-[256px]  h-[256px] xs:w-[320px] xs:h-[320px]  bg-checkerboard">
