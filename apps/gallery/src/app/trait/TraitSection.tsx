@@ -14,7 +14,7 @@ import { SubmissionCard } from "@/components/SubmissionCard";
 import { SubmissionPreviewCard } from "@/components/SubmissionPreviewCard";
 import { TraitTestingGrounds } from "@/components/TraitTestGrounds";
 import { TraitWithFriends } from "@/components/TraitWithFriends";
-import { UserBadge } from "@/components/UserBadge";
+import { UserAvatar } from "@/components/UserAvatar";
 import { useSignedInMutation } from "@/hooks/useSignedInMutation";
 import { Trait } from "@/types/trait";
 import { UserInfo } from "@/types/user";
@@ -135,19 +135,26 @@ export const TraitSection: FC<TraitSectionProps> = ({
             footer={
               <>
                 <div className="flex flex-col gap-2 text-medium">
-                  <p className="text-sm  text-default-500">
+                  <p className="text-xs  text-default-400">
                     {formatDistanceToNow(trait.creationDate, {
                       addSuffix: true,
                     })}{" "}
-                    by
                   </p>
                   <Link
                     href={`/profile/${author.address}`}
                     as={NextLink}
                     color="foreground"
-                    className="text-sm text-default-500"
+                    className="text-sm flex gap-1 text-default-500"
                   >
-                    <UserBadge address={author.address} />
+                    <UserAvatar
+                      address={author.address}
+                      className="rounded-full"
+                    />
+                    <div className="flex flex-col leading-none">
+                      <span className="font-bold text-default-500">
+                        {author.userName}
+                      </span>
+                    </div>
                   </Link>
                 </div>
                 <LikeWidget
