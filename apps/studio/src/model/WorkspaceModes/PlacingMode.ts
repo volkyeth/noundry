@@ -31,6 +31,7 @@ export const usePlacingState = create<PlacingState>((set, get) => {
   const placingCanvas = document.createElement("canvas");
   placingCanvas.width = 32;
   placingCanvas.height = 32;
+  placingCanvas.getContext("2d", { willReadFrequently: true });
 
   return {
     placingCanvas,

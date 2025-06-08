@@ -11,6 +11,7 @@ export const useClipboardState = create<ClipboardState>()((set, get) => {
   const clipboardCanvas = document.createElement("canvas");
   clipboardCanvas.width = 32;
   clipboardCanvas.height = 32;
+  clipboardCanvas.getContext("2d", { willReadFrequently: true });
 
   return {
     clipboardCanvas,

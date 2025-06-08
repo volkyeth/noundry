@@ -37,7 +37,7 @@ export const Workspace: FC<WorkspaceProps> = ({ ...props }) => {
     >
       {activePart ? (
         <CheckerboardBg w={canvasSize} h={canvasSize} position="relative">
-          <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} />
+          <PixelArtCanvas style={{ width: "100%", height: "100%", position: "absolute" }} id="working-canvas" ref={canvasRef} willReadFrequently />
           {gridOn && <CanvasGrid w={canvasSize} h={canvasSize} position="absolute" left={0} top={0} />}
           <SelectionOverlay position="absolute" top="-1px" left="-1px"  />
           {isPlacing && <PlacingOverlay position={"absolute"} />}

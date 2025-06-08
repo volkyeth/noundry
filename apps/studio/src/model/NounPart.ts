@@ -79,6 +79,7 @@ export const createNounPart = (
   const canvas = document.createElement("canvas");
   canvas.width = 32;
   canvas.height = 32;
+  canvas.getContext("2d", { willReadFrequently: true });
 
   return {
     visible: true,

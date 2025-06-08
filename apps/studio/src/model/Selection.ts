@@ -27,6 +27,7 @@ export const useSelection = create<SelectionState>()((set, get) => {
   const selectionCanvas = document.createElement("canvas");
   selectionCanvas.width = 32;
   selectionCanvas.height = 32;
+  selectionCanvas.getContext("2d", { willReadFrequently: true });
   return {
     selectionCanvas,
     selectedPoints: [],
