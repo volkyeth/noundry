@@ -45,11 +45,11 @@ export const SubmissionPreviewCard = forwardRef<
             </div>
           )}
           {trait ? (
-            <small className="text-secondary opacity-30 text-tiny font-bold tracking-wide">
+            <small className="text-secondary-400 opacity-30 text-tiny font-bold tracking-wide">
               {trait.version === 1 ? "OG" : `v${trait.version}`}
             </small>
           ) : (
-            <Skeleton className="h-3 w-9 mt-[2px]" />
+            <Skeleton className="h-2 w-9 mt-[2px]" />
           )}
         </div>
 
@@ -64,19 +64,19 @@ export const SubmissionPreviewCard = forwardRef<
               }
               type={trait.type}
               className={cn(
-                "w-[16px] text-dark opacity-50  pt-1   ",
+                "w-[16px] text-dark opacity-50 pt-1",
                 trait.type !== "nouns" && "hover:opacity-20",
               )}
             />
           ) : (
-            <Skeleton className="w-[20px] h-[20px] mt-1" />
+            <Skeleton className="w-[16px] h-[16px] mt-1" />
           )}
           {trait ? (
-            <small className="text-secondary uppercase opacity-30 text-tiny font-bold tracking-wide">
+            <small className="text-secondary-400 uppercase opacity-30 text-tiny font-bold tracking-wide">
               {formatSubmissionType(trait.type)}
             </small>
           ) : (
-            <Skeleton className="h-3 w-9 mb-[2px]" />
+            <Skeleton className="h-2 w-9 mb-[2px] mt-1" />
           )}
         </div>
       </CardHeader>
@@ -109,7 +109,7 @@ export const SubmissionPreviewCard = forwardRef<
             href={`/profile/${trait.address}`}
             as={NextLink}
             color="foreground"
-            className="text-sm font-medium text-off-dark"
+            className="text-xs font-medium text-secondary-300"
           >
             {username}
           </Link>
