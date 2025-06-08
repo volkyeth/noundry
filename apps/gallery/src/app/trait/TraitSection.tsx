@@ -1,5 +1,4 @@
 "use client";
-import { getTrait } from "@/app/actions/getTrait";
 import { Button } from "@/components/Button";
 import Dynamic from "@/components/Dynamic";
 import { LikeWidget } from "@/components/LikeWidget";
@@ -50,16 +49,21 @@ export const TraitSection: FC<TraitSectionProps> = ({
   const { address } = useAccount();
   const { data: trait } = useQuery({
     queryKey: ["trait", initialTrait.id, address],
-    queryFn: () =>
-      getTrait(initialTrait.id, { requester: address }) as Promise<
-        Trait & { liked?: boolean }
-      >,
+    queryFn: async () => {
+      const response = await fetch(`/api/trait/${initialTrait.id}`);
+      if (!response.ok) throw new Error('Failed to fetch trait');
+      return response.json() as Promise<Trait & { liked?: boolean }>;
+    },
     initialData: initialTrait as Trait & { liked?: boolean },
   });
 
   const { data: remixedFrom } = useQuery({
     queryKey: ["trait", initialTrait.remixedFrom],
-    queryFn: () => getTrait(initialTrait.remixedFrom!, { requester: address }),
+    queryFn: async () => {
+      const response = await fetch(`/api/trait/${initialTrait.remixedFrom!}`);
+      if (!response.ok) throw new Error('Failed to fetch remixed trait');
+      return response.json();
+    },
     enabled: !!initialTrait.remixedFrom,
   });
 

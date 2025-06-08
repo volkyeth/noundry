@@ -1,4 +1,3 @@
-import { getTrait } from "@/app/actions/getTrait";
 import { useQuery } from "@tanstack/react-query";
 
 export const useTrait = (
@@ -7,7 +6,11 @@ export const useTrait = (
 ) => {
   return useQuery({
     queryKey: ["trait", id, options?.requester],
-    queryFn: () => getTrait(id!, options),
+    queryFn: async () => {
+      const response = await fetch(`/api/trait/${id!}`);
+      if (!response.ok) throw new Error('Failed to fetch trait');
+      return response.json();
+    },
     enabled: !!id,
   });
 };
