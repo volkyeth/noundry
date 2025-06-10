@@ -32,6 +32,7 @@ export const withSelectionClip = (ctx: CanvasRenderingContext2D, fn: () => void)
 
   if (selectedPoints.length === 0) {
     fn();
+    return;
   }
 
   return withClip(ctx, selectedPoints, fn);

@@ -183,8 +183,8 @@ const renderWorkspaceCanvas = () => {
   const ctx = workspaceCanvas.getContext("2d")!;
 
   if (originalSelection.length > 0) {
-    withClip(ctx, originalSelection, () => {
-      clearCanvas(workspaceCanvas);
+    originalSelection.forEach(point => {
+      ctx.clearRect(point.x, point.y, 1, 1);
     });
   }
 
