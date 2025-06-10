@@ -77,7 +77,7 @@ export const Guidelines = () => {
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold">Example: Good Trait Design</h3>
               <p>
-                Here's an example of a well-designed trait that follows all our guidelines:
+                Here&apos;s an example of a well-designed trait that follows all our guidelines:
               </p>
               <img 
                 src="/noundry-guidelines-example.png" 
