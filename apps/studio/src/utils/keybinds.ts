@@ -206,7 +206,7 @@ export const generateKeybindings = (preset: KeyBindPreset) => {
       description: "Decrease brush size",
     },
     {
-      commands: ["="],
+      commands: ["+"],
       callback: () => useBrush.setState(({ brushSize }) => ({ brushSize: Math.min(brushSize + 1, 6) })),
       description: "Increase brush size",
     },
@@ -227,18 +227,8 @@ export const generateKeybindings = (preset: KeyBindPreset) => {
     },
     {
       commands: ["shift+u"],
-      callback: () => useToolboxState.getState().selectTool(FilledRectangle()),
-      description: "Filled Rectangle tool",
-    },
-    {
-      commands: ["o"],
       callback: () => useToolboxState.getState().selectTool(Ellipse()),
       description: "Ellipse tool",
-    },
-    {
-      commands: ["shift+o"],
-      callback: () => useToolboxState.getState().selectTool(FilledEllipse()),
-      description: "Filled Ellipse tool",
     },
     {
       commands: ["g"],
@@ -246,19 +236,19 @@ export const generateKeybindings = (preset: KeyBindPreset) => {
       description: "Bucket tool",
     },
     {
-      commands: ["h"],
+      commands: ["v"],
       callback: () => useToolboxState.getState().selectTool(Move()),
       description: "Move tool",
     },
     {
       commands: ["m"],
-      callback: () => {
-        const { tool, selectTool } = useToolboxState.getState();
-        if (tool.name === "Rectangular Selection") selectTool(EllipticalSelection());
-        else if (tool.name === "Elliptical Selection") selectTool(RectangularSelection());
-        else selectTool(RectangularSelection());
-      },
-      description: "Cycle between Rectangular and Elliptical Marquee tool",
+      callback: () => useToolboxState.getState().selectTool(RectangularSelection()),
+      description: "Rectangular Marquee tool",
+    },
+    {
+      commands: ["shift+m"],
+      callback: () => useToolboxState.getState().selectTool(EllipticalSelection()),
+      description: "Elliptical Marquee tool",
     },
     {
       commands: ["i"],
