@@ -2,7 +2,6 @@ import { useCheatSheetState } from "../components/CheatSheetButton";
 import { useBrush } from "../model/Brush";
 import { useClipboardState } from "../model/Clipboard";
 import { useNounState } from "../model/Noun";
-import { NounPartState } from "../model/NounPart";
 import { useSelection } from "../model/Selection";
 import { useToolboxState } from "../model/Toolbox";
 import { useWorkspaceState } from "../model/Workspace";
@@ -222,13 +221,31 @@ export const generateKeybindings = (preset: KeyBindPreset) => {
     },
     {
       commands: ["u"],
-      callback: () => useToolboxState.getState().selectTool(Rectangle()),
-      description: "Rectangle tool",
+      callback: () => {
+        const { tool, selectTool } = useToolboxState.getState();
+        if (tool.name === "Rectangle") {
+          selectTool(FilledRectangle());
+        } else if (tool.name === "Filled Rectangle") {
+          selectTool(Rectangle());
+        } else {
+          selectTool(Rectangle());
+        }
+      },
+      description: "Cycle between Rectangle and Filled Rectangle tool",
     },
     {
       commands: ["shift+u"],
-      callback: () => useToolboxState.getState().selectTool(Ellipse()),
-      description: "Ellipse tool",
+      callback: () => {
+        const { tool, selectTool } = useToolboxState.getState();
+        if (tool.name === "Ellipse") {
+          selectTool(FilledEllipse());
+        } else if (tool.name === "Filled Ellipse") {
+          selectTool(Ellipse());
+        } else {
+          selectTool(Ellipse());
+        }
+      },
+      description: "Cycle between Ellipse and Filled Ellipse tool",
     },
     {
       commands: ["g"],
