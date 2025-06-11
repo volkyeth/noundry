@@ -1,6 +1,5 @@
 import { MouseEvent as ReactMouseEvent } from "react";
 import { create } from "zustand";
-import { useCheatSheetState } from "../../components/CheatSheetButton";
 import { Point } from "../../types/geometry";
 import { withClip } from "../../utils/canvas";
 import { clearCanvas } from "../../utils/canvas/clearCanvas";
@@ -8,13 +7,14 @@ import { drawCanvas } from "../../utils/canvas/drawCanvas";
 import { replaceCanvas } from "../../utils/canvas/replaceCanvas";
 import { MouseButton, MouseEventType } from "../../utils/constants";
 import { getCanvasPoint } from "../../utils/geometry/getCanvasPoint";
+import { generatePlacingKeybindings, setPlacingModeHelpers } from "../../utils/placingKeybinds";
 import { useClipboardState } from "../Clipboard";
 import { useCursor } from "../Cursor";
+import { useKeybindPresetState } from "../KeybindPresets";
 import { drawNounCanvas, useNounState } from "../Noun";
 import { NounPartState } from "../NounPart";
 import { useSelection } from "../Selection";
 import { WorkspaceMode, useWorkspaceState } from "../Workspace";
-import { EditMode } from "./EditMode";
 
 type PlacingState = {
   placingCanvas: HTMLCanvasElement;
@@ -94,7 +94,13 @@ export const usePlacingState = create<PlacingState>((set, get) => {
 export const PlacingMode: WorkspaceMode = {
   name: "Placing",
   init: () => {
+    // Set helper functions for the keybind utility
+    setPlacingModeHelpers(endPlacing, commitPlacing);
     renderWorkspaceCanvas();
+  },
+  get keyBindings() {
+    const { activePreset } = useKeybindPresetState.getState();
+    return generatePlacingKeybindings(activePreset);
   },
   handleMouseEvent: (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
     const nounState = useNounState.getState();
@@ -129,39 +135,6 @@ export const PlacingMode: WorkspaceMode = {
       default:
     }
   },
-  keyBindings: [
-    {
-      commands: ["escape"],
-      callback: (e) => {
-        endPlacing();
-        e.preventDefault();
-      },
-      description: "Cancel placing",
-    },
-    {
-      commands: ["enter"],
-      callback: () => {
-        commitPlacing();
-        endPlacing();
-      },
-      description: "Commit placing",
-    },
-    {
-      commands: ["ctrl+v", "command+v"],
-      callback: () => {
-        commitPlacing();
-        const { canvas } = useWorkspaceState.getState();
-        if (!canvas) {
-          return;
-        }
-
-        const { placeFromClipboard } = usePlacingState.getState();
-        placeFromClipboard();
-      },
-      description: "Paste",
-    },
-    { commands: ["?"], callback: () => useCheatSheetState.getState().toggle(), description: "Open cheat sheet" },
-  ],
 };
 
 const renderWorkspaceCanvas = () => {
@@ -208,8 +181,9 @@ const commitPlacing = () => {
   activeNounPart.commit();
 };
 
-const endPlacing = () => {
+const endPlacing = async () => {
   const { resetPlacing } = usePlacingState.getState();
+  const { EditMode } = await import("./EditMode");
   useWorkspaceState.getState().changeMode(EditMode);
   resetPlacing();
   drawNounCanvas(useNounState.getState());
