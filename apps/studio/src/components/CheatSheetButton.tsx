@@ -47,7 +47,7 @@ export const CheatSheetButton = () => {
         <SimpleGrid
           columnGap={8}
           rowGap={6}
-          templateColumns={"auto 1fr"}
+          templateColumns={"auto 1fr auto 1fr"}
           alignItems={"center"}
         >
           {mode.keyBindings.map(({ commands, description }, i) => (
@@ -73,7 +73,7 @@ export const CheatSheetButton = () => {
   return (
     <>
       <Button variant={"link"} isActive={isOpen} onClick={toggle}>
-        <Kbd>?</Kbd>
+        <Kbd>KEYBINDS</Kbd>
       </Button>
       <Modal isOpen={isOpen} onClose={toggle} size={"6xl"}>
         <ModalOverlay />
