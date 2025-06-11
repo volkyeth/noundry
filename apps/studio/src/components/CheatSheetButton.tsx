@@ -1,5 +1,8 @@
 import {
   Button,
+  Divider,
+  HStack,
+  Heading,
   Kbd,
   Modal,
   ModalBody,
@@ -11,9 +14,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { create } from "zustand";
-import { useWorkspaceState } from "../model/Workspace";
+import { EditMode } from "../model/WorkspaceModes/EditMode";
+import { useKeybindPresetState } from "../model/KeybindPresets";
+import { PlacingMode } from "../model/WorkspaceModes/PlacingMode";
+import { KeybindPresetSelector } from "./KeybindPresetSelector";
 
 export type CheatSheetState = {
   isOpen: boolean;
@@ -27,8 +33,43 @@ export const useCheatSheetState = create<CheatSheetState>((set) => ({
 
 export const CheatSheetButton = () => {
   const { isOpen, toggle } = useCheatSheetState();
+  const { activePreset } = useKeybindPresetState();
 
-  const mode = useWorkspaceState((state) => state.mode);
+  const modes = [EditMode, PlacingMode];
+
+  // Force re-computation of keybindings when preset changes
+  const modalContent = useMemo(() => {
+    return modes.map((mode, modeIndex) => (
+      <VStack key={`${mode.name}-${activePreset}`} spacing={4} align="stretch">
+        <Heading size="md" color="gray.300">
+          {mode.name} Mode
+        </Heading>
+        <SimpleGrid
+          columnGap={8}
+          rowGap={6}
+          templateColumns={"auto 1fr"}
+          alignItems={"center"}
+        >
+          {mode.keyBindings.map(({ commands, description }, i) => (
+            <Fragment key={`${mode.name}-${activePreset}-keybind-${i}`}>
+              <VStack alignItems={"end"}>
+                {commands.map((command, j) => (
+                  <Kbd key={`${mode.name}-${activePreset}-command-${i}-${j}`}>
+                    {command.toUpperCase()}
+                  </Kbd>
+                ))}
+              </VStack>
+              <Text fontSize={"xs"} padding={"auto 0"} textAlign={"start"}>
+                {description}
+              </Text>
+            </Fragment>
+          ))}
+        </SimpleGrid>
+        {modeIndex < modes.length - 1 && <Divider />}
+      </VStack>
+    ));
+  }, [activePreset]);
+
   return (
     <>
       <Button variant={"link"} isActive={isOpen} onClick={toggle}>
@@ -38,29 +79,20 @@ export const CheatSheetButton = () => {
         <ModalOverlay />
         <ModalContent maxH={"80vh"} overflowY={"scroll"}>
           <ModalCloseButton />
-          <ModalHeader>{mode.name} Mode Key Bindings</ModalHeader>
-          <ModalBody p={10}>
-            <SimpleGrid
-              columnGap={8}
-              rowGap={6}
-              templateColumns={"auto 1fr auto 1fr"}
-              alignItems={"center"}
+          <ModalHeader>
+            <HStack
+              justifyContent="space-between"
+              alignItems="center"
+              marginRight={8}
             >
-              {mode.keyBindings.map(({ commands, description }, i) => (
-                <Fragment key={`keybind-${i}`}>
-                  <VStack alignItems={"end"}>
-                    {commands.map((command, j) => (
-                      <Kbd key={`command-${i}-${j}`}>
-                        {command.toUpperCase()}
-                      </Kbd>
-                    ))}
-                  </VStack>
-                  <Text fontSize={"xs"} padding={"auto 0"} textAlign={"start"}>
-                    {description}
-                  </Text>
-                </Fragment>
-              ))}
-            </SimpleGrid>
+              <Text>Key Bindings</Text>
+              <KeybindPresetSelector />
+            </HStack>
+          </ModalHeader>
+          <ModalBody p={10}>
+            <VStack spacing={8} align="stretch">
+              {modalContent}
+            </VStack>
           </ModalBody>
         </ModalContent>
       </Modal>

@@ -14,6 +14,7 @@ export interface WorkspaceMode {
 export type WorkspaceState = {
   mode: WorkspaceMode;
   changeMode: (mode: WorkspaceMode) => void;
+  rebindKeys: () => void;
   gridOn: boolean;
   toggleGrid: () => void;
   randomizeAllHovered: boolean;
@@ -25,23 +26,29 @@ export type WorkspaceState = {
 };
 
 export const useWorkspaceState = create<WorkspaceState>()((set, get) => {
-  // Defer EditMode initialization to avoid circular dependency issues
-  setTimeout(() => {
-    EditMode.keyBindings.forEach((binding) => {
+  const bindKeysForMode = (mode: WorkspaceMode) => {
+    Mousetrap.reset();
+    mode.keyBindings.forEach((binding) => {
       Mousetrap.bind(binding.commands, binding.callback);
     });
+  };
+
+  // Defer EditMode initialization to avoid circular dependency issues
+  setTimeout(() => {
+    bindKeysForMode(EditMode);
     EditMode.init();
   }, 0);
 
   return {
     mode: EditMode,
     changeMode: (mode: WorkspaceMode) => {
-      Mousetrap.reset();
-      mode.keyBindings.forEach((binding) => {
-        Mousetrap.bind(binding.commands, binding.callback);
-      });
+      bindKeysForMode(mode);
       mode.init();
       set({ mode });
+    },
+    rebindKeys: () => {
+      const { mode } = get();
+      bindKeysForMode(mode);
     },
     gridOn: false,
     toggleGrid: () => set((state) => ({ gridOn: !state.gridOn })),
