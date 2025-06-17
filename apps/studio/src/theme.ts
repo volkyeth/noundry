@@ -25,7 +25,7 @@ const config = {
     useSystemColorMode: false,
   },
   styles: {
-    global: { "html, body, #root": { height: "100%" } },
+    global: { "html, body, #root": { height: "100%", overflow: "clip" } },
   },
   colors: {
     gray: {
