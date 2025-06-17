@@ -1,6 +1,7 @@
 import { nounPartIcon } from "../../utils/constants";
 import loadingNoun from "@/assets/loading-noun.gif";
 import LoadingNoun from "@/assets/nouns-loading-sharp.svg?react";
+import circleCropMask from "@/assets/circle-crop.png";
 import {
   Box,
   Button,
@@ -30,6 +31,7 @@ import { FC, SVGProps, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { GiDiceSixFacesThree } from "react-icons/gi";
 import { RiSave3Fill } from "react-icons/ri";
+import { RxMaskOn } from "react-icons/rx";
 import { appConfig } from "../../config";
 import { useNounState } from "../../model/Noun";
 import { useWorkspaceState } from "../../model/Workspace";
@@ -54,6 +56,7 @@ export const Preview: FC<PreviewProps> = ({}) => {
     onClose: onExportClose,
   } = useDisclosure();
   const [nounLoading, setNounLoading] = useBoolean(false);
+  const [circleCropEnabled, setCircleCropEnabled] = useBoolean(false);
   const nounIdInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -111,6 +114,18 @@ export const Preview: FC<PreviewProps> = ({}) => {
                   h="full"
                 />
               </Box>
+            )}
+            {circleCropEnabled && (
+              <Image
+                position="absolute"
+                src={circleCropMask}
+                w="full"
+                h="full"
+                pointerEvents="none"
+                style={{
+                  imageRendering: "pixelated",
+                }}
+              />
             )}
           </Box>
         </Center>
@@ -253,6 +268,18 @@ export const Preview: FC<PreviewProps> = ({}) => {
                 </PopoverBody>
               </PopoverContent>
             </Popover>
+            <NounActionButton
+              label={
+                circleCropEnabled ? "Disable Circle Crop" : "Enable Circle Crop"
+              }
+              icon={RxMaskOn}
+              onClick={setCircleCropEnabled.toggle}
+              disabled={nounLoading}
+              bgColor={circleCropEnabled ? "gray.600" : "transparent"}
+              _hover={{
+                color: "gray.400",
+              }}
+            />
             <NounActionButton
               label="Export"
               icon={RiSave3Fill}
