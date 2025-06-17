@@ -42,12 +42,11 @@ export const EllipticalSelection = (): Tool => ({
     const { clearSelection, addRectSelection } = useSelection.getState();
     clearSelection();
     
-    // Use unclamped points for shape calculation but clamp individual points when adding to selection
+    // Use unclamped points for shape calculation but ensure pixels are within canvas bounds
     ellipse(points, 1, true, (x: number, y: number, w: number, h: number) => {
-      const start = clampPoint({ x, y }, canvas.width, canvas.height);
-      const end = clampPoint({ x: x + w, y: y + h }, canvas.width, canvas.height);
-      if (isInside(canvas, start) || isInside(canvas, end)) {
-        addRectSelection(start, end);
+      // Only add pixels that are within canvas bounds
+      if (x >= 0 && y >= 0 && x < canvas.width && y < canvas.height) {
+        addRectSelection({ x, y }, { x, y });
       }
     });
   },
