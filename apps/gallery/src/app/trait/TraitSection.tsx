@@ -298,7 +298,7 @@ export const TraitSection: FC<TraitSectionProps> = ({
             </div>
           </div>
           {trait.remixedFrom && remixedFrom !== null && (
-            <div className="flex flex-col  mx-auto mt-4 gap-0.5 w-fit items-center xl:items-start  xl:-rotate-12 xl:absolute xl:top-40 xl:-left-44">
+            <div className="flex flex-col  mx-auto mt-4 gap-0.5 w-fit items-center xl:items-start  xl:-rotate-12 xl:will-change-transform xl:absolute xl:top-40 xl:-left-44">
               <p className="text-xs font-bold tracking-widest text-gray-500">
                 REMIXED FROM
               </p>
