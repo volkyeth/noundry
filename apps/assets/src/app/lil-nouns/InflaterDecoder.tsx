@@ -81,12 +81,11 @@ const StatusBadge = ({ status }: { status: TraitStatus }) => {
 export const InflaterDecoder = () => {
   const [encodedData, setEncodedData] = useState<string>("");
   const [encodedTraits, setEncodedTraits] = useState<EncodedTrait[]>([]);
+  const [decompressedTraits, setDecompressedTraits] = useState<string>("");
   const [originalLength, setOriginalLength] = useState<string>("");
   const [traitCount, setTraitCount] = useState<string>("");
   const [traitType, setTraitType] = useState<TraitType>("accessories");
   const [decodedTraits, setDecodedTraits] = useState<DecodedTrait[]>([]);
-  const [expectedOriginalLength, setExpectedOriginalLength] =
-    useState<number>(0);
   const [inflateResult, setInflateResult] = useState<{
     success: boolean;
     message: string;
@@ -177,7 +176,8 @@ export const InflaterDecoder = () => {
           }
 
           setEncodedTraits(encodedTraits);
-          setExpectedOriginalLength(Number(originalLength));
+          // Set decompressed traits as comma-separated list
+          setDecompressedTraits(encodedTraits.join(","));
           // Check if the trait count matches
           const traitsMatchCount = encodedTraits.length === parsedTraitCount;
 
@@ -217,6 +217,37 @@ export const InflaterDecoder = () => {
     }
   }, [encodedData, originalLength, traitCount]);
 
+  // Handle reverse compression when decompressed traits are edited
+  useEffect(() => {
+    if (!decompressedTraits) {
+      return;
+    }
+
+    try {
+      // Parse comma-separated traits
+      const traits = decompressedTraits
+        .split(",")
+        .map(trait => trait.trim())
+        .filter(trait => trait.length > 0);
+
+      if (traits.length === 0) {
+        return;
+      }
+
+      // Convert to EncodedTrait format and deflate
+      const encodedTraits = traits as EncodedTrait[];
+      const { originalLength: calculatedOriginalLength, data: compressedData } = deflateTraits(encodedTraits);
+
+      // Update the form fields
+      setEncodedData(compressedData);
+      setOriginalLength(calculatedOriginalLength.toString());
+      setTraitCount(traits.length.toString());
+    } catch (error) {
+      // Silent fail for invalid input during typing
+      console.debug("Error compressing traits:", error);
+    }
+  }, [decompressedTraits]);
+
   return (
     <div className="w-full max-w-4xl">
       <div className="space-y-4 mb-8">
@@ -232,6 +263,22 @@ export const InflaterDecoder = () => {
             value={encodedData}
             onChange={(e) => setEncodedData(e.target.value)}
             placeholder="0x..."
+            className="w-full border border-gray-300 rounded-md p-2 h-24 font-mono"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="decompressedTraits"
+            className="block text-sm font-medium mb-1"
+          >
+            Decompressed Encoded Traits (comma-separated)
+          </label>
+          <textarea
+            id="decompressedTraits"
+            value={decompressedTraits}
+            onChange={(e) => setDecompressedTraits(e.target.value)}
+            placeholder="0x...,0x...,0x..."
             className="w-full border border-gray-300 rounded-md p-2 h-24 font-mono"
           />
         </div>
