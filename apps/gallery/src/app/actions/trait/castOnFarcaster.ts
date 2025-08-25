@@ -4,7 +4,7 @@ import { getUserInfo } from "@/app/actions/getUserInfo";
 import { getFarcasterUser } from "@/app/api/farcaster/user/[address]/getFarcasterUser";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import { formatSubmissionType } from "@/utils/traits/format";
 import { ObjectId } from "mongodb";
 
@@ -14,6 +14,7 @@ export async function castTraitOnFarcaster(traitId: string): Promise<void> {
     if (!process.env.NOUNDRY_NEYNAR_SIGNER_UUID)
         throw new Error("NOUNDRY_NEYNAR_SIGNER_UUID not set");
 
+    const database = await getDatabase();
     const trait = await database
         .collection<TraitSchema>("nfts")
         .findOne({ _id: new ObjectId(traitId) });

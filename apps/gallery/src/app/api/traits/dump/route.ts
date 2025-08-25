@@ -1,5 +1,5 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
 import JSZip from "jszip";
 import { cookies } from "next/headers";
@@ -13,6 +13,7 @@ export const GET = async (req: Request) => {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  const database = await getDatabase();
   const traitPreviews = await database
     .collection<TraitSchema>("nfts")
     .find({ removed: { $ne: true } }, { projection: { _id: 1, nft: 1 } })

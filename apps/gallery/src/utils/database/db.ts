@@ -1,24 +1,28 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
+import { attachDatabasePool } from "@vercel/functions";
 import { appConfig } from "../../variants/config";
 
-function main() {
-  const client = new MongoClient(process.env.MONGODB_HOST!, {
-    auth: {
-      username: process.env.MONGODB_USER,
-      password: process.env.MONGODB_PASSWORD,
-    },
-  });
+const pool = new MongoClient(process.env.MONGODB_HOST!, {
+  auth: {
+    username: process.env.MONGODB_USER,
+    password: process.env.MONGODB_PASSWORD,
+  },
+  maxPoolSize: 5,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  maxIdleTimeMS: 30000,
+});
 
-  try {
-    // Connect to the MongoDB cluster
-    client.connect();
+// Attach the pool to ensure idle connections close before suspension
+attachDatabasePool(pool);
 
-    // Make the appropriate DB calls
-    return client;
-  } catch (e) {
-    console.error(e);
+let isConnected = false;
+
+export async function getDatabase(): Promise<Db> {
+  if (!isConnected) {
+    await pool.connect();
+    isConnected = true;
   }
-}
 
-export const client = main();
-export const database = client!.db(appConfig.databaseName);
+  return pool.db(appConfig.databaseName);
+}

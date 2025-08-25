@@ -1,10 +1,11 @@
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest, { params: { traitId } }) {
+  const database = await getDatabase();
   const session = await Session.fromRequest(req);
 
   if (!session.address) {
@@ -22,6 +23,7 @@ export async function PUT(req: NextRequest, { params: { traitId } }) {
 }
 
 export async function DELETE(req: NextRequest, { params: { traitId } }) {
+  const database = await getDatabase();
   const session = await Session.fromRequest(req);
 
   if (!session.address) {

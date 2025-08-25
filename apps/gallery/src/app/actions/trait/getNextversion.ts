@@ -1,10 +1,11 @@
 "use server";
 
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import { ObjectId } from "mongodb";
 
 export const getNextVersion = async (traitId: string): Promise<number> => {
+    const database = await getDatabase();
     const cursor = database.collection<TraitSchema>("nfts").aggregate([
         {
             $match: {

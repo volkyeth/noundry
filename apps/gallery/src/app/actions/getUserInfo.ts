@@ -5,10 +5,11 @@ import { UserSchema } from "@/db/schema/UserSchema";
 import { LowercaseAddress } from "@/types/address";
 import { UserInfo } from "@/types/user";
 import { shortAddress } from "@/utils/address/format";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 
-export const getUserInfo = async (address: `0x${string}`): Promise<UserInfo> =>
-  await database
+export const getUserInfo = async (address: `0x${string}`): Promise<UserInfo> => {
+  const database = await getDatabase();
+  return await database
     .collection<UserSchema>("users")
     .findOne({ _id: address.toLowerCase() as LowercaseAddress })
     .then((user) =>
@@ -31,3 +32,4 @@ export const getUserInfo = async (address: `0x${string}`): Promise<UserInfo> =>
             profilePic: DEFAULT_PROFILE_PICTURE,
           }
     );
+};

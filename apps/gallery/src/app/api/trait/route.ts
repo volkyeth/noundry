@@ -5,7 +5,7 @@ import { postTraitOnTwitter } from "@/app/actions/trait/postOnTwitter";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { addTraitQuerySchema } from "@/schemas/addTraitQuery";
 import { PngDataUri } from "@/types/image";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { submissionCategory } from "@/utils/traits/categories";
 import { waitUntil } from "@vercel/functions";
@@ -38,6 +38,7 @@ export async function POST(req: Request) {
   // Determine version number
   const version = remixedFrom ? await getNextVersion(remixedFrom) : 1;
 
+  const database = await getDatabase();
   await database.collection<TraitSchema>("nfts").insertOne({
     _id: id,
     nft: previewImage as PngDataUri,

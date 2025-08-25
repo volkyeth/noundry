@@ -1,7 +1,7 @@
 import { TRAITS_PAGE_SIZE } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { TraitsQuery, traitsQuerySchema } from "@/schemas/traitsQuery";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import Session from "@/utils/siwe/session";
 import { SortDirection } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -38,6 +38,7 @@ export async function GET(req: NextRequest) {
 
   const { sortField, sortDirection } = getSortCriteria(query.sortBy);
 
+  const database = await getDatabase();
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {
       $match: {

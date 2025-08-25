@@ -3,7 +3,7 @@
 import { getUserInfo } from "@/app/actions/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import { formatSubmissionType } from "@/utils/traits/format";
 import { Client } from "detritus-client-rest";
 import { RESTPostAPIChannelMessageResult } from "discord-api-types/rest/v10";
@@ -17,6 +17,7 @@ export async function postTraitOnDiscord(traitId: string): Promise<void> {
 
     const client = new Client(process.env.NOUNDRY_DISCORD_BOT_TOKEN);
 
+    const database = await getDatabase();
     const trait = await database
         .collection<TraitSchema>("nfts")
         .findOne({ _id: new ObjectId(traitId) });

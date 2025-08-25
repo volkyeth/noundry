@@ -2,9 +2,10 @@
 
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { UserStats } from "@/types/user";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 
 export const getArtistStats = async () => {
+  const database = await getDatabase();
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {
       $match: {

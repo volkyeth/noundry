@@ -2,7 +2,7 @@ import { deleteTraitFromFarcaster } from "@/app/actions/trait/castOnFarcaster";
 import { deleteTraitFromDiscord } from "@/app/actions/trait/postOnDiscord";
 import { deleteTraitFromTwitter } from "@/app/actions/trait/postOnTwitter";
 import { TraitSchema } from "@/db/schema/TraitSchema";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import Session, { assertSiwe } from "@/utils/siwe/session";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -63,6 +63,7 @@ export async function DELETE(req: NextRequest, { params: { id: traitId } }) {
     }
   }
 
+  const database = await getDatabase();
   const result = await database
     .collection<TraitSchema>("nfts")
     .updateOne(

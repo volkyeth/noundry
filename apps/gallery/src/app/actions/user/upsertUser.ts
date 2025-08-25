@@ -3,9 +3,10 @@
 import { publicClient } from "@/app/publicClient";
 import { UserSchema } from "@/db/schema/UserSchema";
 import { LowercaseAddress } from "@/types/address";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 
 export async function upsertUser(address: LowercaseAddress): Promise<void> {
+    const database = await getDatabase();
     // Upsert user
     const upsert = await database
         .collection<UserSchema>("users")

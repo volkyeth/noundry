@@ -2,13 +2,14 @@
 
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { Trait } from "@/types/trait";
-import { database } from "@/utils/database/db";
+import { getDatabase } from "@/utils/database/db";
 import { ObjectId } from "mongodb";
 
 export const getAllVersions = async (
   traitId: string,
   options?: { requester?: `0x${string}` }
 ): Promise<Trait[]> => {
+  const database = await getDatabase();
   const cursor = database.collection<TraitSchema>("nfts").aggregate([
     {
       $match: {
