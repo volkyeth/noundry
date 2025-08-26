@@ -148,18 +148,19 @@ export const TraitSection: FC<TraitSectionProps> = ({
                     })}{" "}
                   </p>
                   <Link
-                    href={`/profile/${author.address}`}
+                    href={`/profile/${trait.userInfo?.address || author.address}`}
                     as={NextLink}
                     color="foreground"
                     className="text-sm flex gap-1 text-default-500"
                   >
                     <UserAvatar
-                      address={author.address}
-                      className="rounded-full"
+                      address={trait.userInfo?.address || author.address}
+                      userInfo={trait.userInfo || author}
+                      className="rounded-full w-10 h-10"
                     />
                     <div className="flex flex-col leading-none">
                       <span className="font-bold text-default-500">
-                        {author.userName}
+                        {trait.userInfo?.userName || author.userName}
                       </span>
                     </div>
                   </Link>

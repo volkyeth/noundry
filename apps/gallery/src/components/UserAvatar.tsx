@@ -1,26 +1,28 @@
-import { useUserInfo } from "@/hooks/useUserInfo";
-import { Avatar, AvatarProps, cn } from "@nextui-org/react";
 import { FC } from "react";
-import Dynamic from "./Dynamic";
+import { UserInfo } from "@/types/user";
+import { useUserInfo } from "@/hooks/useUserInfo";
+import { DEFAULT_PROFILE_PICTURE } from "@/constants/config";
+import { cn } from "@/utils/cn";
 
-export interface UserAvatarProps extends AvatarProps {
+export interface UserAvatarProps extends React.HTMLAttributes<HTMLImageElement> {
   address?: `0x${string}`;
+  userInfo?: UserInfo;
 }
 
-export const UserAvatar: FC<UserAvatarProps> = ({ address, ...props }) => {
-  const { data: userInfo } = useUserInfo(address);
+export const UserAvatar: FC<UserAvatarProps> = ({ address, userInfo, className, ...props }) => {
+  // Fallback to hook if userInfo is not provided (backward compatibility)
+  const { data: hookUserInfo } = useUserInfo(userInfo ? undefined : address);
+  const finalUserInfo = userInfo || hookUserInfo;
 
   return (
-    <Dynamic>
-      <Avatar
-        radius="none"
-        className={cn(
-          "w-8 h-8 border-2 border-content1 box-content p-0 bg-warm flex-shrink-0",
-          props.className,
-        )}
-        src={userInfo?.profilePic}
-        {...props}
-      />
-    </Dynamic>
+    <img
+      className={cn(
+        "w-8 h-8 border-2 border-content1 box-content p-0 bg-warm flex-shrink-0 object-cover",
+        className,
+      )}
+      src={finalUserInfo?.profilePic || DEFAULT_PROFILE_PICTURE}
+      alt="User avatar"
+      {...props}
+    />
   );
 };

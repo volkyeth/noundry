@@ -8,6 +8,7 @@ export interface UserStats {
   glasses: number;
   bodies: number;
   nouns: number;
+  userInfo?: UserInfo;
 }
 
 export interface UserInfo {

@@ -1,4 +1,3 @@
-import { useUsername } from "@/hooks/useUsername";
 import { Trait } from "@/types/trait";
 import { formatSubmissionType } from "@/utils/traits/format";
 import { appConfig } from "@/variants/config";
@@ -27,7 +26,8 @@ export const SubmissionPreviewCard = forwardRef<
   SubmissionPreviewCardProps
 >(({ trait }, ref) => {
   const [seeThrough, setSeeThrough] = useState(false);
-  const username = useUsername(trait?.address);
+  // userInfo.userName already includes proper fallback: userName -> ensName -> shortAddress
+  const username = trait?.userInfo?.userName;
 
   return (
     <Card className="p-4 py-2 rounded-none light shadow-sm" ref={ref}>

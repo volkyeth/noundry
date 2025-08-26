@@ -1,5 +1,6 @@
 "use server";
 
+import { DEFAULT_PROFILE_PICTURE } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { UserStats } from "@/types/user";
 import { getDatabase } from "@/utils/database/db";
@@ -49,19 +50,48 @@ export const getArtistStats = async () => {
       },
     },
     {
-      $unwind: "$user",
-    },
-    {
-      $replaceRoot: {
-        newRoot: {
-          $mergeObjects: ["$$ROOT", "$user"],
-        },
-      },
-    },
-    {
       $addFields: {
         address: {
           $toString: "$_id",
+        },
+        userInfo: {
+          $let: {
+            vars: { user: { $arrayElemAt: ["$user", 0] } },
+            in: {
+              address: { $toString: "$_id" },
+              userName: {
+                $ifNull: [
+                  { $toLower: "$$user.userName" },
+                  {
+                    $ifNull: [
+                      "$$user.ensName",
+                      {
+                        $concat: [
+                          { $substr: [{ $toString: "$_id" }, 0, 6] },
+                          "...",
+                          { $substr: [{ $toString: "$_id" }, -4, 4] },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              profilePic: {
+                $ifNull: [
+                  "$$user.profilePic",
+                  {
+                    $ifNull: [
+                      "$$user.ensAvatar",
+                      DEFAULT_PROFILE_PICTURE,
+                    ],
+                  },
+                ],
+              },
+              about: "$$user.about",
+              twitter: "$$user.twitter",
+              farcaster: "$$user.farcaster",
+            },
+          },
         },
       },
     },
@@ -75,6 +105,7 @@ export const getArtistStats = async () => {
         glasses: true,
         bodies: true,
         nouns: true,
+        userInfo: true,
       },
     },
   ]);

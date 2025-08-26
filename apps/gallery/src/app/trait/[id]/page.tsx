@@ -1,5 +1,4 @@
 import { getTrait } from "@/app/actions/getTrait";
-import { getUserInfo } from "@/app/actions/getUserInfo";
 import { SITE_URI } from "@/constants/config";
 import { formatSubmissionType } from "@/utils/traits/format";
 import { Metadata } from "next";
@@ -11,7 +10,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   if (!trait) {
     return {};
   }
-  const author = await getUserInfo(trait.address);
+  const author = trait.userInfo!;
 
   return {
     title: `${trait.name} ${formatSubmissionType(trait.type)}`,
@@ -47,7 +46,7 @@ const TraitPage = async ({ params: { id } }: { params: { id: string } }) => {
     ? await getTrait(trait.remixedFrom)
     : null;
 
-  const author = await getUserInfo(trait.address);
+  const author = trait.userInfo!;
 
   return (
     <TraitSection trait={trait} remixedFrom={remixedFrom} author={author} />

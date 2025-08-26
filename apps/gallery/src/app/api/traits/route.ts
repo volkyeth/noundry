@@ -1,4 +1,4 @@
-import { TRAITS_PAGE_SIZE } from "@/constants/config";
+import { TRAITS_PAGE_SIZE, DEFAULT_PROFILE_PICTURE } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { TraitsQuery, traitsQuerySchema } from "@/schemas/traitsQuery";
 import { getDatabase } from "@/utils/database/db";
@@ -39,87 +39,157 @@ export async function GET(req: NextRequest) {
   const { sortField, sortDirection } = getSortCriteria(query.sortBy);
 
   const database = await getDatabase();
-  const cursor = database.collection<TraitSchema>("nfts").aggregate([
-    {
-      $match: {
-        ...(query.search
-          ? { name: { $regex: query.search, $options: "i" } }
-          : {}),
-        ...(query.creator ? { address: query.creator.toLowerCase() } : {}),
-        removed: { $ne: true },
+  
+  // First, get total count and paginated results separately for efficiency
+  const [countResult, traitsResult] = await Promise.all([
+    // Count query - no lookup needed, very fast
+    database.collection<TraitSchema>("nfts").aggregate([
+      {
+        $match: {
+          ...(query.search
+            ? { name: { $regex: query.search, $options: "i" } }
+            : {}),
+          ...(query.creator ? { address: query.creator.toLowerCase() } : {}),
+          removed: { $ne: true },
 
-        $expr: {
-          $and: [
-            { $in: ["$type", query.includeTypes] },
-            ...(query.likedBy
-              ? [{ $in: [query.likedBy.toLowerCase(), "$likedBy"] }]
-              : []),
-          ],
-        },
-      },
-    },
-    {
-      $addFields: {
-        likesCount: {
-          $cond: {
-            if: { $isArray: "$likedBy" },
-            then: { $size: "$likedBy" },
-            else: 0,
+          $expr: {
+            $and: [
+              { $in: ["$type", query.includeTypes] },
+              ...(query.likedBy
+                ? [{ $in: [query.likedBy.toLowerCase(), "$likedBy"] }]
+                : []),
+            ],
           },
         },
-        id: {
-          $toString: "$_id",
-        },
       },
-    },
-    {
-      $sort: {
-        [sortField]: sortDirection,
-      },
-    },
-    ...(session.address
-      ? [
-        {
-          $addFields: {
-            liked: { $in: [session.address.toLowerCase(), "$likedBy"] },
+      { $count: "total" },
+    ]).toArray(),
+
+    // Paginated results query - sort first, limit, then lookup only for current page
+    database.collection<TraitSchema>("nfts").aggregate([
+      {
+        $match: {
+          ...(query.search
+            ? { name: { $regex: query.search, $options: "i" } }
+            : {}),
+          ...(query.creator ? { address: query.creator.toLowerCase() } : {}),
+          removed: { $ne: true },
+
+          $expr: {
+            $and: [
+              { $in: ["$type", query.includeTypes] },
+              ...(query.likedBy
+                ? [{ $in: [query.likedBy.toLowerCase(), "$likedBy"] }]
+                : []),
+            ],
           },
         },
-      ]
-      : []),
-    { $project: { likedBy: 0, likers: 0, _id: 0 } },
-    {
-      $group: {
-        _id: null,
-        allTraits: { $push: "$$ROOT" },
       },
-    },
-    {
-      $addFields: {
-        traits: {
-          $slice: [
-            "$allTraits",
-            TRAITS_PAGE_SIZE * (query.page - 1),
-            TRAITS_PAGE_SIZE,
-          ],
-        },
-        pageNumber: query.page,
-        traitCount: { $size: "$allTraits" },
-        totalPages: {
-          $ceil: { $divide: [{ $size: "$allTraits" }, TRAITS_PAGE_SIZE] },
+      {
+        $addFields: {
+          likesCount: {
+            $cond: {
+              if: { $isArray: "$likedBy" },
+              then: { $size: "$likedBy" },
+              else: 0,
+            },
+          },
         },
       },
-    },
-    { $project: { allTraits: 0, _id: 0 } },
+      {
+        $sort: {
+          [sortField]: sortDirection,
+        },
+      },
+      {
+        $skip: TRAITS_PAGE_SIZE * (query.page - 1),
+      },
+      {
+        $limit: TRAITS_PAGE_SIZE,
+      },
+      // Only NOW do the lookup for the current page items
+      {
+        $lookup: {
+          from: "users",
+          localField: "address",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $addFields: {
+          userInfo: {
+            $let: {
+              vars: { user: { $arrayElemAt: ["$userInfo", 0] } },
+              in: {
+                address: "$address",
+                userName: {
+                  $cond: {
+                    if: {
+                      $and: [
+                        { $ne: ["$$user.userName", null] },
+                        { $ne: ["$$user.userName", ""] }
+                      ]
+                    },
+                    then: { $toLower: "$$user.userName" },
+                    else: {
+                      $cond: {
+                        if: {
+                          $and: [
+                            { $ne: ["$$user.ensName", null] },
+                            { $ne: ["$$user.ensName", ""] }
+                          ]
+                        },
+                        then: "$$user.ensName",
+                        else: {
+                          $concat: [
+                            { $substr: ["$address", 0, 6] },
+                            "...",
+                            { $substr: ["$address", -4, 4] },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
+                profilePic: {
+                  $ifNull: [
+                    "$$user.profilePic",
+                    {
+                      $ifNull: [
+                        "$$user.ensAvatar",
+                        DEFAULT_PROFILE_PICTURE,
+                      ],
+                    },
+                  ],
+                },
+                about: "$$user.about",
+                twitter: "$$user.twitter",
+                farcaster: "$$user.farcaster",
+              },
+            },
+          },
+          id: {
+            $toString: "$_id",
+          },
+          ...(session.address
+            ? { liked: { $in: [session.address.toLowerCase(), "$likedBy"] } }
+            : {}),
+        },
+      },
+      { $project: { likedBy: 0, likers: 0, _id: 0 } },
+    ]).toArray()
   ]);
 
-  return NextResponse.json(
-    (await cursor.next()) ?? {
-      traits: [],
-      pageNumber: query.page,
-      traitCount: 0,
-      totalPages: 0,
-    }
-  );
+  const totalTraits = countResult[0]?.total || 0;
+  const totalPages = Math.ceil(totalTraits / TRAITS_PAGE_SIZE);
+
+  return NextResponse.json({
+    traits: traitsResult,
+    pageNumber: query.page,
+    traitCount: totalTraits,
+    totalPages,
+  });
 }
 
 const getSortCriteria = (

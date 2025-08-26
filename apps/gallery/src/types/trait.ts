@@ -1,5 +1,6 @@
 import { PngDataUri } from "./image";
 import { SubmissionCategory } from "./submission";
+import { UserInfo } from "./user";
 
 export interface Trait {
   id: string;
@@ -23,4 +24,6 @@ export interface Trait {
     glasses?: number;
     head?: number;
   };
+  // User info for the trait creator
+  userInfo?: UserInfo;
 }

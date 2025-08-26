@@ -30,7 +30,7 @@ export function ArtistsClient({ initialArtistsStats }: ArtistsClientProps) {
               href={`/profile/${artist.address}`}
               className="text-black hover:text-primary  xs:col-span-1 pr-4 "
             >
-              <UserBadge address={artist.address} />
+              <UserBadge address={artist.address} userInfo={artist.userInfo} />
             </Link>
             <div className="flex gap-2 justify-end items-center ">
               <p>{artist.traits} traits</p>

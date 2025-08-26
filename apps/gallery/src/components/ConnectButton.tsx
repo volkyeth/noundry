@@ -31,7 +31,7 @@ export const ConnectButton = () => {
       >
         {userInfo && address ? (
           <div className="flex flex-row gap-6  pr-6 items-center  ">
-            <UserAvatar address={address} />
+            <UserAvatar address={address} userInfo={userInfo} />
             <p className="">{userInfo.userName}</p>
           </div>
         ) : (

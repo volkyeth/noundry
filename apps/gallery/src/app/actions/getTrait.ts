@@ -1,5 +1,6 @@
 "use server";
 
+import { DEFAULT_PROFILE_PICTURE } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { Trait } from "@/types/trait";
 import { getDatabase } from "@/utils/database/db";
@@ -18,7 +19,66 @@ export const getTrait = async (
       },
     },
     {
+      $lookup: {
+        from: "users",
+        localField: "address",
+        foreignField: "_id",
+        as: "userInfo",
+      },
+    },
+    {
       $addFields: {
+        userInfo: {
+          $let: {
+            vars: { user: { $arrayElemAt: ["$userInfo", 0] } },
+            in: {
+              address: "$address",
+              userName: {
+                $cond: {
+                  if: {
+                    $and: [
+                      { $ne: ["$$user.userName", null] },
+                      { $ne: ["$$user.userName", ""] }
+                    ]
+                  },
+                  then: { $toLower: "$$user.userName" },
+                  else: {
+                    $cond: {
+                      if: {
+                        $and: [
+                          { $ne: ["$$user.ensName", null] },
+                          { $ne: ["$$user.ensName", ""] }
+                        ]
+                      },
+                      then: "$$user.ensName",
+                      else: {
+                        $concat: [
+                          { $substr: ["$address", 0, 6] },
+                          "...",
+                          { $substr: ["$address", -4, 4] },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+              profilePic: {
+                $ifNull: [
+                  "$$user.profilePic",
+                  {
+                    $ifNull: [
+                      "$$user.ensAvatar",
+                      DEFAULT_PROFILE_PICTURE,
+                    ],
+                  },
+                ],
+              },
+              about: "$$user.about",
+              twitter: "$$user.twitter",
+              farcaster: "$$user.farcaster",
+            },
+          },
+        },
         likesCount: {
           $cond: {
             if: { $isArray: "$likedBy" },
