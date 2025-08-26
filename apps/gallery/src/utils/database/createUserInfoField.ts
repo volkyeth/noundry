@@ -60,7 +60,7 @@ export const createUserInfoField = (options?: {
                     $concat: [
                       { $substr: [addressExpression, 0, 6] },
                       "...",
-                      { $substr: [addressExpression, -4, 4] },
+                      { $substr: [addressExpression, { $subtract: [{ $strLenCP: addressExpression }, 4] }, 4] },
                     ],
                   },
                 },
