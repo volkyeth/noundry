@@ -5,7 +5,7 @@ import { SubmissionType, SubmissionCategory } from "@/types/submission";
 
 import { FC, HTMLAttributes, ReactNode, useState } from "react";
 import { SubmissionIcon } from "./SubmissionIcon";
-import { cn } from "@nextui-org/react";
+import { cn } from "@/utils/cn";
 
 export interface SubmissionCardProps extends HTMLAttributes<HTMLDivElement> {
   name: ReactNode;

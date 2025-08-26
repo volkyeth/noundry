@@ -8,7 +8,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  cn,
   Link,
 } from "@nextui-org/react";
 import NextLink from "next/link";
@@ -17,6 +16,7 @@ import { forwardRef, useState } from "react";
 import { LikeWidget } from "./LikeWidget";
 import { Skeleton } from "./Skeleton";
 import { SubmissionIcon } from "./SubmissionIcon";
+import { cn } from "@/utils/cn";
 
 export interface SubmissionPreviewCardProps {
   trait?: Trait & { liked?: boolean };
