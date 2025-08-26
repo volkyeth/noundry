@@ -64,6 +64,8 @@
     "start": "next start",
     "start:nouns": "env-cmd -f .env.nouns.local next start",
     "start:lil-nouns": "env-cmd -f .env.lil-nouns.local next start",
+    "db:push-indexes:nouns": "env-cmd -f .env.nouns.local tsx scripts/push-indexes.ts",
+    "db:push-indexes:lil-nouns": "env-cmd -f .env.lil-nouns.local tsx scripts/push-indexes.ts",
     "lint": "next lint",
     "test": "vitest"
   },
