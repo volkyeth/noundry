@@ -1,7 +1,8 @@
-import { TRAITS_PAGE_SIZE, DEFAULT_PROFILE_PICTURE } from "@/constants/config";
+import { TRAITS_PAGE_SIZE } from "@/constants/config";
 import { TraitSchema } from "@/db/schema/TraitSchema";
 import { TraitsQuery, traitsQuerySchema } from "@/schemas/traitsQuery";
 import { getDatabase } from "@/utils/database/db";
+import { createUserInfoField } from "@/utils/database/createUserInfoField";
 import Session from "@/utils/siwe/session";
 import { SortDirection } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest) {
   const { sortField, sortDirection } = getSortCriteria(query.sortBy);
 
   const database = await getDatabase();
-  
+
   // First, get total count and paginated results separately for efficiency
   const [countResult, traitsResult] = await Promise.all([
     // Count query - no lookup needed, very fast
@@ -118,57 +119,7 @@ export async function GET(req: NextRequest) {
       },
       {
         $addFields: {
-          userInfo: {
-            $let: {
-              vars: { user: { $arrayElemAt: ["$userInfo", 0] } },
-              in: {
-                address: "$address",
-                userName: {
-                  $cond: {
-                    if: {
-                      $and: [
-                        { $ne: ["$$user.userName", null] },
-                        { $ne: ["$$user.userName", ""] }
-                      ]
-                    },
-                    then: { $toLower: "$$user.userName" },
-                    else: {
-                      $cond: {
-                        if: {
-                          $and: [
-                            { $ne: ["$$user.ensName", null] },
-                            { $ne: ["$$user.ensName", ""] }
-                          ]
-                        },
-                        then: "$$user.ensName",
-                        else: {
-                          $concat: [
-                            { $substr: ["$address", 0, 6] },
-                            "...",
-                            { $substr: ["$address", -4, 4] },
-                          ],
-                        },
-                      },
-                    },
-                  },
-                },
-                profilePic: {
-                  $ifNull: [
-                    "$$user.profilePic",
-                    {
-                      $ifNull: [
-                        "$$user.ensAvatar",
-                        DEFAULT_PROFILE_PICTURE,
-                      ],
-                    },
-                  ],
-                },
-                about: "$$user.about",
-                twitter: "$$user.twitter",
-                farcaster: "$$user.farcaster",
-              },
-            },
-          },
+          ...createUserInfoField(),
           id: {
             $toString: "$_id",
           },
