@@ -148,7 +148,10 @@ export const PartImporter: FC<PartImporterProps> = ({
         hasPartLoaded={hasPartLoaded}
         onPartLoaded={(image: HTMLImageElement) => {
           clearCanvas(tmpCanvas);
-          tmpCanvas.getContext("2d")!.drawImage(image, 0, 0);
+          const ctx = tmpCanvas.getContext("2d")!;
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(image, 0, 0, tmpCanvas.width, tmpCanvas.height);
+          
           const substitutionCandidates = getColorSubstitutionCandidates(
             tmpCanvas,
             5
