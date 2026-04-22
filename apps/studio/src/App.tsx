@@ -2,7 +2,7 @@ import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import "@fontsource/press-start-2p";
 import "@fontsource/vt323";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { inject } from "@vercel/analytics";
+import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { BraveDisclaimer } from "./components/BraveDisclaimer";
@@ -12,7 +12,6 @@ import { PaletteFixer } from "./components/pages/PaletteFixer";
 import theme from "./theme";
 
 const App = () => {
-  inject({ debug: false });
   const queryClient = new QueryClient();
   return (
     <ChakraProvider theme={theme} resetCSS>
@@ -26,6 +25,7 @@ const App = () => {
           </Routes>
         </MainLayout>
       </QueryClientProvider>
+      <Analytics />
     </ChakraProvider>
   );
 };
