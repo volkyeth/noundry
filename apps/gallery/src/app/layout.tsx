@@ -2,6 +2,7 @@ import { SITE_URI } from "@/constants/config";
 import { appConfig } from "@/variants/config";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/lora";
+import { Analytics } from "@vercel/analytics/react";
 import { Metadata } from "next";
 import "../globals.css";
 import { App } from "./App";
@@ -48,6 +49,7 @@ export default function RootLayout({
         <main>
           <App>{children}</App>
         </main>
+        <Analytics />
       </body>
     </html>
   );
