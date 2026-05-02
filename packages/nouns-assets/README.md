@@ -1,6 +1,6 @@
 # @noundry/nouns-assets
 
-This is a drop-in replacement for @nouns/assets. This package will be auto-updated as new traits are pushed to the Nouns DAO.
+This is a drop-in replacement for @nouns/assets. It includes the Noundry-maintained snapshot of Nouns image data, with new package versions published when the asset data is updated.
 
 ## Replacing @nouns/assets
 
@@ -34,20 +34,20 @@ pnpm remove @nouns/assets
 
 Now replace every `@nouns/assets` import in your app with `@noundry/nouns-assets` and you're good to go
 
-## Stay in sync with the onchain artwork
+## Use hosted asset data
 
 (Browser only, with no SSR support)
 
-To keep your traits always up-to-date with the onchain artwork, without requiring package updates or new deployments, you can include the supplementary script in your app :
+To receive the current Noundry-maintained asset snapshot without requiring package updates or new deployments, you can include the supplementary script in your app:
 
 ```html
 <script src="https://assets.noundry.wtf/nouns/image-data.js"></script>
 ```
 
-This script is generated on the fly grabbing the latest artwork directly from the Nouns Descriptor contract, and injects it on `window.nounsImageData` for `@noundry/nouns-assets` to use
+This script injects the hosted asset data on `window.nounsImageData` for `@noundry/nouns-assets` to use.
 
 you should include it before any other scripts, in `html > head`.
-that way, the latest assets will be available when your app loads.
+that way, the hosted asset data will be available when your app loads. Noundry updates this hosted data manually when the package snapshot is refreshed.
 
 e.g.:
 
@@ -73,6 +73,18 @@ For debug purposes, you can also get the prettified version on https://assets.no
 ```sh
 pnpm
 ```
+
+### Update image data
+
+Fetch the current onchain trait counts, verify trait names, and regenerate `src/image-data.json`:
+
+```sh
+pnpm --filter @noundry/nouns-assets update:image-data
+```
+
+The command uses the trait names in `packages/noggles/src/nouns/traitNames.json`. It first fetches onchain trait counts. If new onchain traits do not have names yet, it appends placeholder names such as `head-256` to `traitNames.json` and stops. Replace those placeholders with real trait names, then rerun the command. It will only fetch full artwork and update `src/image-data.json` after the trait-name counts match onchain counts and no placeholders remain.
+
+You can set `ETH_RPC_URL`, `MAINNET_RPC_URL`, `ALCHEMY_API_KEY`, or `NEXT_PUBLIC_ALCHEMY_API_KEY` if you want to use a specific mainnet RPC provider.
 
 ## Usage
 

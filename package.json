@@ -3,7 +3,8 @@
 		"turbo": "^1.10.15"
 	},
 	"scripts": {
-		"build": "turbo build"
+		"build": "turbo build",
+		"update:image-data": "pnpm --filter @noundry/nouns-assets --filter @noundry/lil-nouns-assets update:image-data"
 	},
 	"packageManager": "pnpm@10.10.0"
 }
