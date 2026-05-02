@@ -26,4 +26,4 @@ Regenerate the package snapshots before redeploying this API:
 pnpm update:image-data
 ```
 
-This command uses trait names from `packages/noggles`. It first checks onchain trait counts. If new traits do not have names yet, it appends placeholder names to the matching `traitNames.json` file and stops. Replace the placeholders with real names, then rerun the command before committing. Full image data is only regenerated after counts match and no placeholders remain.
+This command uses trait names from `packages/noggles`. It first checks onchain trait counts. If new traits do not have names yet, it appends placeholder names to the matching `traitNames.json` file and stops. Replace the placeholders with real names, then rerun the command before committing. Full image data is only regenerated after counts match and no placeholders remain. When regenerated image data differs from the existing snapshot, the matching package patch version is bumped automatically.

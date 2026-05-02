@@ -82,7 +82,7 @@ Fetch the current onchain trait counts, verify trait names, and regenerate `src/
 pnpm --filter @noundry/nouns-assets update:image-data
 ```
 
-The command uses the trait names in `packages/noggles/src/nouns/traitNames.json`. It first fetches onchain trait counts. If new onchain traits do not have names yet, it appends placeholder names such as `head-256` to `traitNames.json` and stops. Replace those placeholders with real trait names, then rerun the command. It will only fetch full artwork and update `src/image-data.json` after the trait-name counts match onchain counts and no placeholders remain.
+The command uses the trait names in `packages/noggles/src/nouns/traitNames.json`. It first fetches onchain trait counts. If new onchain traits do not have names yet, it appends placeholder names such as `head-256` to `traitNames.json` and stops. Replace those placeholders with real trait names, then rerun the command. It will only fetch full artwork after the trait-name counts match onchain counts and no placeholders remain. If the generated `src/image-data.json` differs from the existing snapshot, the package patch version is bumped automatically.
 
 You can set `ETH_RPC_URL`, `MAINNET_RPC_URL`, `ALCHEMY_API_KEY`, or `NEXT_PUBLIC_ALCHEMY_API_KEY` if you want to use a specific mainnet RPC provider.
 

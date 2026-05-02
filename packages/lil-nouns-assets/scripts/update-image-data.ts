@@ -28,6 +28,10 @@ const outputPath = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../src/image-data.json"
 );
+const packageJsonPath = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../package.json"
+);
 const traitNamesPath = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../../noggles/src/lil-nouns/traitNames.json"
@@ -51,13 +55,18 @@ async function main() {
   console.log("Fetching Lil Nouns artwork from the descriptor contract...");
 
   const artData = await fetchOnchainLilNounsArtData(publicClient);
+  const nextImageData = `${JSON.stringify(toImageData(artData, lilNounsTraitNames), null, 2)}\n`;
+  const currentImageData = await readFile(outputPath, "utf8");
 
-  await writeFile(
-    outputPath,
-    `${JSON.stringify(toImageData(artData, lilNounsTraitNames), null, 2)}\n`
-  );
+  if (currentImageData === nextImageData) {
+    console.log(`No changes detected in ${outputPath}; package version unchanged.`);
+    return;
+  }
 
+  await writeFile(outputPath, nextImageData);
+  const { previousVersion, nextVersion } = await bumpPackagePatchVersion(packageJsonPath);
   console.log(`Updated ${outputPath}`);
+  console.log(`Bumped package version ${previousVersion} -> ${nextVersion}`);
 }
 
 async function fetchTraitCounts(): Promise<Record<keyof TraitNames, number>> {
@@ -181,6 +190,34 @@ function placeholderName(category: keyof TraitNames, index: number) {
   } satisfies Record<keyof TraitNames, string>;
 
   return `${prefixByCategory[category]}-${index}`;
+}
+
+async function bumpPackagePatchVersion(absolutePackageJsonPath: string) {
+  const packageJson = JSON.parse(await readFile(absolutePackageJsonPath, "utf8")) as {
+    version: string;
+    [key: string]: unknown;
+  };
+  const previousVersion = packageJson.version;
+  const nextVersion = nextPatchVersion(previousVersion);
+
+  packageJson.version = nextVersion;
+  await writeFile(absolutePackageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`);
+
+  return { previousVersion, nextVersion };
+}
+
+function nextPatchVersion(version: string) {
+  const parts = version.split(".");
+  if (parts.length !== 3) {
+    throw new Error(`Expected package version "${version}" to use x.y.z format.`);
+  }
+
+  const [major, minor, patch] = parts.map((part) => Number(part));
+  if (![major, minor, patch].every(Number.isInteger)) {
+    throw new Error(`Expected package version "${version}" to use numeric x.y.z format.`);
+  }
+
+  return `${major}.${minor}.${patch + 1}`;
 }
 
 function getErrorMessage(error: unknown) {
