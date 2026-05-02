@@ -8,20 +8,20 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-10">Lil Nouns Assets</h1>
       <div className="flex flex-col items-center mb-12">
         <p className="text-center max-w-lg mb-4">
-          This Lil Noun is generated from the latest onchain Lil Nouns art data,
-          using the last trait to be added for each part.
+          This Lil Noun is generated from the current Noundry-maintained Lil
+          Nouns asset snapshot, using the last trait included for each part.
         </p>
         <LatestLilNoun />
         <p className="text-center max-w-lg mt-4">
-          It should be always up to date, as soon as props adding new traits are
-          executed.
+          It updates when Noundry refreshes and redeploys the hosted asset data.
+          If it looks outdated, reach out to Volky to update it.
         </p>
       </div>
 
       <h2 className="text-3xl font-bold mb-6">All Lil Nouns Traits</h2>
       <p className="text-center max-w-2xl mb-8">
-        Below is a complete list of all Lil Nouns traits, as they currently
-        exist onchain.
+        Below is a complete list of all Lil Nouns traits included in the current
+        asset snapshot.
       </p>
 
       <TraitsList />

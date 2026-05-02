@@ -11,10 +11,8 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <head>
-        <script src="/nouns/image-data.js" />
-      </head>
-      <body>{children}</body>
+      <script src="/nouns/image-data.js" />
+      {children}
     </>
   );
 }

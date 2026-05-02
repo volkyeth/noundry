@@ -1,13 +1,12 @@
 import { CACHE_HEADERS, CDN_CACHE_DURATION, CORS_HEADERS } from "@/config/cache";
-import { publicClient } from "@/publicClient";
+import { lilNounsImageData } from "@/staticAssetData";
 import { NextResponse } from "next/server";
-import { fetchOnchainLilNounsArtData, lilNounsTraitNames, toImageData } from "noggles";
 
 // Set revalidation time to match CDN cache duration
 export const revalidate = CDN_CACHE_DURATION;
 
 export async function GET() {
-  const response = new NextResponse(JSON.stringify(toImageData(await fetchOnchainLilNounsArtData(publicClient), lilNounsTraitNames), null, 2), {
+  const response = new NextResponse(JSON.stringify(lilNounsImageData, null, 2), {
     headers: {
       'Content-Type': 'application/json',
       ...CACHE_HEADERS,
