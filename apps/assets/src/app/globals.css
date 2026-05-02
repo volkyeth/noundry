@@ -7,6 +7,7 @@
 }
 
 body {
+  background-color: #f8f7f1;
   color: rgb(var(--foreground-rgb));
 }
 
