@@ -13,6 +13,7 @@ export default defineConfig({
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
   },
   optimizeDeps: {
+    include: ["@noundry/nouns-assets", "@noundry/lil-nouns-assets"],
     esbuildOptions: {
       target: "esnext", // you can also use 'es2020' here
     },
