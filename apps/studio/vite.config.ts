@@ -20,5 +20,8 @@ export default defineConfig({
   },
   build: {
     target: "esnext",
+    commonjsOptions: {
+      include: [/node_modules/, /packages\/(?:nouns-assets|lil-nouns-assets)\/dist/],
+    },
   },
 });
