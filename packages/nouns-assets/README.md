@@ -84,6 +84,25 @@ pnpm --filter @noundry/nouns-assets update:image-data
 
 The command uses the trait names in `packages/noggles/src/nouns/traitNames.json`. It first fetches onchain trait counts. If new onchain traits do not have names yet, it appends placeholder names such as `head-256` to `traitNames.json` and stops. Replace those placeholders with real trait names, then rerun the command. It will only fetch full artwork after the trait-name counts match onchain counts and no placeholders remain. If the generated `src/image-data.json` differs from the existing snapshot, the package patch version is bumped automatically.
 
+### Update image data from a queued proposal
+
+Preemptively append queued descriptor traits from a Nouns proposal before execution:
+
+```sh
+pnpm --filter @noundry/nouns-assets update:image-data:proposal 966
+```
+
+This command:
+
+- requires the proposal to be in the `Queued` state
+- reads the proposal actions from the Nouns governor onchain
+- extracts supported descriptor calls: `addAccessories`, `addBodies`, `addHeads`, and `addGlasses`
+- inflates and validates the proposed artwork payload before merging it
+- checks `packages/noggles/src/nouns/traitNames.json` against the projected post-proposal counts, adding placeholders and stopping if names are still missing
+- preserves any already-appended pending traits that are present in the current `src/image-data.json`
+
+If the merged `src/image-data.json` differs from the current snapshot, the package patch version is bumped automatically.
+
 You can set `ETH_RPC_URL`, `MAINNET_RPC_URL`, `ALCHEMY_API_KEY`, or `NEXT_PUBLIC_ALCHEMY_API_KEY` if you want to use a specific mainnet RPC provider.
 
 ## Usage

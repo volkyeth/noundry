@@ -11,7 +11,8 @@
   "scripts": {
     "build": "tsc",
     "prepare": "pnpm build",
-    "update:image-data": "tsx scripts/update-image-data.ts && pnpm build"
+    "update:image-data": "tsx scripts/update-image-data.ts && pnpm build",
+    "update:image-data:proposal": "sh -c 'tsx scripts/update-image-data-from-proposal.ts \"$@\" && pnpm build' --"
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.5.0",
