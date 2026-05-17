@@ -32,19 +32,59 @@ export const Guidelines = () => {
 
         <div className="flex flex-col gap-4">
           <h2>Design Guidelines</h2>
-          <div className="flex flex-col gap-2">
-            <p>
-              <span className="font-bold">Style:</span> Follow the Lil Nouns
-              aesthetic - simple, bold, and iconic
-            </p>
-            <p>
-              <span className="font-bold">Originality:</span> Create original
-              artwork, don&apos;t copy existing traits
-            </p>
-            <p>
-              <span className="font-bold">Clarity:</span> Designs should be
-              recognizable at small sizes
-            </p>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <p>
+                <span className="font-bold">Style:</span> Follow the Lil Nouns
+                aesthetic - simple, bold, and iconic
+              </p>
+              <p>
+                <span className="font-bold">Originality:</span> Create original
+                artwork, don&apos;t copy existing traits
+              </p>
+              <p>
+                <span className="font-bold">Clarity:</span> Designs should be
+                recognizable at small sizes
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold">Drawing Order & Layering</h3>
+              <p>
+                When creating traits, pay attention to proper layering order to ensure
+                your trait displays correctly with other Lil Nouns parts:
+              </p>
+              <img 
+                src="/drawing-order-guidelines.png" 
+                alt="Drawing order guidelines showing proper trait layering"
+                className="rounded-lg border border-gray-200 max-w-full h-auto"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold">Head Cropping Guidelines</h3>
+              <p>
+                For head accessories and parts, follow these cropping guidelines
+                to ensure proper fit and alignment:
+              </p>
+              <img 
+                src="/headcrop-guidelines-640.png" 
+                alt="Head cropping guidelines for proper trait alignment"
+                className="rounded-lg border border-gray-200 max-w-full h-auto"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold">Example: Good Trait Design</h3>
+              <p>
+                Here&apos;s an example of a well-designed trait that follows all our guidelines:
+              </p>
+              <img 
+                src="/noundry-guidelines-example.png" 
+                alt="Example of a well-designed Lil Nouns trait"
+                className="rounded-lg border border-gray-200 max-w-full h-auto"
+              />
+            </div>
           </div>
         </div>
 
