@@ -154,23 +154,13 @@ export const InflaterDecoder = () => {
           }
 
           const encodedTraits = inflateTraits(formattedData as `0x${string}`);
-          const {
-            originalLength: expectedOriginalLength,
-            data: redeflatedData,
-          } = deflateTraits(encodedTraits);
+          const { originalLength: expectedOriginalLength } =
+            deflateTraits(encodedTraits);
 
           if (Number(originalLength) !== Number(expectedOriginalLength)) {
             setInflateResult({
               success: false,
               message: `Original length (${originalLength}) does not match expected length (${expectedOriginalLength})`,
-            });
-            return;
-          }
-
-          if (redeflatedData !== formattedData) {
-            setInflateResult({
-              success: false,
-              message: "Redeflated data does not match original data",
             });
             return;
           }
